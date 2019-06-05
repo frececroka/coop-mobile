@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crédit</string>
+    <string name="guthaben">Crédit</string>
+    <string name="prompt_email">Numéro de téléphone ou adresse e-mail</string>
+    <string name="title_messages">Messages</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="title_overview">Aperçu</string>
+    <string name="yes">Oui</string>
+    <string name="no_network">Pas de connexion Internet.</string>
+    <string name="no">Non</string>
+    <string name="okay">Bien</string>
+    <string name="loading">Chargement des données…</string>
+    <string name="login">S\'identifier</string>
+    <string name="title_buy_option">Commander une option</string>
+    <string name="title_login">S\'identifier</string>
+    <string name="action_sign_in">Se connecter</string>
+    <string name="refresh">Rafraîchir</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="privacy_policy"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
+    <string name="update_necessary">La mise à jour nécessite.</string>
+    <string name="error_invalid_username">Numéro de téléphone ou adresse e-mail incorrect.</string>
+    <string name="error_login_failed">E-mail ou mot de passe incorrect.</string>
+    <string name="credits">Credits</string>
+    <string name="title_credits">Credits</string>
+</resources>

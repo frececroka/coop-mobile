@@ -1,0 +1,20 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.ActionBar">
+        <item name="android:background">@color/toolbar</item>
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+    </style>
+
+    <style name="BannerButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:insetBottom">0pt</item>
+        <item name="android:insetTop">0pt</item>
+        <item name="android:minHeight">0pt</item>
+    </style>
+
+</resources>

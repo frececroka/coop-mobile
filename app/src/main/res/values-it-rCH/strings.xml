@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_sign_in">Accesso</string>
+    <string name="error_field_required">Campo da riempire</string>
+    <string name="error_login_failed">Login non riuscito.</string>
+    <string name="error_invalid_username">L\'email o il numero di telefono sono incorretti</string>
+    <string name="guthaben">Credito</string>
+    <string name="loading">Caricamento…</string>
+    <string name="login">Accesso</string>
+    <string name="login_private">Le sue credenziali di accesso saranno condivise solo con i server Coop Mobile.</string>
+    <string name="logout">Disconnettersi</string>
+    <string name="no">No</string>
+    <string name="no_network">Nessuna connessione a internet trovata.</string>
+    <string name="okay">Okay</string>
+    <string name="plan_unsupported">Per il momento solo Coop Mobile Prepaid é supportata.</string>
+    <string name="please_rate">Soddisfatto? Insoddisfatto? Ci farebbe piacere una recensione sul Play Store.</string>
+    <string name="prompt_email">Indirizzo email o numero di telefono</string>
+    <string name="prompt_password">Password</string>
+    <string name="refresh">Aggiorna</string>
+    <string name="title_buy_option">Acquistare un\'opzione</string>
+    <string name="title_messages">Messaggi</string>
+    <string name="title_overview">Generale</string>
+    <string name="update_necessary">Attenda fino al prossimo aggiornamento.</string>
+    <string name="yes">Sì</string>
+    <string name="app_name">Credito</string>
+    <string name="title_login">Accesso</string>
+    <string name="privacy_policy"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
+    <string name="credits">Credits</string>
+    <string name="title_credits">Credits</string>
+</resources>

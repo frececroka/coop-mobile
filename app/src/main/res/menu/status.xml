@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/itRefresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/itAddOption"
+        android:title="@string/title_buy_option"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itCorrespondences"
+        android:title="@string/title_messages"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itCredits"
+        android:title="@string/credits"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itLogout"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itRatingBanner"
+        android:title="@string/show_rating_banner"
+        android:visible="false"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#EA5A0C</color>
+    <color name="colorPrimaryDark">#923807</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="toolbar">@color/colorPrimary</color>
+
+    <color name="coopGreen">#AFCA0B</color>
+
+    <color name="background1">#F1F1F1</color>
+    <color name="background2">#FFF</color>
+    <color name="background3">#CCC</color>
+
+    <color name="colorPrimaryLight">#FFCCBC</color>
+    <color name="colorSecondaryDark">#827717</color>
+
+    <color name="white">#FFF</color>
+    <color name="darkGrey">#DEDEDE</color>
+</resources>

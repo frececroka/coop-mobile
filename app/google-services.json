@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "654066265612",
+    "firebase_url": "https://coop-mobile-df71e.firebaseio.com",
+    "project_id": "coop-mobile-df71e",
+    "storage_bucket": "coop-mobile-df71e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654066265612:android:25f0ff71771fb8a8",
+        "android_client_info": {
+          "package_name": "de.lorenzgorse.coopmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654066265612-124f6llgkpdpmg0h2dorovf67nlrg06m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBesXWpJ2bsCfI1rW00O4FsacpeBlt4Yi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654066265612-124f6llgkpdpmg0h2dorovf67nlrg06m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
