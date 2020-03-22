@@ -35,4 +35,7 @@
     <string name="title_credits">Credits</string>
     <string name="credits">Credits</string>
     <string name="show_rating_banner">Show Rating Banner</string>
+    <string name="device_not_secure">The device must be secured with a PIN or password to buy options.</string>
+    <string name="authentication_unsuccessful">Authentification was unsuccessful.</string>
+    <string name="confirm_purchase">Confirm purchase</string>
 </resources>

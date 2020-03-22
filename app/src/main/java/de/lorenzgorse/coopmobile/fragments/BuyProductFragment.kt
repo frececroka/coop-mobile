@@ -45,7 +45,7 @@ class BuyProductFragment : Fragment() {
     private fun authenticate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             BiometricPrompt.Builder(context)
-                .setTitle("Kauf bestätigen")
+                .setTitle(getString(R.string.confirm_purchase))
                 .setDeviceCredentialAllowed(true)
                 .build()
                 .authenticate(CancellationSignal(), requireContext().mainExecutor, object : BiometricPrompt.AuthenticationCallback() {
@@ -70,7 +70,7 @@ class BuyProductFragment : Fragment() {
                 })
         } else {
             val keyguardManager = requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            val intent = keyguardManager.createConfirmDeviceCredentialIntent("Kauf bestätigen", null)
+            val intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.confirm_purchase), null)
             if (intent != null) {
                 startActivityForResult(intent, 0)
             } else {
@@ -89,13 +89,13 @@ class BuyProductFragment : Fragment() {
 
     private fun deviceNotSecure() {
         Log.i("CoopMobile", "Device is not secure.")
-        notify("Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, ...), um Optionen kaufen zu können.")
+        notify(getString(R.string.device_not_secure))
         findNavController().popBackStack()
     }
 
     private fun authentificationFailed(errString: CharSequence? = null) {
         Log.i("CoopMobile", errString.toString())
-        val nonNullErrString = errString ?: "Authentifizierung war nicht erfolgreich."
+        val nonNullErrString = errString ?: getString(R.string.authentication_unsuccessful)
         notify(nonNullErrString)
         findNavController().popBackStack()
     }
