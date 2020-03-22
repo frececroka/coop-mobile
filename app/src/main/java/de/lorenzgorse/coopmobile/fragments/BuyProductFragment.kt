@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 
@@ -62,7 +61,7 @@ class BuyProductFragment : Fragment() {
                     }
                     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
                         if (helpString != null) {
-                            Snackbar.make(view!!, helpString, 5000).show()
+                            notify(helpString)
                         }
                     }
                     override fun onAuthenticationFailed() {
@@ -90,20 +89,20 @@ class BuyProductFragment : Fragment() {
 
     private fun deviceNotSecure() {
         Log.i("CoopMobile", "Device is not secure.")
-        Snackbar.make(view!!, "Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, ...), um Optionen kaufen zu können.", 5000).show()
+        notify("Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, ...), um Optionen kaufen zu können.")
         findNavController().popBackStack()
     }
 
     private fun authentificationFailed(errString: CharSequence? = null) {
         Log.i("CoopMobile", errString.toString())
         val nonNullErrString = errString ?: "Authentifizierung war nicht erfolgreich."
-        Snackbar.make(view!!, nonNullErrString, 5000).show()
+        notify(nonNullErrString)
         findNavController().popBackStack()
     }
 
     private fun buyProduct() {
 //        BuyProduct(productBuySpec).execute()
-        Snackbar.make(view!!, R.string.buy_option_not_available, 5000).show()
+        notify(R.string.buy_option_not_available)
         findNavController().popBackStack()
     }
 
@@ -117,15 +116,15 @@ class BuyProductFragment : Fragment() {
         override fun onSuccess(result: Boolean) {
             findNavController().popBackStack()
             if (result) {
-                Snackbar.make(view!!, R.string.bought, 5000).show()
+                notify(R.string.bought)
             } else {
-                Snackbar.make(view!!, R.string.buying_failed, 5000).show()
+                notify(R.string.buying_failed)
             }
         }
 
         override fun onFailure(error: LoadDataError) {
             findNavController().popBackStack()
-            Snackbar.make(view!!, R.string.buying_failed, 5000).show()
+            notify(R.string.buying_failed)
         }
 
     }
