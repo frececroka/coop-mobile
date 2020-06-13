@@ -5,8 +5,8 @@ import de.lorenzgorse.coopmobile.CoopClient.CoopException.UnauthorizedException
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
-import org.junit.Assert.*
 import org.junit.Test
 
 class CoopClientTest {
@@ -27,25 +27,25 @@ class CoopClientTest {
     @Test
     fun testLogin() {
         val sessionId = RealCoopLogin().login(username, password)
-        assertNotNull(sessionId)
+        assertThat(sessionId, not(nullValue()))
     }
 
     @Test
     fun testLoginWrongUsername() {
         val sessionId = RealCoopLogin().login(wrongUsername, password)
-        assertNull(sessionId)
+        assertThat(sessionId, nullValue())
     }
 
     @Test
     fun testLoginWrongPassword() {
         val sessionId = RealCoopLogin().login(username, wrongPassword)
-        assertNull(sessionId)
+        assertThat(sessionId, nullValue())
     }
 
     @Test
     fun testLoadData() {
         val data = client.getData()
-        assertNotNull(data.credit)
+        assertThat(data.credit, not(nullValue()))
         assertThat(data.consumptions, hasSize(2))
         assertThat(data.consumptions.map { it.description }, everyItem(not(emptyString())))
         assertThat(data.consumptions.map { it.unit }, everyItem(not(emptyString())))
