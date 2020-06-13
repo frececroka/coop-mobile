@@ -3,11 +3,11 @@ on: [push]
 
 jobs:
   build:
-    name: Greeting
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: "Build"
+    - name: Build
       uses: vgaidarji/android-github-actions-build@v1.0.1
       with:
         args: "./gradlew assembleDebug"

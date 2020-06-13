@@ -1,0 +1,11 @@
+name: UI Test
+on: [push]
+
+jobs:
+  build:
+    name: UI Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: UI Test
+      uses: vgaidarji/android-github-actions-emulator@v1.0.1
