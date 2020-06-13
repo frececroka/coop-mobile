@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - run: mkdir app/.config
+    - run: echo "${{ secrets.COOP_MOBILE_USERNAME }}" > app/.config/username
+    - run: echo "${{ secrets.COOP_MOBILE_PASSWORD }}" > app/.config/password
     - name: Test
       uses: vgaidarji/android-github-actions-build@v1.0.1
       with:
