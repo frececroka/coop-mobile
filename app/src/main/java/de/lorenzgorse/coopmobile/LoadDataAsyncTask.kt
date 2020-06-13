@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
+import de.lorenzgorse.coopmobile.CoopModule.firebaseAnalytics
+import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
 import de.lorenzgorse.coopmobile.Either.Left
 import de.lorenzgorse.coopmobile.Either.Right
 import de.lorenzgorse.coopmobile.LoadDataError.*
@@ -42,7 +44,7 @@ fun <P, T> loadData(context: Context, loader: (client: CoopClient) -> T, setFail
 abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P, Either<LoadDataError, T>>() {
 
     private val log = LoggerFactory.getLogger(javaClass)
-    private val analytics = CoopModule.firebaseAnalyticsFactory(context)
+    private val analytics = firebaseAnalytics(context)
 
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
         analytics.logEventOnce(context, "onb_load_data", null)
@@ -66,12 +68,14 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
                             Right(loadData(newClient))
                         } catch (e: UnauthorizedException) {
                             log.info("Refreshed session invalid.")
+                            firebaseCrashlytics().recordException(e)
                             val bundle = Bundle()
                             bundle.putString("redirect", e.redirect)
                             analytics.logEvent("refreshed_session_expired", bundle)
                             Left(UNAUTHORIZED)
                         } catch (e: HtmlChangedException) {
                             log.error("Html changed.", e)
+                            firebaseCrashlytics().recordException(e)
                             Left(HTML_CHANGED)
                         }
                     } else {
@@ -81,6 +85,7 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
                     }
                 } catch (e: HtmlChangedException) {
                     log.error("Html changed.", e)
+                    firebaseCrashlytics().recordException(e)
                     Left(HTML_CHANGED)
                 }
             }
@@ -90,12 +95,14 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
             Left(NO_NETWORK)
         } catch (e: PlanUnsupported) {
             log.error("Plan '${e.plan}' unsupported.")
+            firebaseCrashlytics().recordException(e)
             val bundle = Bundle()
             bundle.putString("plan", e.plan)
             analytics.logEvent("plan_unsupported", bundle)
             Left(PLAN_UNSUPPORTED)
         } catch (e: HtmlChangedException) {
             log.error("Html changed.", e)
+            firebaseCrashlytics().recordException(e)
             Left(HTML_CHANGED)
         }
     }

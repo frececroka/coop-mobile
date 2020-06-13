@@ -6,7 +6,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.HtmlChangedException
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
+import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
 import de.lorenzgorse.coopmobile.fragments.LoginFragment.LoginStatus.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.slf4j.LoggerFactory
@@ -155,6 +155,7 @@ class LoginFragment : Fragment() {
                 return NoNetwork
             } catch (e: HtmlChangedException) {
                 log.error("HTML structure changed unexpectedly.", e)
+                firebaseCrashlytics().recordException(e)
                 return HtmlChanged
             }
             return if (sessionId != null) {

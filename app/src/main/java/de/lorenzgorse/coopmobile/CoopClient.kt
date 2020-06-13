@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin

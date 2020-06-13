@@ -4,11 +4,14 @@
             <pattern>%logger{12}</pattern>
         </tagEncoder>
         <encoder>
-            <pattern>[%-20thread] %msg</pattern>
+            <pattern>[%thread] %msg</pattern>
         </encoder>
     </appender>
 
+    <appender name="CRASHLYTICS" class="de.lorenzgorse.coopmobile.CrashlyticsAppender" />
+
     <root level="debug">
         <appender-ref ref="ANDROID" />
+        <appender-ref ref="CRASHLYTICS" />
     </root>
 </configuration>

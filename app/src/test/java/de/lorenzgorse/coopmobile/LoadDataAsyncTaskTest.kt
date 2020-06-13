@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import org.hamcrest.Matcher
@@ -83,7 +84,8 @@ class LoadDataAsyncTaskTest {
 		failureMatcher: Matcher<in LoadDataError>,
 		successMatcher: Matcher<in CoopData>
 	) {
-		CoopModule.firebaseAnalyticsFactory = { mock(FirebaseAnalytics::class.java) }
+		CoopModule.firebaseAnalytics = { mock(FirebaseAnalytics::class.java) }
+		CoopModule.firebaseCrashlytics = { mock(FirebaseCrashlytics::class.java) }
 		val task = DummyLoadDataAsyncTask { it.getData() }.also { it.execute() }
 		assertThat<LoadDataError>(task.failureValue, failureMatcher)
 		assertThat<CoopData>(task.successValue, successMatcher)
