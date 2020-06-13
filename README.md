@@ -1,6 +1,6 @@
 # Coop Mobile Prepaid (Unofficial)
 
-![Build Android project](https://github.com/frececroka/coop-mobile/workflows/Build%20Android%20project/badge.svg)
+![Build](https://github.com/frececroka/coop-mobile/workflows/Build/badge.svg) ![Test](https://github.com/frececroka/coop-mobile/workflows/Test/badge.svg)
 
 This is an Android application that allows you to easily query your current prepaid balance and remaining mobile data and phone quota.
 
