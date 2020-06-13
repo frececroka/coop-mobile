@@ -164,7 +164,7 @@ class StatusFragmentTest {
     @Test
     fun htmlChanged() {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenThrow(HtmlChangedException())
+        `when`(coopClient.getData()).thenThrow(HtmlChangedException(Exception()))
 
         launchFragment()
 

@@ -62,7 +62,7 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private fun htmlChanged(coopClient: CoopClient) {
-		`when`(coopClient.getData()).thenThrow(HtmlChangedException())
+		`when`(coopClient.getData()).thenThrow(HtmlChangedException(Exception()))
 		doLoadDataTest(equalTo(LoadDataError.HTML_CHANGED), nullValue())
 	}
 

@@ -73,10 +73,10 @@ fun determineCountry(): String {
 
 interface CoopClient {
 
-    sealed class CoopException : Exception() {
-        class UnauthorizedException(val redirect: String?) : CoopException()
-        class HtmlChangedException : CoopException()
-        class PlanUnsupported(val plan: String?) : CoopException()
+    sealed class CoopException(cause: Throwable?) : Exception(cause) {
+        class UnauthorizedException(val redirect: String?) : CoopException(null)
+        class HtmlChangedException(cause: Throwable) : CoopException(cause)
+        class PlanUnsupported(val plan: String?) : CoopException(null)
     }
 
     @Throws(IOException::class, CoopException::class)
@@ -436,8 +436,8 @@ fun <T> safe(fn: () -> T): T {
     return try {
         fn()
     } catch (e: NullPointerException) {
-        throw HtmlChangedException()
+        throw HtmlChangedException(e)
     } catch (e: IllegalStateException) {
-        throw HtmlChangedException()
+        throw HtmlChangedException(e)
     }
 }
