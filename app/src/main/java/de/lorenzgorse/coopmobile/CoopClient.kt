@@ -3,7 +3,6 @@ package de.lorenzgorse.coopmobile
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
@@ -24,10 +23,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class UnitValue<T>(val description: String, val amount: T, val unit: String)
+
 data class CoopData(val credit: UnitValue<Float>?, val consumptions: List<UnitValue<Int>>)
 
-data class Product(val name: String, val description: String, val price: String, val buySpec: ProductBuySpec)
-data class ProductBuySpec(val url: String, val parameters: Map<String, String>): Serializable
+data class Product(
+    val name: String,
+    val description: String,
+    val price: String,
+    val buySpec: ProductBuySpec
+)
+
+data class ProductBuySpec(val url: String, val parameters: Map<String, String>) : Serializable
 
 data class CorrespondenceHeader(val date: Date, val subject: String, val details: URL)
 data class Correspondence(val header: CorrespondenceHeader, val message: String)
@@ -36,11 +42,17 @@ data class RawConsumptionLogEntry(
     @SerializedName("start_date") val date: String,
     @SerializedName("is_data") val isData: Boolean,
     val type: String,
-    val amount: String)
+    val amount: String
+)
+
 data class RawConsumptionLog(val data: List<RawConsumptionLogEntry>)
 
 interface ConsumptionLogEntry
-data class DataConsumptionLogEntry(val date: Date, val type: String, val amount: Double) : ConsumptionLogEntry
+data class DataConsumptionLogEntry(
+    val date: Date,
+    val type: String,
+    val amount: Double
+) : ConsumptionLogEntry
 
 const val coopHost = "myaccount.coopmobile.ch"
 const val coopScheme = "https"
@@ -96,15 +108,12 @@ class RealCoopClient(sessionId: String) : CoopClient {
         .build()
 
     override fun getData(): CoopData {
-        val statusRequest = Request.Builder().get().url(coopBaseAccount).build()
-        val statusResponse = client.newCall(statusRequest).execute()
-        assertResponseSuccessful(statusResponse)
-        val statusHtml = Jsoup.parse(statusResponse.body!!.string())
+        val html = getHtml(coopBaseAccount)
         return safe {
-            val creditBalance = statusHtml.selectFirst("#credit_balance")?.let { block ->
+            val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
                 parseUnitValueBlock(block.parent(), { it.toFloat() }) { it.replace(".–", "") }
             }
-            val consumptions = statusHtml.select("#my_consumption .panel").map {
+            val consumptions = html.select("#my_consumption .panel").map {
                 parseUnitValueBlock(it, { v -> v.toInt() })
             }
             CoopData(creditBalance, consumptions)
@@ -123,37 +132,30 @@ class RealCoopClient(sessionId: String) : CoopClient {
     }
 
     override fun getConsumptionLog(): List<ConsumptionLogEntry> {
-        val consumptionsLogRequest =
-            Request.Builder().get().url("https://myaccount.coopmobile.ch/ajax_load_cdr").build()
-        val consumptionsLogResponse = client.newCall(consumptionsLogRequest).execute()
-        assertResponseSuccessful(consumptionsLogResponse)
-        val rawConsumptionLog =
-            Gson().fromJson(consumptionsLogResponse.body!!.charStream(), RawConsumptionLog::class.java).data
-        return rawConsumptionLog.mapNotNull { parseConsumptionLogEntry(it) }
+        val consumption = getJson<RawConsumptionLog>(
+            "https://myaccount.coopmobile.ch/ajax_load_cdr")
+        return consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
     }
 
     private fun parseConsumptionLogEntry(rawConsumptionLogEntry: RawConsumptionLogEntry): ConsumptionLogEntry? {
-        return if (rawConsumptionLogEntry.isData) {
-            val date = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.GERMAN).parse(rawConsumptionLogEntry.date)!!
-            val type = rawConsumptionLogEntry.type
-            val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
-            DataConsumptionLogEntry(date, type, amount)
-        } else {
-            null
+        if (!rawConsumptionLogEntry.isData) {
+            return null
         }
+
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.GERMAN)
+        val date = dateFormat.parse(rawConsumptionLogEntry.date)!!
+        val type = rawConsumptionLogEntry.type
+        val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
+        return DataConsumptionLogEntry(date, type, amount)
     }
 
     override fun getProducts(): List<Product> {
-        val listProductsRequest =
-            Request.Builder().get().url("$coopBaseAccount/add_product").build()
-        val listProductsResponse = client.newCall(listProductsRequest).execute()
-        assertResponseSuccessful(listProductsResponse)
-        val listProductsHtml = Jsoup.parse(listProductsResponse.body!!.string())
-        return safe { listProductsHtml.select(".add_product").map { parseProductBlock(it) } }
+        val html = getHtml("$coopBaseAccount/add_product")
+        return safe { html.select(".add_product").map { parseProductBlock(it) } }
     }
 
     private fun parseProductBlock(productBlock: Element): Product {
-        val content: Element = productBlock.selectFirst(".modal-body")
+        val content = productBlock.selectFirst(".modal-body")
 
         var name = ""
         var price = ""
@@ -204,25 +206,19 @@ class RealCoopClient(sessionId: String) : CoopClient {
             }
             builder.build()
         }
-        val buyRequest = Request.Builder().post(body)
-            .url(URL(coopScheme, coopHost, buySpec.url))
-            .build()
-        val buyResponse = client.newCall(buyRequest).execute()
-        Log.i("CoopMobile", "Buy request completed with status code: ${buyResponse.code}")
-        return buyResponse.isRedirect || buyResponse.isSuccessful
+        val response = client.post(URL(coopScheme, coopHost, buySpec.url), body)
+        Log.i("CoopMobile", "Buy request completed with status code: ${response.code}")
+        return response.isRedirect || response.isSuccessful
     }
 
     override fun getCorrespondeces(): List<CorrespondenceHeader> {
-        val correspondencesRequest = Request.Builder().get()
-            .url("$coopBaseAccount/my_correspondence/index?limit=30").build()
-        val correspondencesResponse = client.newCall(correspondencesRequest).execute()
-        assertResponseSuccessful(correspondencesResponse)
-        val html = Jsoup.parse(correspondencesResponse.body!!.string())
+        val html = getHtml("$coopBaseAccount/my_correspondence/index?limit=30")
         return safe { html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
     }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
-        val date = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY).parse(it.selectFirst(".first").text())!!
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
+        val date = dateFormat.parse(it.selectFirst(".first").text())!!
         val subject = it.selectFirst(".second").text()
         val details = URL(coopScheme, coopHost, it.selectFirst("a").attr("href"))
         return CorrespondenceHeader(date, subject, details)
@@ -233,18 +229,23 @@ class RealCoopClient(sessionId: String) : CoopClient {
     }
 
     private fun getCorrespondenceMessage(url: URL): String {
-        val correspondenceRequest = Request.Builder().get().url(url).build()
-        val correspondenceResponse = client.newCall(correspondenceRequest).execute()
-        val html = Jsoup.parse(correspondenceResponse.body!!.string())
+        val html = getHtml(url)
         return safe { html.selectFirst(".panel__print__content").text() }
     }
+
+    private fun getHtml(url: String) = getHtml(URL(url))
+    private fun getHtml(url: URL) = client.getHtml(url, ::assertResponseSuccessful)
+    private inline fun <reified T> getJson(url: String): T = getJson(URL(url))
+    private inline fun <reified T> getJson(url: URL) =
+        client.getJson<T>(url, ::assertResponseSuccessful)
 
     companion object {
 
         fun assertResponseSuccessful(response: Response) {
             if (!response.isRedirect) return
             val location = response.header("Location") ?: throw UnauthorizedException("no_location")
-            val signInRegex = Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
+            val signInRegex = Regex(
+                "https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
             throw if (signInRegex.matches(location)) {
                 UnauthorizedException(location)
             } else {
@@ -291,12 +292,16 @@ class RealCoopLogin : CoopLogin {
             .build()
         val loginFormResponse = client.newCall(loginFormRequest).execute()
         val loginFormHtml = Jsoup.parse(loginFormResponse.body?.string())
-        val authenticityToken = safe { loginFormHtml
-            .selectFirst("input[name=authenticity_token]")
-            .attr("value") }
-        val reseller = safe { loginFormHtml
-            .getElementById("user_reseller")
-            .attr("value") }
+        val authenticityToken = safe {
+            loginFormHtml
+                .selectFirst("input[name=authenticity_token]")
+                .attr("value")
+        }
+        val reseller = safe {
+            loginFormHtml
+                .getElementById("user_reseller")
+                .attr("value")
+        }
         Log.i("CoopMobile", "Authenticity token is $authenticityToken")
         Log.i("CoopMobile", "Reseller is $reseller")
         val formBody = FormBody.Builder()
@@ -420,6 +425,9 @@ fun Context.getCoopSharedPreferences(): SharedPreferences {
     return this.getSharedPreferences("de.lorenzgorse.coopmobile", Context.MODE_PRIVATE)
 }
 
+/**
+ * Executes the given closure and translates all [NullPointerException]s and [IllegalStateException]s to [HtmlChangedException]s. This is used for code that extracts data from the DOM.
+ */
 fun <T> safe(fn: () -> T): T {
     return try {
         fn()
