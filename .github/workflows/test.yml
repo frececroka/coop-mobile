@@ -1,0 +1,13 @@
+name: Test
+on: [push]
+
+jobs:
+  build:
+    name: Greeting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Test"
+      uses: vgaidarji/android-github-actions-build@v1.0.1
+      with:
+        args: "./gradlew test"
