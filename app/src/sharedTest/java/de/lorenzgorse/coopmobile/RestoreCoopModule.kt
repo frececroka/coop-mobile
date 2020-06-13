@@ -6,7 +6,7 @@ import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
@@ -49,7 +49,7 @@ fun mockPreparedCoopClient(): CoopClient {
 fun mockExpiredCoopClient(): CoopClient {
     val coopClientFactory = prepareExpiredCoopClient()
     val coopClient2 = mock(CoopClient::class.java)
-    `when`(coopClientFactory.refresh(anyObject(), ArgumentMatchers.eq(true))).thenReturn(coopClient2)
+    `when`(coopClientFactory.refresh(anyObject(), eq(true))).thenReturn(coopClient2)
     return coopClient2
 }
 

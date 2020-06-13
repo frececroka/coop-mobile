@@ -5,12 +5,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import org.hamcrest.Matcher
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
-import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Matchers.eq
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import java.net.UnknownHostException
