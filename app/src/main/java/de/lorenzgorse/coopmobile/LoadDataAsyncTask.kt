@@ -41,7 +41,7 @@ fun <P, T> loadData(context: Context, loader: (client: CoopClient) -> T, setFail
 @SuppressLint("StaticFieldLeak")
 abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P, Either<LoadDataError, T>>() {
 
-    private val analytics = createAnalytics(context)
+    private val analytics = CoopModule.firebaseAnalyticsFactory(context)
 
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
         analytics.logEventOnce(context, "onb_load_data", null)
