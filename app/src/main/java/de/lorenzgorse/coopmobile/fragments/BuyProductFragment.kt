@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -70,20 +71,22 @@ class BuyProductFragment : Fragment() {
                 })
         } else {
             val keyguardManager = requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            @Suppress("DEPRECATION")
             val intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.confirm_purchase), null)
             if (intent != null) {
-                startActivityForResult(intent, 0)
+                registerForActivityResult(object : ActivityResultContract<Int, Int>() {
+                    override fun createIntent(context: Context, input: Int) = intent
+                    override fun parseResult(resultCode: Int, intent: Intent?) = resultCode
+                }) {
+                    if (it == Activity.RESULT_OK) {
+                        buyProduct()
+                    } else {
+                        authentificationFailed()
+                    }
+                }
             } else {
                 deviceNotSecure()
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
-            buyProduct()
-        } else {
-            authentificationFailed()
         }
     }
 

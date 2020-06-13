@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
@@ -30,7 +30,7 @@ class CorrespondencesFragment : Fragment() {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        viewModel = ViewModelProviders.of(this).get(CorrespondencesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CorrespondencesViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

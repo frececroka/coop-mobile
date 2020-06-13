@@ -15,7 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -36,7 +36,7 @@ class AddProductFragment : Fragment() {
         remoteConfig = FirebaseRemoteConfig.getInstance()
         remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        viewModel = ViewModelProviders.of(this).get(ProductsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
@@ -24,7 +24,7 @@ class StatusFragment: Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         analytics = createAnalytics(requireContext())
-        viewModel = ViewModelProviders.of(this).get(CoopDataViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
