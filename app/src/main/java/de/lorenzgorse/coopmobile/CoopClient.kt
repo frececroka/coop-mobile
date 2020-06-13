@@ -2,15 +2,12 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.Response
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
@@ -290,24 +287,24 @@ class RealCoopLogin : CoopLogin {
             .followRedirects(false)
             .cookieJar(cookieJar)
             .build()
+
         log.info("Requesting $coopBaseLogin")
-        val loginFormRequest = Request.Builder().get()
-            .url(coopBaseLogin)
-            .build()
-        val loginFormResponse = client.newCall(loginFormRequest).execute()
-        val loginFormHtml = Jsoup.parse(loginFormResponse.body?.string())
+        val loginFormHtml = client.getHtml(coopBaseLogin)
+
         val authenticityToken = safe {
             loginFormHtml
                 .selectFirst("input[name=authenticity_token]")
                 .attr("value")
         }
+        log.info("Authenticity token is $authenticityToken")
+
         val reseller = safe {
             loginFormHtml
                 .getElementById("user_reseller")
                 .attr("value")
         }
-        log.info("Authenticity token is $authenticityToken")
         log.info("Reseller is $reseller")
+
         val formBody = FormBody.Builder()
             .add("authenticity_token", authenticityToken)
             .addEncoded("user[id]", URLEncoder.encode(username, "UTF-8"))
@@ -315,18 +312,16 @@ class RealCoopLogin : CoopLogin {
             .addEncoded("user[reseller]", reseller)
             .add("button", "")
             .build()
-        val loginRequest = Request.Builder()
-            .url(coopBaseLogin)
-            .post(formBody)
-            .build()
-        val loginResponse = client.newCall(loginRequest).execute()
+        val loginResponse = client.post(coopBaseLogin, formBody)
         log.info("Login response status code is ${loginResponse.code}")
+
         val location = loginResponse.header("Location")
         log.info("Login redirect URL is $location")
+
+        val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/[a-z]+/home")
         return if (
             loginResponse.isRedirect &&
-            location != null &&
-            location.matches(Regex("${Regex.escape(coopBase)}/[a-z]+/home"))
+            location?.matches(loginSuccessLocation) == true
         ) {
             cookieJar.get("_ecare_session")?.value
         } else {
