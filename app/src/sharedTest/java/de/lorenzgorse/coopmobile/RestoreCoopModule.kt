@@ -6,7 +6,7 @@ import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import org.mockito.ArgumentMatchers.eq
+import org.mockito.Matchers.eq
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
