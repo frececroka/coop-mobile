@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.LiveData
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
@@ -12,6 +11,7 @@ import de.lorenzgorse.coopmobile.Either.Left
 import de.lorenzgorse.coopmobile.Either.Right
 import de.lorenzgorse.coopmobile.LoadDataError.*
 import de.lorenzgorse.coopmobile.LoadOnceLiveData.Value
+import org.slf4j.LoggerFactory
 import java.io.IOException
 
 enum class LoadDataError {
@@ -41,6 +41,7 @@ fun <P, T> loadData(context: Context, loader: (client: CoopClient) -> T, setFail
 @SuppressLint("StaticFieldLeak")
 abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P, Either<LoadDataError, T>>() {
 
+    private val log = LoggerFactory.getLogger(javaClass)
     private val analytics = CoopModule.firebaseAnalyticsFactory(context)
 
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
@@ -49,13 +50,13 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
         return try {
             val client = coopClientFactory.get(context)
             if (client == null) {
-                Log.i("CoopMobile", "Client unavailable.")
+                log.info("Client unavailable.")
                 Left(NO_CLIENT)
             } else {
                 try {
                     Right(loadData(client))
                 } catch (e: UnauthorizedException) {
-                    Log.i("CoopMobile", "Session expired.")
+                    log.info("Session expired.")
                     val bundle = Bundle()
                     bundle.putString("redirect", e.redirect)
                     analytics.logEvent("session_expired", bundle)
@@ -64,37 +65,37 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
                         try {
                             Right(loadData(newClient))
                         } catch (e: UnauthorizedException) {
-                            Log.i("CoopMobile", "Refreshed session invalid.")
+                            log.info("Refreshed session invalid.")
                             val bundle = Bundle()
                             bundle.putString("redirect", e.redirect)
                             analytics.logEvent("refreshed_session_expired", bundle)
                             Left(UNAUTHORIZED)
                         } catch (e: HtmlChangedException) {
-                            Log.e("CoopMobile", "Html changed.", e)
+                            log.error("Html changed.", e)
                             Left(HTML_CHANGED)
                         }
                     } else {
-                        Log.i("CoopMobile", "Refresh session failed.")
+                        log.info("Refresh session failed.")
                         analytics.logEvent("refresh_session_failed", null)
                         Left(FAILED_LOGIN)
                     }
                 } catch (e: HtmlChangedException) {
-                    Log.e("CoopMobile", "Html changed.", e)
+                    log.error("Html changed.", e)
                     Left(HTML_CHANGED)
                 }
             }
         } catch (e: IOException) {
-            Log.i("CoopMobile", "Network unavailable.", e)
+            log.error("Network unavailable.", e)
             analytics.logEvent("network_unavailable", null)
             Left(NO_NETWORK)
         } catch (e: PlanUnsupported) {
-            Log.i("CoopMobile", "Plan '${e.plan}' unsupported.")
+            log.error("Plan '${e.plan}' unsupported.")
             val bundle = Bundle()
             bundle.putString("plan", e.plan)
             analytics.logEvent("plan_unsupported", bundle)
             Left(PLAN_UNSUPPORTED)
         } catch (e: HtmlChangedException) {
-            Log.e("CoopMobile", "Html changed.", e)
+            log.error("Html changed.", e)
             Left(HTML_CHANGED)
         }
     }

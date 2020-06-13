@@ -9,7 +9,6 @@ import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
+import org.slf4j.LoggerFactory
 
 class BuyProductFragment : Fragment() {
+
+    private val log = LoggerFactory.getLogger(javaClass)
 
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
@@ -91,13 +93,13 @@ class BuyProductFragment : Fragment() {
     }
 
     private fun deviceNotSecure() {
-        Log.i("CoopMobile", "Device is not secure.")
+        log.info("Device is not secure.")
         notify(getString(R.string.device_not_secure))
         findNavController().popBackStack()
     }
 
     private fun authentificationFailed(errString: CharSequence? = null) {
-        Log.i("CoopMobile", errString.toString())
+        log.info(errString.toString())
         val nonNullErrString = errString ?: getString(R.string.authentication_unsuccessful)
         notify(nonNullErrString)
         findNavController().popBackStack()

@@ -3,7 +3,6 @@ package de.lorenzgorse.coopmobile.fragments
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +21,11 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.LoadOnceLiveData.Value
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import org.slf4j.LoggerFactory
 
 class AddProductFragment : Fragment() {
+
+    private val log = LoggerFactory.getLogger(javaClass)
 
     private lateinit var inflater: LayoutInflater
     private lateinit var remoteConfig: FirebaseRemoteConfig
@@ -80,7 +82,7 @@ class AddProductFragment : Fragment() {
     private fun onSuccess(result: List<Product>) {
         linProducts.removeAllViews()
         for (product in result) {
-            Log.i("CoopMobile", product.toString())
+            log.info("Adding product ${product.name}")
             val productItemView = inflater.inflate(R.layout.product_item, linProducts, false)
             productItemView.findViewById<TextView>(R.id.txtName).text = product.name
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price

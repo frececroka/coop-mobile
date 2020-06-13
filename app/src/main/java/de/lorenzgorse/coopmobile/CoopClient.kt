@@ -2,7 +2,6 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
@@ -13,6 +12,7 @@ import okhttp3.Response
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -100,6 +100,7 @@ interface CoopClient {
 
 class RealCoopClient(sessionId: String) : CoopClient {
 
+    private val log = LoggerFactory.getLogger(javaClass)
     private val cookieJar = StaticCookieJar(sessionId)
 
     private var client = OkHttpClient.Builder()
@@ -198,7 +199,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
     }
 
     override fun buyProduct(buySpec: ProductBuySpec): Boolean {
-        Log.i("CoopMobile", "Buying according to $buySpec")
+        log.info("Buying according to $buySpec")
         val body = buySpec.parameters.let {
             val builder = FormBody.Builder()
             for ((name, value) in it) {
@@ -207,7 +208,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
             builder.build()
         }
         val response = client.post(URL(coopScheme, coopHost, buySpec.url), body)
-        Log.i("CoopMobile", "Buy request completed with status code: ${response.code}")
+        log.info("Buy request completed with status code: ${response.code}")
         return response.isRedirect || response.isSuccessful
     }
 
@@ -277,6 +278,8 @@ interface CoopLogin {
 
 class RealCoopLogin : CoopLogin {
 
+    private val log = LoggerFactory.getLogger(javaClass)
+
     /**
      * Tries to login with the given username and password and returns a session id on success. If the login is not successful, `null` is returned. Reasons for unsuccessful logins include a wrong username or password or a server error.
      */
@@ -286,7 +289,7 @@ class RealCoopLogin : CoopLogin {
             .followRedirects(false)
             .cookieJar(cookieJar)
             .build()
-        Log.i("CoopMobile", "Logging in")
+        log.info("Requesting $coopBaseLogin")
         val loginFormRequest = Request.Builder().get()
             .url(coopBaseLogin)
             .build()
@@ -302,8 +305,8 @@ class RealCoopLogin : CoopLogin {
                 .getElementById("user_reseller")
                 .attr("value")
         }
-        Log.i("CoopMobile", "Authenticity token is $authenticityToken")
-        Log.i("CoopMobile", "Reseller is $reseller")
+        log.info("Authenticity token is $authenticityToken")
+        log.info("Reseller is $reseller")
         val formBody = FormBody.Builder()
             .add("authenticity_token", authenticityToken)
             .addEncoded("user[id]", URLEncoder.encode(username, "UTF-8"))
@@ -316,9 +319,9 @@ class RealCoopLogin : CoopLogin {
             .post(formBody)
             .build()
         val loginResponse = client.newCall(loginRequest).execute()
-        Log.i("CoopMobile", "Login response status code is ${loginResponse.code}")
+        log.info("Login response status code is ${loginResponse.code}")
         val location = loginResponse.header("Location")
-        Log.i("CoopMobile", "Login redirect URL is $location")
+        log.info("Login redirect URL is $location")
         return if (
             loginResponse.isRedirect &&
             location != null &&

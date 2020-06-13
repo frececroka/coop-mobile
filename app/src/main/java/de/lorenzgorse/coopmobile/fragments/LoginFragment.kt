@@ -23,11 +23,13 @@ import de.lorenzgorse.coopmobile.CoopClient.CoopException.HtmlChangedException
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.fragments.LoginFragment.LoginStatus.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.regex.Pattern
 
 class LoginFragment : Fragment() {
 
+    private val log = LoggerFactory.getLogger(javaClass)
     private lateinit var analytics: FirebaseAnalytics
     private var authTask: UserLoginTask? = null
 
@@ -58,7 +60,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun attemptLogin() {
+        log.info("Starting login.")
+
         if (authTask != null) {
+            log.info("Aborting attempt, because another login task is currently running.")
             return
         }
 
@@ -78,6 +83,7 @@ class LoginFragment : Fragment() {
         var focusView: View? = null
 
         if (TextUtils.isEmpty(passwordStr)) {
+            log.info("Cancelling login, because the password is empty.")
             analytics.logEvent("password_empty", null)
             txtPassword.error = getString(R.string.error_field_required)
             focusView = txtPassword
@@ -86,11 +92,13 @@ class LoginFragment : Fragment() {
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(usernameStr)) {
+            log.info("Cancelling login, because the username is empty.")
             analytics.logEvent("username_empty", null)
             txtUsername.error = getString(R.string.error_field_required)
             focusView = txtUsername
             cancel = true
         } else if (!isIUsernameValid(usernameStr)) {
+            log.info("Cancelling login, because the username is invalid.")
             analytics.logEvent("username_invalid", null)
             txtUsername.error = getString(R.string.error_invalid_username)
             focusView = txtUsername
@@ -135,24 +143,29 @@ class LoginFragment : Fragment() {
         }
 
         override fun doInBackground(vararg params: Void): LoginStatus {
+            log.info("Performing login.")
             analytics.logEvent("try_login", null)
             analytics.logEventOnce(requireContext(), "onb_try_login", null)
             val sessionId = try {
+                log.info("Trying to obtain session ID using provided username and password.")
                 coopLogin.login(username, password)
             } catch (e: IOException) {
+                log.error("No network connection available.")
                 analytics.logEvent("no_network", null)
                 return NoNetwork
             } catch (e: HtmlChangedException) {
-                Log.e("CoopMobile", "Html changed.", e)
+                log.error("HTML structure changed unexpectedly.", e)
                 return HtmlChanged
             }
             return if (sessionId != null) {
+                log.info("Obtained session ID.")
                 analytics.logEvent("auth_success", null)
                 analytics.logEventOnce(requireContext(), "onb_auth_success", null)
                 writeCredentials(requireContext(), username, password)
                 writeSession(requireContext(), sessionId)
                 Success
             } else {
+                log.info("Did not receive any session ID.")
                 analytics.logEvent("auth_failed", null)
                 AuthFailed
             }
@@ -179,6 +192,7 @@ class LoginFragment : Fragment() {
         }
 
         override fun onCancelled() {
+            log.info("Login task cancelled.")
             authTask = null
             showProgress(false)
         }
