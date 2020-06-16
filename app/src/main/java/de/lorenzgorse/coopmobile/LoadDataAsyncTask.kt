@@ -49,60 +49,94 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
         analytics.logEventOnce(context, "onb_load_data", null)
         analytics.logEvent("load_data", null)
-        return try {
-            val client = coopClientFactory.get(context)
-            if (client == null) {
-                log.info("Client unavailable.")
-                Left(NO_CLIENT)
-            } else {
-                try {
-                    Right(loadData(client))
-                } catch (e: UnauthorizedException) {
-                    log.info("Session expired.")
-                    val bundle = Bundle()
-                    bundle.putString("redirect", e.redirect)
-                    analytics.logEvent("session_expired", bundle)
-                    val newClient = coopClientFactory.refresh(context, true)
-                    if (newClient != null) {
-                        try {
-                            Right(loadData(newClient))
-                        } catch (e: UnauthorizedException) {
-                            log.info("Refreshed session invalid.")
-                            firebaseCrashlytics().recordException(e)
-                            val bundle = Bundle()
-                            bundle.putString("redirect", e.redirect)
-                            analytics.logEvent("refreshed_session_expired", bundle)
-                            Left(UNAUTHORIZED)
-                        } catch (e: HtmlChangedException) {
-                            log.error("Html changed.", e)
-                            firebaseCrashlytics().recordException(e)
-                            Left(HTML_CHANGED)
-                        }
-                    } else {
-                        log.info("Refresh session failed.")
-                        analytics.logEvent("refresh_session_failed", null)
-                        Left(FAILED_LOGIN)
-                    }
-                } catch (e: HtmlChangedException) {
-                    log.error("Html changed.", e)
-                    firebaseCrashlytics().recordException(e)
-                    Left(HTML_CHANGED)
-                }
-            }
-        } catch (e: IOException) {
+
+        fun clientUnavailable() {
+            log.info("No client available.")
+            firebaseCrashlytics().recordException(Exception())
+        }
+
+        fun networkUnavailable(e: IOException) {
             log.error("Network unavailable.", e)
             analytics.logEvent("network_unavailable", null)
-            Left(NO_NETWORK)
-        } catch (e: PlanUnsupported) {
-            log.error("Plan '${e.plan}' unsupported.")
             firebaseCrashlytics().recordException(e)
+        }
+
+        fun planUnsupported(e: PlanUnsupported) {
+            log.error("Plan '${e.plan}' unsupported.")
             val bundle = Bundle()
             bundle.putString("plan", e.plan)
             analytics.logEvent("plan_unsupported", bundle)
-            Left(PLAN_UNSUPPORTED)
-        } catch (e: HtmlChangedException) {
+            firebaseCrashlytics().recordException(e)
+        }
+
+        fun refreshFailed() {
+            log.info("Refreshing session failed.")
+            analytics.logEvent("refresh_session_failed", null)
+            firebaseCrashlytics().recordException(Exception())
+        }
+
+        fun refreshedSessionExpired(e: UnauthorizedException) {
+            log.info("Refreshed session expired (this should not happen).")
+            val bundle = Bundle()
+            bundle.putString("redirect", e.redirect)
+            analytics.logEvent("refreshed_session_expired", bundle)
+            firebaseCrashlytics().recordException(e)
+        }
+
+        fun htmlChanged(e: HtmlChangedException) {
             log.error("Html changed.", e)
             firebaseCrashlytics().recordException(e)
+        }
+
+        fun sessionExpired(e: UnauthorizedException) {
+            log.info("Session expired.")
+            val bundle = Bundle()
+            bundle.putString("redirect", e.redirect)
+            analytics.logEvent("session_expired", bundle)
+        }
+
+        return try {
+            log.info("Obtaining client from CoopClientFactory.")
+            val client = coopClientFactory.get(context)
+            if (client == null) {
+                clientUnavailable()
+                Left(NO_CLIENT)
+            } else {
+                log.info("Obtained client $client.")
+                try {
+                    log.info("Loading data.")
+                    val data = loadData(client)
+                    log.info("Loaded data: [redacted]")
+                    Right(data)
+                } catch (e: UnauthorizedException) {
+                    sessionExpired(e)
+                    log.info("Trying to force refresh of session.")
+                    val newClient = coopClientFactory.refresh(context, true)
+                    if (newClient != null) {
+                        log.info("Obtained new client $newClient.")
+                        try {
+                            log.info("Loading data (again).")
+                            val data = loadData(newClient)
+                            log.info("Loaded data: [redacted]")
+                            Right(data)
+                        } catch (e: UnauthorizedException) {
+                            refreshedSessionExpired(e)
+                            Left(UNAUTHORIZED)
+                        }
+                    } else {
+                        refreshFailed()
+                        Left(FAILED_LOGIN)
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            networkUnavailable(e)
+            Left(NO_NETWORK)
+        } catch (e: PlanUnsupported) {
+            planUnsupported(e)
+            Left(PLAN_UNSUPPORTED)
+        } catch (e: HtmlChangedException) {
+            htmlChanged(e)
             Left(HTML_CHANGED)
         }
     }
