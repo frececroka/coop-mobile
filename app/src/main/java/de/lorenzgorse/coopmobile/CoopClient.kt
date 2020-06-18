@@ -108,7 +108,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
     override fun getData(): CoopData {
         val html = getHtml(coopBaseAccount)
-        return safe {
+        return safeHtml {
             val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
                 parseUnitValueBlock(block.parent(), { it.toFloat() }) { it.replace(".–", "") }
             }
@@ -150,7 +150,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
     override fun getProducts(): List<Product> {
         val html = getHtml("$coopBaseAccount/add_product")
-        return safe { html.select(".add_product").map { parseProductBlock(it) } }
+        return safeHtml { html.select(".add_product").map { parseProductBlock(it) } }
     }
 
     private fun parseProductBlock(productBlock: Element): Product {
@@ -212,7 +212,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
     override fun getCorrespondeces(): List<CorrespondenceHeader> {
         val html = getHtml("$coopBaseAccount/my_correspondence/index?limit=30")
-        return safe { html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
+        return safeHtml { html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
     }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
@@ -229,7 +229,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
     private fun getCorrespondenceMessage(url: URL): String {
         val html = getHtml(url)
-        return safe { html.selectFirst(".panel__print__content").text() }
+        return safeHtml { html.selectFirst(".panel__print__content").text() }
     }
 
     private fun getHtml(url: String) = getHtml(URL(url))
@@ -291,14 +291,14 @@ class RealCoopLogin : CoopLogin {
         log.info("Requesting $coopBaseLogin")
         val loginFormHtml = client.getHtml(coopBaseLogin)
 
-        val authenticityToken = safe {
+        val authenticityToken = safeHtml {
             loginFormHtml
                 .selectFirst("input[name=authenticity_token]")
                 .attr("value")
         }
         log.info("Authenticity token is $authenticityToken")
 
-        val reseller = safe {
+        val reseller = safeHtml {
             loginFormHtml
                 .getElementById("user_reseller")
                 .attr("value")
@@ -427,7 +427,7 @@ fun Context.getCoopSharedPreferences(): SharedPreferences {
 /**
  * Executes the given closure and translates all [NullPointerException]s and [IllegalStateException]s to [HtmlChangedException]s. This is used for code that extracts data from the DOM.
  */
-fun <T> safe(fn: () -> T): T {
+fun <T> safeHtml(fn: () -> T): T {
     return try {
         fn()
     } catch (e: NullPointerException) {
