@@ -16,13 +16,17 @@ android {
     }
     signingConfigs {
         release {
-            def keystoreProps = new Properties()
-            keystoreProps.load(new FileInputStream(project.file("keystore.properties")))
-
-            storeFile file(keystoreProps["storeFile"])
-            storePassword keystoreProps["storePassword"]
-            keyAlias keystoreProps["keyAlias"]
-            keyPassword keystoreProps["keyPassword"]
+            def keystorePropsFile = project.file("keystore.properties")
+            try {
+                def keystoreProps = new Properties()
+                keystoreProps.load(new FileInputStream(keystorePropsFile))
+                storeFile file(keystoreProps["storeFile"])
+                storePassword keystoreProps["storePassword"]
+                keyAlias keystoreProps["keyAlias"]
+                keyPassword keystoreProps["keyPassword"]
+            } catch (FileNotFoundException e) {
+                println("Did not find keystore properties at " + keystorePropsFile)
+            }
         }
     }
 
