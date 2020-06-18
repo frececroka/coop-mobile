@@ -1,0 +1,49 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Create Change Log
+      run: ./whatsnew.sh
+    - name: Load Keystore
+      run: |
+        echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
+        echo "${{ secrets.KEYSTORE_PROPS }}" > app/keystore.properties
+    - name: Build
+      uses: vgaidarji/android-github-actions-build@v1.0.1
+      with:
+        args: "./gradlew bundleRelease && chmod a+r app/build/outputs/bundle/release/app-release.aab"
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+    - name: Upload GitHub Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: app/build/outputs/bundle/release/app-release.aab
+        asset_name: app-release.aab
+        asset_content_type: application/zip
+    - name: Create Play Store Release
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+        packageName: de.lorenzgorse.coopmobile
+        releaseFile: app/build/outputs/bundle/release/app-release.aab
+        track: beta
+        whatsNewDirectory: whatsnew
