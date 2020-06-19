@@ -242,16 +242,18 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
     companion object {
 
+        private val signInRegex =
+            Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
+        private val planRegex =
+            Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/.+")
+
         fun assertResponseSuccessful(response: Response) {
             if (!response.isRedirect) return
             val location = response.header("Location") ?:
                 throw UnauthorizedException("no_location")
-            val signInRegex = Regex(
-                "https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
             throw if (signInRegex.matches(location)) {
                 UnauthorizedException(location)
             } else {
-                val planRegex = Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/.+")
                 val matchResult = planRegex.matchEntire(location)
                 if (matchResult != null) {
                     val plan = matchResult.groups[1]?.value
