@@ -3,7 +3,7 @@ package de.lorenzgorse.coopmobile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
-import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
@@ -61,9 +61,7 @@ abstract class LoadDataAsyncTask<P, T>(
 
         fun planUnsupported(e: PlanUnsupported) {
             log.error("Plan '${e.plan}' unsupported.")
-            val bundle = Bundle()
-            bundle.putString("plan", e.plan)
-            analytics.logEvent("plan_unsupported", bundle)
+            analytics.logEvent("plan_unsupported", bundleOf("plan" to e.plan))
             firebaseCrashlytics().recordException(e)
         }
 
@@ -75,9 +73,7 @@ abstract class LoadDataAsyncTask<P, T>(
 
         fun refreshedSessionExpired(e: UnauthorizedException) {
             log.info("Refreshed session expired (this should not happen).")
-            val bundle = Bundle()
-            bundle.putString("redirect", e.redirect)
-            analytics.logEvent("refreshed_session_expired", bundle)
+            analytics.logEvent("refreshed_session_expired", bundleOf("redirect" to e.redirect))
             firebaseCrashlytics().recordException(e)
         }
 
@@ -88,9 +84,7 @@ abstract class LoadDataAsyncTask<P, T>(
 
         fun sessionExpired(e: UnauthorizedException) {
             log.info("Session expired.")
-            val bundle = Bundle()
-            bundle.putString("redirect", e.redirect)
-            analytics.logEvent("session_expired", bundle)
+            analytics.logEvent("session_expired", bundleOf("redirect" to e.redirect))
         }
 
         return try {
