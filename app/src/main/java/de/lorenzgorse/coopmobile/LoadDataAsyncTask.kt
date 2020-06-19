@@ -25,23 +25,24 @@ sealed class Either<out L, out R> {
     data class Right<R>(val value: R): Either<Nothing, R>()
 }
 
-fun <P, T> loadData(context: Context, loader: (client: CoopClient) -> T, setFailure: (LoadDataError) -> Unit, setSuccess: (T) -> Unit) {
+fun <P, T> loadData(
+    context: Context,
+    loader: (client: CoopClient) -> T,
+    setFailure: (LoadDataError) -> Unit,
+    setSuccess: (T) -> Unit
+) {
     val asyncTask = object : LoadDataAsyncTask<P, T>(context) {
-        override fun loadData(client: CoopClient): T {
-            return loader(client)
-        }
-        override fun onFailure(error: LoadDataError) {
-            setFailure(error)
-        }
-        override fun onSuccess(result: T) {
-            setSuccess(result)
-        }
+        override fun loadData(client: CoopClient) = loader(client)
+        override fun onFailure(error: LoadDataError) = setFailure(error)
+        override fun onSuccess(result: T) = setSuccess(result)
     }
     asyncTask.execute()
 }
 
 @SuppressLint("StaticFieldLeak")
-abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P, Either<LoadDataError, T>>() {
+abstract class LoadDataAsyncTask<P, T>(
+    val context: Context
+): AsyncTask<Void, P, Either<LoadDataError, T>>() {
 
     private val log = LoggerFactory.getLogger(javaClass)
     private val analytics = firebaseAnalytics(context)
@@ -155,13 +156,10 @@ abstract class LoadDataAsyncTask<P, T>(val context: Context): AsyncTask<Void, P,
 
 }
 
-fun <P, T> liveData(context: Context, loader: (client: CoopClient) -> T): LoadOnceLiveData<T> {
-    return object : LoadOnceLiveData<T>() {
-        override fun loadValue() {
-            loadData<P, T>(context, loader, ::setFailure, ::setSuccess)
-        }
+fun <P, T> liveData(context: Context, loader: (client: CoopClient) -> T): LoadOnceLiveData<T> =
+    object : LoadOnceLiveData<T>() {
+        override fun loadValue() = loadData<P, T>(context, loader, ::setFailure, ::setSuccess)
     }
-}
 
 abstract class LoadOnceLiveData<T>: LiveData<Value<T>>() {
 

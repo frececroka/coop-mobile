@@ -41,40 +41,52 @@ class BuyProductFragment : Fragment() {
         analytics.setCurrentScreen(requireActivity(), "BuyProduct", null)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_buy_product, container, false)
     }
 
     private fun authenticate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val callback = object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
+                    if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL) {
+                        deviceNotSecure()
+                    } else {
+                        authentificationFailed(errString)
+                    }
+                }
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult?
+                ) {
+                    buyProduct()
+                }
+
+                override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
+                    if (helpString != null) {
+                        notify(helpString)
+                    }
+                }
+
+                override fun onAuthenticationFailed() {
+                    authentificationFailed()
+                }
+            }
+
             BiometricPrompt.Builder(context)
                 .setTitle(getString(R.string.confirm_purchase))
                 .setDeviceCredentialAllowed(true)
                 .build()
-                .authenticate(CancellationSignal(), requireContext().mainExecutor, object : BiometricPrompt.AuthenticationCallback() {
-                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-                        if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL) {
-                            deviceNotSecure()
-                        } else {
-                            authentificationFailed(errString)
-                        }
-                    }
-                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
-                        buyProduct()
-                    }
-                    override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-                        if (helpString != null) {
-                            notify(helpString)
-                        }
-                    }
-                    override fun onAuthenticationFailed() {
-                        authentificationFailed()
-                    }
-                })
+                .authenticate(CancellationSignal(), requireContext().mainExecutor, callback)
         } else {
             val keyguardManager = requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
             @Suppress("DEPRECATION")
-            val intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.confirm_purchase), null)
+            val intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                getString(R.string.confirm_purchase), null)
             if (intent != null) {
                 registerForActivityResult(object : ActivityResultContract<Int, Int>() {
                     override fun createIntent(context: Context, input: Int) = intent
@@ -112,7 +124,9 @@ class BuyProductFragment : Fragment() {
     }
 
     @SuppressLint("StaticFieldLeak")
-    inner class BuyProduct(private val buySpec: ProductBuySpec) : LoadDataAsyncTask<Void, Boolean>(requireContext()) {
+    inner class BuyProduct(
+        private val buySpec: ProductBuySpec
+    ) : LoadDataAsyncTask<Void, Boolean>(requireContext()) {
 
         override fun loadData(client: CoopClient): Boolean {
             return client.buyProduct(buySpec)

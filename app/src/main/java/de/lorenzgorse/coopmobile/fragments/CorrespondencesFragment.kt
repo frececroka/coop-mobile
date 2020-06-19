@@ -22,6 +22,8 @@ import java.util.*
 
 class CorrespondencesFragment : Fragment() {
 
+    private val dateFormat = SimpleDateFormat("EEE, d. MMMM yyyy", Locale.getDefault())
+
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CorrespondencesViewModel
@@ -33,7 +35,11 @@ class CorrespondencesFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(CorrespondencesViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_correspondences, container, false)
     }
 
@@ -50,7 +56,12 @@ class CorrespondencesFragment : Fragment() {
             is Value.Progress ->
                 loading.setProgress(data.current, data.total)
             is Value.Failure ->
-                handleLoadDataError(data.error, ::showNoNetwork, ::showUpdateNecessary, ::showPlanUnsupported, ::goToLogin)
+                handleLoadDataError(
+                    data.error,
+                    ::showNoNetwork,
+                    ::showUpdateNecessary,
+                    ::showPlanUnsupported,
+                    ::goToLogin)
             is Value.Success ->
                 onSuccess(data)
         }
@@ -85,11 +96,15 @@ class CorrespondencesFragment : Fragment() {
     private fun onSuccess(data: Value.Success<List<Correspondence>>) {
         linCorrespondences.removeAllViews()
         for (correspondence in data.value) {
-            val productItemView = inflater.inflate(R.layout.correspondence, linCorrespondences, false)
-            productItemView.findViewById<TextView>(R.id.txtDate).text =
-                SimpleDateFormat("EEE, d. MMMM yyyy", Locale.getDefault()).format(correspondence.header.date)
-            productItemView.findViewById<TextView>(R.id.txtSubject).text = correspondence.header.subject
-            productItemView.findViewById<TextView>(R.id.txtMessage).text = correspondence.message
+            val productItemView = inflater.inflate(
+                R.layout.correspondence, linCorrespondences, false)
+            val txtDate = productItemView.findViewById<TextView>(R.id.txtDate)
+            val txtSubject = productItemView.findViewById<TextView>(R.id.txtSubject)
+            val txtMessage = productItemView.findViewById<TextView>(R.id.txtMessage)
+
+            txtDate.text = dateFormat.format(correspondence.header.date)
+            txtSubject.text = correspondence.header.subject
+            txtMessage.text = correspondence.message
             linCorrespondences.addView(productItemView)
         }
         loading.visibility = View.GONE
@@ -105,7 +120,9 @@ class CorrespondencesViewModel(private val app: Application): AndroidViewModel(a
 
 }
 
-class CorrespondencesLiveData(private val context: Context): LoadOnceLiveData<List<Correspondence>>() {
+class CorrespondencesLiveData(
+    private val context: Context
+): LoadOnceLiveData<List<Correspondence>>() {
 
     override fun loadValue() {
         LoadCorrespondences(context, ::setProgress, ::setFailure, ::setSuccess).execute()

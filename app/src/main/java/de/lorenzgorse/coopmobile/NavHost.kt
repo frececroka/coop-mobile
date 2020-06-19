@@ -22,7 +22,11 @@ class NavHost : AppCompatActivity() {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    private fun onDestinationChanged(navController: NavController, destination: NavDestination, bundle: Bundle?) {
+    private fun onDestinationChanged(
+        navController: NavController,
+        destination: NavDestination,
+        bundle: Bundle?
+    ) {
         when (destination.id) {
             R.id.login -> {
                 toolbar.title = getString(R.string.title_login)

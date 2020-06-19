@@ -44,7 +44,11 @@ class StatusFragment: Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_status, container, false)
     }
 
@@ -62,7 +66,12 @@ class StatusFragment: Fragment() {
                 layError.visibility = View.GONE
                 layContent.visibility = View.GONE
             }
-            is Value.Failure -> handleLoadDataError(result.error, ::showNoNetwork, ::showUpdateNecessary, ::showPlanUnsupported, ::goToLogin)
+            is Value.Failure -> handleLoadDataError(
+                result.error,
+                ::showNoNetwork,
+                ::showUpdateNecessary,
+                ::showPlanUnsupported,
+                ::goToLogin)
             is Value.Success -> onSuccess(result.value)
         }
     }

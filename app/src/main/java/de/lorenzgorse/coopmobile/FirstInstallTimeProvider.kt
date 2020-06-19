@@ -7,13 +7,12 @@ interface FirstInstallTimeProvider {
 }
 
 class RealFirstInstallTimeProvider : FirstInstallTimeProvider {
-    override fun get(context: Context): Long {
-        return context.packageManager.getPackageInfo(context.packageName, 0).firstInstallTime
-    }
+    override fun get(context: Context) =
+        context.packageManager.getPackageInfo(context.packageName, 0).firstInstallTime
 }
 
-class StaticFirstInstallTimeProvider(private val firstInstallTime: Long) : FirstInstallTimeProvider {
-    override fun get(context: Context): Long {
-        return firstInstallTime
-    }
+class StaticFirstInstallTimeProvider(
+    private val firstInstallTime: Long
+) : FirstInstallTimeProvider {
+    override fun get(context: Context) = firstInstallTime
 }

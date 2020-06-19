@@ -27,13 +27,27 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.regex.Pattern
 
+val phoneRegex = Pattern.compile("0[0-9\\s]{5,14}").toRegex()
+val emailRegex = Pattern.compile(
+    "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08" +
+            "\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x" +
+            "7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\" +
+            "[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])" +
+            "|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x2" +
+            "1-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+).toRegex()
+
 class LoginFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
     private lateinit var analytics: FirebaseAnalytics
     private var authTask: UserLoginTask? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         analytics = createAnalytics(requireContext())
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -41,7 +55,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        txtPrivacyPolicy.text = HtmlCompat.fromHtml(txtPrivacyPolicy.text.toString(), FROM_HTML_MODE_COMPACT)
+        txtPrivacyPolicy.text = HtmlCompat.fromHtml(
+            txtPrivacyPolicy.text.toString(), FROM_HTML_MODE_COMPACT)
         txtPrivacyPolicy.movementMethod = LinkMovementMethod.getInstance()
 
         txtPassword.setOnEditorActionListener { _, actionId, _ ->
@@ -116,8 +131,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun isIUsernameValid(username: String): Boolean {
-        val phoneRegex = Pattern.compile("0[0-9\\s]{5,14}").toRegex()
-        val emailRegex = Pattern.compile("(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])").toRegex()
         return username.matches(phoneRegex) || username.matches(emailRegex)
     }
 
@@ -134,8 +147,10 @@ class LoginFragment : Fragment() {
     }
 
     @SuppressLint("StaticFieldLeak")
-    inner class UserLoginTask internal constructor(private val username: String, private val password: String) :
-        AsyncTask<Void, Void, LoginStatus>() {
+    inner class UserLoginTask(
+        private val username: String,
+        private val password: String
+    ) : AsyncTask<Void, Void, LoginStatus>() {
 
         override fun onPreExecute() {
             txtNoNetwork.visibility = View.GONE

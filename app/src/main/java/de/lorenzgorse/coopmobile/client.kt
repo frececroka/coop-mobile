@@ -14,11 +14,15 @@ fun OkHttpClient.get(url: URL): Response {
     return newCall(statusRequest).execute()
 }
 
-inline fun <reified T> OkHttpClient.getJson(url: URL, check: (Response) -> Unit): T = Gson().fromJson(getText(url, check), T::class.java)
+inline fun <reified T> OkHttpClient.getJson(url: URL, check: (Response) -> Unit): T =
+    Gson().fromJson(getText(url, check), T::class.java)
 
-fun OkHttpClient.getHtml(url: String): Document = getHtml(URL(url)) {}
-inline fun OkHttpClient.getHtml(url: String, check: (Response) -> Unit): Document = getHtml(URL(url), check)
-inline fun OkHttpClient.getHtml(url: URL, check: (Response) -> Unit): Document = Jsoup.parse(getText(url, check))
+fun OkHttpClient.getHtml(url: String): Document =
+    getHtml(URL(url)) {}
+inline fun OkHttpClient.getHtml(url: String, check: (Response) -> Unit): Document =
+    getHtml(URL(url), check)
+inline fun OkHttpClient.getHtml(url: URL, check: (Response) -> Unit): Document =
+    Jsoup.parse(getText(url, check))
 
 inline fun OkHttpClient.getText(url: URL, check: (Response) -> Unit): String {
     val response = get(url).also(check)

@@ -41,7 +41,11 @@ class AddProductFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_product, container, false)
     }
 
@@ -58,7 +62,12 @@ class AddProductFragment : Fragment() {
                 layContent.visibility = View.GONE
             }
             is Value.Failure ->
-                handleLoadDataError(result.error, ::showNoNetwork, ::showUpdateNecessary, ::showPlanUnsupported, ::goToLogin)
+                handleLoadDataError(
+                    result.error,
+                    ::showNoNetwork,
+                    ::showUpdateNecessary,
+                    ::showPlanUnsupported,
+                    ::goToLogin)
             is Value.Success ->
                 onSuccess(result.value)
         }

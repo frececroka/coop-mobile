@@ -36,16 +36,20 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun dismiss() {
-        context.getCoopSharedPreferences().edit().putBoolean("rating_banner_dismissed", true).apply()
+        context.getCoopSharedPreferences().edit()
+            .putBoolean("rating_banner_dismissed", true)
+            .apply()
         visibility = View.GONE
     }
 
     private fun dismissed(): Boolean {
-        return context.getCoopSharedPreferences().getBoolean("rating_banner_dismissed", false)
+        return context.getCoopSharedPreferences()
+            .getBoolean("rating_banner_dismissed", false)
     }
 
     private fun daysSinceInstall(): Double {
-        return (System.currentTimeMillis() - firstInstallTimeProvider.get(context)).toDouble() / 1000 / 60 / 60 / 24
+        val elapsedMs = System.currentTimeMillis() - firstInstallTimeProvider.get(context)
+        return elapsedMs.toDouble() / 1000 / 60 / 60 / 24
     }
 
     private fun incrementAndGetLoadCount(): Int {
@@ -61,7 +65,8 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             val marketUrl = Uri.parse("market://details?id=$appPackageName")
             startActivity(context, Intent(Intent.ACTION_VIEW, marketUrl), null)
         } catch (anfe: android.content.ActivityNotFoundException) {
-            val marketUrl = Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+            val marketUrl = Uri.parse(
+                "https://play.google.com/store/apps/details?id=$appPackageName")
             startActivity(context, Intent(Intent.ACTION_VIEW, marketUrl), null)
         }
     }

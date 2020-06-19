@@ -136,7 +136,9 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
     }
 
-    private fun parseConsumptionLogEntry(rawConsumptionLogEntry: RawConsumptionLogEntry): ConsumptionLogEntry? {
+    private fun parseConsumptionLogEntry(
+        rawConsumptionLogEntry: RawConsumptionLogEntry
+    ): ConsumptionLogEntry? {
         if (!rawConsumptionLogEntry.isData) {
             return null
         }
@@ -242,7 +244,8 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
         fun assertResponseSuccessful(response: Response) {
             if (!response.isRedirect) return
-            val location = response.header("Location") ?: throw UnauthorizedException("no_location")
+            val location = response.header("Location") ?:
+                throw UnauthorizedException("no_location")
             val signInRegex = Regex(
                 "https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
             throw if (signInRegex.matches(location)) {
@@ -255,7 +258,9 @@ class RealCoopClient(sessionId: String) : CoopClient {
                     if (plan != "prepaid") {
                         PlanUnsupported(plan)
                     } else {
-                        // This accounts for ... interesting behavior on the part of Coop Mobile. Requesting the overview page with an expired session redirects to the same page again (probably setting a cookie).
+                        // This accounts for ... interesting behavior on the part of Coop Mobile.
+                        // Requesting the overview page with an expired session redirects to the
+                        // same page again (probably setting a cookie).
                         UnauthorizedException(location)
                     }
                 } else {
@@ -279,7 +284,9 @@ class RealCoopLogin : CoopLogin {
     private val log = LoggerFactory.getLogger(javaClass)
 
     /**
-     * Tries to login with the given username and password and returns a session id on success. If the login is not successful, `null` is returned. Reasons for unsuccessful logins include a wrong username or password or a server error.
+     * Tries to login with the given username and password and returns a session id on success. If
+     * the login is not successful, `null` is returned. Reasons for unsuccessful logins include a
+     * wrong username or password or a server error.
      */
     override fun login(username: String, password: String): String? {
         val cookieJar = SessionCookieJar()
@@ -425,7 +432,9 @@ fun Context.getCoopSharedPreferences(): SharedPreferences {
 }
 
 /**
- * Executes the given closure and translates all [NullPointerException]s and [IllegalStateException]s to [HtmlChangedException]s. This is used for code that extracts data from the DOM.
+ * Executes the given closure and translates all [NullPointerException]s and
+ * [IllegalStateException]s to [HtmlChangedException]s. This is used for code that extracts data
+ * from the DOM.
  */
 fun <T> safeHtml(fn: () -> T): T {
     return try {
