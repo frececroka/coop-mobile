@@ -56,10 +56,10 @@ fun mockExpiredCoopClient(): CoopClient {
 fun prepareExpiredCoopClient(): CoopClientFactory {
     val coopClientFactory = mockCoopClientFactory()
     val coopClient1 = mock(CoopClient::class.java)
-    `when`(coopClient1.getData()).thenThrow(UnauthorizedException("dummy"))
-    `when`(coopClient1.getProducts()).thenThrow(UnauthorizedException("dummy"))
-    `when`(coopClient1.getCorrespondeces()).thenThrow(UnauthorizedException("dummy"))
-    `when`(coopClient1.augmentCorrespondence(anyObject())).thenThrow(UnauthorizedException("dummy"))
+    `when`(coopClient1.getData()).thenThrow(UnauthorizedException(null))
+    `when`(coopClient1.getProducts()).thenThrow(UnauthorizedException(null))
+    `when`(coopClient1.getCorrespondeces()).thenThrow(UnauthorizedException(null))
+    `when`(coopClient1.augmentCorrespondence(anyObject())).thenThrow(UnauthorizedException(null))
     `when`(coopClientFactory.get(anyObject())).thenReturn(coopClient1)
     return coopClientFactory
 }

@@ -250,7 +250,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
         fun assertResponseSuccessful(response: Response) {
             if (!response.isRedirect) return
             val location = response.header("Location") ?:
-                throw UnauthorizedException("no_location")
+                throw UnauthorizedException(null)
             throw if (signInRegex.matches(location)) {
                 UnauthorizedException(location)
             } else {

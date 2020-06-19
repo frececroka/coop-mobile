@@ -69,7 +69,7 @@ class LoadDataAsyncTaskTest {
 	@Test
 	fun unauthorized() {
 		val coopClient = mockExpiredCoopClient()
-		`when`(coopClient.getData()).thenThrow(UnauthorizedException("dummy"))
+		`when`(coopClient.getData()).thenThrow(UnauthorizedException(null))
 		doLoadDataTest(equalTo(LoadDataError.UNAUTHORIZED), nullValue())
 	}
 
