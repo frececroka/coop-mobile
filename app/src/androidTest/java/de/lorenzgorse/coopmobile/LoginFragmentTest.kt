@@ -39,7 +39,8 @@ class LoginFragmentTest {
     @Before
     fun before() {
         navController = mock(NavController::class.java)
-        scenario = launchFragmentInContainer<LoginFragment>(Bundle.EMPTY, R.style.Base_Theme_AppCompat, FragmentFactory())
+        scenario = launchFragmentInContainer<LoginFragment>(
+            Bundle.EMPTY, R.style.Base_Theme_AppCompat, FragmentFactory())
         scenario.onFragment { Navigation.setViewNavController(it.requireView(), navController) }
     }
 

@@ -93,7 +93,9 @@ class LoadDataAsyncTaskTest {
 
 }
 
-class DummyLoadDataAsyncTask<R>(val dataLoader: (CoopClient) -> R) : LoadDataAsyncTask<Void, R>(mock(Context::class.java)) {
+class DummyLoadDataAsyncTask<R>(
+	val dataLoader: (CoopClient) -> R
+) : LoadDataAsyncTask<Void, R>(mock(Context::class.java)) {
 
 	var failureValue: LoadDataError? = null; private set
 	var successValue: R? = null; private set

@@ -2,7 +2,6 @@ package de.lorenzgorse.coopmobile
 
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -40,7 +39,7 @@ class StatusFragmentTest {
     private lateinit var navController: NavController
     private lateinit var scenario: FragmentScenario<StatusFragment>
 
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
+    private val context = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
     private val prefs = context.getCoopSharedPreferences()
 
     @Test
@@ -215,7 +214,8 @@ class StatusFragmentTest {
 
     private fun launchFragment() {
         navController = mock(NavController::class.java)
-        scenario = FragmentScenario.launchInContainer(StatusFragment::class.java, Bundle.EMPTY, R.style.AppTheme, FragmentFactory())
+        scenario = FragmentScenario.launchInContainer(
+            StatusFragment::class.java, Bundle.EMPTY, R.style.AppTheme, FragmentFactory())
         scenario.onFragment { Navigation.setViewNavController(it.requireView(), navController) }
     }
 
@@ -240,7 +240,8 @@ class StatusFragmentTest {
     }
 
     private fun setFirstInstallTime(days: Double) {
-        firstInstallTimeProvider = StaticFirstInstallTimeProvider(System.currentTimeMillis() - (days*24*60*60*1000).toLong())
+        val firstInstallTime = System.currentTimeMillis() - (days * 24 * 60 * 60 * 1000).toLong()
+        firstInstallTimeProvider = StaticFirstInstallTimeProvider(firstInstallTime)
     }
 
 }

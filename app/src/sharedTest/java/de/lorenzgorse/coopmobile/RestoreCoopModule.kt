@@ -13,7 +13,10 @@ import org.mockito.Mockito.mock
 
 class RestoreCoopModule: TestRule {
 
-    override fun apply(base: Statement, description: Description): Statement = object : Statement() {
+    override fun apply(
+        base: Statement,
+        description: Description
+    ): Statement = object : Statement() {
         override fun evaluate() {
             base.evaluate()
             coopLogin = RealCoopLogin()
