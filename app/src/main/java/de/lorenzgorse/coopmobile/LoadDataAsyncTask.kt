@@ -48,10 +48,7 @@ abstract class LoadDataAsyncTask<P, T>(
     private val analytics = firebaseAnalytics(context)
 
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
-        fun clientUnavailable() {
-            log.info("No client available.")
-            firebaseCrashlytics().recordException(Exception())
-        }
+        log.info("About to load data in background.")
 
         fun networkUnavailable(e: IOException) {
             log.error("Network unavailable.", e)
@@ -91,7 +88,7 @@ abstract class LoadDataAsyncTask<P, T>(
             log.info("Obtaining client from CoopClientFactory.")
             val client = coopClientFactory.get(context)
             if (client == null) {
-                clientUnavailable()
+                log.info("No client available.")
                 Left(NO_CLIENT)
             } else {
                 log.info("Obtained client $client.")
