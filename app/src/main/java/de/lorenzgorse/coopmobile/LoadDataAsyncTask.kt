@@ -48,9 +48,6 @@ abstract class LoadDataAsyncTask<P, T>(
     private val analytics = firebaseAnalytics(context)
 
     override fun doInBackground(vararg params: Void): Either<LoadDataError, T> {
-        analytics.logEventOnce(context, "onb_load_data", null)
-        analytics.logEvent("load_data", null)
-
         fun clientUnavailable() {
             log.info("No client available.")
             firebaseCrashlytics().recordException(Exception())
@@ -104,8 +101,10 @@ abstract class LoadDataAsyncTask<P, T>(
                 Left(NO_CLIENT)
             } else {
                 log.info("Obtained client $client.")
+                log.info("Loading data.")
+                analytics.logEventOnce(context, "onb_load_data", null)
+                analytics.logEvent("load_data", null)
                 try {
-                    log.info("Loading data.")
                     val data = loadData(client)
                     log.info("Loaded data: [redacted]")
                     Right(data)
