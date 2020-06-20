@@ -14,11 +14,6 @@
         android:title="@string/title_messages"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itCredits"
-        android:title="@string/credits"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/itLogout"
         android:title="@string/logout"
         app:showAsAction="never" />

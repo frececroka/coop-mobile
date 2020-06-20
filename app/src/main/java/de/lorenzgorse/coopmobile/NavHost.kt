@@ -37,9 +37,6 @@ class NavHost : AppCompatActivity() {
             R.id.add_product -> {
                 toolbar.title = getString(R.string.title_buy_option)
             }
-            R.id.credits -> {
-                toolbar.title = getString(R.string.title_credits)
-            }
             R.id.correspondences -> {
                 toolbar.title = getString(R.string.title_messages)
             }

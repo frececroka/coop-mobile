@@ -37,7 +37,6 @@ class StatusFragment: Fragment() {
             R.id.itRefresh -> { refresh(); true }
             R.id.itAddOption -> { addOption(); true }
             R.id.itCorrespondences -> { viewCorrespondences(); true }
-            R.id.itCredits -> { credits(); true }
             R.id.itLogout -> { logout(); true }
             R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
             else -> super.onOptionsItemSelected(item)
@@ -130,11 +129,6 @@ class StatusFragment: Fragment() {
             consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
         }
-    }
-
-    private fun credits() {
-        analytics.logEvent("credits", null)
-        findNavController().navigate(R.id.action_status_to_credits)
     }
 
     private fun logout() {
