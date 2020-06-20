@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.LoadOnceLiveData.Value
 import kotlinx.android.synthetic.main.fragment_status.*
+import kotlinx.coroutines.launch
 import java.util.*
 
 class StatusFragment: Fragment() {
@@ -140,7 +140,7 @@ class StatusFragment: Fragment() {
 
     private fun refresh() {
         analytics.logEvent("refresh", null)
-        viewModel.data.refresh()
+        lifecycleScope.launch { viewModel.refresh() }
     }
 
     private fun addOption() {
@@ -151,15 +151,16 @@ class StatusFragment: Fragment() {
         findNavController().navigate(R.id.action_status_to_correspondences)
     }
 
+    private fun openWebView() {
+        findNavController().navigate(R.id.action_status_to_web_view)
+    }
+
     private fun goToLogin() {
         findNavController().navigate(R.id.action_status_to_login2)
     }
 
 }
 
-class CoopDataViewModel(private val app: Application): AndroidViewModel(app) {
-
-    val data: LoadOnceLiveData<CoopData> by lazy {
-        liveData<Void, CoopData>(app.applicationContext) { it.getData() } }
-
-}
+class CoopDataViewModel(
+    app: Application
+): ApiDataViewModel<CoopData>(app, { { it.getData() } })

@@ -25,6 +25,7 @@ import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.MockCoopData.coopData2
 import de.lorenzgorse.coopmobile.fragments.StatusFragment
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
@@ -43,7 +44,7 @@ class StatusFragmentTest {
     private val prefs = context.getCoopSharedPreferences()
 
     @Test
-    fun testHappyPath() {
+    fun testHappyPath() { runBlocking {
         mockPreparedCoopClient()
 
         setLoadCount(5)
@@ -56,10 +57,10 @@ class StatusFragmentTest {
 
         assertThat(loadCount(), `is`(6))
         onView(withId(R.id.bannerRate)).check(matches(not(isDisplayed())))
-    }
+    } }
 
     @Test
-    fun testRateBanner() {
+    fun testRateBanner() { runBlocking {
         mockPreparedCoopClient()
 
         setFirstInstallTime(5.1)
@@ -75,10 +76,10 @@ class StatusFragmentTest {
 
         onView(withId(R.id.bannerRate)).check(matches(not(isDisplayed())))
         assertThat(ratingBannerDismissed(), `is`(true))
-    }
+    } }
 
     @Test
-    fun testRateBannerOk() {
+    fun testRateBannerOk() { runBlocking {
         mockPreparedCoopClient()
 
         setFirstInstallTime(5.1)
@@ -98,10 +99,10 @@ class StatusFragmentTest {
         intended(allOf(
             hasAction(Intent.ACTION_VIEW),
             hasData(Uri.parse("market://details?id=de.lorenzgorse.coopmobile"))))
-    }
+    } }
 
     @Test
-    fun testRateBannerDismissed() {
+    fun testRateBannerDismissed() { runBlocking {
         mockPreparedCoopClient()
 
         setFirstInstallTime(5.1)
@@ -112,10 +113,10 @@ class StatusFragmentTest {
 
         assertThat(loadCount(), `is`(91))
         onView(withId(R.id.bannerRate)).check(matches(not(isDisplayed())))
-    }
+    } }
 
     @Test
-    fun testRateBannerTooSoon() {
+    fun testRateBannerTooSoon() { runBlocking {
         mockPreparedCoopClient()
 
         setFirstInstallTime(4.9)
@@ -126,10 +127,10 @@ class StatusFragmentTest {
 
         assertThat(loadCount(), `is`(91))
         onView(withId(R.id.bannerRate)).check(matches(not(isDisplayed())))
-    }
+    } }
 
     @Test
-    fun noNetwork() {
+    fun noNetwork() { runBlocking {
         val coopClient = mockCoopClient()
         `when`(coopClient.getData()).thenThrow(UnknownHostException())
 
@@ -145,10 +146,10 @@ class StatusFragmentTest {
         onView(withId(R.id.txtPlanUnsupported)).check(matches(not(isDisplayed())))
 
         assertThat(loadCount(), `is`(5))
-    }
+    } }
 
     @Test
-    fun refreshSession() {
+    fun refreshSession() { runBlocking {
         val coopClient = mockExpiredCoopClient()
         `when`(coopClient.getData()).thenReturn(coopData1)
 
@@ -158,10 +159,10 @@ class StatusFragmentTest {
         onView(withId(R.id.layContent)).check(matches(isDisplayed()))
         onView(withId(R.id.layError)).check(matches(not(isDisplayed())))
         verify(coopClient).getData()
-    }
+    } }
 
     @Test
-    fun htmlChanged() {
+    fun htmlChanged() { runBlocking {
         val coopClient = mockCoopClient()
         `when`(coopClient.getData()).thenThrow(HtmlChangedException(Exception()))
 
@@ -173,10 +174,10 @@ class StatusFragmentTest {
         onView(withId(R.id.txtNoNetwork)).check(matches(not(isDisplayed())))
         onView(withId(R.id.txtUpdate)).check(matches(isDisplayed()))
         onView(withId(R.id.txtPlanUnsupported)).check(matches(not(isDisplayed())))
-    }
+    } }
 
     @Test
-    fun planUnsupported() {
+    fun planUnsupported() { runBlocking {
         val coopClient = mockCoopClient()
         `when`(coopClient.getData()).thenThrow(PlanUnsupported("wireless"))
 
@@ -188,10 +189,10 @@ class StatusFragmentTest {
         onView(withId(R.id.txtNoNetwork)).check(matches(not(isDisplayed())))
         onView(withId(R.id.txtUpdate)).check(matches(not(isDisplayed())))
         onView(withId(R.id.txtPlanUnsupported)).check(matches(isDisplayed()))
-    }
+    } }
 
     @Test
-    fun refresh() {
+    fun refresh() { runBlocking {
         val coopClient = mockCoopClient()
         `when`(coopClient.getData()).thenReturn(coopData1).thenReturn(coopData2)
 
@@ -210,7 +211,7 @@ class StatusFragmentTest {
         onView(withId(R.id.textCreditUnit)).check(matches(withText("CHF")))
         onView(withId(R.id.textCreditValue)).check(matches(withText("121,45")))
         onView(withId(R.id.consumptions)).check(matches(hasChildCount(2)))
-    }
+    } }
 
     private fun launchFragment() {
         navController = mock(NavController::class.java)

@@ -5,8 +5,9 @@ import android.content.SharedPreferences
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.FormBody
-import okhttp3.OkHttpClient
 import okhttp3.Response
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
@@ -77,36 +78,32 @@ interface CoopClient {
     }
 
     @Throws(IOException::class, CoopException::class)
-    fun getData(): CoopData
+    suspend fun getData(): CoopData
 
     @Throws(IOException::class, CoopException::class)
-    fun getConsumptionLog(): List<ConsumptionLogEntry>
+    suspend fun getConsumptionLog(): List<ConsumptionLogEntry>
 
     @Throws(IOException::class, CoopException::class)
-    fun getProducts(): List<Product>
+    suspend fun getProducts(): List<Product>
 
     @Throws(IOException::class, CoopException::class)
-    fun buyProduct(buySpec: ProductBuySpec): Boolean
+    suspend fun buyProduct(buySpec: ProductBuySpec): Boolean
 
     @Throws(IOException::class, CoopException::class)
-    fun getCorrespondeces(): List<CorrespondenceHeader>
+    suspend fun getCorrespondeces(): List<CorrespondenceHeader>
 
     @Throws(IOException::class, CoopException::class)
-    fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence
+    suspend fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence
 
 }
 
 class RealCoopClient(sessionId: String) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
-    private val cookieJar = StaticCookieJar(sessionId)
 
-    private var client = OkHttpClient.Builder()
-        .followRedirects(false)
-        .cookieJar(cookieJar)
-        .build()
+    private var client = HttpClient(StaticCookieJar(sessionId))
 
-    override fun getData(): CoopData {
+    override suspend fun getData(): CoopData {
         val html = getHtml(coopBaseAccount)
         return safeHtml {
             val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
@@ -130,7 +127,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return UnitValue(title, convert(sanitize(amount)), unit)
     }
 
-    override fun getConsumptionLog(): List<ConsumptionLogEntry> {
+    override suspend fun getConsumptionLog(): List<ConsumptionLogEntry> {
         val consumption = getJson<RawConsumptionLog>(
             "https://myaccount.coopmobile.ch/ajax_load_cdr")
         return consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
@@ -150,7 +147,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return DataConsumptionLogEntry(date, type, amount)
     }
 
-    override fun getProducts(): List<Product> {
+    override suspend fun getProducts(): List<Product> {
         val html = getHtml("$coopBaseAccount/add_product")
         return safeHtml { html.select(".add_product").map { parseProductBlock(it) } }
     }
@@ -198,7 +195,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return Product(name, description, price, buySpec)
     }
 
-    override fun buyProduct(buySpec: ProductBuySpec): Boolean {
+    override suspend fun buyProduct(buySpec: ProductBuySpec): Boolean {
         log.info("Buying according to $buySpec")
         val body = buySpec.parameters.let {
             val builder = FormBody.Builder()
@@ -212,7 +209,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return response.isRedirect || response.isSuccessful
     }
 
-    override fun getCorrespondeces(): List<CorrespondenceHeader> {
+    override suspend fun getCorrespondeces(): List<CorrespondenceHeader> {
         val html = getHtml("$coopBaseAccount/my_correspondence/index?limit=30")
         return safeHtml { html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
     }
@@ -225,20 +222,18 @@ class RealCoopClient(sessionId: String) : CoopClient {
         return CorrespondenceHeader(date, subject, details)
     }
 
-    override fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence {
+    override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence {
         return Correspondence(header, getCorrespondenceMessage(header.details))
     }
 
-    private fun getCorrespondenceMessage(url: URL): String {
-        val html = getHtml(url)
+    private suspend fun getCorrespondenceMessage(url: URL): String {
+        val html = getHtml(url.toString())
         return safeHtml { html.selectFirst(".panel__print__content").text() }
     }
 
-    private fun getHtml(url: String) = getHtml(URL(url))
-    private fun getHtml(url: URL) = client.getHtml(url, ::assertResponseSuccessful)
-    private inline fun <reified T> getJson(url: String): T = getJson(URL(url))
-    private inline fun <reified T> getJson(url: URL) =
-        client.getJson<T>(url, ::assertResponseSuccessful)
+    private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
+    private suspend inline fun <reified T> getJson(url: String): T =
+        client.getJson(url, ::assertResponseSuccessful)
 
     companion object {
 
@@ -278,7 +273,7 @@ class RealCoopClient(sessionId: String) : CoopClient {
 
 interface CoopLogin {
     @Throws(IOException::class)
-    fun login(username: String, password: String): String?
+    suspend fun login(username: String, password: String): String?
 }
 
 class RealCoopLogin : CoopLogin {
@@ -290,12 +285,9 @@ class RealCoopLogin : CoopLogin {
      * the login is not successful, `null` is returned. Reasons for unsuccessful logins include a
      * wrong username or password or a server error.
      */
-    override fun login(username: String, password: String): String? {
+    override suspend fun login(username: String, password: String): String? {
         val cookieJar = SessionCookieJar()
-        val client = OkHttpClient.Builder()
-            .followRedirects(false)
-            .cookieJar(cookieJar)
-            .build()
+        val client = HttpClient(cookieJar)
 
         log.info("Requesting $coopBaseLogin")
         val loginFormHtml = client.getHtml(coopBaseLogin)
@@ -324,7 +316,7 @@ class RealCoopLogin : CoopLogin {
         val loginResponse = client.post(coopBaseLogin, formBody)
         log.info("Login response status code is ${loginResponse.code}")
 
-        val location = loginResponse.header("Location")
+        val location = loginResponse.headers["Location"]
         log.info("Login redirect URL is $location")
 
         val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/[a-z]+/home")
@@ -342,41 +334,38 @@ class RealCoopLogin : CoopLogin {
 
 
 interface CoopClientFactory {
-    fun get(context: Context): CoopClient?
-    fun refresh(context: Context, invalidateSession: Boolean = false): CoopClient?
+    suspend fun get(context: Context): CoopClient?
+    suspend fun refresh(context: Context, invalidateSession: Boolean = false): CoopClient?
 }
 
 class RealCoopClientFactory : CoopClientFactory {
 
     private var instance: CoopClient? = null
 
-    override fun get(context: Context): CoopClient? {
-        synchronized(this) {
-            if (instance == null) {
-                refresh(context)
-            }
-            return instance
+    private val refreshMtx = Mutex()
+    override suspend fun get(context: Context): CoopClient? = refreshMtx.withLock {
+        if (instance == null) {
+            refresh(context)
         }
+        return instance
     }
 
-    override fun refresh(context: Context, invalidateSession: Boolean): CoopClient? {
-        synchronized(this) {
-            val sessionId = if (invalidateSession) {
-                newSessionFromSavedCredentials(context)
-            } else {
-                loadSavedSession(context) ?: newSessionFromSavedCredentials(context)
-            }
-            return if (sessionId != null) {
-                writeSession(context, sessionId)
-                instance = RealCoopClient(sessionId)
-                instance
-            } else null
-        }
+    override suspend fun refresh(context: Context, invalidateSession: Boolean): CoopClient? {
+        val sessionId = newSession(context, invalidateSession) ?: return null
+        return RealCoopClient(sessionId).also { instance = it }
     }
 
-    private fun newSessionFromSavedCredentials(context: Context): String? {
-        val (username, password) = loadSavedCredentials(context) ?: return null
-        return coopLogin.login(username, password)
+    private val sessionMtx = Mutex()
+    private suspend fun newSession(context: Context, invalidateSession: Boolean): String? = sessionMtx.withLock {
+        val sessionId = if (invalidateSession) {
+            newSessionFromSavedCredentials(context)
+        } else {
+            loadSavedSession(context) ?: newSessionFromSavedCredentials(context)
+        }
+        if (sessionId != null) {
+            writeSession(context, sessionId)
+        }
+        sessionId
     }
 
 }
@@ -391,6 +380,11 @@ fun writeSession(context: Context, sessionId: String) {
 
 fun clearSession(context: Context) {
     context.getCoopSharedPreferences().edit().remove("session").apply()
+}
+
+suspend fun newSessionFromSavedCredentials(context: Context): String? {
+    val (username, password) = loadSavedCredentials(context) ?: return null
+    return coopLogin.login(username, password)
 }
 
 fun loadSavedCredentials(context: Context): Pair<String, String>? {

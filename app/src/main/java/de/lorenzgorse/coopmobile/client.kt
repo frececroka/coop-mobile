@@ -1,36 +1,45 @@
 package de.lorenzgorse.coopmobile
 
 import com.google.gson.Gson
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.net.URL
 
-fun OkHttpClient.get(url: URL): Response {
-    val statusRequest = Request.Builder().get().url(url).build()
-    return newCall(statusRequest).execute()
-}
+class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
 
-inline fun <reified T> OkHttpClient.getJson(url: URL, check: (Response) -> Unit): T =
-    Gson().fromJson(getText(url, check), T::class.java)
+    private val client = OkHttpClient.Builder()
+        .followRedirects(false)
+        .cookieJar(cookieJar)
+        .build()
 
-fun OkHttpClient.getHtml(url: String): Document =
-    getHtml(URL(url)) {}
-inline fun OkHttpClient.getHtml(url: String, check: (Response) -> Unit): Document =
-    getHtml(URL(url), check)
-inline fun OkHttpClient.getHtml(url: URL, check: (Response) -> Unit): Document =
-    Jsoup.parse(getText(url, check))
+    suspend inline fun <reified T> getJson(url: String, noinline check: (Response) -> Unit): T =
+        Gson().fromJson(getText(url, check), T::class.java)
 
-inline fun OkHttpClient.getText(url: URL, check: (Response) -> Unit): String {
-    val response = get(url).also(check)
-    return response.body!!.string()
-}
+    suspend fun getHtml(url: String, check: (Response) -> Unit = {}): Document =
+        Jsoup.parse(getText(url, check))
 
-fun OkHttpClient.post(url: String, body: FormBody) = post(URL(url), body)
-fun OkHttpClient.post(url: URL, body: FormBody): Response {
-    val statusRequest = Request.Builder().post(body).url(url).build()
-    return newCall(statusRequest).execute()
+    suspend fun getText(url: String, check: (Response) -> Unit = {}): String =
+        withContext(Dispatchers.IO) { get(url, check).body!!.string() }
+
+    private suspend fun get(url: String, check: (Response) -> Unit): Response {
+        val request = Request.Builder().get().url(url).build()
+        return call(request, check)
+    }
+
+    suspend fun post(url: String, body: FormBody) =
+        post(URL(url), body)
+
+    suspend fun post(url: URL, body: FormBody): Response {
+        val request = Request.Builder().post(body).url(url).build()
+        return call(request)
+    }
+
+    private suspend fun call(request: Request, check: (Response) -> Unit = {}) =
+        withContext(Dispatchers.IO) {
+            client.newCall(request).execute().also(check)
+        }
+
 }

@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.PlanUnsupported
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.UnauthorizedException
+import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
@@ -18,32 +19,32 @@ class CoopClientTest {
     private val wrongPassword = "supersecret"
 
     private val client by lazy {
-        val sessionId = RealCoopLogin().login(username, password)
+        val sessionId = runBlocking { RealCoopLogin().login(username, password) }
         RealCoopClient(sessionId!!)
     }
 
     private val expiredClient = RealCoopClient("23847329847324")
 
     @Test
-    fun testLogin() {
+    fun testLogin() = runBlocking {
         val sessionId = RealCoopLogin().login(username, password)
         assertThat(sessionId, not(nullValue()))
     }
 
     @Test
-    fun testLoginWrongUsername() {
+    fun testLoginWrongUsername() = runBlocking {
         val sessionId = RealCoopLogin().login(wrongUsername, password)
         assertThat(sessionId, nullValue())
     }
 
     @Test
-    fun testLoginWrongPassword() {
+    fun testLoginWrongPassword() = runBlocking {
         val sessionId = RealCoopLogin().login(username, wrongPassword)
         assertThat(sessionId, nullValue())
     }
 
     @Test
-    fun testLoadData() {
+    fun testLoadData() = runBlocking {
         val data = client.getData()
         assertThat(data.credit, not(nullValue()))
         assertThat(data.consumptions, hasSize(2))
@@ -52,7 +53,7 @@ class CoopClientTest {
     }
 
     @Test
-    fun testLoadProducts() {
+    fun testLoadProducts() = runBlocking {
         val products = client.getProducts()
         assertThat(products, not(empty()))
         assertThat(products.map { it.name }, everyItem(not(emptyString())))
@@ -61,7 +62,7 @@ class CoopClientTest {
     }
 
     @Test
-    fun testLoadCorrespondences() {
+    fun testLoadCorrespondences() = runBlocking {
         val correspondences = client.getCorrespondeces()
         assertThat(correspondences, not(empty()))
         assertThat(correspondences.map { it.subject }, everyItem(not(emptyString())))
@@ -71,19 +72,19 @@ class CoopClientTest {
     }
 
     @Test(expected = UnauthorizedException::class)
-    fun testLoadDataInvalidSession() {
+    fun testLoadDataInvalidSession() { runBlocking {
         expiredClient.getData()
-    }
+    } }
 
     @Test(expected = UnauthorizedException::class)
-    fun testLoadProductsInvalidSession() {
+    fun testLoadProductsInvalidSession() { runBlocking {
         expiredClient.getProducts()
-    }
+    } }
 
     @Test(expected = UnauthorizedException::class)
-    fun testLoadCorrespondencesInvalidSession() {
+    fun testLoadCorrespondencesInvalidSession() { runBlocking {
         expiredClient.getCorrespondeces()
-    }
+    } }
 
     @Test(expected = UnauthorizedException::class)
     fun testAssertResponseSuccessfulSessionExpired() {

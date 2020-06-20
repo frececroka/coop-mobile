@@ -12,14 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.LoadOnceLiveData.Value
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import org.slf4j.LoggerFactory
 
@@ -129,10 +127,6 @@ class AddProductFragment : Fragment() {
 
 }
 
-class ProductsViewModel(private val app: Application) : AndroidViewModel(app) {
-
-    val data: LoadOnceLiveData<List<Product>> by lazy {
-        liveData<Void, List<Product>>(app.applicationContext) { it.getProducts() } }
-
-}
-
+class ProductsViewModel(
+    app: Application
+) : ApiDataViewModel<List<Product>>(app, { { it.getProducts() } })

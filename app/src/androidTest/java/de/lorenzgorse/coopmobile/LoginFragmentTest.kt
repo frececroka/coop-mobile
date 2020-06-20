@@ -13,13 +13,14 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import de.lorenzgorse.coopmobile.fragments.LoginFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Matchers.anyString
 import org.mockito.Mockito.*
 import java.net.UnknownHostException
 
@@ -45,7 +46,7 @@ class LoginFragmentTest {
     }
 
     @Test
-    fun login() {
+    fun login() { runBlocking {
         val coopLogin = mockCoopLogin()
         val sessionId = "2384234820943"
         `when`(coopLogin.login(username, password)).thenReturn(sessionId)
@@ -53,25 +54,25 @@ class LoginFragmentTest {
         verify(navController).navigate(R.id.action_login_to_status2)
         assertThat(loadSavedSession(context), equalTo(sessionId))
         assertThat(loadSavedCredentials(context), equalTo(Pair(username, password)))
-    }
+    } }
 
     @Test
-    fun loginNoNetwork() {
+    fun loginNoNetwork() { runBlocking {
         val coopLogin = mockCoopLogin()
         `when`(coopLogin.login(anyString(), anyString())).thenThrow(UnknownHostException())
         doLogin()
         onView(withId(R.id.txtNoNetwork)).check(matches(isDisplayed()))
         onView(withId(R.id.txtLoginFailed)).check(matches(not(isDisplayed())))
-    }
+    } }
 
     @Test
-    fun loginErrorResponse() {
+    fun loginErrorResponse() { runBlocking {
         val coopLogin = mockCoopLogin()
         `when`(coopLogin.login(anyString(), anyString())).thenReturn(null)
         doLogin()
         onView(withId(R.id.txtNoNetwork)).check(matches(not(isDisplayed())))
         onView(withId(R.id.txtLoginFailed)).check(matches(isDisplayed()))
-    }
+    } }
 
     private fun doLogin() {
         onView(withId(R.id.txtUsername)).perform(typeText(username))

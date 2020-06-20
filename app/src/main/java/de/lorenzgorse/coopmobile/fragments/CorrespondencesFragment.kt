@@ -9,13 +9,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.LoadOnceLiveData.Value
 import kotlinx.android.synthetic.main.fragment_correspondences.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,7 +44,7 @@ class CorrespondencesFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         analytics.setCurrentScreen(requireActivity(), "Correspondences", null)
-        viewModel.correspondences.observe(this, Observer(::setData))
+        viewModel.data.observe(this, Observer(::setData))
     }
 
     private fun setData(data: Value<List<Correspondence>>?) {
@@ -63,7 +61,7 @@ class CorrespondencesFragment : Fragment() {
                     ::showPlanUnsupported,
                     ::goToLogin)
             is Value.Success ->
-                onSuccess(data)
+                onSuccess(data.value)
         }
     }
 
@@ -93,9 +91,9 @@ class CorrespondencesFragment : Fragment() {
         findNavController().navigate(R.id.action_correspondences_to_login)
     }
 
-    private fun onSuccess(data: Value.Success<List<Correspondence>>) {
+    private fun onSuccess(data: List<Correspondence>) {
         linCorrespondences.removeAllViews()
-        for (correspondence in data.value) {
+        for (correspondence in data) {
             val productItemView = inflater.inflate(
                 R.layout.correspondence, linCorrespondences, false)
             val txtDate = productItemView.findViewById<TextView>(R.id.txtDate)
@@ -113,49 +111,12 @@ class CorrespondencesFragment : Fragment() {
 
 }
 
-class CorrespondencesViewModel(private val app: Application): AndroidViewModel(app) {
-
-    val correspondences: CorrespondencesLiveData by lazy {
-        CorrespondencesLiveData(app.applicationContext) }
-
-}
-
-class CorrespondencesLiveData(
-    private val context: Context
-): LoadOnceLiveData<List<Correspondence>>() {
-
-    override fun loadValue() {
-        LoadCorrespondences(context, ::setProgress, ::setFailure, ::setSuccess).execute()
+class CorrespondencesViewModel(
+    app: Application
+): ApiDataViewModel<List<Correspondence>>(app, { progress -> { client ->
+    val correspondences = client.getCorrespondeces()
+    correspondences.mapIndexed { i, c ->
+        client.augmentCorrespondence(c).also {
+            progress(i, correspondences.size) }
     }
-
-}
-
-class LoadCorrespondences(context: Context,
-                          val setProgress: (Int, Int) -> Unit,
-                          val setFailure: (LoadDataError) -> Unit,
-                          val setSuccess: (List<Correspondence>) -> Unit
-) : LoadDataAsyncTask<Int, List<Correspondence>>(context) {
-
-    private var currentProgress = 0
-
-    override fun loadData(client: CoopClient): List<Correspondence> {
-        val correspondences = client.getCorrespondeces()
-        return correspondences.map {
-            client.augmentCorrespondence(it).also { publishProgress(1, correspondences.size) }
-        }
-    }
-
-    override fun onProgressUpdate(vararg values: Int?) {
-        currentProgress += values[0]!!
-        setProgress(currentProgress, values[1]!!)
-    }
-
-    override fun onFailure(error: LoadDataError) {
-        setFailure(error)
-    }
-
-    override fun onSuccess(result: List<Correspondence>) {
-        setSuccess(result)
-    }
-
-}
+} })

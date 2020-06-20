@@ -1,8 +1,6 @@
 package de.lorenzgorse.coopmobile.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
@@ -15,16 +13,18 @@ import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.HtmlChangedException
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
-import de.lorenzgorse.coopmobile.fragments.LoginFragment.LoginStatus.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.io.IOException
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.regex.Pattern
 
 val phoneRegex = Pattern.compile("0[0-9\\s]{5,14}").toRegex()
@@ -40,8 +40,10 @@ val emailRegex = Pattern.compile(
 class LoginFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
     private lateinit var analytics: FirebaseAnalytics
-    private var authTask: UserLoginTask? = null
+
+    private val loginInProgress = AtomicBoolean(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,12 +63,14 @@ class LoginFragment : Fragment() {
 
         txtPassword.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_SEND -> { attemptLogin(); true }
+                EditorInfo.IME_ACTION_SEND -> { lifecycleScope.launch { attemptLoginGuard() }; true }
                 else -> false
             }
         }
 
-        btLogin.setOnClickListener { attemptLogin() }
+        btLogin.setOnClickListener {
+            lifecycleScope.launch { attemptLoginGuard() }
+        }
     }
 
     override fun onStart() {
@@ -74,13 +78,22 @@ class LoginFragment : Fragment() {
         analytics.setCurrentScreen(requireActivity(), "Login", null)
     }
 
-    private fun attemptLogin() {
+    private suspend fun attemptLoginGuard() {
         log.info("Starting login.")
 
-        if (authTask != null) {
+        if (!loginInProgress.compareAndSet(false, true)) {
             log.info("Aborting attempt, because another login task is currently running.")
             return
         }
+
+        try {
+            attemptLogin()
+        } finally {
+            loginInProgress.compareAndSet(true, false)
+        }
+    }
+
+    private suspend fun attemptLogin() {
 
         val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(txtUsername.windowToken, 0)
@@ -91,13 +104,13 @@ class LoginFragment : Fragment() {
         txtPassword.error = null
 
         // Store values at the time of the LoginFragment attempt.
-        val usernameStr = txtUsername.text.toString()
-        val passwordStr = txtPassword.text.toString()
+        val username = txtUsername.text.toString()
+        val password = txtPassword.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
-        if (TextUtils.isEmpty(passwordStr)) {
+        if (TextUtils.isEmpty(password)) {
             log.info("Cancelling login, because the password is empty.")
             analytics.logEvent("password_empty", null)
             txtPassword.error = getString(R.string.error_field_required)
@@ -106,13 +119,13 @@ class LoginFragment : Fragment() {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(usernameStr)) {
+        if (TextUtils.isEmpty(username)) {
             log.info("Cancelling login, because the username is empty.")
             analytics.logEvent("username_empty", null)
             txtUsername.error = getString(R.string.error_field_required)
             focusView = txtUsername
             cancel = true
-        } else if (!isUsernameValid(usernameStr)) {
+        } else if (!isUsernameValid(username)) {
             log.info("Cancelling login, because the username is invalid.")
             analytics.logEvent("username_invalid", null)
             txtUsername.error = getString(R.string.error_invalid_username)
@@ -122,11 +135,44 @@ class LoginFragment : Fragment() {
 
         if (cancel) {
             focusView?.requestFocus()
+            return
+        }
+
+        showProgress(true)
+
+        log.info("Performing login.")
+        analytics.logEvent("try_login", null)
+        analytics.logEventOnce(requireContext(), "onb_try_login", null)
+
+        val sessionId = try {
+            log.info("Trying to obtain session ID using provided username and password.")
+            coopLogin.login(username, password)
+        } catch (e: IOException) {
+            log.error("No network connection available.")
+            analytics.logEvent("no_network", null)
+            showProgress(false)
+            txtNoNetwork.visibility = View.VISIBLE
+            return
+        } catch (e: HtmlChangedException) {
+            log.error("HTML structure changed unexpectedly.", e)
+            firebaseCrashlytics().recordException(e)
+            showProgress(false)
+            Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
+            return
+        }
+
+        return if (sessionId != null) {
+            log.info("Obtained session ID.")
+            analytics.logEvent("auth_success", null)
+            analytics.logEventOnce(requireContext(), "onb_auth_success", null)
+            writeCredentials(requireContext(), username, password)
+            writeSession(requireContext(), sessionId)
+            findNavController().navigate(R.id.action_login_to_status2)
         } else {
-            showProgress(true)
-            val newAuthTask = UserLoginTask(usernameStr, passwordStr)
-            newAuthTask.execute(null as Void?)
-            authTask = newAuthTask
+            log.info("Did not receive any session ID.")
+            analytics.logEvent("auth_failed", null)
+            showProgress(false)
+            txtLoginFailed.visibility = View.VISIBLE
         }
     }
 
@@ -137,82 +183,6 @@ class LoginFragment : Fragment() {
     private fun showProgress(show: Boolean) {
         login_form?.visibility = if (show) View.GONE else View.VISIBLE
         loading?.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    enum class LoginStatus {
-        Success,
-        NoNetwork,
-        HtmlChanged,
-        AuthFailed
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    inner class UserLoginTask(
-        private val username: String,
-        private val password: String
-    ) : AsyncTask<Void, Void, LoginStatus>() {
-
-        override fun onPreExecute() {
-            txtNoNetwork.visibility = View.GONE
-            txtLoginFailed.visibility = View.GONE
-        }
-
-        override fun doInBackground(vararg params: Void): LoginStatus {
-            log.info("Performing login.")
-            analytics.logEvent("try_login", null)
-            analytics.logEventOnce(requireContext(), "onb_try_login", null)
-            val sessionId = try {
-                log.info("Trying to obtain session ID using provided username and password.")
-                coopLogin.login(username, password)
-            } catch (e: IOException) {
-                log.error("No network connection available.")
-                analytics.logEvent("no_network", null)
-                return NoNetwork
-            } catch (e: HtmlChangedException) {
-                log.error("HTML structure changed unexpectedly.", e)
-                firebaseCrashlytics().recordException(e)
-                return HtmlChanged
-            }
-            return if (sessionId != null) {
-                log.info("Obtained session ID.")
-                analytics.logEvent("auth_success", null)
-                analytics.logEventOnce(requireContext(), "onb_auth_success", null)
-                writeCredentials(requireContext(), username, password)
-                writeSession(requireContext(), sessionId)
-                Success
-            } else {
-                log.info("Did not receive any session ID.")
-                analytics.logEvent("auth_failed", null)
-                AuthFailed
-            }
-        }
-
-        override fun onPostExecute(result: LoginStatus?) {
-            authTask = null
-            when (result) {
-                Success ->
-                    findNavController().navigate(R.id.action_login_to_status2)
-                AuthFailed -> {
-                    showProgress(false)
-                    txtLoginFailed.visibility = View.VISIBLE
-                }
-                NoNetwork -> {
-                    showProgress(false)
-                    txtNoNetwork.visibility = View.VISIBLE
-                }
-                HtmlChanged -> {
-                    showProgress(false)
-                    Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        override fun onCancelled() {
-            log.info("Login task cancelled.")
-            authTask = null
-            showProgress(false)
-        }
-
     }
 
 }

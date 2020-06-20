@@ -1,6 +1,5 @@
 package de.lorenzgorse.coopmobile.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
@@ -14,9 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 class BuyProductFragment : Fragment() {
@@ -63,7 +64,7 @@ class BuyProductFragment : Fragment() {
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult?
                 ) {
-                    buyProduct()
+                    lifecycleScope.launch { buyProduct() }
                 }
 
                 override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
@@ -93,7 +94,7 @@ class BuyProductFragment : Fragment() {
                     override fun parseResult(resultCode: Int, intent: Intent?) = resultCode
                 }) {
                     if (it == Activity.RESULT_OK) {
-                        buyProduct()
+                        lifecycleScope.launch { buyProduct() }
                     } else {
                         authentificationFailed()
                     }
@@ -117,35 +118,27 @@ class BuyProductFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun buyProduct() {
-//        BuyProduct(productBuySpec).execute()
+    @Suppress("UNREACHABLE_CODE")
+    private suspend fun buyProduct() {
         notify(R.string.buy_option_not_available)
         findNavController().popBackStack()
-    }
 
-    @SuppressLint("StaticFieldLeak")
-    inner class BuyProduct(
-        private val buySpec: ProductBuySpec
-    ) : LoadDataAsyncTask<Void, Boolean>(requireContext()) {
+        return
 
-        override fun loadData(client: CoopClient): Boolean {
-            return client.buyProduct(buySpec)
-        }
-
-        override fun onSuccess(result: Boolean) {
-            findNavController().popBackStack()
-            if (result) {
-                notify(R.string.bought)
-            } else {
+        when (val result = loadData(requireContext()) { it.buyProduct(productBuySpec) }) {
+            is Either.Left -> {
+                findNavController().popBackStack()
                 notify(R.string.buying_failed)
             }
+            is Either.Right -> {
+                findNavController().popBackStack()
+                if (result.value) {
+                    notify(R.string.bought)
+                } else {
+                    notify(R.string.buying_failed)
+                }
+            }
         }
-
-        override fun onFailure(error: LoadDataError) {
-            findNavController().popBackStack()
-            notify(R.string.buying_failed)
-        }
-
     }
 
 }
