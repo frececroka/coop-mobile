@@ -112,7 +112,7 @@ class LoginFragment : Fragment() {
             txtUsername.error = getString(R.string.error_field_required)
             focusView = txtUsername
             cancel = true
-        } else if (!isIUsernameValid(usernameStr)) {
+        } else if (!isUsernameValid(usernameStr)) {
             log.info("Cancelling login, because the username is invalid.")
             analytics.logEvent("username_invalid", null)
             txtUsername.error = getString(R.string.error_invalid_username)
@@ -130,7 +130,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isIUsernameValid(username: String): Boolean {
+    private fun isUsernameValid(username: String): Boolean {
         return username.matches(phoneRegex) || username.matches(emailRegex)
     }
 
