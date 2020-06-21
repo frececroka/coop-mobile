@@ -21,13 +21,9 @@ fun handleLoadDataError(
 }
 
 fun Fragment.notify(msg: Int) {
-    view.doMaybe { Snackbar.make(it, msg, 5000).show() }
+    view?.let { Snackbar.make(it, msg, 5000).show() }
 }
 
 fun Fragment.notify(msg: CharSequence) {
-    view.doMaybe { Snackbar.make(it, msg, 5000).show() }
-}
-
-fun <T> T?.doMaybe(block: (T) -> Unit) {
-    if (this != null) block(this)
+    view?.let { Snackbar.make(it, msg, 5000).show() }
 }
