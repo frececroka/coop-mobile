@@ -38,4 +38,5 @@
     <string name="device_not_secure">The device must be secured with a PIN or password to buy options.</string>
     <string name="authentication_unsuccessful">Authentification was unsuccessful.</string>
     <string name="confirm_purchase">Confirm purchase</string>
+    <string name="title_web_view">Open Web Browser</string>
 </resources>

@@ -95,9 +95,11 @@ interface CoopClient {
     @Throws(IOException::class, CoopException::class)
     suspend fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence
 
+    fun sessionId(): String
+
 }
 
-class RealCoopClient(sessionId: String) : CoopClient {
+class RealCoopClient(private val sessionId: String) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -230,6 +232,8 @@ class RealCoopClient(sessionId: String) : CoopClient {
         val html = getHtml(url.toString())
         return safeHtml { html.selectFirst(".panel__print__content").text() }
     }
+
+    override fun sessionId() = sessionId
 
     private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
     private suspend inline fun <reified T> getJson(url: String): T =
