@@ -57,8 +57,24 @@ class WebViewFragment : Fragment() {
         // Initialize the web view.
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = MyWebViewClient()
+    }
 
-        lifecycleScope.launch { loadCockpit() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val webViewBundle = savedInstanceState?.getBundle("webView")
+        if (webViewBundle == null) {
+            lifecycleScope.launch { loadCockpit() }
+        } else {
+            webView.restoreState(webViewBundle)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val webViewBundle = Bundle()
+        webView.saveState(webViewBundle)
+        outState.putBundle("webView", webViewBundle)
     }
 
     private suspend fun loadCockpit() {
