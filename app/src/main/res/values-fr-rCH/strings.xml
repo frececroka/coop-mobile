@@ -24,4 +24,5 @@
     <string name="error_login_failed">E-mail ou mot de passe incorrect.</string>
     <string name="credits">Credits</string>
     <string name="title_credits">Credits</string>
+    <string name="title_web_view">Web Cockpit</string>
 </resources>

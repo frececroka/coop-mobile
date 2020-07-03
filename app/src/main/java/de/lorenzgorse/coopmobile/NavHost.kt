@@ -40,6 +40,9 @@ class NavHost : AppCompatActivity() {
             R.id.correspondences -> {
                 toolbar.title = getString(R.string.title_messages)
             }
+            R.id.web_view -> {
+                toolbar.title = getString(R.string.title_web_view)
+            }
         }
     }
 

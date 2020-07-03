@@ -11,6 +11,7 @@
     <string name="title_messages">Nachrichten</string>
     <string name="title_login">Login</string>
     <string name="title_credits">Credits</string>
+    <string name="title_web_view">Web Cockpit</string>
 
     <!-- Login -->
     <string name="login">Login</string>

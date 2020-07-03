@@ -27,4 +27,5 @@
     <string name="privacy_policy"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
     <string name="credits">Credits</string>
     <string name="title_credits">Credits</string>
+    <string name="title_web_view">Web Cockpit</string>
 </resources>
