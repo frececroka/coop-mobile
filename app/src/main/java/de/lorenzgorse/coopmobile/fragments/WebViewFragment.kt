@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.IOException
 import java.util.*
 
 class WebViewFragment : Fragment() {
@@ -103,6 +104,7 @@ class WebViewFragment : Fragment() {
     }
 
     inner class MyWebViewClient : WebViewClient() {
+
         override fun shouldOverrideUrlLoading(
             view: WebView?,
             request: WebResourceRequest?
@@ -111,7 +113,23 @@ class WebViewFragment : Fragment() {
             if (url != null) {
                 lifecycleScope.launch { onLoadUrl(url) }
             }
+
+            progressBar.progress = 0
+            progressBar.visibility = View.VISIBLE
+
             return super.shouldOverrideUrlLoading(view, request)
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            progressBar.visibility = View.GONE
+        }
+
+        override fun onLoadResource(view: WebView?, url: String?) {
+            super.onLoadResource(view, url)
+            val max = progressBar.max
+            val current = progressBar.progress
+            progressBar.progress = current + (max - current)/10
         }
     }
 
