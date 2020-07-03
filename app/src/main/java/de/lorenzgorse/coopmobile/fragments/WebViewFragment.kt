@@ -152,7 +152,13 @@ class WebViewFragment : Fragment() {
         // We will try to login now.
         lastLogin = Date()
 
-        val coopClient = coopClientFactory.refresh(requireContext(), true)
+        val coopClient = try {
+            coopClientFactory.refresh(requireContext(), true)
+        } catch (e: IOException) {
+            // TODO: Show network error.
+            return
+        }
+
         if (coopClient == null) {
             // We couldn't refresh the session, this indicates a problem with authentication. Bail
             // out and send the user to the login screen.
