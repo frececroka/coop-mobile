@@ -10,10 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Create Change Log
-      run: ./whatsnew.sh
     - name: Load Keystore
       run: |
         echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
@@ -46,4 +42,3 @@ jobs:
         packageName: de.lorenzgorse.coopmobile
         releaseFile: app/build/outputs/bundle/release/app-release.aab
         track: beta
-        whatsNewDirectory: whatsnew
