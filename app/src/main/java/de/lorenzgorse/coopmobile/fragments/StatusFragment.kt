@@ -19,12 +19,14 @@ class StatusFragment: Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CoopDataViewModel
+    private lateinit var combox: Combox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         analytics = createAnalytics(requireContext())
         viewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
+        combox = Combox(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -37,7 +39,7 @@ class StatusFragment: Fragment() {
             R.id.itRefresh -> { refresh(); true }
             R.id.itAddOption -> { addOption(); true }
             R.id.itCorrespondences -> { viewCorrespondences(); true }
-            R.id.itCombox -> { Combox(this).launch(); true }
+            R.id.itCombox -> { launchCombox(); true }
             R.id.itWebView -> { openWebView(); true }
             R.id.itLogout -> { logout(); true }
             R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
@@ -151,6 +153,10 @@ class StatusFragment: Fragment() {
 
     private fun viewCorrespondences() {
         findNavController().navigate(R.id.action_status_to_correspondences)
+    }
+
+    private fun launchCombox() {
+        lifecycleScope.launch { combox.launch() }
     }
 
     private fun openWebView() {
