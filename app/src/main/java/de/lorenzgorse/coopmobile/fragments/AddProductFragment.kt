@@ -9,16 +9,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.*
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
 class AddProductFragment : Fragment() {
@@ -94,8 +95,8 @@ class AddProductFragment : Fragment() {
             productItemView.findViewById<TextView>(R.id.txtName).text = product.name
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price
             productItemView.findViewById<TextView>(R.id.txtDescription).text = product.description
-            productItemView.findViewById<LinearLayout>(R.id.linProduct)
-                .setOnClickListener { confirmBuyProduct(product) }
+            productItemView.findViewById<LinearLayout>(R.id.linProduct).setOnClickListener {
+                lifecycleScope.launch { confirmBuyProduct(product) } }
             linProducts.addView(productItemView)
         }
         loading.visibility = View.GONE
@@ -107,20 +108,22 @@ class AddProductFragment : Fragment() {
         findNavController().navigate(R.id.action_add_product_to_login2)
     }
 
-    private fun confirmBuyProduct(product: Product) {
+    private suspend fun confirmBuyProduct(product: Product) {
         if (remoteConfig.getBoolean("buy_option_enabled")) {
-            AlertDialog.Builder(requireContext())
+            val result = AlertDialogBuilder(requireContext())
                 .setTitle(R.string.buy_confirm_title)
                 .setMessage(resources.getString(R.string.buy_confirm_message, product.name, product.price))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    val data = bundleOf("product" to product.buySpec)
-                    findNavController().navigate(R.id.action_add_product_to_buy_product, data) }
+                .setNegativeButton(R.string.no)
+                .setPositiveButton(R.string.yes)
                 .show()
+            if (result == AlertDialogChoice.POSITIVE) {
+                val data = bundleOf("product" to product.buySpec)
+                findNavController().navigate(R.id.action_add_product_to_buy_product, data)
+            }
         } else {
-            AlertDialog.Builder(requireContext())
-                .setMessage(getString(R.string.buy_option_not_available))
-                .setNeutralButton(getString(R.string.okay), null)
+            AlertDialogBuilder(requireContext())
+                .setMessage(R.string.buy_option_not_available)
+                .setNeutralButton(R.string.okay)
                 .show()
         }
     }

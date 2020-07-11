@@ -30,6 +30,11 @@ class AlertDialogBuilder(context: Context) {
         return this
     }
 
+    fun setMessage(string: String): AlertDialogBuilder {
+        builder.setMessage(string)
+        return this
+    }
+
     fun setPositiveButton(textId: Int): AlertDialogBuilder {
         positiveButton = textId
         return this
