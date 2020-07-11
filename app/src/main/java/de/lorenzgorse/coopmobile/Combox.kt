@@ -13,10 +13,6 @@ class Combox(private val fragment: Fragment) {
 
     private val context = fragment.requireContext()
 
-    companion object {
-        const val comboxNumber = "tel:+41794997979"
-    }
-
     fun launch() {
         val result = ContextCompat.checkSelfPermission(context, CALL_PHONE)
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -56,7 +52,7 @@ class Combox(private val fragment: Fragment) {
     }
 
     private fun callComboxWithAction(action: String) {
-        val callUri = Uri.parse(comboxNumber)
+        val callUri = Uri.parse("tel:+41794997979")
         val intent = Intent(action, callUri)
         context.startActivity(intent)
     }
