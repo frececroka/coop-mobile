@@ -4,6 +4,7 @@
     <string name="title_messages">Messages</string>
     <string name="title_buy_option">Add Option</string>
 
+    <string name="title_combox" translatable="false">Combox</string>
     <string name="title_web_view" translatable="false">Web Cockpit</string>
 
     <string name="title_logout">Logout</string>

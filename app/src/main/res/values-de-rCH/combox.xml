@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="combox_request_title">Anrufe erlauben?</string>
+    <string name="combox_request_message">Der nächste Dialog wird um Erlaubnis beten, selbständig Anrufe zu tätigen. Wenn du es erlaubst, wird die Combox sofort angerufen. Ansonsten wird die Telefon-App mit der vorausgefüllten Combox Nummer gestartet und du kannst den Anruf manuell bestätigen.</string>
+</resources>

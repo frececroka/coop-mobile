@@ -37,6 +37,7 @@ class StatusFragment: Fragment() {
             R.id.itRefresh -> { refresh(); true }
             R.id.itAddOption -> { addOption(); true }
             R.id.itCorrespondences -> { viewCorrespondences(); true }
+            R.id.itCombox -> { Combox(this).launch(); true }
             R.id.itWebView -> { openWebView(); true }
             R.id.itLogout -> { logout(); true }
             R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
