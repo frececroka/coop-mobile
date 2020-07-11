@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_overview">Übersicht</string>
+    <string name="title_messages">Nachrichten</string>
+    <string name="title_buy_option">Option buchen</string>
+
+    <string name="title_login">Login</string>
+    <string name="title_logout">Logout</string>
+</resources>

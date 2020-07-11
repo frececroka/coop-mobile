@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_overview">Overview</string>
+    <string name="title_messages">Messages</string>
+    <string name="title_buy_option">Add Option</string>
+
+    <string name="title_web_view" translatable="false">Web Cockpit</string>
+
+    <string name="title_logout">Logout</string>
+    <string name="title_login">Login</string>
+</resources>

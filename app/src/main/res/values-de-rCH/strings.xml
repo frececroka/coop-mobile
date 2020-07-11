@@ -5,48 +5,11 @@
     <string name="no">Nein</string>
     <string name="okay">Okay</string>
 
-    <!-- Fragment titles -->
-    <string name="title_overview">Übersicht</string>
-    <string name="title_buy_option">Option buchen</string>
-    <string name="title_messages">Nachrichten</string>
-    <string name="title_login">Login</string>
-    <string name="title_credits">Credits</string>
-    <string name="title_web_view">Web Cockpit</string>
-
-    <!-- Login -->
-    <string name="login">Login</string>
-    <string name="action_sign_in">Einloggen</string>
-    <string name="login_private">Deine Anmeldeinformationen werden nur mit den Coop Mobile Servern geteilt.</string>
-    <string name="prompt_email">Email oder Handynummer</string>
-    <string name="prompt_password">Passwort</string>
-    <string name="error_invalid_username">Die Email oder Handynummer is ungültig</string>
-    <string name="error_login_failed">Fehler beim Einloggen.</string>
-    <string name="error_field_required">Bitte ausfüllen</string>
-
-    <!-- Misc -->
     <string name="loading">Lade Daten…</string>
     <string name="no_network">Keine Internetverbindung.</string>
     <string name="update_necessary">Bitte auf Update warten.</string>
     <string name="please_rate">Zufrieden? Unzufrieden? Über eine Bewertung im Play Store würden wir uns freuen.</string>
     <string name="plan_unsupported">Aktuell wird leider nur Coop Mobile Prepaid unterstützt.</string>
 
-    <!-- Menu -->
     <string name="refresh">Aktualisieren</string>
-    <string name="credits">Credits</string>
-    <string name="logout">Logout</string>
-
-    <string name="guthaben">Guthaben</string>
-    <string name="privacy_policy"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
-
-    <!-- Buying options -->
-    <string name="buy_confirm_title">Sicher?</string>
-    <string name="buy_confirm_message">Willst du die Option \"%1$s\" wirklich für %2$s kaufen?</string>
-    <string name="bought">Gekauft!</string>
-    <string name="buying">Kaufe Option…</string>
-    <string name="buying_failed">Kauf fehlgeschlagen.</string>
-    <string name="buy_option_not_available">Optionen können noch nicht über die App gekauft werden.</string>
-
-    <string name="device_not_secure">Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, …), um Optionen kaufen zu können.</string>
-    <string name="authentication_unsuccessful">Authentifizierung war nicht erfolgreich.</string>
-    <string name="confirm_purchase">Kauf bestätigen</string>
 </resources>

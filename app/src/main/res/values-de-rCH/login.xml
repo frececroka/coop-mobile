@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Login</string>
+    <string name="prompt_email">Email oder Handynummer</string>
+    <string name="prompt_password">Passwort</string>
+    <string name="action_sign_in">Einloggen</string>
+
+    <string name="login_private">Deine Anmeldeinformationen werden nur mit den Coop Mobile Servern geteilt.</string>
+
+    <string name="error_field_required">Bitte ausfüllen</string>
+    <string name="error_invalid_username">Die Email oder Handynummer is ungültig</string>
+    <string name="error_login_failed">Fehler beim Einloggen.</string>
+</resources>

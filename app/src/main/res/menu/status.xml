@@ -19,7 +19,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/itLogout"
-        android:title="@string/logout"
+        android:title="@string/title_logout"
         app:showAsAction="never" />
     <item
         android:id="@+id/itRatingBanner"

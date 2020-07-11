@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="buy_confirm_title">Sicher?</string>
+    <string name="buy_confirm_message">Willst du die Option \"%1$s\" wirklich für %2$s kaufen?</string>
+    <string name="bought">Gekauft!</string>
+    <string name="buying">Kaufe Option…</string>
+    <string name="buying_failed">Kauf fehlgeschlagen.</string>
+    <string name="buy_option_not_available">Optionen können noch nicht über die App gekauft werden.</string>
+    <string name="confirm_purchase">Kauf bestätigen</string>
+    <string name="device_not_secure">Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, …), um Optionen kaufen zu können.</string>
+    <string name="authentication_unsuccessful">Authentifizierung war nicht erfolgreich.</string>
+</resources>

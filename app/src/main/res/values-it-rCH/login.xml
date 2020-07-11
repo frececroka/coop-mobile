@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Accesso</string>
+    <string name="prompt_email">Indirizzo email o numero di telefono</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Accesso</string>
+
+    <string name="login_private">Le sue credenziali di accesso saranno condivise solo con i server Coop Mobile.</string>
+
+    <string name="error_field_required">Campo da riempire</string>
+    <string name="error_invalid_username">L\'email o il numero di telefono sono incorretti</string>
+    <string name="error_login_failed">Login non riuscito.</string>
+</resources>

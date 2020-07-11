@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">S\'identifier</string>
+    <string name="prompt_email">Numéro de téléphone ou adresse e-mail</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Se connecter</string>
+
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="error_invalid_username">Numéro de téléphone ou adresse e-mail incorrect.</string>
+    <string name="error_login_failed">E-mail ou mot de passe incorrect.</string>
+</resources>

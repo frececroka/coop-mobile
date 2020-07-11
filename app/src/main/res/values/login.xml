@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Login</string>
+    <string name="prompt_email">Email address or phone number</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+
+    <string name="login_private">Your login credentials will be shared with the Coop Mobile servers only.</string>
+
+    <string name="error_field_required">Please fill in</string>
+    <string name="error_invalid_username">The email address or phone number is invalid</string>
+    <string name="error_login_failed">Failed to log in.</string>
+
+    <string name="privacy_policy" translatable="false"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
+</resources>

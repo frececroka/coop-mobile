@@ -1,42 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Balance</string>
-    <string name="action_sign_in">Login</string>
-    <string name="bought">Bought!</string>
-    <string name="buy_confirm_message">Do you really want to buy the option %1$s for %2$s ?</string>
-    <string name="buy_confirm_title">Sure?</string>
-    <string name="buy_option_not_available">You cannot buy options with the app yet.</string>
-    <string name="buying">Buying…</string>
-    <string name="buying_failed">Failed to buy.</string>
-    <string name="error_field_required">Please fill in</string>
-    <string name="error_login_failed">Failed to log in.</string>
-    <string name="error_invalid_username">The email address or phone number is invalid</string>
-    <string name="guthaben">Balance</string>
-    <string name="loading">Loading data…</string>
-    <string name="login">Login</string>
-    <string name="login_private">Your login credentials will be shared with the Coop Mobile servers only.</string>
-    <string name="logout">Logout</string>
-    <string name="no">No</string>
-    <string name="no_network">No internet connection.</string>
-    <string name="okay">Okay</string>
-    <string name="chf" translatable="false">CHF</string>
-    <string name="plan_unsupported">Only Coop Mobile Prepaid is supported at the moment.</string>
-    <string name="please_rate">Happy? Unhappy? We would appreciate a review in the Play Store.</string>
-    <string name="prompt_email">Email address or phone number</string>
-    <string name="prompt_password">Password</string>
-    <string name="refresh">Refresh</string>
+
     <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="okay">Okay</string>
+
+    <string name="loading">Loading data…</string>
+    <string name="no_network">No internet connection.</string>
     <string name="update_necessary">Please wait for an update.</string>
-    <string name="privacy_policy"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
-    <string name="title_buy_option">Add Option</string>
-    <string name="title_login">Login</string>
-    <string name="title_messages">Messages</string>
-    <string name="title_overview">Overview</string>
-    <string name="title_credits">Credits</string>
-    <string name="title_web_view">Web Cockpit</string>
-    <string name="credits">Credits</string>
-    <string name="show_rating_banner">Show Rating Banner</string>
-    <string name="device_not_secure">The device must be secured with a PIN or password to buy options.</string>
-    <string name="authentication_unsuccessful">Authentification was unsuccessful.</string>
-    <string name="confirm_purchase">Confirm purchase</string>
+    <string name="please_rate">Happy? Unhappy? We would appreciate a review in the Play Store.</string>
+    <string name="plan_unsupported">Only Coop Mobile Prepaid is supported at the moment.</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="show_rating_banner" translatable="false">Show Rating Banner</string>
+
+    <string name="chf" translatable="false">CHF</string>
 </resources>
