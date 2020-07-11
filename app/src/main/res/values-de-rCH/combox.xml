@@ -2,4 +2,6 @@
 <resources>
     <string name="combox_request_title">Anrufe erlauben?</string>
     <string name="combox_request_message">Der nächste Dialog wird um Erlaubnis beten, selbständig Anrufe zu tätigen. Wenn du es erlaubst, wird die Combox sofort angerufen. Ansonsten wird die Telefon-App mit der vorausgefüllten Combox Nummer gestartet und du kannst den Anruf manuell bestätigen.</string>
+    <string name="call_combox_title">Combox anrufen?</string>
+    <string name="call_combox_message">Das Abrufen der Combox gilt als Anruf und wird zum gleichen Tarif abgerechnet wie ein normaler Anruf. Willst du trotzdem fortfahren?</string>
 </resources>

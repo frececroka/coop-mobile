@@ -37,8 +37,16 @@ class Combox(private val fragment: Fragment) {
         }
     }
 
-    private fun callCombox() {
-        launchComboxWithAction(Intent.ACTION_CALL)
+    private suspend fun callCombox() {
+        val result = AlertDialogBuilder(context)
+            .setTitle(R.string.call_combox_title)
+            .setMessage(R.string.call_combox_message)
+            .setPositiveButton(R.string.yes)
+            .setNegativeButton(R.string.no)
+            .show()
+        if (result == AlertDialogChoice.POSITIVE) {
+            launchComboxWithAction(Intent.ACTION_CALL)
+        }
     }
 
     private fun openDialer() {
