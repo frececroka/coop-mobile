@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="combox_request_title">Allow phone calls?</string>
-    <string name="combox_request_message">In the next dialog, you can choose to allow phone calls. If you do, the Combox will be called immediately. Otherwise, we will open your system\'s dialer with the Combox number pre-filled and you have to initiate the call manually.</string>
-    <string name="call_combox_title">Call Combox?</string>
-    <string name="call_combox_message">Calling the Combox counts as a regular call, and will incur charges. Do you want to proceed?</string>
+    <string name="combox_request_message">In the next dialog, you can choose to allow phone calls. If you do, the COMBOX® will be called immediately. Otherwise, we will open your system\'s dialer with the COMBOX® number pre-filled and you have to initiate the call manually.</string>
+    <string name="call_combox_title">Call COMBOX®?</string>
+    <string name="call_combox_message">Calling the COMBOX® counts as a regular call, and will incur charges. Do you want to proceed?</string>
 </resources>
