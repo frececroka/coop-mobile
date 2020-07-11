@@ -71,7 +71,7 @@ class StatusFragment: Fragment() {
     }
 
     private fun addOption() {
-        findNavController().navigate(R.id.action_status_to_add_product3)
+        findNavController().navigate(R.id.action_status_to_add_product)
     }
 
     private fun viewCorrespondences() {
@@ -171,7 +171,7 @@ class StatusFragment: Fragment() {
     }
 
     private fun goToLogin() {
-        findNavController().navigate(R.id.action_status_to_login2)
+        findNavController().navigate(R.id.action_status_to_login)
     }
 
 }

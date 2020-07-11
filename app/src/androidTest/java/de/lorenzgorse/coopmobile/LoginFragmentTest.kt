@@ -13,7 +13,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import de.lorenzgorse.coopmobile.fragments.LoginFragment
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -51,7 +50,7 @@ class LoginFragmentTest {
         val sessionId = "2384234820943"
         `when`(coopLogin.login(username, password)).thenReturn(sessionId)
         doLogin()
-        verify(navController).navigate(R.id.action_login_to_status2)
+        verify(navController).navigate(R.id.action_login_to_status)
         assertThat(loadSavedSession(context), equalTo(sessionId))
         assertThat(loadSavedCredentials(context), equalTo(Pair(username, password)))
     } }

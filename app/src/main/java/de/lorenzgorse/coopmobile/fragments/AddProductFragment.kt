@@ -105,7 +105,7 @@ class AddProductFragment : Fragment() {
 
     private fun goToLogin() {
         analytics.logEvent("go_to_login", null)
-        findNavController().navigate(R.id.action_add_product_to_login2)
+        findNavController().navigate(R.id.action_add_product_to_login)
     }
 
     private suspend fun confirmBuyProduct(product: Product) {

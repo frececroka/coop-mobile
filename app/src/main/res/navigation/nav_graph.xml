@@ -9,7 +9,7 @@
         android:name="de.lorenzgorse.coopmobile.fragments.StatusFragment"
         tools:layout="@layout/fragment_status">
         <action
-            android:id="@+id/action_status_to_login2"
+            android:id="@+id/action_status_to_login"
             app:destination="@id/login"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -18,7 +18,7 @@
             app:popUpTo="@id/status"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_status_to_add_product3"
+            android:id="@+id/action_status_to_add_product"
             app:destination="@id/add_product"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -44,7 +44,7 @@
         android:name="de.lorenzgorse.coopmobile.fragments.LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_login_to_status2"
+            android:id="@+id/action_login_to_status"
             app:destination="@id/status"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -59,7 +59,7 @@
         android:name="de.lorenzgorse.coopmobile.fragments.AddProductFragment"
         tools:layout="@layout/fragment_add_product">
         <action
-            android:id="@+id/action_add_product_to_login2"
+            android:id="@+id/action_add_product_to_login"
             app:destination="@id/login"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
