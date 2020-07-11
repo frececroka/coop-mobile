@@ -5,6 +5,7 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="okay">Bien</string>
+    <string name="dismiss">Éconduire</string>
 
     <string name="loading">Chargement des données…</string>
     <string name="no_network">Pas de connexion Internet.</string>

@@ -4,6 +4,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="okay">Okay</string>
+    <string name="dismiss">Schliessen</string>
 
     <string name="loading">Lade Daten…</string>
     <string name="no_network">Keine Internetverbindung.</string>

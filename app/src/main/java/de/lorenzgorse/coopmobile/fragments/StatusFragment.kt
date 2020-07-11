@@ -20,6 +20,7 @@ class StatusFragment: Fragment() {
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CoopDataViewModel
     private lateinit var combox: Combox
+    private lateinit var openSource: OpenSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,7 @@ class StatusFragment: Fragment() {
         analytics = createAnalytics(requireContext())
         viewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
         combox = Combox(this)
+        openSource = OpenSource(requireContext())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -42,6 +44,7 @@ class StatusFragment: Fragment() {
             R.id.itCombox -> { launchCombox(); true }
             R.id.itWebView -> { openWebView(); true }
             R.id.itLogout -> { logout(); true }
+            R.id.itOpenSource -> { openSource(); true }
             R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
             else -> super.onOptionsItemSelected(item)
         }
@@ -165,6 +168,10 @@ class StatusFragment: Fragment() {
 
     private fun goToLogin() {
         findNavController().navigate(R.id.action_status_to_login2)
+    }
+
+    private fun openSource() {
+        lifecycleScope.launch { openSource.launch() }
     }
 
 }

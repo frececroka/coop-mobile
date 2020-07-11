@@ -26,6 +26,10 @@
         android:title="@string/title_logout"
         app:showAsAction="never" />
     <item
+        android:id="@+id/itOpenSource"
+        android:title="@string/title_open_source"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/itRatingBanner"
         android:title="@string/show_rating_banner"
         android:visible="false"

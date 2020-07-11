@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open_source">This app is open source. You can view the source code on GitHub and contribute to the development. Any contribution is welcome, be it related to the translation, design, or programming of the application.</string>
+    <string name="github" translatable="false">GitHub</string>
+</resources>

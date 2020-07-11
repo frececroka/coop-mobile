@@ -5,6 +5,7 @@
     <string name="yes">Sì</string>
     <string name="no">No</string>
     <string name="okay">Okay</string>
+    <string name="dismiss">Chiudere</string>
 
     <string name="loading">Caricamento…</string>
     <string name="no_network">Nessuna connessione a internet trovata.</string>

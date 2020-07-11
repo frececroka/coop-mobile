@@ -1,5 +1,8 @@
 package de.lorenzgorse.coopmobile
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -22,6 +25,14 @@ fun handleLoadDataError(
         LoadDataError.UNAUTHORIZED -> goToLogin()
         LoadDataError.FAILED_LOGIN -> goToLogin()
     }
+}
+
+fun Context.openUri(uri: String) {
+    openUri(Uri.parse(uri))
+}
+
+fun Context.openUri(uri: Uri) {
+    startActivity(Intent(Intent.ACTION_VIEW, uri))
 }
 
 fun Fragment.notify(msg: Int) {
