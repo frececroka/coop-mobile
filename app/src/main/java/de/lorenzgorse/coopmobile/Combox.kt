@@ -44,14 +44,14 @@ class Combox(private val fragment: Fragment) {
     }
 
     private fun callCombox() {
-        callComboxWithAction(Intent.ACTION_CALL)
+        launchComboxWithAction(Intent.ACTION_CALL)
     }
 
     private fun openDialer() {
-        callComboxWithAction(Intent.ACTION_DIAL)
+        launchComboxWithAction(Intent.ACTION_DIAL)
     }
 
-    private fun callComboxWithAction(action: String) {
+    private fun launchComboxWithAction(action: String) {
         val callUri = Uri.parse("tel:+41794997979")
         val intent = Intent(action, callUri)
         context.startActivity(intent)
