@@ -114,42 +114,13 @@ class StatusFragment: Fragment() {
         }
     }
 
-    private fun showNoNetwork() {
-        layContent.visibility = View.GONE
-        loading.visibility = View.GONE
-        layError.visibility = View.VISIBLE
-        txtNoNetwork.visibility = View.VISIBLE
-        txtUpdate.visibility = View.GONE
-        txtPlanUnsupported.visibility = View.GONE
-    }
-
-    private fun showUpdateNecessary() {
-        layContent.visibility = View.GONE
-        loading.visibility = View.GONE
-        layError.visibility = View.VISIBLE
-        txtNoNetwork.visibility = View.GONE
-        txtUpdate.visibility = View.VISIBLE
-        txtPlanUnsupported.visibility = View.GONE
-    }
-
-    private fun showPlanUnsupported() {
-        layContent.visibility = View.GONE
-        loading.visibility = View.GONE
-        layError.visibility = View.VISIBLE
-        txtNoNetwork.visibility = View.GONE
-        txtUpdate.visibility = View.GONE
-        txtPlanUnsupported.visibility = View.VISIBLE
-    }
-
     private fun onSuccess(result: CoopData) {
         analytics.logEvent("loaded_data", null)
         analytics.logEventOnce(requireContext(), "onb_loaded_data", null)
 
         bannerRate.onLoadSuccess()
 
-        layContent.visibility = View.VISIBLE
-        loading.visibility = View.GONE
-        layError.visibility = View.GONE
+        showContent()
 
         val credit = result.credit
         if (credit != null) {
@@ -168,6 +139,38 @@ class StatusFragment: Fragment() {
             consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
         }
+    }
+
+    private fun showContent() {
+        hideAll()
+        layContent.visibility = View.VISIBLE
+    }
+
+    private fun showNoNetwork() {
+        hideAll()
+        layError.visibility = View.VISIBLE
+        txtNoNetwork.visibility = View.VISIBLE
+    }
+
+    private fun showUpdateNecessary() {
+        hideAll()
+        layError.visibility = View.VISIBLE
+        txtUpdate.visibility = View.VISIBLE
+    }
+
+    private fun showPlanUnsupported() {
+        hideAll()
+        layError.visibility = View.VISIBLE
+        txtPlanUnsupported.visibility = View.VISIBLE
+    }
+
+    private fun hideAll() {
+        layContent.visibility = View.GONE
+        loading.visibility = View.GONE
+        layError.visibility = View.GONE
+        txtNoNetwork.visibility = View.GONE
+        txtUpdate.visibility = View.GONE
+        txtPlanUnsupported.visibility = View.GONE
     }
 
     private fun goToLogin() {
