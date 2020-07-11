@@ -31,6 +31,21 @@ class StatusFragment: Fragment() {
         openSource = OpenSource(requireContext())
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_status, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        analytics.setCurrentScreen(requireActivity(), "Status", null)
+        viewModel.data.removeObservers(this)
+        viewModel.data.observe(this, Observer(::setData))
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.status, menu)
         return super.onCreateOptionsMenu(menu, menuInflater)
@@ -50,19 +65,36 @@ class StatusFragment: Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_status, container, false)
+    private fun refresh() {
+        analytics.logEvent("refresh", null)
+        lifecycleScope.launch { viewModel.refresh() }
     }
 
-    override fun onStart() {
-        super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Status", null)
-        viewModel.data.removeObservers(this)
-        viewModel.data.observe(this, Observer(::setData))
+    private fun addOption() {
+        findNavController().navigate(R.id.action_status_to_add_product3)
+    }
+
+    private fun viewCorrespondences() {
+        findNavController().navigate(R.id.action_status_to_correspondences)
+    }
+
+    private fun launchCombox() {
+        lifecycleScope.launch { combox.launch() }
+    }
+
+    private fun openWebView() {
+        findNavController().navigate(R.id.action_status_to_web_view)
+    }
+
+    private fun logout() {
+        analytics.logEvent("logout", null)
+        clearSession(requireContext())
+        clearCredentials(requireContext())
+        goToLogin()
+    }
+
+    private fun openSource() {
+        lifecycleScope.launch { openSource.launch() }
     }
 
     private fun setData(result: Value<CoopData>?) {
@@ -138,40 +170,8 @@ class StatusFragment: Fragment() {
         }
     }
 
-    private fun logout() {
-        analytics.logEvent("logout", null)
-        clearSession(requireContext())
-        clearCredentials(requireContext())
-        goToLogin()
-    }
-
-    private fun refresh() {
-        analytics.logEvent("refresh", null)
-        lifecycleScope.launch { viewModel.refresh() }
-    }
-
-    private fun addOption() {
-        findNavController().navigate(R.id.action_status_to_add_product3)
-    }
-
-    private fun viewCorrespondences() {
-        findNavController().navigate(R.id.action_status_to_correspondences)
-    }
-
-    private fun launchCombox() {
-        lifecycleScope.launch { combox.launch() }
-    }
-
-    private fun openWebView() {
-        findNavController().navigate(R.id.action_status_to_web_view)
-    }
-
     private fun goToLogin() {
         findNavController().navigate(R.id.action_status_to_login2)
-    }
-
-    private fun openSource() {
-        lifecycleScope.launch { openSource.launch() }
     }
 
 }
