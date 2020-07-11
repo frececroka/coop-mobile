@@ -67,7 +67,7 @@ class StatusFragment: Fragment() {
 
     private fun refresh() {
         analytics.logEvent("refresh", null)
-        lifecycleScope.launch { viewModel.refresh() }
+        viewModel.refresh()
     }
 
     private fun addOption() {
