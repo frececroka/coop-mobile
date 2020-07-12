@@ -40,9 +40,11 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
             resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "false")
+            resValue("bool", "FIREBASE_CRASHLYTICS_ENABLED", "true")
         }
         debug {
             resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "true")
+            resValue("bool", "FIREBASE_CRASHLYTICS_ENABLED", "false")
         }
     }
     compileOptions {
