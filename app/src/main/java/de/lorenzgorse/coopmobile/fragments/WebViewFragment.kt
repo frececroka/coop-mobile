@@ -9,6 +9,7 @@ import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -55,16 +56,22 @@ class WebViewFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        fun logNavigationEvent(target: String) {
+            analytics.logEvent("web_view_navigate", bundleOf("target" to target))
+        }
         return when (item.itemId) {
             R.id.itAddOption -> {
+                logNavigationEvent("add_product")
                 webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/add_product")
                 true
             }
             R.id.itCorrespondences -> {
+                logNavigationEvent("my_correspondence")
                 webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/index")
                 true
             }
             R.id.itTopUp -> {
+                logNavigationEvent("my_topup")
                 webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_topup")
                 true
             }
@@ -75,7 +82,8 @@ class WebViewFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Web View", null)
+        analytics.setCurrentScreen(requireActivity(), "WebView", null)
+        analytics.logEvent("web_view", null)
 
         // Initialize the web view.
         webView.settings.javaScriptEnabled = true
