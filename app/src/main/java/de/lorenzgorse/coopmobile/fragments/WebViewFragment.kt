@@ -2,7 +2,7 @@ package de.lorenzgorse.coopmobile.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.Uri
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -109,14 +109,25 @@ class WebViewFragment : Fragment() {
             request: WebResourceRequest?
         ): Boolean {
             val url = request?.url
-            if (url != null) {
-                lifecycleScope.launch { onLoadUrl(url) }
-            }
+            log.info("Loading url $url")
 
+            return if (url != null && url.toString().endsWith("/users/sign_in")) {
+                log.info("The current session is invalid. Cancelling load and refreshing session.")
+
+                // Try to get a new session.
+                lifecycleScope.launch { refreshSession() }
+
+                // Cancel load.
+                true
+            } else {
+                super.shouldOverrideUrlLoading(view, request)
+            }
+        }
+
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
             progressBar.progress = 0
             progressBar.visibility = View.VISIBLE
-
-            return super.shouldOverrideUrlLoading(view, request)
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
@@ -132,14 +143,7 @@ class WebViewFragment : Fragment() {
         }
     }
 
-    private suspend fun onLoadUrl(url: Uri) {
-        log.info("Loading url $url")
-
-        if (!url.toString().endsWith("/users/sign_in")) {
-            // We are still logged in.
-            return
-        }
-
+    private suspend fun refreshSession() {
         val timeSinceLastLogin = timeSinceLastLogin()
         if (timeSinceLastLogin != null && timeSinceLastLogin < 10_000) {
             // We already tried to login too recently, this indicates a problem with
