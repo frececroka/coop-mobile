@@ -93,7 +93,6 @@ class WebViewFragment : Fragment() {
     private fun loadCockpit(coopClient: CoopClient) {
         // Setup the session cookie.
         val sessionId = coopClient.sessionId()
-        log.info("Session ID is $sessionId")
         CookieManager.getInstance().setCookie(
             "https://myaccount.coopmobile.ch/",
             "_ecare_session=$sessionId")
