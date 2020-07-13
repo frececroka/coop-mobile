@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -38,6 +36,7 @@ class WebViewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
@@ -48,6 +47,29 @@ class WebViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_web_view, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.web_view, menu)
+        return super.onCreateOptionsMenu(menu, menuInflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.itAddOption -> {
+                webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/add_product")
+                true
+            }
+            R.id.itCorrespondences -> {
+                webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/index")
+                true
+            }
+            R.id.itTopUp -> {
+                webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_topup")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
