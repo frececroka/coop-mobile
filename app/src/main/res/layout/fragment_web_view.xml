@@ -27,4 +27,10 @@
 
     </FrameLayout>
 
+    <de.lorenzgorse.coopmobile.LoadingView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
 </FrameLayout>

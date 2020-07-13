@@ -97,6 +97,11 @@ class WebViewFragment : Fragment() {
             "https://myaccount.coopmobile.ch/",
             "_ecare_session=$sessionId")
 
+        // Show web view, because we have a session. It may have been hidden earlier if the session
+        // expired.
+        loading.visibility = View.GONE
+        webView.visibility = View.VISIBLE
+
         // Load the account cockpit.
         val country = determineCountry()
         webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/$country")
@@ -113,6 +118,10 @@ class WebViewFragment : Fragment() {
 
             return if (url != null && url.toString().endsWith("/users/sign_in")) {
                 log.info("The current session is invalid. Cancelling load and refreshing session.")
+
+                // Hide web view while we don't have a valid session.
+                loading.visibility = View.VISIBLE
+                webView.visibility = View.GONE
 
                 // Try to get a new session.
                 lifecycleScope.launch { refreshSession() }
