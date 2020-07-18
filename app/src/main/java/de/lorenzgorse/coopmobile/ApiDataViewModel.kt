@@ -66,7 +66,6 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
     fun networkUnavailable(e: IOException) {
         log.error("Network unavailable.", e)
         analytics.logEvent("network_unavailable", null)
-        firebaseCrashlytics().recordException(e)
     }
 
     fun planUnsupported(e: PlanUnsupported) {
@@ -78,7 +77,6 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
     fun refreshFailed() {
         log.info("Refreshing session failed.")
         analytics.logEvent("refresh_session_failed", null)
-        firebaseCrashlytics().recordException(Exception())
     }
 
     fun refreshedSessionExpired(e: UnauthorizedException) {
