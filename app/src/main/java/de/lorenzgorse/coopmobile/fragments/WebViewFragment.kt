@@ -165,17 +165,20 @@ class WebViewFragment : Fragment() {
 
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
+            if (progressBar == null) return
             progressBar.progress = 0
             progressBar.visibility = View.VISIBLE
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
+            if (progressBar == null) return
             progressBar.visibility = View.GONE
         }
 
         override fun onLoadResource(view: WebView?, url: String?) {
             super.onLoadResource(view, url)
+            if (progressBar == null) return
             val max = progressBar.max
             val current = progressBar.progress
             progressBar.progress = current + (max - current)/10
