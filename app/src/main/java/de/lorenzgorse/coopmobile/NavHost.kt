@@ -43,6 +43,9 @@ class NavHost : AppCompatActivity() {
             R.id.web_view -> {
                 toolbar.title = getString(R.string.title_web_view)
             }
+            R.id.preferences -> {
+                toolbar.title = getString(R.string.title_preferences)
+            }
         }
     }
 

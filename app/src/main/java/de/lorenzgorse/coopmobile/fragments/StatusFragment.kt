@@ -59,6 +59,7 @@ class StatusFragment: Fragment() {
             R.id.itCombox -> { launchCombox(); true }
             R.id.itWebView -> { openWebView(); true }
             R.id.itLogout -> { logout(); true }
+            R.id.itPreferences -> { preferences(); true }
             R.id.itOpenSource -> { openSource(); true }
             R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
             else -> super.onOptionsItemSelected(item)
@@ -91,6 +92,10 @@ class StatusFragment: Fragment() {
         clearSession(requireContext())
         clearCredentials(requireContext())
         goToLogin()
+    }
+
+    private fun preferences() {
+        findNavController().navigate(R.id.action_status_to_preferences)
     }
 
     private fun openSource() {
