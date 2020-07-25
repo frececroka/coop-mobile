@@ -44,6 +44,7 @@ class StatusFragment: Fragment() {
         analytics.setCurrentScreen(requireActivity(), "Status", null)
         viewModel.data.removeObservers(this)
         viewModel.data.observe(this, Observer(::setData))
+        BalanceCheckWorker.enqueueIfEnabled(requireContext())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {

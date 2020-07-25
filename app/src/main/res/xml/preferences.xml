@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="check_balance"
+        android:summary="@string/summary_periodically_check_balance"
+        android:title="@string/title_periodically_check_balance" />
+
+    <EditTextPreference
+        android:dependency="check_balance"
+        android:key="check_balance_threshold"
+        android:summary="@string/summary_check_balance_threshold"
+        android:title="@string/title_check_balance_threshold" />
+
 </PreferenceScreen>

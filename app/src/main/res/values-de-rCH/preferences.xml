@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_periodically_check_balance">Guthaben täglich überprüfen</string>
+    <string name="summary_periodically_check_balance">Dein Coop Mobile Guthaben wird täglich im Hintergrund überprüft und du erhälst eine Benachrichtigung, falls es unter einen bestimmten Wert fällt.</string>
+
+    <string name="title_check_balance_threshold">Schwellenwert für Benachrichtigungen</string>
+    <string name="summary_check_balance_threshold">Du erhälst eine Benachrichtigung, falls dein Guthaben unter diesen Wert fällt.</string>
+</resources>

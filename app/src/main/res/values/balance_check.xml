@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_balance_low">Your Coop Mobile balance is running low.</string>
+    <string name="message_balance_low">You have just %2$s %1$.2f left.</string>
+</resources>
