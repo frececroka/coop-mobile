@@ -121,9 +121,6 @@ class StatusFragment: Fragment() {
     }
 
     private fun onSuccess(result: CoopData) {
-        analytics.logEvent("loaded_data", null)
-        analytics.logEventOnce(requireContext(), "onb_loaded_data", null)
-
         bannerRate.onLoadSuccess()
 
         showContent()

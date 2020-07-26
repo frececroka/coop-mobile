@@ -80,9 +80,12 @@ class LoginFragment : Fragment() {
 
     private suspend fun attemptLoginGuard() {
         log.info("Starting login.")
+        analytics.logEvent("Login_Start", null)
+        analytics.logEventOnce(requireContext(), "Onb_Login_Start", null)
 
         if (!loginInProgress.compareAndSet(false, true)) {
             log.info("Aborting attempt, because another login task is currently running.")
+            analytics.logEvent("Login_Abort_Concurrent", null)
             return
         }
 
@@ -112,7 +115,7 @@ class LoginFragment : Fragment() {
 
         if (TextUtils.isEmpty(password)) {
             log.info("Cancelling login, because the password is empty.")
-            analytics.logEvent("password_empty", null)
+            analytics.logEvent("Login_PasswordEmpty", null)
             txtPassword.error = getString(R.string.error_field_required)
             focusView = txtPassword
             cancel = true
@@ -121,19 +124,20 @@ class LoginFragment : Fragment() {
         // Check for a valid email address.
         if (TextUtils.isEmpty(username)) {
             log.info("Cancelling login, because the username is empty.")
-            analytics.logEvent("username_empty", null)
+            analytics.logEvent("Login_UsernameEmpty", null)
             txtUsername.error = getString(R.string.error_field_required)
             focusView = txtUsername
             cancel = true
         } else if (!isUsernameValid(username)) {
             log.info("Cancelling login, because the username is invalid.")
-            analytics.logEvent("username_invalid", null)
+            analytics.logEvent("Login_UsernameInvalid", null)
             txtUsername.error = getString(R.string.error_invalid_username)
             focusView = txtUsername
             cancel = true
         }
 
         if (cancel) {
+            analytics.logEvent("Login_InputError", null)
             focusView?.requestFocus()
             return
         }
@@ -141,20 +145,20 @@ class LoginFragment : Fragment() {
         showProgress(true)
 
         log.info("Performing login.")
-        analytics.logEvent("try_login", null)
-        analytics.logEventOnce(requireContext(), "onb_try_login", null)
+        analytics.logEvent("Login_SendRequest", null)
 
         val sessionId = try {
             log.info("Trying to obtain session ID using provided username and password.")
             coopLogin.login(username, password)
         } catch (e: IOException) {
             log.error("No network connection available.")
-            analytics.logEvent("no_network", null)
+            analytics.logEvent("Login_NoNetwork", null)
             showProgress(false)
             txtNoNetwork.visibility = View.VISIBLE
             return
         } catch (e: HtmlChangedException) {
             log.error("HTML structure changed unexpectedly.", e)
+            analytics.logEvent("Login_HtmlChanged", null)
             firebaseCrashlytics().recordException(e)
             showProgress(false)
             Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
@@ -163,14 +167,14 @@ class LoginFragment : Fragment() {
 
         return if (sessionId != null) {
             log.info("Obtained session ID.")
-            analytics.logEvent("auth_success", null)
-            analytics.logEventOnce(requireContext(), "onb_auth_success", null)
+            analytics.logEvent("Login_Success", null)
+            analytics.logEventOnce(requireContext(), "Onb_Login_Success", null)
             writeCredentials(requireContext(), username, password)
             writeSession(requireContext(), sessionId)
             findNavController().navigate(R.id.action_login_to_status)
         } else {
             log.info("Did not receive any session ID.")
-            analytics.logEvent("auth_failed", null)
+            analytics.logEvent("Login_AuthFailed", null)
             showProgress(false)
             txtLoginFailed.visibility = View.VISIBLE
         }

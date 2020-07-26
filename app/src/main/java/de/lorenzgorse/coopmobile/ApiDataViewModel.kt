@@ -65,18 +65,18 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
 
     fun networkUnavailable(e: IOException) {
         log.error("Network unavailable.", e)
-        analytics.logEvent("network_unavailable", null)
+        analytics.logEvent("LoadData_NoNetwork", null)
     }
 
     fun planUnsupported(e: PlanUnsupported) {
         log.error("Plan '${e.plan}' unsupported.")
-        analytics.logEvent("plan_unsupported", bundleOf("plan" to e.plan))
+        analytics.logEvent("LoadData_PlanUnsupported", bundleOf("plan" to e.plan))
         firebaseCrashlytics().recordException(e)
     }
 
     fun refreshFailed() {
         log.info("Refreshing session failed.")
-        analytics.logEvent("refresh_session_failed", null)
+        analytics.logEvent("LoadData_RefreshSessionFailed", null)
     }
 
     fun refreshedSessionExpired(e: UnauthorizedException) {
@@ -87,12 +87,18 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
 
     fun htmlChanged(e: HtmlChangedException) {
         log.error("Html changed.", e)
+        analytics.logEvent("LoadData_HtmlChanged", null)
         firebaseCrashlytics().recordException(e)
     }
 
     fun sessionExpired(e: UnauthorizedException) {
         log.info("Session expired: ${e.redirect}.")
-        analytics.logEvent("session_expired", bundleOf("redirect" to e.redirect))
+        analytics.logEvent("LoadData_SessionExpired", bundleOf("redirect" to e.redirect))
+    }
+
+    fun loadedData() {
+        analytics.logEvent("LoadData_Success", null)
+        analytics.logEventOnce(context, "onb_loaded_data", null)
     }
 
     return try {
@@ -105,10 +111,11 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
             log.info("Obtained client $client.")
             log.info("Loading data.")
             analytics.logEventOnce(context, "onb_load_data", null)
-            analytics.logEvent("load_data", null)
+            analytics.logEvent("LoadData_Start", null)
             try {
                 val data = loader(client)
                 log.info("Loaded data: [redacted]")
+                loadedData()
                 Right(data)
             } catch (e: UnauthorizedException) {
                 sessionExpired(e)
@@ -120,6 +127,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
                         log.info("Loading data (again).")
                         val data = loader(newClient)
                         log.info("Loaded data: [redacted]")
+                        loadedData()
                         Right(data)
                     } catch (e: UnauthorizedException) {
                         refreshedSessionExpired(e)
