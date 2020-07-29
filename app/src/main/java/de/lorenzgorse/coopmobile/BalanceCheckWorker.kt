@@ -39,7 +39,7 @@ class BalanceCheckWorker(
                 .setConstraints(constraints)
                 .build()
             workManager(context).enqueueUniquePeriodicWork(
-                uniqueWorkId, ExistingPeriodicWorkPolicy.REPLACE, workRequest)
+                uniqueWorkId, ExistingPeriodicWorkPolicy.KEEP, workRequest)
         }
 
         fun cancel(context: Context) {
