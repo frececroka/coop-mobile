@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_balance_low">Du hast nicht mehr viel Coop Mobile Guthaben.</string>
+    <string name="title_balance_low">Dein Coop Mobile Guthaben ist niedrig.</string>
     <string name="message_balance_low">Aktuell beträgt dein Guthaben %2$s %1$.2f.</string>
 </resources>
