@@ -12,7 +12,7 @@ class PreferencesFragment: PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val thresholdPreference: EditTextPreference? = findPreference("check_balance_threshold")
         thresholdPreference?.setOnBindEditTextListener {
-            it.inputType = InputType.TYPE_CLASS_NUMBER
+            it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         }
     }
 
