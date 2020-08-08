@@ -11,8 +11,8 @@ android {
         applicationId "de.lorenzgorse.coopmobile"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 46
-        versionName "1.46"
+        versionCode 47
+        versionName "1.47"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
