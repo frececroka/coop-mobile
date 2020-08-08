@@ -7,6 +7,7 @@
 
     <string name="title_combox" translatable="false">COMBOX®</string>
     <string name="title_web_view" translatable="false">Web Cockpit</string>
+    <string name="title_consumption">Data Consumption</string>
 
     <string name="title_preferences">Preferences</string>
 

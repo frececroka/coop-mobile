@@ -22,6 +22,10 @@
         android:title="@string/title_web_view"
         app:showAsAction="never" />
     <item
+        android:id="@+id/itConsumption"
+        android:title="@string/title_consumption"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/itLogout"
         android:title="@string/title_logout"
         app:showAsAction="never" />

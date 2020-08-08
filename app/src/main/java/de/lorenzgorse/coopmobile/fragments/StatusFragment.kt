@@ -59,6 +59,7 @@ class StatusFragment: Fragment() {
             R.id.itCorrespondences -> { viewCorrespondences(); true }
             R.id.itCombox -> { launchCombox(); true }
             R.id.itWebView -> { openWebView(); true }
+            R.id.itConsumption -> { showConsumption(); true }
             R.id.itLogout -> { logout(); true }
             R.id.itPreferences -> { preferences(); true }
             R.id.itOpenSource -> { openSource(); true }
@@ -86,6 +87,10 @@ class StatusFragment: Fragment() {
 
     private fun openWebView() {
         findNavController().navigate(R.id.action_status_to_web_view)
+    }
+
+    private fun showConsumption() {
+        findNavController().navigate(R.id.action_status_to_consumption)
     }
 
     private fun logout() {

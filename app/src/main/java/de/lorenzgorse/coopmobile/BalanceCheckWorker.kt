@@ -51,17 +51,22 @@ class BalanceCheckWorker(
 
     private val analytics = FirebaseAnalytics.getInstance(context)
     private val notificationFuse = Fuse(context, "checkBalance")
+    private val consumptionLogCache = ConsumptionLogCache(context)
 
     override suspend fun doWork(): Result {
         analytics.logEvent("periodically_check_balance", null)
 
-        val data = when (val result = loadData(context) { client -> client.getData() }) {
+        val (data, consumptionLog) = when (val result = loadData(context) { client ->
+            Pair(client.getData(), client.getConsumptionLog())
+        }) {
             is Either.Right -> result.value
             is Either.Left -> {
                 log.error("Checking balance failed: ${result.value}")
                 return Result.failure()
             }
         }
+
+        consumptionLogCache.insert(consumptionLog)
 
         val credit = data.credit ?: return Result.success()
         if (credit.amount < balanceThreshold()) {

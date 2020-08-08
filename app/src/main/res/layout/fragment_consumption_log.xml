@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ConsumptionLogFragment">
+    android:orientation="vertical"
+    android:padding="5pt"
+    tools:context=".fragments.ConsumptionFragment">
 
-    <com.google.android.material.card.MaterialCardView
+    <de.lorenzgorse.coopmobile.LoadingView
+        android:id="@+id/loading"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_margin">
+        android:layout_height="match_parent" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chartConsumption"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/background2" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/consumptionChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    </com.google.android.material.card.MaterialCardView>
-
-</FrameLayout>
+</LinearLayout>

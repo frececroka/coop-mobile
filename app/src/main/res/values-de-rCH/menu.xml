@@ -6,6 +6,7 @@
     <string name="title_top_up">Guthaben aufladen</string>
 
     <string name="title_preferences">Einstellungen</string>
+    <string name="title_consumption">Datenverbrauch</string>
 
     <string name="title_login">Login</string>
     <string name="title_logout">Logout</string>

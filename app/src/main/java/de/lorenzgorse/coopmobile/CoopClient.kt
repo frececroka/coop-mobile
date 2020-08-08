@@ -46,12 +46,11 @@ data class RawConsumptionLogEntry(
 
 data class RawConsumptionLog(val data: List<RawConsumptionLogEntry>)
 
-interface ConsumptionLogEntry
-data class DataConsumptionLogEntry(
+data class ConsumptionLogEntry(
     val date: Date,
     val type: String,
     val amount: Double
-) : ConsumptionLogEntry
+)
 
 const val coopHost = "myaccount.coopmobile.ch"
 const val coopScheme = "https"
@@ -131,7 +130,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     override suspend fun getConsumptionLog(): List<ConsumptionLogEntry> {
         val consumption = getJson<RawConsumptionLog>(
-            "https://myaccount.coopmobile.ch/ajax_load_cdr")
+            "https://myaccount.coopmobile.ch/$country/ajax_load_cdr")
         return consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
     }
 
@@ -146,7 +145,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         val date = dateFormat.parse(rawConsumptionLogEntry.date)!!
         val type = rawConsumptionLogEntry.type
         val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
-        return DataConsumptionLogEntry(date, type, amount)
+        return ConsumptionLogEntry(date, type, amount)
     }
 
     override suspend fun getProducts(): List<Product> {
