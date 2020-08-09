@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="toolbar">#1a237e</color>
-    <color name="colorPrimaryDark">#000051</color>
+    <color name="colorPrimary">#EA5A0C</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#923807</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="coopGreen">#AFCA0B</color>
+
     <color name="background1">#222</color>
     <color name="background2">#111</color>
     <color name="background3">#050505</color>
