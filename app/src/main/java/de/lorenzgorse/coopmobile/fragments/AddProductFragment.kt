@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,6 +29,7 @@ class AddProductFragment : Fragment() {
     private lateinit var remoteConfig: FirebaseRemoteConfig
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: ProductsViewModel
+    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ class AddProductFragment : Fragment() {
         remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
+        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_add_product_to_login)
     }
 
     override fun onCreateView(
@@ -61,30 +62,10 @@ class AddProductFragment : Fragment() {
                 layContent.visibility = View.GONE
             }
             is Value.Failure ->
-                handleLoadDataError(
-                    result.error,
-                    ::showNoNetwork,
-                    ::showUpdateNecessary,
-                    ::showPlanUnsupported,
-                    ::goToLogin)
+                loadDataErrorHandler.handle(result.error)
             is Value.Success ->
                 onSuccess(result.value)
         }
-    }
-
-    private fun showNoNetwork() {
-        Toast.makeText(context, R.string.no_network, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-    }
-
-    private fun showUpdateNecessary() {
-        Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-    }
-
-    private fun showPlanUnsupported() {
-        Toast.makeText(context, R.string.plan_unsupported, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
     }
 
     private fun onSuccess(result: List<Product>) {
@@ -101,11 +82,6 @@ class AddProductFragment : Fragment() {
         }
         loading.visibility = View.GONE
         layContent.visibility = View.VISIBLE
-    }
-
-    private fun goToLogin() {
-        analytics.logEvent("go_to_login", null)
-        findNavController().navigate(R.id.action_add_product_to_login)
     }
 
     private suspend fun confirmBuyProduct(product: Product) {

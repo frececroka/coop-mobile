@@ -25,12 +25,14 @@ class CorrespondencesFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CorrespondencesViewModel
+    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(CorrespondencesViewModel::class.java)
+        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_correspondences_to_login)
     }
 
     override fun onCreateView(
@@ -54,12 +56,7 @@ class CorrespondencesFragment : Fragment() {
             is Value.Progress ->
                 loading.setProgress(data.current, data.total)
             is Value.Failure ->
-                handleLoadDataError(
-                    data.error,
-                    ::showNoNetwork,
-                    ::showUpdateNecessary,
-                    ::showPlanUnsupported,
-                    ::goToLogin)
+                loadDataErrorHandler.handle(data.error)
             is Value.Success ->
                 onSuccess(data.value)
         }
@@ -69,26 +66,6 @@ class CorrespondencesFragment : Fragment() {
         loading.visibility = View.VISIBLE
         loading.makeIndeterminate()
         layContent.visibility = View.GONE
-    }
-
-    private fun showNoNetwork() {
-        Toast.makeText(context, R.string.no_network, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-    }
-
-    private fun showUpdateNecessary() {
-        Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-    }
-
-    private fun showPlanUnsupported() {
-        Toast.makeText(context, R.string.plan_unsupported, Toast.LENGTH_LONG).show()
-        findNavController().popBackStack()
-    }
-
-    private fun goToLogin() {
-        analytics.logEvent("go_to_login", null)
-        findNavController().navigate(R.id.action_correspondences_to_login)
     }
 
     private fun onSuccess(data: List<Correspondence>) {

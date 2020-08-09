@@ -7,12 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -33,12 +31,14 @@ class ConsumptionFragment : Fragment() {
     private lateinit var themeUtils: ThemeUtils
     private lateinit var viewModel: ConsumptionViewModel
     private lateinit var consumptionLogCache: ConsumptionLogCache
+    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
         consumptionLogCache = ConsumptionLogCache(requireContext())
+        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_consumption_to_login)
     }
 
     override fun onCreateView(
@@ -59,35 +59,12 @@ class ConsumptionFragment : Fragment() {
     private fun setData(result: Value<Pair<CoopData, List<ConsumptionLogEntry>>>) {
         when (result) {
             is Value.Initiated -> { }
-            is Value.Failure -> handleLoadDataError(
-                result.error,
-                ::showNoNetwork,
-                ::showUpdateNecessary,
-                ::showPlanUnsupported,
-                ::goToLogin)
+            is Value.Failure ->
+                loadDataErrorHandler.handle(result.error)
             is Value.Success -> lifecycleScope.launch {
                 onSuccess(result.value.first, result.value.second)
             }
         }
-    }
-
-    private fun showNoNetwork() {
-        notify(R.string.no_network)
-        requireActivity().onBackPressed()
-    }
-
-    private fun showUpdateNecessary() {
-        notify(R.string.update_necessary)
-        requireActivity().onBackPressed()
-    }
-
-    private fun showPlanUnsupported() {
-        notify(R.string.plan_unsupported)
-        requireActivity().onBackPressed()
-    }
-
-    private fun goToLogin() {
-        findNavController().navigate(R.id.action_consumption_to_login)
     }
 
     private suspend fun onSuccess(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>) {
