@@ -30,11 +30,13 @@ import java.util.*
 
 class ConsumptionFragment : Fragment() {
 
+    private lateinit var themeUtils: ThemeUtils
     private lateinit var viewModel: ConsumptionViewModel
     private lateinit var consumptionLogCache: ConsumptionLogCache
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
     }
 
@@ -105,9 +107,11 @@ class ConsumptionFragment : Fragment() {
         val xAxis = consumptionChart.xAxis
         xAxis.labelRotationAngle = 30f
         xAxis.valueFormatter = makeDateValueFormatter()
+        xAxis.textColor = themeUtils.textColor()
 
         val yAxis = consumptionChart.axisLeft
         yAxis.axisMinimum = 0f
+        yAxis.textColor = themeUtils.textColor()
     }
 
     private fun updateChart(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>) {
@@ -141,7 +145,9 @@ class ConsumptionFragment : Fragment() {
         val dataSet = LineDataSet(chartData, "Mobile Data")
         dataSet.setDrawCircles(false)
         dataSet.lineWidth = 3f
-        dataSet.color = getColor(requireContext(), R.color.colorAccent)
+        dataSet.color = themeUtils.getColor(R.attr.colorAccent)
+        dataSet.fillColor = themeUtils.getColor(R.attr.colorPrimary)
+        dataSet.fillAlpha = 30
         dataSet.setDrawFilled(true)
 
         consumptionChart.data = LineData(dataSet)
