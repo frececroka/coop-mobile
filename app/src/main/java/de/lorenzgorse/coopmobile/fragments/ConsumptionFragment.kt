@@ -38,6 +38,7 @@ class ConsumptionFragment : Fragment() {
         super.onCreate(savedInstanceState)
         themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
+        consumptionLogCache = ConsumptionLogCache(requireContext())
     }
 
     override fun onCreateView(
@@ -51,7 +52,6 @@ class ConsumptionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         prepareChart()
-        consumptionLogCache = ConsumptionLogCache(requireContext())
         viewModel.data.removeObservers(this)
         viewModel.data.observe(this, Observer(::setData))
     }
