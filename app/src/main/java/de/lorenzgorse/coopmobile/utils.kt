@@ -3,6 +3,8 @@ package de.lorenzgorse.coopmobile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -53,4 +55,15 @@ suspend fun <I, O> Fragment.launchActivityForResult(
     registerForActivityResult(contract) {
         cont.resume(it)
     }.launch(input)
+}
+
+fun Spanned.trim() {
+    if (this is SpannableStringBuilder) {
+        while (length > 0 && this[length-1].isWhitespace()) {
+            delete(length-1, length)
+        }
+        while (length > 0 && this[0].isWhitespace()) {
+            delete(0, 1)
+        }
+    }
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="open_source">This app is open source. You can view the source code on GitHub and contribute to the development. Any contribution is welcome, be it related to the translation, design, or programming of the application.</string>
+    <string name="open_source"><![CDATA[
+        <p>This app is open source. You can view the source code on GitHub and contribute to the development. Any contribution is welcome, be it related to the translation, design, or programming of the application.</p>
+        <p>This app uses the following open source libraries:</p>
+        <p><a href="https://square.github.io/okhttp/">OkHttp</a>, which is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
+        <p><a href="https://jsoup.org/">Jsoup</a>, which is licensed under the <a href="https://jsoup.org/license">MIT License</a></p>
+        <p><a href="https://github.com/google/gson">Gson</a>, which is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
+        <p><a href="https://github.com/PhilJay/MPAndroidChart/">MPAndroidChart</a>, which is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
+        <p><a href="http://www.slf4j.org/">SLF4J</a>, which is licensed under the <a href="http://www.slf4j.org/license.html">MIT License</a></p>
+        <p><a href="http://logback.qos.ch/">Logback</a>, which is licensed under the <a href="https://www.eclipse.org/legal/epl-v10.html">Eclipse Public License v1.0</a></p>
+]]></string>
     <string name="github" translatable="false">GitHub</string>
 </resources>

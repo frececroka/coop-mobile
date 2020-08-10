@@ -2,6 +2,10 @@ package de.lorenzgorse.coopmobile
 
 import android.app.AlertDialog
 import android.content.Context
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
+import android.widget.TextView
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.resume
@@ -14,6 +18,7 @@ enum class AlertDialogChoice {
 class AlertDialogBuilder(context: Context) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+    private val layoutInflater = LayoutInflater.from(context)
 
     private val builder = AlertDialog.Builder(context)
     private var positiveButton: Int? = null
@@ -32,6 +37,15 @@ class AlertDialogBuilder(context: Context) {
 
     fun setMessage(string: String): AlertDialogBuilder {
         builder.setMessage(string)
+        return this
+    }
+
+    fun setHtml(content: Spanned): AlertDialogBuilder {
+        val layout = layoutInflater.inflate(R.layout.alert_dialog, null)
+        val textView = layout.findViewById<TextView>(R.id.message)
+        textView.text = content
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        builder.setView(layout)
         return this
     }
 
