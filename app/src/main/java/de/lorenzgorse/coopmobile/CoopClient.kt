@@ -16,6 +16,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.Serializable
+import java.lang.NumberFormatException
 import java.net.URL
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
@@ -72,7 +73,7 @@ interface CoopClient {
 
     sealed class CoopException(cause: Throwable?) : Exception(cause) {
         class UnauthorizedException(val redirect: String?) : CoopException(null)
-        class HtmlChangedException(cause: Throwable) : CoopException(cause)
+        class HtmlChangedException(cause: Throwable?) : CoopException(cause)
         class PlanUnsupported(val plan: String?) : CoopException(null)
     }
 
@@ -123,9 +124,24 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         sanitize: (String) -> String = { it }
     ): UnitValue<T> {
         val title = block.selectFirst(".panel__title").text()
-        val amount = block.selectFirst(".panel__consumption__data--value").text()
-        val unit = block.selectFirst(".panel__consumption__data--unit").text()
-        return UnitValue(title, convert(sanitize(amount)), unit)
+        val value = block.selectFirst(".panel__consumption__data--value").text()
+
+        val valueParts = value.split(" ")
+        if (valueParts.size != 2) {
+            throw HtmlChangedException(null)
+        }
+
+        val (amount, unit) = try {
+            Pair(convert(sanitize(valueParts[0])), valueParts[1])
+        } catch (e: NumberFormatException) {
+            try {
+                Pair(convert(sanitize(valueParts[1])), valueParts[0])
+            } catch (e: NumberFormatException) {
+                throw HtmlChangedException(null)
+            }
+        }
+
+        return UnitValue(title, amount, unit)
     }
 
     override suspend fun getConsumptionLog(): List<ConsumptionLogEntry> {
