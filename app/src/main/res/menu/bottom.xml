@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itOverview"
+        android:icon="@drawable/ic_subject"
+        android:title="@string/title_overview" />
+    <item
+        android:id="@+id/itCorrespondences"
+        android:icon="@drawable/ic_message"
+        android:title="@string/title_messages" />
+    <item
+        android:id="@+id/itConsumption"
+        android:icon="@drawable/ic_show_chart"
+        android:title="@string/title_consumption" />
+    <item
+        android:id="@+id/itWebView"
+        android:icon="@drawable/ic_language"
+        android:title="@string/title_web_view" />
+</menu>

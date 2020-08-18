@@ -56,10 +56,7 @@ class StatusFragment: Fragment() {
         return when (item.itemId) {
             R.id.itRefresh -> { refresh(); true }
             R.id.itAddOption -> { addOption(); true }
-            R.id.itCorrespondences -> { viewCorrespondences(); true }
             R.id.itCombox -> { launchCombox(); true }
-            R.id.itWebView -> { openWebView(); true }
-            R.id.itConsumption -> { showConsumption(); true }
             R.id.itLogout -> { logout(); true }
             R.id.itPreferences -> { preferences(); true }
             R.id.itOpenSource -> { openSource(); true }
@@ -77,20 +74,8 @@ class StatusFragment: Fragment() {
         findNavController().navigate(R.id.action_status_to_add_product)
     }
 
-    private fun viewCorrespondences() {
-        findNavController().navigate(R.id.action_status_to_correspondences)
-    }
-
     private fun launchCombox() {
         lifecycleScope.launch { combox.launch() }
-    }
-
-    private fun openWebView() {
-        findNavController().navigate(R.id.action_status_to_web_view)
-    }
-
-    private fun showConsumption() {
-        findNavController().navigate(R.id.action_status_to_consumption)
     }
 
     private fun logout() {
@@ -182,7 +167,7 @@ class StatusFragment: Fragment() {
     }
 
     private fun goToLogin() {
-        findNavController().navigate(R.id.action_status_to_login)
+        findNavController().navigate(R.id.action_login)
     }
 
 }

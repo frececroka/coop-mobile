@@ -4,43 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/status">
+    <action
+        android:id="@+id/action_status"
+        app:destination="@id/status"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_correspondences"
+        app:destination="@id/correspondences"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_web_view"
+        app:destination="@id/web_view"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_consumption"
+        app:destination="@id/consumption"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_login"
+        app:destination="@id/login"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/status"
         android:name="de.lorenzgorse.coopmobile.fragments.StatusFragment"
+        android:label="@string/title_overview"
         tools:layout="@layout/fragment_status">
-        <action
-            android:id="@+id/action_status_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/status"
-            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_status_to_add_product"
             app:destination="@id/add_product"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_status_to_correspondences"
-            app:destination="@id/correspondences"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_status_to_web_view"
-            app:destination="@id/web_view"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_status_to_consumption"
-            app:destination="@id/consumption"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -56,31 +72,13 @@
     <fragment
         android:id="@+id/login"
         android:name="de.lorenzgorse.coopmobile.fragments.LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_login_to_status"
-            app:destination="@id/status"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:launchSingleTop="false"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/status"
-            app:popUpToInclusive="false" />
-    </fragment>
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/add_product"
         android:name="de.lorenzgorse.coopmobile.fragments.AddProductFragment"
+        android:label="@string/title_buy_option"
         tools:layout="@layout/fragment_add_product">
-        <action
-            android:id="@+id/action_add_product_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/status"
-            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_add_product_to_buy_product"
             app:destination="@id/buy_product"
@@ -94,17 +92,8 @@
     <fragment
         android:id="@+id/correspondences"
         android:name="de.lorenzgorse.coopmobile.fragments.CorrespondencesFragment"
-        tools:layout="@layout/fragment_correspondences">
-        <action
-            android:id="@+id/action_correspondences_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/status"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="@string/title_messages"
+        tools:layout="@layout/fragment_correspondences" />
     <fragment
         android:id="@+id/buy_product"
         android:name="de.lorenzgorse.coopmobile.fragments.BuyProductFragment">
@@ -115,32 +104,13 @@
     <fragment
         android:id="@+id/web_view"
         android:name="de.lorenzgorse.coopmobile.fragments.WebViewFragment"
-        tools:layout="@layout/fragment_web_view">
-        <action
-            android:id="@+id/action_web_view_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/status"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="@string/title_web_view"
+        tools:layout="@layout/fragment_web_view" />
     <fragment
         android:id="@+id/consumption"
-        android:name="de.lorenzgorse.coopmobile.fragments.ConsumptionFragment">
-        <action
-            android:id="@+id/action_consumption_to_login"
-            app:destination="@id/login"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/status"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:name="de.lorenzgorse.coopmobile.fragments.ConsumptionFragment"
+        android:label="@string/title_consumption" />
     <fragment
         android:id="@+id/preferences"
-        android:name="de.lorenzgorse.coopmobile.fragments.PreferencesFragment">
-    </fragment>
+        android:name="de.lorenzgorse.coopmobile.fragments.PreferencesFragment" />
 </navigation>

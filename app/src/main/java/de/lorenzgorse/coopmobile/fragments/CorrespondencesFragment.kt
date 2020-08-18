@@ -32,7 +32,7 @@ class CorrespondencesFragment : Fragment() {
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(CorrespondencesViewModel::class.java)
-        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_correspondences_to_login)
+        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(

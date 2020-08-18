@@ -38,7 +38,7 @@ class AddProductFragment : Fragment() {
         remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
-        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_add_product_to_login)
+        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(

@@ -10,20 +10,8 @@
         android:title="@string/title_buy_option"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itCorrespondences"
-        android:title="@string/title_messages"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/itCombox"
         android:title="@string/title_combox"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/itWebView"
-        android:title="@string/title_web_view"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/itConsumption"
-        android:title="@string/title_consumption"
         app:showAsAction="never" />
     <item
         android:id="@+id/itLogout"

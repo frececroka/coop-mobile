@@ -1,15 +1,10 @@
 package de.lorenzgorse.coopmobile
 
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 
-class LoadDataErrorHandler(
-    private val fragment: Fragment,
-    private val goToLoginAction: Int
-) {
+class LoadDataErrorHandler(private val fragment: Fragment) {
 
     private val context = fragment.requireContext()
     private val analytics = FirebaseAnalytics.getInstance(context)
@@ -25,22 +20,22 @@ class LoadDataErrorHandler(
 
     private fun showNoNetwork() {
         fragment.notify(R.string.no_network)
-        fragment.findNavController().popBackStack()
+        fragment.findNavController().navigate(R.id.action_status)
     }
 
     private fun showUpdateNecessary() {
         fragment.notify(R.string.update_necessary)
-        fragment.findNavController().popBackStack()
+        fragment.findNavController().navigate(R.id.action_status)
     }
 
     private fun showPlanUnsupported() {
         fragment.notify(R.string.plan_unsupported)
-        fragment.findNavController().popBackStack()
+        fragment.findNavController().navigate(R.id.action_status)
     }
 
     private fun goToLogin() {
         analytics.logEvent("go_to_login", null)
-        fragment.findNavController().navigate(goToLoginAction)
+        fragment.findNavController().navigate(R.id.action_login)
     }
 
 }

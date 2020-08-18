@@ -1,6 +1,7 @@
 package de.lorenzgorse.coopmobile
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -16,9 +17,21 @@ class NavHost : AppCompatActivity() {
         setContentView(R.layout.activity_nav_host)
         setSupportActionBar(toolbar)
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.login, R.id.status))
+        val topLevelDestinationIds = setOf(
+            R.id.login, R.id.status, R.id.correspondences, R.id.web_view, R.id.consumption)
+        val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
+
+        bottom_nav.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.itOverview -> navController.navigate(R.id.action_status)
+                R.id.itCorrespondences -> navController.navigate(R.id.action_correspondences)
+                R.id.itWebView -> navController.navigate(R.id.action_web_view)
+                R.id.itConsumption -> navController.navigate(R.id.action_consumption)
+            }
+            true
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -27,34 +40,30 @@ class NavHost : AppCompatActivity() {
         destination: NavDestination,
         bundle: Bundle?
     ) {
+        bottom_nav.visibility = if (destination.id == R.id.login) View.GONE else View.VISIBLE
         when (destination.id) {
-            R.id.login -> {
-                toolbar.title = getString(R.string.title_login)
-            }
             R.id.status -> {
-                toolbar.title = getString(R.string.title_overview)
-            }
-            R.id.add_product -> {
-                toolbar.title = getString(R.string.title_buy_option)
+                setBottomNavItem(R.id.itOverview)
             }
             R.id.correspondences -> {
-                toolbar.title = getString(R.string.title_messages)
-            }
-            R.id.web_view -> {
-                toolbar.title = getString(R.string.title_web_view)
+                setBottomNavItem(R.id.itCorrespondences)
             }
             R.id.consumption -> {
-                toolbar.title = getString(R.string.title_consumption)
+                setBottomNavItem(R.id.itConsumption)
             }
-            R.id.preferences -> {
-                toolbar.title = getString(R.string.title_preferences)
+            R.id.web_view -> {
+                setBottomNavItem(R.id.itWebView)
             }
         }
     }
 
+    private fun setBottomNavItem(itemId: Int) {
+        bottom_nav.menu.findItem(itemId).isChecked = true
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        navController.popBackStack()
+        navController.navigateUp()
         return super.onSupportNavigateUp()
     }
 

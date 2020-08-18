@@ -39,7 +39,7 @@ class ConsumptionFragment : Fragment() {
         themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
         consumptionLogCache = ConsumptionLogCache(requireContext())
-        loadDataErrorHandler = LoadDataErrorHandler(this, R.id.action_consumption_to_login)
+        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(
@@ -76,7 +76,7 @@ class ConsumptionFragment : Fragment() {
             consumptionChart.visibility = View.VISIBLE
         } else {
             notify(getString(R.string.consumption_unavailable))
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_status)
         }
     }
 
