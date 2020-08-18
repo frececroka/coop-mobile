@@ -18,14 +18,14 @@ class NavHost : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val navController = findNavController(R.id.nav_host_fragment)
         val topLevelDestinationIds = setOf(
-            R.id.login, R.id.status, R.id.correspondences, R.id.web_view, R.id.consumption)
+            R.id.login, R.id.overview, R.id.correspondences, R.id.web_view, R.id.consumption)
         val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
 
         bottom_nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.itOverview -> navController.navigate(R.id.action_status)
+                R.id.itOverview -> navController.navigate(R.id.action_overview)
                 R.id.itCorrespondences -> navController.navigate(R.id.action_correspondences)
                 R.id.itWebView -> navController.navigate(R.id.action_web_view)
                 R.id.itConsumption -> navController.navigate(R.id.action_consumption)
@@ -42,7 +42,7 @@ class NavHost : AppCompatActivity() {
     ) {
         bottom_nav.visibility = if (destination.id == R.id.login) View.GONE else View.VISIBLE
         when (destination.id) {
-            R.id.status -> {
+            R.id.overview -> {
                 setBottomNavItem(R.id.itOverview)
             }
             R.id.correspondences -> {

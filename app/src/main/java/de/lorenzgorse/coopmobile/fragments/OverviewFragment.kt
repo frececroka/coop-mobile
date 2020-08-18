@@ -11,11 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
-import kotlinx.android.synthetic.main.fragment_status.*
+import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.launch
 import java.util.*
 
-class StatusFragment: Fragment() {
+class OverviewFragment: Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CoopDataViewModel
@@ -36,19 +36,19 @@ class StatusFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_status, container, false)
+        return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Status", null)
+        analytics.setCurrentScreen(requireActivity(), "Overview", null)
         viewModel.data.removeObservers(this)
         viewModel.data.observe(this, Observer(::setData))
         BalanceCheckWorker.enqueueIfEnabled(requireContext())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.status, menu)
+        menuInflater.inflate(R.menu.overview, menu)
         return super.onCreateOptionsMenu(menu, menuInflater)
     }
 
@@ -71,7 +71,7 @@ class StatusFragment: Fragment() {
     }
 
     private fun addOption() {
-        findNavController().navigate(R.id.action_status_to_add_product)
+        findNavController().navigate(R.id.action_overview_to_add_product)
     }
 
     private fun launchCombox() {
@@ -86,7 +86,7 @@ class StatusFragment: Fragment() {
     }
 
     private fun preferences() {
-        findNavController().navigate(R.id.action_status_to_preferences)
+        findNavController().navigate(R.id.action_overview_to_preferences)
     }
 
     private fun openSource() {

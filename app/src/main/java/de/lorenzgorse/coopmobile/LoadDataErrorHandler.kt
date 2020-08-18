@@ -20,17 +20,17 @@ class LoadDataErrorHandler(private val fragment: Fragment) {
 
     private fun showNoNetwork() {
         fragment.notify(R.string.no_network)
-        fragment.findNavController().navigate(R.id.action_status)
+        fragment.findNavController().navigate(R.id.action_overview)
     }
 
     private fun showUpdateNecessary() {
         fragment.notify(R.string.update_necessary)
-        fragment.findNavController().navigate(R.id.action_status)
+        fragment.findNavController().navigate(R.id.action_overview)
     }
 
     private fun showPlanUnsupported() {
         fragment.notify(R.string.plan_unsupported)
-        fragment.findNavController().navigate(R.id.action_status)
+        fragment.findNavController().navigate(R.id.action_overview)
     }
 
     private fun goToLogin() {

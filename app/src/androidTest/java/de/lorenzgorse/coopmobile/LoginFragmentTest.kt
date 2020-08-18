@@ -50,7 +50,7 @@ class LoginFragmentTest {
         val sessionId = "2384234820943"
         `when`(coopLogin.login(username, password)).thenReturn(sessionId)
         doLogin()
-        verify(navController).navigate(R.id.action_login_to_status)
+        verify(navController).navigate(R.id.action_overview)
         assertThat(loadSavedSession(context), equalTo(sessionId))
         assertThat(loadSavedCredentials(context), equalTo(Pair(username, password)))
     } }

@@ -76,7 +76,7 @@ class ConsumptionFragment : Fragment() {
             consumptionChart.visibility = View.VISIBLE
         } else {
             notify(getString(R.string.consumption_unavailable))
-            findNavController().navigate(R.id.action_status)
+            findNavController().navigate(R.id.action_overview)
         }
     }
 

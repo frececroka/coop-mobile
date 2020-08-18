@@ -24,7 +24,7 @@ import de.lorenzgorse.coopmobile.CoopClient.CoopException.PlanUnsupported
 import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.MockCoopData.coopData2
-import de.lorenzgorse.coopmobile.fragments.StatusFragment
+import de.lorenzgorse.coopmobile.fragments.OverviewFragment
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.*
 import org.junit.Rule
@@ -32,13 +32,13 @@ import org.junit.Test
 import org.mockito.Mockito.*
 import java.net.UnknownHostException
 
-class StatusFragmentTest {
+class OverviewFragmentTest {
 
     @get:Rule
     val intentsTestRule = IntentsTestRule(FragmentScenario.EmptyFragmentActivity::class.java)
 
     private lateinit var navController: NavController
-    private lateinit var scenario: FragmentScenario<StatusFragment>
+    private lateinit var scenario: FragmentScenario<OverviewFragment>
 
     private val context = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
     private val prefs = context.getCoopSharedPreferences()
@@ -216,7 +216,7 @@ class StatusFragmentTest {
     private fun launchFragment() {
         navController = mock(NavController::class.java)
         scenario = FragmentScenario.launchInContainer(
-            StatusFragment::class.java, Bundle.EMPTY, R.style.AppTheme, FragmentFactory())
+            OverviewFragment::class.java, Bundle.EMPTY, R.style.AppTheme, FragmentFactory())
         scenario.onFragment { Navigation.setViewNavController(it.requireView(), navController) }
     }
 

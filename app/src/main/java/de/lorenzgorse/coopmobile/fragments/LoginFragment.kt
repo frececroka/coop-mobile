@@ -171,7 +171,7 @@ class LoginFragment : Fragment() {
             analytics.logEventOnce(requireContext(), "Onb_Login_Success", null)
             writeCredentials(requireContext(), username, password)
             writeSession(requireContext(), sessionId)
-            findNavController().navigate(R.id.action_status)
+            findNavController().navigate(R.id.action_overview)
         } else {
             log.info("Did not receive any session ID.")
             analytics.logEvent("Login_AuthFailed", null)

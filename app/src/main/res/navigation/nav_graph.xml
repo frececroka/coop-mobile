@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/status">
+    app:startDestination="@id/overview">
     <action
-        android:id="@+id/action_status"
-        app:destination="@id/status"
+        android:id="@+id/action_overview"
+        app:destination="@id/overview"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -50,19 +50,19 @@
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
     <fragment
-        android:id="@+id/status"
-        android:name="de.lorenzgorse.coopmobile.fragments.StatusFragment"
+        android:id="@+id/overview"
+        android:name="de.lorenzgorse.coopmobile.fragments.OverviewFragment"
         android:label="@string/title_overview"
-        tools:layout="@layout/fragment_status">
+        tools:layout="@layout/fragment_overview">
         <action
-            android:id="@+id/action_status_to_add_product"
+            android:id="@+id/action_overview_to_add_product"
             app:destination="@id/add_product"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_status_to_preferences"
+            android:id="@+id/action_overview_to_preferences"
             app:destination="@id/preferences"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
