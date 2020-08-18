@@ -6,7 +6,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/itCorrespondences"
-        android:title="@string/title_messages"
+        android:title="@string/title_correspondences"
         app:showAsAction="never" />
     <item
         android:id="@+id/itTopUp"

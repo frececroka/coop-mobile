@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_overview">Aperçu</string>
-    <string name="title_messages">Messages</string>
+    <string name="title_correspondences">Messages</string>
     <string name="title_buy_option">Commander une option</string>
 
     <string name="title_login">S\'identifier</string>

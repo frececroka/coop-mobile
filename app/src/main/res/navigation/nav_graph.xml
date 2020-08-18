@@ -92,7 +92,7 @@
     <fragment
         android:id="@+id/correspondences"
         android:name="de.lorenzgorse.coopmobile.fragments.CorrespondencesFragment"
-        android:label="@string/title_messages"
+        android:label="@string/title_correspondences"
         tools:layout="@layout/fragment_correspondences" />
     <fragment
         android:id="@+id/buy_product"

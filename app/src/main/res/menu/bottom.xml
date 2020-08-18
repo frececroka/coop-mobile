@@ -7,7 +7,7 @@
     <item
         android:id="@+id/itCorrespondences"
         android:icon="@drawable/ic_message"
-        android:title="@string/title_messages" />
+        android:title="@string/title_correspondences" />
     <item
         android:id="@+id/itConsumption"
         android:icon="@drawable/ic_show_chart"

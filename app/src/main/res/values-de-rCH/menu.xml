@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_overview">Übersicht</string>
-    <string name="title_messages">Nachrichten</string>
+    <string name="title_correspondences">Nachrichten</string>
     <string name="title_buy_option">Option buchen</string>
     <string name="title_top_up">Guthaben aufladen</string>
 
