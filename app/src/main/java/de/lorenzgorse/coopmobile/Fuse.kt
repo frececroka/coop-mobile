@@ -1,7 +1,6 @@
 package de.lorenzgorse.coopmobile
 
 import android.content.Context
-import de.lorenzgorse.coopmobile.getCoopSharedPreferences
 
 class Fuse(context: Context, name: String) {
 
