@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="consumption_unavailable">Sorry, we are unable to load the consumption data.</string>
+</resources>

@@ -66,7 +66,9 @@ class BalanceCheckWorker(
             }
         }
 
-        consumptionLogCache.insert(consumptionLog)
+        if (consumptionLog != null) {
+            consumptionLogCache.insert(consumptionLog)
+        }
 
         val credit = data.credit ?: return Result.success()
         if (credit.amount < balanceThreshold()) {

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -56,7 +57,7 @@ class ConsumptionFragment : Fragment() {
         viewModel.data.observe(this, Observer(::setData))
     }
 
-    private fun setData(result: Value<Pair<CoopData, List<ConsumptionLogEntry>>>) {
+    private fun setData(result: Value<Pair<CoopData, List<ConsumptionLogEntry>?>>) {
         when (result) {
             is Value.Initiated -> { }
             is Value.Failure ->
@@ -67,11 +68,16 @@ class ConsumptionFragment : Fragment() {
         }
     }
 
-    private suspend fun onSuccess(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>) {
-        consumptionLogCache.insert(consumptionLog)
-        updateChart(coopData, consumptionLogCache.load())
-        loading.visibility = View.GONE
-        consumptionChart.visibility = View.VISIBLE
+    private suspend fun onSuccess(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>?) {
+        if (consumptionLog != null) {
+            consumptionLogCache.insert(consumptionLog)
+            updateChart(coopData, consumptionLogCache.load())
+            loading.visibility = View.GONE
+            consumptionChart.visibility = View.VISIBLE
+        } else {
+            notify(getString(R.string.consumption_unavailable))
+            findNavController().popBackStack()
+        }
     }
 
     private fun prepareChart() {
@@ -157,6 +163,6 @@ class LegacyDateValueFormatter : ValueFormatter() {
 
 class ConsumptionViewModel(
     app: Application
-): ApiDataViewModel<Pair<CoopData, List<ConsumptionLogEntry>>>(app, { {
+): ApiDataViewModel<Pair<CoopData, List<ConsumptionLogEntry>?>>(app, { {
     Pair(it.getData(), it.getConsumptionLog())
 } })

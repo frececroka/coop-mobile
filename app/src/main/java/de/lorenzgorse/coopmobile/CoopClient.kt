@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.JsonSyntaxException
 import com.google.gson.annotations.SerializedName
 import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
@@ -81,7 +82,7 @@ interface CoopClient {
     suspend fun getData(): CoopData
 
     @Throws(IOException::class, CoopException::class)
-    suspend fun getConsumptionLog(): List<ConsumptionLogEntry>
+    suspend fun getConsumptionLog(): List<ConsumptionLogEntry>?
 
     @Throws(IOException::class, CoopException::class)
     suspend fun getProducts(): List<Product>
@@ -144,10 +145,14 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return UnitValue(title, amount, unit)
     }
 
-    override suspend fun getConsumptionLog(): List<ConsumptionLogEntry> {
-        val consumption = getJson<RawConsumptionLog>(
-            "https://myaccount.coopmobile.ch/$country/ajax_load_cdr")
-        return consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
+    override suspend fun getConsumptionLog(): List<ConsumptionLogEntry>? {
+        return try {
+            val consumption = getJson<RawConsumptionLog>(
+                "https://myaccount.coopmobile.ch/$country/ajax_load_cdr")
+            consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
+        } catch (e: JsonSyntaxException) {
+            null
+        }
     }
 
     private fun parseConsumptionLogEntry(
