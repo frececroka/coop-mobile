@@ -150,8 +150,8 @@ class WebViewFragment : Fragment() {
                 log.info("The current session is invalid. Cancelling load and refreshing session.")
 
                 // Hide web view while we don't have a valid session.
-                loading.visibility = View.VISIBLE
-                webView.visibility = View.GONE
+                loading?.visibility = View.VISIBLE
+                webView?.visibility = View.GONE
 
                 // Try to get a new session.
                 lifecycleScope.launch { refreshSession() }
@@ -165,15 +165,13 @@ class WebViewFragment : Fragment() {
 
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-            if (progressBar == null) return
-            progressBar.progress = 0
-            progressBar.visibility = View.VISIBLE
+            progressBar?.progress = 0
+            progressBar?.visibility = View.VISIBLE
         }
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            if (progressBar == null) return
-            progressBar.visibility = View.GONE
+            progressBar?.visibility = View.GONE
         }
 
         override fun onLoadResource(view: WebView?, url: String?) {
