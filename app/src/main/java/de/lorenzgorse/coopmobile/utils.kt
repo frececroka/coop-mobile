@@ -7,6 +7,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import kotlin.coroutines.resume
@@ -65,5 +66,17 @@ fun Spanned.trim() {
         while (length > 0 && this[0].isWhitespace()) {
             delete(0, 1)
         }
+    }
+}
+
+fun Context.openPlayStore() {
+    val appPackageName = packageName
+    try {
+        val marketUrl = Uri.parse("market://details?id=$appPackageName")
+        ContextCompat.startActivity(this, Intent(Intent.ACTION_VIEW, marketUrl), null)
+    } catch (anfe: android.content.ActivityNotFoundException) {
+        val marketUrl = Uri.parse(
+            "https://play.google.com/store/apps/details?id=$appPackageName")
+        ContextCompat.startActivity(this, Intent(Intent.ACTION_VIEW, marketUrl), null)
     }
 }

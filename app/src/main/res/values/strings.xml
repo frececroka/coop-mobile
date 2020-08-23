@@ -9,7 +9,8 @@
 
     <string name="loading">Loading data…</string>
     <string name="no_network">No internet connection.</string>
-    <string name="update_necessary">Please wait for an update.</string>
+    <string name="update_necessary">You need a new version of the app due to technical reasons. Please wait until an update is available in the Play Store.</string>
+    <string name="go_to_play_store">Go to Play Store</string>
     <string name="please_rate">Happy? Unhappy? We would appreciate a review in the Play Store.</string>
     <string name="plan_unsupported">Only Coop Mobile Prepaid is supported at the moment.</string>
 

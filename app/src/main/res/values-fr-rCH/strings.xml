@@ -9,7 +9,6 @@
 
     <string name="loading">Chargement des données…</string>
     <string name="no_network">Pas de connexion Internet.</string>
-    <string name="update_necessary">La mise à jour nécessite.</string>
 
     <string name="refresh">Rafraîchir</string>
     <string name="title_logout">Se déconnecter</string>

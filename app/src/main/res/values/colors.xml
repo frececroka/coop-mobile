@@ -10,4 +10,6 @@
     <color name="background1">#F1F1F1</color>
     <color name="background2">#FFF</color>
     <color name="background3">#CCC</color>
+
+    <color name="colorOnBackground1">#000</color>
 </resources>

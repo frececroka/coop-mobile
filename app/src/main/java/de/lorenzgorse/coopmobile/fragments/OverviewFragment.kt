@@ -39,6 +39,11 @@ class OverviewFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btGoToPlayStore.setOnClickListener { openPlayStore() }
+    }
+
     override fun onStart() {
         super.onStart()
         analytics.setCurrentScreen(requireActivity(), "Overview", null)
@@ -142,28 +147,32 @@ class OverviewFragment: Fragment() {
     private fun showNoNetwork() {
         hideAll()
         layError.visibility = View.VISIBLE
-        txtNoNetwork.visibility = View.VISIBLE
+        layNoNetwork.visibility = View.VISIBLE
     }
 
     private fun showUpdateNecessary() {
         hideAll()
         layError.visibility = View.VISIBLE
-        txtUpdate.visibility = View.VISIBLE
+        layUpdate.visibility = View.VISIBLE
     }
 
     private fun showPlanUnsupported() {
         hideAll()
         layError.visibility = View.VISIBLE
-        txtPlanUnsupported.visibility = View.VISIBLE
+        layPlanUnsupported.visibility = View.VISIBLE
     }
 
     private fun hideAll() {
         layContent.visibility = View.GONE
         loading.visibility = View.GONE
         layError.visibility = View.GONE
-        txtNoNetwork.visibility = View.GONE
-        txtUpdate.visibility = View.GONE
-        txtPlanUnsupported.visibility = View.GONE
+        layNoNetwork.visibility = View.GONE
+        layUpdate.visibility = View.GONE
+        layPlanUnsupported.visibility = View.GONE
+    }
+
+    private fun openPlayStore() {
+        requireContext().openPlayStore()
     }
 
     private fun goToLogin() {
