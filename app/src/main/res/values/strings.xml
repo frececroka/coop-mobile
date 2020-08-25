@@ -12,7 +12,7 @@
     <string name="update_necessary">You need a new version of the app due to technical reasons. Please wait until an update is available in the Play Store.</string>
     <string name="go_to_play_store">Go to Play Store</string>
     <string name="please_rate">Happy? Unhappy? We would appreciate a review in the Play Store.</string>
-    <string name="plan_unsupported">Only Coop Mobile Prepaid is supported at the moment.</string>
+    <string name="plan_unsupported">Only Coop Mobile Prepaid and Coop Mobile Wireless are supported at the moment.</string>
 
     <string name="refresh">Refresh</string>
     <string name="show_rating_banner" translatable="false">Show Rating Banner</string>

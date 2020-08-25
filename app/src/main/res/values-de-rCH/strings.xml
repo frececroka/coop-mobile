@@ -11,7 +11,7 @@
     <string name="update_necessary">Sie benötigen aus technischen Gründen eine neue Version der App. Bitte warten Sie, bis ein Update im Play Store verfügbar ist.</string>
     <string name="go_to_play_store">Zum Play Store wechseln</string>
     <string name="please_rate">Zufrieden? Unzufrieden? Über eine Bewertung im Play Store würden wir uns freuen.</string>
-    <string name="plan_unsupported">Aktuell wird leider nur Coop Mobile Prepaid unterstützt.</string>
+    <string name="plan_unsupported">Aktuell werden leider nur Coop Mobile Prepaid und Coop Mobile Wireless unterstützt.</string>
 
     <string name="refresh">Aktualisieren</string>
 </resources>

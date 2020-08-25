@@ -58,7 +58,7 @@ const val coopScheme = "https"
 const val coopBase = "$coopScheme://$coopHost/eCare"
 val country = determineCountry()
 val coopBaseLogin = "$coopBase/$country/users/sign_in"
-val coopBaseAccount = "$coopBase/prepaid/$country"
+val coopBaseAccount = "$coopBase/$country"
 
 fun determineCountry(): String {
     return when (Locale.getDefault().language) {
@@ -111,10 +111,13 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
             val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
                 parseUnitValueBlock(block.parent(), { it.toFloat() }) { it.replace(".–", "") }
             }?.let { listOf(it) }.orEmpty()
-            val consumptions = html.select("#my_consumption .panel").map {
+            val consumptions1 = html.select("#my_consumption .panel").map {
                 parseUnitValueBlock(it, { v -> v.toFloat() })
             }
-            CoopData(creditBalance + consumptions)
+            val consumptions2 = html.select("#my_consumption.panel").map {
+                parseUnitValueBlock(it, { v -> v.toFloat() })
+            }
+            CoopData(creditBalance + consumptions1 + consumptions2)
         }
     }
 
@@ -266,25 +269,16 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
             Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/.+")
 
         fun assertResponseSuccessful(response: Response) {
-            if (!response.isRedirect) return
-            val location = response.header("Location") ?:
-                throw UnauthorizedException(null)
-            throw if (signInRegex.matches(location)) {
-                UnauthorizedException(location)
+            val location = response.request.url.toString()
+            if (signInRegex.matches(location)) {
+                throw UnauthorizedException(location)
             } else {
                 val matchResult = planRegex.matchEntire(location)
                 if (matchResult != null) {
                     val plan = matchResult.groups[1]?.value
-                    if (plan != "prepaid") {
-                        PlanUnsupported(plan)
-                    } else {
-                        // This accounts for ... interesting behavior on the part of Coop Mobile.
-                        // Requesting the overview page with an expired session redirects to the
-                        // same page again (probably setting a cookie).
-                        UnauthorizedException(location)
+                    if (!listOf("prepaid", "wireless").contains(plan) ) {
+                        throw PlanUnsupported(plan)
                     }
-                } else {
-                    UnauthorizedException(location)
                 }
             }
         }
@@ -337,16 +331,15 @@ class RealCoopLogin : CoopLogin {
             .add("button", "")
             .build()
         val loginResponse = client.post(coopBaseLogin, formBody)
-        log.info("Login response status code is ${loginResponse.code}")
+        val finalUrl = loginResponse.request.url.toUrl().toString()
+        log.info("Login result: [${loginResponse.code}] $finalUrl")
 
-        val location = loginResponse.headers["Location"]
-        log.info("Login redirect URL is $location")
+        if (!loginResponse.isSuccessful) return null
 
-        val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/[a-z]+/home")
-        return if (
-            loginResponse.isRedirect &&
-            location?.matches(loginSuccessLocation) == true
-        ) {
+        // https://myaccount.coopmobile.ch/eCare/wireless/de
+        // https://myaccount.coopmobile.ch/eCare/prepaid/de
+        val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/.*/(de|fr|it)/?")
+        return if (finalUrl.matches(loginSuccessLocation)) {
             cookieJar.get("_ecare_session")?.value
         } else {
             null

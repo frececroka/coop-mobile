@@ -11,7 +11,7 @@ import java.net.URL
 class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
 
     private val client = OkHttpClient.Builder()
-        .followRedirects(false)
+        .followRedirects(true)
         .cookieJar(cookieJar)
         .build()
 

@@ -10,7 +10,6 @@
     <string name="loading">Caricamento…</string>
     <string name="no_network">Nessuna connessione a internet trovata.</string>
     <string name="please_rate">Soddisfatto? Insoddisfatto? Ci farebbe piacere una recensione sul Play Store.</string>
-    <string name="plan_unsupported">Per il momento solo Coop Mobile Prepaid é supportata.</string>
 
     <string name="refresh">Aggiorna</string>
 </resources>

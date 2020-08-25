@@ -85,60 +85,46 @@ class CoopClientTest {
         expiredClient.getCorrespondeces()
     } }
 
-    @Test(expected = UnauthorizedException::class)
-    fun testAssertResponseSuccessfulSessionExpired() {
-        val response = makeRedirectResponse(
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de",
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de"
-        )
-        RealCoopClient.assertResponseSuccessful(response)
-    }
-
     @Test(expected = PlanUnsupported::class)
     fun testAssertResponseSuccessfulWirelessPlanUnsupported() {
-        val response = makeRedirectResponse(
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de",
-            "https://myaccount.coopmobile.ch/eCare/wireless/de"
+        val response = makeResponse(
+            "https://myaccount.coopmobile.ch/eCare/unsupported/de"
         )
         RealCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = PlanUnsupported::class)
     fun testAssertResponseSuccessfulWirelessAddProductPlanUnsupported() {
-        val response = makeRedirectResponse(
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de/add_product",
-            "https://myaccount.coopmobile.ch/eCare/wireless/de/add_product"
+        val response = makeResponse(
+            "https://myaccount.coopmobile.ch/eCare/unsupported/de/add_product"
         )
         RealCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = PlanUnsupported::class)
     fun testAssertResponseSuccessfulWirelessCorrespondencesPlanUnsupported() {
-        val response = makeRedirectResponse(
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/index",
-            "https://myaccount.coopmobile.ch/eCare/wireless/de/my_correspondence/index"
+        val response = makeResponse(
+            "https://myaccount.coopmobile.ch/eCare/unsupported/de/my_correspondence/index"
         )
         RealCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = UnauthorizedException::class)
     fun testAssertResponseSuccessfulUnauthorized() {
-        val response = makeRedirectResponse(
-            "https://myaccount.coopmobile.ch/eCare/prepaid/de",
+        val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/de/users/sign_in"
         )
         RealCoopClient.assertResponseSuccessful(response)
     }
 
-    private fun makeRedirectResponse(requestUrl: String, responseUrl: String): Response {
+    private fun makeResponse(responseUrl: String): Response {
         val request = Request.Builder()
-            .url(requestUrl)
+            .url(responseUrl)
             .build()
         return Response.Builder()
             .request(request)
             .protocol(Protocol.HTTP_1_1)
-            .code(301).message("Moved Permanently")
-            .addHeader("Location", responseUrl)
+            .code(200).message("OK")
             .build()
     }
 
