@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -87,6 +88,7 @@ class OverviewFragment: Fragment() {
         analytics.logEvent("logout", null)
         clearSession(requireContext())
         clearCredentials(requireContext())
+        coopClientFactory.clear()
         goToLogin()
     }
 

@@ -359,6 +359,7 @@ class RealCoopLogin : CoopLogin {
 interface CoopClientFactory {
     suspend fun get(context: Context): CoopClient?
     suspend fun refresh(context: Context, invalidateSession: Boolean = false): CoopClient?
+    fun clear()
 }
 
 class RealCoopClientFactory : CoopClientFactory {
@@ -389,6 +390,10 @@ class RealCoopClientFactory : CoopClientFactory {
             writeSession(context, sessionId)
         }
         sessionId
+    }
+
+    override fun clear() {
+        instance = null
     }
 
 }
