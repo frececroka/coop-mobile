@@ -24,7 +24,7 @@ import java.util.*
 
 data class UnitValue<T>(val description: String, val amount: T, val unit: String)
 
-data class CoopData(val credit: UnitValue<Float>?, val consumptions: List<UnitValue<Int>>)
+data class CoopData(val items: List<UnitValue<Float>>)
 
 data class Product(
     val name: String,
@@ -110,11 +110,11 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return safeHtml {
             val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
                 parseUnitValueBlock(block.parent(), { it.toFloat() }) { it.replace(".–", "") }
-            }
+            }?.let { listOf(it) }.orEmpty()
             val consumptions = html.select("#my_consumption .panel").map {
-                parseUnitValueBlock(it, { v -> v.toInt() })
+                parseUnitValueBlock(it, { v -> v.toFloat() })
             }
-            CoopData(creditBalance, consumptions)
+            CoopData(creditBalance + consumptions)
         }
     }
 

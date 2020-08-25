@@ -121,66 +121,11 @@
                 tools:visibility="visible" />
 
             <LinearLayout
+                android:id="@+id/consumptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/card_list_padding">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/card_margin">
-
-                    <LinearLayout
-                        android:id="@+id/blkCredit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/background2"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:padding="8pt"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/guthaben" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="2pt">
-
-                            <TextView
-                                android:id="@+id/textCreditUnit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingRight="2pt"
-                                android:text="@string/chf" />
-
-                            <TextView
-                                android:id="@+id/textCreditValue"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:paddingLeft="2pt"
-                                android:textColor="@color/coopGreen"
-                                android:textSize="25pt"
-                                tools:text="4,38" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <LinearLayout
-                    android:id="@+id/consumptions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
+                android:padding="@dimen/card_list_padding" />
 
         </LinearLayout>
 

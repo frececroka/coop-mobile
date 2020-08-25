@@ -122,20 +122,16 @@ class OverviewFragment: Fragment() {
 
         showContent()
 
-        val credit = result.credit
-        if (credit != null) {
-            textCreditValue.text = String.format(Locale.GERMAN, "%.2f", credit.amount)
-            textCreditUnit.text = credit.unit
-            blkCredit.visibility = View.VISIBLE
-        } else {
-            blkCredit.visibility = View.GONE
-        }
-
         consumptions.removeAllViews()
-        result.consumptions.forEach {
+        result.items.forEach {
             val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
+            val amount = if (it.amount.rem(1) <= 0.005) {
+                it.amount.toInt().toString()
+            } else {
+                String.format(Locale.GERMAN, "%.2f", it.amount)
+            }
             consumption.findViewById<TextView>(R.id.textTitle).text = it.description
-            consumption.findViewById<TextView>(R.id.textValue).text = it.amount.toString()
+            consumption.findViewById<TextView>(R.id.textValue).text = amount
             consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
         }

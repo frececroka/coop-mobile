@@ -98,7 +98,7 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun updateChart(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>) {
-        val currentMobileData = coopData.consumptions.firstOrNull {
+        val currentMobileData = coopData.items.firstOrNull {
             setOf(
                 "Mobile Daten in der Schweiz",
                 "Données mobiles en Suisse",

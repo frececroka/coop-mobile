@@ -46,10 +46,9 @@ class CoopClientTest {
     @Test
     fun testLoadData() = runBlocking {
         val data = client.getData()
-        assertThat(data.credit, not(nullValue()))
-        assertThat(data.consumptions, hasSize(2))
-        assertThat(data.consumptions.map { it.description }, everyItem(not(emptyString())))
-        assertThat(data.consumptions.map { it.unit }, everyItem(not(emptyString())))
+        assertThat(data.items, hasSize(3))
+        assertThat(data.items.map { it.description }, everyItem(not(emptyString())))
+        assertThat(data.items.map { it.unit }, everyItem(not(emptyString())))
     }
 
     @Test
