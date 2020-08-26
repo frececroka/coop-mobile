@@ -97,6 +97,9 @@ class LoginFragment : Fragment() {
     }
 
     private suspend fun attemptLogin() {
+        cardError.visibility = View.GONE
+        txtNoNetwork.visibility = View.GONE
+        txtLoginFailed.visibility = View.GONE
 
         val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(txtUsername.windowToken, 0)
@@ -154,6 +157,7 @@ class LoginFragment : Fragment() {
             log.error("No network connection available.")
             analytics.logEvent("Login_NoNetwork", null)
             showProgress(false)
+            cardError.visibility = View.VISIBLE
             txtNoNetwork.visibility = View.VISIBLE
             return
         } catch (e: HtmlChangedException) {
@@ -176,6 +180,7 @@ class LoginFragment : Fragment() {
             log.info("Did not receive any session ID.")
             analytics.logEvent("Login_AuthFailed", null)
             showProgress(false)
+            cardError.visibility = View.VISIBLE
             txtLoginFailed.visibility = View.VISIBLE
         }
     }
