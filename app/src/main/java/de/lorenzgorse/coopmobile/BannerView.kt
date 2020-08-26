@@ -1,9 +1,11 @@
 package de.lorenzgorse.coopmobile
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import kotlinx.android.synthetic.main.banner.view.*
@@ -13,22 +15,48 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
 
     private val analytics = FirebaseAnalytics.getInstance(context)
 
+    var activity: Activity? = null
+
     init {
         inflate(context, R.layout.banner, this)
         btOkay.setOnClickListener {
-            analytics.logEvent("rating_banner_okay", null)
-            context.openPlayStore(); dismiss()
+            analytics.logEvent("RatingBanner_Okay", null)
+            startReview()
         }
         btNo.setOnClickListener {
-            analytics.logEvent("rating_banner_no", null)
+            analytics.logEvent("RatingBanner_No", null)
             dismiss()
         }
     }
 
     fun onLoadSuccess() {
         if (incrementAndGetLoadCount() >= 10 && daysSinceInstall() > 5 && !dismissed()) {
-            analytics.logEvent("rating_banner_show", null)
+            analytics.logEvent("RatingBanner_Show", null)
             visibility = View.VISIBLE
+        }
+    }
+
+    fun startReview() {
+        layResponse.visibility = View.GONE
+        layProgress.visibility = View.VISIBLE
+        val activity = activity
+        if (activity != null) {
+            val reviewManager = ReviewManagerFactory.create(context)
+            val request = reviewManager.requestReviewFlow()
+            request.addOnCompleteListener {
+                dismiss()
+                if (it.isSuccessful) {
+                    analytics.logEvent("RatingBanner_InAppReview", null)
+                    reviewManager.launchReviewFlow(activity, it.result)
+                } else {
+                    analytics.logEvent("RatingBanner_ExternalPlayStore2", null)
+                    context.openPlayStore()
+                }
+            }
+        } else {
+            analytics.logEvent("RatingBanner_ExternalPlayStore1", null)
+            dismiss()
+            context.openPlayStore()
         }
     }
 
