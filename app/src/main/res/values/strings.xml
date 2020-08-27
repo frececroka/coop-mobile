@@ -15,7 +15,6 @@
     <string name="plan_unsupported">Only Coop Mobile Prepaid and Coop Mobile Wireless are supported at the moment.</string>
 
     <string name="refresh">Refresh</string>
-    <string name="show_rating_banner" translatable="false">Show Rating Banner</string>
 
     <string name="chf" translatable="false">CHF</string>
 </resources>

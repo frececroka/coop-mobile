@@ -68,6 +68,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_overview_to_debug"
+            app:destination="@id/debug"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -112,5 +119,10 @@
         android:label="@string/title_consumption" />
     <fragment
         android:id="@+id/preferences"
-        android:name="de.lorenzgorse.coopmobile.fragments.PreferencesFragment" />
+        android:name="de.lorenzgorse.coopmobile.fragments.PreferencesFragment"
+        android:label="@string/title_preferences" />
+    <fragment
+        android:id="@+id/debug"
+        android:name="de.lorenzgorse.coopmobile.fragments.DebugFragment"
+        android:label="@string/title_debug" />
 </navigation>

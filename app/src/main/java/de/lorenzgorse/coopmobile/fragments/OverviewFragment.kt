@@ -59,6 +59,12 @@ class OverviewFragment: Fragment() {
         return super.onCreateOptionsMenu(menu, menuInflater)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val enabled = DebugFragment.isEnabled(requireContext())
+        menu.findItem(R.id.itDebug).isVisible = enabled
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.itRefresh -> { refresh(); true }
@@ -67,7 +73,7 @@ class OverviewFragment: Fragment() {
             R.id.itLogout -> { logout(); true }
             R.id.itPreferences -> { preferences(); true }
             R.id.itOpenSource -> { openSource(); true }
-            R.id.itRatingBanner -> { bannerRate.visibility = View.VISIBLE; true }
+            R.id.itDebug -> { debug(); true }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -99,6 +105,10 @@ class OverviewFragment: Fragment() {
 
     private fun openSource() {
         lifecycleScope.launch { openSource.launch() }
+    }
+
+    private fun debug() {
+        findNavController().navigate(R.id.action_overview_to_debug)
     }
 
     private fun setData(result: Value<CoopData>?) {

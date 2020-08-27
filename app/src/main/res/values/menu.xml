@@ -10,6 +10,7 @@
     <string name="title_consumption">Data Consumption</string>
 
     <string name="title_preferences">Preferences</string>
+    <string name="title_debug" translatable="false">Debug UI</string>
 
     <string name="title_logout">Logout</string>
     <string name="title_login">Login</string>

@@ -26,8 +26,8 @@
         android:title="@string/title_open_source"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itRatingBanner"
-        android:title="@string/show_rating_banner"
+        android:id="@+id/itDebug"
+        android:title="@string/title_debug"
         android:visible="false"
         app:showAsAction="never" />
 </menu>

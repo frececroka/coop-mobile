@@ -5,4 +5,7 @@
 
     <string name="title_check_balance_threshold">Balance notification threshold</string>
     <string name="summary_check_balance_threshold">You will receive a notification if your balance falls below this threshold.</string>
+
+    <string name="title_app_info">App Information</string>
+    <string name="summary_app_info">Version %1$s</string>
 </resources>
