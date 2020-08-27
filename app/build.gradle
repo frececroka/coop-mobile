@@ -72,13 +72,13 @@ dependencies {
 
     implementation "com.google.android.material:material:1.3.0-alpha02"
 
-    implementation "androidx.appcompat:appcompat:1.3.0-alpha01"
+    implementation "androidx.appcompat:appcompat:1.3.0-alpha02"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha06"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha07"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha07"
+    implementation "androidx.fragment:fragment-ktx:1.3.0-alpha08"
     implementation "androidx.core:core-ktx:1.3.1"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
     implementation "androidx.preference:preference:1.1.1"
@@ -92,8 +92,8 @@ dependencies {
     implementation "org.jsoup:jsoup:1.12.2"
     implementation "com.squareup.okhttp3:okhttp:4.4.0"
     implementation "com.google.firebase:firebase-config:19.2.0"
-    implementation "com.google.firebase:firebase-analytics:17.4.4"
-    implementation "com.google.firebase:firebase-crashlytics:17.1.1"
+    implementation "com.google.firebase:firebase-analytics:17.5.0"
+    implementation "com.google.firebase:firebase-crashlytics:17.2.1"
     implementation "com.google.android.play:core:1.8.0"
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
