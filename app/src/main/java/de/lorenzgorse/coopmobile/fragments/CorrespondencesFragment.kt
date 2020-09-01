@@ -44,7 +44,7 @@ class CorrespondencesFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Correspondences", null)
+        analytics.setScreen("Correspondences")
         viewModel.data.observe(this, Observer(::setData))
     }
 

@@ -75,7 +75,7 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Login", null)
+        analytics.setScreen("Login")
     }
 
     private suspend fun attemptLoginGuard() {

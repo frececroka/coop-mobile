@@ -52,7 +52,7 @@ class AddProductFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "AddProduct", null)
+        analytics.setScreen("AddProduct")
         viewModel.data.observe(this, Observer(::setData))
     }
 

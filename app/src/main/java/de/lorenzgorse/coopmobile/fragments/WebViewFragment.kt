@@ -19,6 +19,7 @@ import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.determineCountry
 import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.setScreen
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
@@ -82,7 +83,7 @@ class WebViewFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "WebView", null)
+        analytics.setScreen("WebView")
         analytics.logEvent("web_view", null)
 
         // Initialize the web view.

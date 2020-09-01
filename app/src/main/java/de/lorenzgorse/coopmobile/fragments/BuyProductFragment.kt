@@ -40,7 +40,7 @@ class BuyProductFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "BuyProduct", null)
+        analytics.setScreen("BuyProduct")
     }
 
     override fun onCreateView(

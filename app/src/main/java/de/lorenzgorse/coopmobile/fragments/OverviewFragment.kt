@@ -49,7 +49,7 @@ class OverviewFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setCurrentScreen(requireActivity(), "Overview", null)
+        analytics.setScreen("Overview")
         viewModel.data.removeObservers(this)
         viewModel.data.observe(this, Observer(::setData))
         BalanceCheckWorker.enqueueIfEnabled(requireContext())

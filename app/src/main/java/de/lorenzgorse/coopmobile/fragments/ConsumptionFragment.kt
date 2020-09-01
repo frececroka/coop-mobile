@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.coopclient.CoopData
@@ -31,6 +32,7 @@ import java.util.*
 
 class ConsumptionFragment : Fragment() {
 
+    private lateinit var analytics: FirebaseAnalytics
     private lateinit var themeUtils: ThemeUtils
     private lateinit var viewModel: ConsumptionViewModel
     private lateinit var consumptionLogCache: ConsumptionLogCache
@@ -38,6 +40,7 @@ class ConsumptionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        analytics = FirebaseAnalytics.getInstance(requireContext())
         themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
         consumptionLogCache = ConsumptionLogCache(requireContext())
@@ -54,6 +57,7 @@ class ConsumptionFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        analytics.setScreen("Consumption")
         prepareChart()
         viewModel.data.removeObservers(this)
         viewModel.data.observe(this, Observer(::setData))

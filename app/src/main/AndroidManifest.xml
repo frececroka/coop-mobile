@@ -32,6 +32,10 @@
             android:name="firebase_crashlytics_collection_enabled"
             android:value="@bool/FIREBASE_CRASHLYTICS_ENABLED" />
 
+        <meta-data
+            android:name="google_analytics_automatic_screen_reporting_enabled"
+            android:value="false" />
+
     </application>
 
 </manifest>

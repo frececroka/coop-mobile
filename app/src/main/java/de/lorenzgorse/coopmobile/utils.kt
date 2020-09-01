@@ -8,8 +8,12 @@ import android.text.Spanned
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
+import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -79,4 +83,8 @@ fun Context.openPlayStore() {
             "https://play.google.com/store/apps/details?id=$appPackageName")
         ContextCompat.startActivity(this, Intent(Intent.ACTION_VIEW, marketUrl), null)
     }
+}
+
+fun FirebaseAnalytics.setScreen(screenName: String) {
+    logEvent(SCREEN_VIEW, bundleOf(SCREEN_NAME to screenName))
 }
