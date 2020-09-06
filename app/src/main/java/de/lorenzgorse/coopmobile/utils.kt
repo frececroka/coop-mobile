@@ -14,6 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
+import kotlinx.coroutines.sync.Mutex
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -50,16 +52,31 @@ fun Fragment.notify(msg: CharSequence) {
     view?.let { Snackbar.make(it, msg, 5000).show() }
 }
 
-suspend fun Fragment.requestPermission(permission: String): Boolean =
-    launchActivityForResult(ActivityResultContracts.RequestPermission(), permission)
+class ActivityResultQuery<I, O>(fragment: Fragment, contract: ActivityResultContract<I, O>) {
 
-suspend fun <I, O> Fragment.launchActivityForResult(
-    contract: ActivityResultContract<I, O>,
-    input: I
-): O = suspendCoroutine { cont ->
-    registerForActivityResult(contract) {
-        cont.resume(it)
-    }.launch(input)
+    private val mutex = Mutex()
+
+    @Volatile
+    private var continuation: Continuation<O>? = null
+
+    private val launcher = fragment.registerForActivityResult(contract) {
+        continuation?.resume(it)
+        mutex.unlock()
+    }
+
+    suspend fun query(input: I): O {
+        mutex.lock()
+        return suspendCoroutine { c ->
+            continuation = c
+            launcher.launch(input)
+        }
+    }
+
+}
+
+class PermissionRequest(fragment: Fragment) {
+    private val activityResultQuery = ActivityResultQuery(fragment, ActivityResultContracts.RequestPermission())
+    suspend fun perform(permission: String): Boolean = activityResultQuery.query(permission)
 }
 
 fun Spanned.trim() {

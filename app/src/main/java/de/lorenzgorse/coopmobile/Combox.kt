@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 class Combox(private val fragment: Fragment) {
 
     private val context = fragment.requireContext()
+    private val permissionRequest = PermissionRequest(fragment)
 
     suspend fun launch() {
         val result = ContextCompat.checkSelfPermission(context, CALL_PHONE)
@@ -27,7 +28,7 @@ class Combox(private val fragment: Fragment) {
             .setNegativeButton(R.string.no)
 
         if (!shouldShowDialog || dialog.show() == AlertDialogChoice.POSITIVE) {
-            if (fragment.requestPermission(CALL_PHONE)) {
+            if (permissionRequest.perform(CALL_PHONE)) {
                 callCombox()
             } else {
                 openDialer()
