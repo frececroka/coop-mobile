@@ -1,5 +1,7 @@
 package de.lorenzgorse.coopmobile.coopclient
 
+import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChangedException
+import org.jsoup.nodes.Document
 import java.util.*
 
 fun determineCountry(): String {
@@ -16,12 +18,14 @@ fun determineCountry(): String {
  * [IllegalStateException]s to [HtmlChangedException]s. This is used for code that extracts data
  * from the DOM.
  */
-fun <T> safeHtml(fn: () -> T): T {
+fun <T> Document.safe(fn: Document.() -> T): T {
     return try {
-        fn()
+        fn(this)
     } catch (e: NullPointerException) {
-        throw CoopException.HtmlChangedException(e)
+        throw HtmlChangedException(e, this)
     } catch (e: IllegalStateException) {
-        throw CoopException.HtmlChangedException(e)
+        throw HtmlChangedException(e, this)
+    } catch (e: HtmlChangedException) {
+        throw e.copy(document = this)
     }
 }

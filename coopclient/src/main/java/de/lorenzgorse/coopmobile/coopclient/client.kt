@@ -44,14 +44,14 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     override suspend fun getData(): CoopData {
         val html = getHtml(coopBaseAccount)
-        return safeHtml {
-            val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
+        return html.safe {
+            val creditBalance = selectFirst("#credit_balance")?.let { block ->
                 parseUnitValueBlock(block.parent(), { it.toFloat() }) { it.replace(".–", "") }
             }?.let { listOf(it) }.orEmpty()
-            val consumptions1 = html.select("#my_consumption .panel").map {
+            val consumptions1 = select("#my_consumption .panel").map {
                 parseUnitValueBlock(it, { v -> v.toFloat() })
             }
-            val consumptions2 = html.select("#my_consumption.panel").map {
+            val consumptions2 = select("#my_consumption.panel").map {
                 parseUnitValueBlock(it, { v -> v.toFloat() })
             }
             CoopData(creditBalance + consumptions1 + consumptions2)
@@ -68,7 +68,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
         val valueParts = value.split(" ")
         if (valueParts.size != 2) {
-            throw HtmlChangedException(null)
+            throw HtmlChangedException()
         }
 
         val (amount, unit) = try {
@@ -77,7 +77,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
             try {
                 Pair(convert(sanitize(valueParts[1])), valueParts[0])
             } catch (e: NumberFormatException) {
-                throw HtmlChangedException(null)
+                throw HtmlChangedException()
             }
         }
 
@@ -110,7 +110,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     override suspend fun getProducts(): List<Product> {
         val html = getHtml("$coopBaseAccount/add_product")
-        return safeHtml { html.select(".add_product").map { parseProductBlock(it) } }
+        return html.safe { select(".add_product").map { parseProductBlock(it) } }
     }
 
     private fun parseProductBlock(productBlock: Element): Product {
@@ -172,7 +172,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     override suspend fun getCorrespondeces(): List<CorrespondenceHeader> {
         val html = getHtml("$coopBaseAccount/my_correspondence/index?limit=30")
-        return safeHtml { html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
+        return html.safe { select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
     }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
@@ -189,7 +189,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     private suspend fun getCorrespondenceMessage(url: URL): String {
         val html = getHtml(url.toString())
-        return safeHtml { html.selectFirst(".panel__print__content").text() }
+        return html.safe { selectFirst(".panel__print__content").text() }
     }
 
     override fun sessionId() = sessionId
