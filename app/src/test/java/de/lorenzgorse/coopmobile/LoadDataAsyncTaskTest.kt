@@ -3,8 +3,11 @@ package de.lorenzgorse.coopmobile
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
+import de.lorenzgorse.coopmobile.coopclient.CoopClient
+import de.lorenzgorse.coopmobile.coopclient.CoopData
+import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChangedException
+import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert.assertThat

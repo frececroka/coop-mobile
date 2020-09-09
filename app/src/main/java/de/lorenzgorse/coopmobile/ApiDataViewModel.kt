@@ -4,13 +4,14 @@ import android.app.Application
 import android.content.Context
 import androidx.core.os.bundleOf
 import androidx.lifecycle.*
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.CoopModule.firebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
 import de.lorenzgorse.coopmobile.Either.Left
 import de.lorenzgorse.coopmobile.Either.Right
 import de.lorenzgorse.coopmobile.LoadDataError.*
+import de.lorenzgorse.coopmobile.coopclient.CoopClient
+import de.lorenzgorse.coopmobile.coopclient.CoopException.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException

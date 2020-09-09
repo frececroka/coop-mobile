@@ -1,7 +1,7 @@
-package de.lorenzgorse.coopmobile
+package de.lorenzgorse.coopmobile.coopclient
 
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.PlanUnsupported
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.UnauthorizedException
+import de.lorenzgorse.coopmobile.coopclient.CoopException.PlanUnsupported
+import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
 import okhttp3.Request

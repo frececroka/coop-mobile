@@ -70,6 +70,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation project(path: ':coopclient')
+
     implementation "com.google.android.material:material:1.3.0-alpha02"
 
     implementation "androidx.appcompat:appcompat:1.3.0-alpha02"
@@ -88,9 +90,6 @@ dependencies {
     implementation "org.slf4j:slf4j-api:1.7.30"
     implementation "com.github.tony19:logback-android:2.0.0"
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
-    implementation "com.google.code.gson:gson:2.8.6"
-    implementation "org.jsoup:jsoup:1.12.2"
-    implementation "com.squareup.okhttp3:okhttp:4.4.0"
     implementation "com.google.firebase:firebase-config:19.2.0"
     implementation "com.google.firebase:firebase-analytics:17.5.0"
     implementation "com.google.firebase:firebase-crashlytics:17.2.1"

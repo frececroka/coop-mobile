@@ -19,11 +19,11 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.HtmlChangedException
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.PlanUnsupported
 import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.MockCoopData.coopData2
+import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
+import de.lorenzgorse.coopmobile.coopclient.CoopException.PlanUnsupported
 import de.lorenzgorse.coopmobile.fragments.OverviewFragment
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.*

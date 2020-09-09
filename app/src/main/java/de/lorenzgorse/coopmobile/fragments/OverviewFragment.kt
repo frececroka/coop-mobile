@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
+import de.lorenzgorse.coopmobile.coopclient.CoopData
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.launch
 import java.util.*

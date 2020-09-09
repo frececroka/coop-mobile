@@ -1,9 +1,8 @@
-package de.lorenzgorse.coopmobile
+package de.lorenzgorse.coopmobile.coopclient
 
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
-
 
 class StaticCookieJar(sessionId: String) : CookieJar {
 

@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import android.content.Context
 import androidx.room.*
+import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory

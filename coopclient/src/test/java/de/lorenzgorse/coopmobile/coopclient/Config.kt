@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile
+package de.lorenzgorse.coopmobile.coopclient
 
 import java.io.File
 

@@ -1,5 +1,8 @@
 package de.lorenzgorse.coopmobile
 
+import de.lorenzgorse.coopmobile.coopclient.CoopData
+import de.lorenzgorse.coopmobile.coopclient.UnitValue
+
 object MockCoopData {
 
     val coopData1 = CoopData(

@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
+import de.lorenzgorse.coopmobile.coopclient.CoopData
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

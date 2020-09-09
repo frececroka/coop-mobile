@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.coopclient.Product
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory

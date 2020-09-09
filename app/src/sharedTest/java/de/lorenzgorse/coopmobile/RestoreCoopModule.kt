@@ -1,8 +1,11 @@
 package de.lorenzgorse.coopmobile
 
-import de.lorenzgorse.coopmobile.CoopClient.CoopException.UnauthorizedException
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
+import de.lorenzgorse.coopmobile.coopclient.CoopClient
+import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
+import de.lorenzgorse.coopmobile.coopclient.CoopLogin
+import de.lorenzgorse.coopmobile.coopclient.RealCoopLogin
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement

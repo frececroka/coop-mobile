@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.coopclient.Correspondence
 import kotlinx.android.synthetic.main.fragment_correspondences.*
 import java.text.SimpleDateFormat
 import java.util.*
