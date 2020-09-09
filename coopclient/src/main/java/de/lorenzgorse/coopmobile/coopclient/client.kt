@@ -170,7 +170,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
     }
 
     override suspend fun getCorrespondeces(): List<CorrespondenceHeader> {
-        val html = getHtml("$coopBaseAccount/my_correspondence/index?limit=30")
+        val html = getHtml("$coopBaseAccount/my_correspondence")
         return html.safe { select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
     }
 
