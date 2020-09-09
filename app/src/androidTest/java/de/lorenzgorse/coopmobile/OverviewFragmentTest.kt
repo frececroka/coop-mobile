@@ -164,7 +164,7 @@ class OverviewFragmentTest {
     @Test
     fun htmlChanged() { runBlocking {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenThrow(HtmlChangedException(Exception()))
+        `when`(coopClient.getData()).thenThrow(HtmlChanged(Exception()))
 
         launchFragment()
 

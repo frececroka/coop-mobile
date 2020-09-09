@@ -11,13 +11,18 @@ import de.lorenzgorse.coopmobile.Either.Left
 import de.lorenzgorse.coopmobile.Either.Right
 import de.lorenzgorse.coopmobile.LoadDataError.*
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
-import de.lorenzgorse.coopmobile.coopclient.CoopException.*
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
 
-enum class LoadDataError {
-    NO_NETWORK, NO_CLIENT, UNAUTHORIZED, FAILED_LOGIN, HTML_CHANGED, PLAN_UNSUPPORTED
+sealed class LoadDataError {
+    object NoNetwork : LoadDataError()
+    object NoClient: LoadDataError()
+    object Unauthorized : LoadDataError()
+    object FailedLogin : LoadDataError()
+    object HtmlChanged : LoadDataError()
+    object PlanUnsupported : LoadDataError()
 }
 
 sealed class Value<out T> {
@@ -69,7 +74,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
         analytics.logEvent("LoadData_NoNetwork", null)
     }
 
-    fun planUnsupported(e: PlanUnsupported) {
+    fun planUnsupported(e: CoopException.PlanUnsupported) {
         log.error("Plan '${e.plan}' unsupported.")
         analytics.logEvent("LoadData_PlanUnsupported", bundleOf("plan" to e.plan))
         firebaseCrashlytics().recordException(e)
@@ -80,19 +85,19 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
         analytics.logEvent("LoadData_RefreshSessionFailed", null)
     }
 
-    fun refreshedSessionExpired(e: UnauthorizedException) {
+    fun refreshedSessionExpired(e: CoopException.Unauthorized) {
         log.info("Refreshed session expired: ${e.redirect} (this should not happen).")
         analytics.logEvent("refreshed_session_expired", bundleOf("redirect" to e.redirect))
         firebaseCrashlytics().recordException(e)
     }
 
-    fun htmlChanged(e: HtmlChangedException) {
+    fun htmlChanged(e: CoopException.HtmlChanged) {
         log.error("Html changed.", e)
         analytics.logEvent("LoadData_HtmlChanged", null)
         firebaseCrashlytics().recordException(e)
     }
 
-    fun sessionExpired(e: UnauthorizedException) {
+    fun sessionExpired(e: CoopException.Unauthorized) {
         log.info("Session expired: ${e.redirect}.")
         analytics.logEvent("LoadData_SessionExpired", bundleOf("redirect" to e.redirect))
     }
@@ -107,7 +112,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
         val client = coopClientFactory.get(context)
         if (client == null) {
             log.info("No client available.")
-            Left(NO_CLIENT)
+            Left(NoClient)
         } else {
             log.info("Obtained client $client.")
             log.info("Loading data.")
@@ -118,7 +123,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
                 log.info("Loaded data: [redacted]")
                 loadedData()
                 Right(data)
-            } catch (e: UnauthorizedException) {
+            } catch (e: CoopException.Unauthorized) {
                 sessionExpired(e)
                 log.info("Trying to force refresh of session.")
                 val newClient = coopClientFactory.refresh(context, true)
@@ -130,24 +135,24 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
                         log.info("Loaded data: [redacted]")
                         loadedData()
                         Right(data)
-                    } catch (e: UnauthorizedException) {
+                    } catch (e: CoopException.Unauthorized) {
                         refreshedSessionExpired(e)
-                        Left(UNAUTHORIZED)
+                        Left(Unauthorized)
                     }
                 } else {
                     refreshFailed()
-                    Left(FAILED_LOGIN)
+                    Left(FailedLogin)
                 }
             }
         }
     } catch (e: IOException) {
         networkUnavailable(e)
-        Left(NO_NETWORK)
-    } catch (e: PlanUnsupported) {
+        Left(NoNetwork)
+    } catch (e: CoopException.PlanUnsupported) {
         planUnsupported(e)
-        Left(PLAN_UNSUPPORTED)
-    } catch (e: HtmlChangedException) {
+        Left(PlanUnsupported)
+    } catch (e: CoopException.HtmlChanged) {
         htmlChanged(e)
-        Left(HTML_CHANGED)
+        Left(HtmlChanged)
     }
 }

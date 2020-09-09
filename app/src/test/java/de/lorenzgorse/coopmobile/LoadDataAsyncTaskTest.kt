@@ -6,8 +6,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.CoopData
-import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChangedException
-import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert.assertThat
@@ -52,7 +51,7 @@ class LoadDataAsyncTaskTest {
 
 	private suspend fun noNetwork(coopClient: CoopClient) {
 		`when`(coopClient.getData()).thenThrow(UnknownHostException())
-		doLoadDataTest(equalTo(LoadDataError.NO_NETWORK), nullValue())
+		doLoadDataTest(equalTo(LoadDataError.NoNetwork), nullValue())
 	}
 
 	@Test
@@ -66,22 +65,22 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private suspend fun htmlChanged(coopClient: CoopClient) {
-		`when`(coopClient.getData()).thenThrow(HtmlChangedException(Exception()))
-		doLoadDataTest(equalTo(LoadDataError.HTML_CHANGED), nullValue())
+		`when`(coopClient.getData()).thenThrow(CoopException.HtmlChanged(Exception()))
+		doLoadDataTest(equalTo(LoadDataError.HtmlChanged), nullValue())
 	}
 
 	@Test
 	fun unauthorized() = runBlocking {
 		val coopClient = mockExpiredCoopClient()
-		`when`(coopClient.getData()).thenThrow(UnauthorizedException(null))
-		doLoadDataTest(equalTo(LoadDataError.UNAUTHORIZED), nullValue())
+		`when`(coopClient.getData()).thenThrow(CoopException.Unauthorized())
+		doLoadDataTest(equalTo(LoadDataError.Unauthorized), nullValue())
 	}
 
 	@Test
 	fun refreshFails() = runBlocking {
 		val coopClientFactory = prepareExpiredCoopClient()
 		`when`(coopClientFactory.refresh(anyObject(), eq(true))).thenReturn(null)
-		doLoadDataTest(equalTo(LoadDataError.FAILED_LOGIN), nullValue())
+		doLoadDataTest(equalTo(LoadDataError.FailedLogin), nullValue())
 	}
 
 	private suspend fun doLoadDataTest(

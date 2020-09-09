@@ -1,7 +1,6 @@
 package de.lorenzgorse.coopmobile.coopclient
 
 import com.google.gson.JsonSyntaxException
-import de.lorenzgorse.coopmobile.coopclient.CoopException.*
 import okhttp3.FormBody
 import okhttp3.Response
 import org.jsoup.nodes.Element
@@ -68,7 +67,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
         val valueParts = value.split(" ")
         if (valueParts.size != 2) {
-            throw HtmlChangedException()
+            throw CoopException.HtmlChanged()
         }
 
         val (amount, unit) = try {
@@ -77,7 +76,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
             try {
                 Pair(convert(sanitize(valueParts[1])), valueParts[0])
             } catch (e: NumberFormatException) {
-                throw HtmlChangedException()
+                throw CoopException.HtmlChanged()
             }
         }
 
@@ -208,13 +207,13 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         fun assertResponseSuccessful(response: Response) {
             val location = response.request.url.toString()
             if (signInRegex.matches(location)) {
-                throw UnauthorizedException(location)
+                throw CoopException.Unauthorized(location)
             } else {
                 val matchResult = planRegex.matchEntire(location)
                 if (matchResult != null) {
                     val plan = matchResult.groups[1]?.value
                     if (!listOf("prepaid", "wireless").contains(plan) ) {
-                        throw PlanUnsupported(plan)
+                        throw CoopException.PlanUnsupported(plan)
                     }
                 }
             }

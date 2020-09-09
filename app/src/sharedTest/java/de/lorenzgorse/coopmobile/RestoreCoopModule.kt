@@ -3,7 +3,7 @@ package de.lorenzgorse.coopmobile
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
-import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 import de.lorenzgorse.coopmobile.coopclient.CoopLogin
 import de.lorenzgorse.coopmobile.coopclient.RealCoopLogin
 import org.junit.rules.TestRule
@@ -62,10 +62,10 @@ suspend fun mockExpiredCoopClient(): CoopClient {
 suspend fun prepareExpiredCoopClient(): CoopClientFactory {
     val coopClientFactory = mockCoopClientFactory()
     val coopClient1 = mock(CoopClient::class.java)
-    `when`(coopClient1.getData()).thenThrow(UnauthorizedException(null))
-    `when`(coopClient1.getProducts()).thenThrow(UnauthorizedException(null))
-    `when`(coopClient1.getCorrespondeces()).thenThrow(UnauthorizedException(null))
-    `when`(coopClient1.augmentCorrespondence(anyObject())).thenThrow(UnauthorizedException(null))
+    `when`(coopClient1.getData()).thenThrow(CoopException.Unauthorized())
+    `when`(coopClient1.getProducts()).thenThrow(CoopException.Unauthorized())
+    `when`(coopClient1.getCorrespondeces()).thenThrow(CoopException.Unauthorized())
+    `when`(coopClient1.augmentCorrespondence(anyObject())).thenThrow(CoopException.Unauthorized())
     `when`(coopClientFactory.get(anyObject())).thenReturn(coopClient1)
     return coopClientFactory
 }

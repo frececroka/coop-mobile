@@ -1,7 +1,6 @@
 package de.lorenzgorse.coopmobile.coopclient
 
 import de.lorenzgorse.coopmobile.coopclient.CoopException.PlanUnsupported
-import de.lorenzgorse.coopmobile.coopclient.CoopException.UnauthorizedException
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
 import okhttp3.Request
@@ -70,17 +69,17 @@ class CoopClientTest {
         assertThat(correspondence.message, not(emptyString()))
     }
 
-    @Test(expected = UnauthorizedException::class)
+    @Test(expected = CoopException.Unauthorized::class)
     fun testLoadDataInvalidSession() { runBlocking {
         expiredClient.getData()
     } }
 
-    @Test(expected = UnauthorizedException::class)
+    @Test(expected = CoopException.Unauthorized::class)
     fun testLoadProductsInvalidSession() { runBlocking {
         expiredClient.getProducts()
     } }
 
-    @Test(expected = UnauthorizedException::class)
+    @Test(expected = CoopException.Unauthorized::class)
     fun testLoadCorrespondencesInvalidSession() { runBlocking {
         expiredClient.getCorrespondeces()
     } }
@@ -109,7 +108,7 @@ class CoopClientTest {
         RealCoopClient.assertResponseSuccessful(response)
     }
 
-    @Test(expected = UnauthorizedException::class)
+    @Test(expected = CoopException.Unauthorized::class)
     fun testAssertResponseSuccessfulUnauthorized() {
         val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/de/users/sign_in"

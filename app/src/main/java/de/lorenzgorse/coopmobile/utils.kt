@@ -27,12 +27,12 @@ fun handleLoadDataError(
     goToLogin: () -> Unit
 ) {
     when (error) {
-        LoadDataError.NO_NETWORK -> showNoNetwork()
-        LoadDataError.HTML_CHANGED -> showUpdateNecessary()
-        LoadDataError.PLAN_UNSUPPORTED -> showPlanUnsupported()
-        LoadDataError.NO_CLIENT -> goToLogin()
-        LoadDataError.UNAUTHORIZED -> goToLogin()
-        LoadDataError.FAILED_LOGIN -> goToLogin()
+        LoadDataError.NoNetwork -> showNoNetwork()
+        LoadDataError.HtmlChanged -> showUpdateNecessary()
+        LoadDataError.PlanUnsupported -> showPlanUnsupported()
+        LoadDataError.NoClient -> goToLogin()
+        LoadDataError.Unauthorized -> goToLogin()
+        LoadDataError.FailedLogin -> goToLogin()
     }
 }
 

@@ -19,7 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
-import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChangedException
+import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
@@ -160,7 +160,7 @@ class LoginFragment : Fragment() {
             cardError.visibility = View.VISIBLE
             txtNoNetwork.visibility = View.VISIBLE
             return
-        } catch (e: HtmlChangedException) {
+        } catch (e: HtmlChanged) {
             log.error("HTML structure changed unexpectedly.", e)
             analytics.logEvent("Login_HtmlChanged", null)
             firebaseCrashlytics().recordException(e)
