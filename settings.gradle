@@ -1,2 +1,3 @@
+include ':encryption'
 include ':coopclient'
 include ':app'

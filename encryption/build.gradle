@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.bouncycastle:bcpg-jdk15on:1.64"
+    implementation "org.bouncycastle:bcprov-jdk15on:1.64"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

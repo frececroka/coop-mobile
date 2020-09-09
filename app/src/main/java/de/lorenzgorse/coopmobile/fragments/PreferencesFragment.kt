@@ -5,10 +5,7 @@ import android.text.InputType
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import de.lorenzgorse.coopmobile.BalanceCheckWorker
-import de.lorenzgorse.coopmobile.BuildConfig
-import de.lorenzgorse.coopmobile.KnockKnock
-import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.*
 
 class PreferencesFragment: PreferenceFragmentCompat() {
 
@@ -46,7 +43,7 @@ class PreferencesFragment: PreferenceFragmentCompat() {
         knockKnock.knock()
         if (knockKnock.getKnocks() == passcode) {
             findPreference<Preference>("app_info")?.summary = "Welcome home, Developer."
-            DebugFragment.enable(requireContext())
+            DebugMode.enable(requireContext())
         }
     }
 

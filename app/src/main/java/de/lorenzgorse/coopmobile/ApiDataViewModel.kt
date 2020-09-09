@@ -21,7 +21,7 @@ sealed class LoadDataError {
     object NoClient: LoadDataError()
     object Unauthorized : LoadDataError()
     object FailedLogin : LoadDataError()
-    object HtmlChanged : LoadDataError()
+    data class HtmlChanged(val ex: CoopException.HtmlChanged) : LoadDataError()
     object PlanUnsupported : LoadDataError()
 }
 
@@ -153,6 +153,6 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
         Left(PlanUnsupported)
     } catch (e: CoopException.HtmlChanged) {
         htmlChanged(e)
-        Left(HtmlChanged)
+        Left(HtmlChanged(e))
     }
 }

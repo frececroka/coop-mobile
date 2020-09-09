@@ -3,6 +3,7 @@ package de.lorenzgorse.coopmobile
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 
 class LoadDataErrorHandler(private val fragment: Fragment) {
 
@@ -23,7 +24,7 @@ class LoadDataErrorHandler(private val fragment: Fragment) {
         fragment.findNavController().navigate(R.id.action_overview)
     }
 
-    private fun showUpdateNecessary() {
+    private fun showUpdateNecessary(ex: CoopException.HtmlChanged) {
         fragment.notify(R.string.update_necessary)
         fragment.findNavController().navigate(R.id.action_overview)
     }

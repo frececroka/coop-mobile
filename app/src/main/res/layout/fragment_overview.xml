@@ -56,25 +56,40 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dip"
-                android:layout_marginBottom="10dip"
-                android:src="@drawable/ic_system_update"
-                android:tint="@color/colorOnBackground1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/update_necessary" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dip"
+                    android:layout_marginBottom="10dip"
+                    android:src="@drawable/ic_system_update"
+                    android:tint="@color/colorOnBackground1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:gravity="center"
+                    android:text="@string/update_necessary" />
+
+                <Button
+                    android:id="@+id/btGoToPlayStore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_to_play_store" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/btGoToPlayStore"
+                android:id="@+id/btSendDiagnostics"
+                style="@style/QuietButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/go_to_play_store" />
+                android:text="@string/send_diagnostics" />
         </LinearLayout>
 
         <LinearLayout

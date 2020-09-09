@@ -65,8 +65,9 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private suspend fun htmlChanged(coopClient: CoopClient) {
-		`when`(coopClient.getData()).thenThrow(CoopException.HtmlChanged(Exception()))
-		doLoadDataTest(equalTo(LoadDataError.HtmlChanged), nullValue())
+		val htmlChanged = CoopException.HtmlChanged(Exception())
+		`when`(coopClient.getData()).thenThrow(htmlChanged)
+		doLoadDataTest(equalTo(LoadDataError.HtmlChanged(htmlChanged)), nullValue())
 	}
 
 	@Test

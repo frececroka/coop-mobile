@@ -18,4 +18,9 @@
         <item name="android:minHeight">0pt</item>
     </style>
 
+    <style name="QuietButton">
+        <item name="backgroundTint">@color/background1</item>
+        <item name="android:textColor">@color/colorOnBackground1</item>
+    </style>
+
 </resources>

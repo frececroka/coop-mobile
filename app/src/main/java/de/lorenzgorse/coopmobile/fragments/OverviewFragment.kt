@@ -13,6 +13,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.coopclient.CoopData
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -23,6 +24,7 @@ class OverviewFragment: Fragment() {
     private lateinit var viewModel: CoopDataViewModel
     private lateinit var combox: Combox
     private lateinit var openSource: OpenSource
+    private lateinit var encryptedDiagnostics: EncryptedDiagnostics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class OverviewFragment: Fragment() {
         viewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
         combox = Combox(this)
         openSource = OpenSource(requireContext())
+        encryptedDiagnostics = EncryptedDiagnostics(requireContext())
     }
 
     override fun onCreateView(
@@ -62,7 +65,7 @@ class OverviewFragment: Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val enabled = DebugFragment.isEnabled(requireContext())
+        val enabled = DebugMode.isEnabled(requireContext())
         menu.findItem(R.id.itDebug).isVisible = enabled
     }
 
@@ -160,10 +163,26 @@ class OverviewFragment: Fragment() {
         layNoNetwork.visibility = View.VISIBLE
     }
 
-    private fun showUpdateNecessary() {
+    private fun showUpdateNecessary(ex: CoopException.HtmlChanged) {
         hideAll()
         layError.visibility = View.VISIBLE
         layUpdate.visibility = View.VISIBLE
+        val document = ex.document
+        if (document != null && DebugMode.isEnabled(requireContext())) {
+            btSendDiagnostics.visibility = View.VISIBLE
+            btSendDiagnostics.setOnClickListener {
+                btSendDiagnostics.isEnabled = false
+                btSendDiagnostics.text = getString(R.string.diagnostics_uploading)
+                lifecycleScope.launch {
+                    val isSuccess = encryptedDiagnostics.send(document.outerHtml())
+                    btSendDiagnostics?.text =
+                        if (isSuccess) getString(R.string.diagnostics_upload_successful)
+                        else getString(R.string.diagnostics_upload_failed)
+                }
+            }
+        } else {
+            btSendDiagnostics.visibility = View.GONE
+        }
     }
 
     private fun showPlanUnsupported() {

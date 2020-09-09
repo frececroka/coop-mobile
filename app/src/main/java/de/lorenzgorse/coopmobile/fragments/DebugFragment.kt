@@ -1,6 +1,5 @@
 package de.lorenzgorse.coopmobile.fragments
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,15 +15,6 @@ import java.util.*
 
 
 class DebugFragment : Fragment() {
-
-    companion object {
-        fun isEnabled(context: Context): Boolean {
-            return context.getCoopSharedPreferences().getBoolean("debug_mode", false)
-        }
-        fun enable(context: Context) {
-            context.getCoopSharedPreferences().edit().putBoolean("debug_mode", true).apply()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

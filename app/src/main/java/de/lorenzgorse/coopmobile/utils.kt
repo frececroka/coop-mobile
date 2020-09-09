@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
+import de.lorenzgorse.coopmobile.coopclient.CoopException
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
@@ -22,17 +23,17 @@ import kotlin.coroutines.suspendCoroutine
 fun handleLoadDataError(
     error: LoadDataError,
     showNoNetwork: () -> Unit,
-    showUpdateNecessary: () -> Unit,
+    showUpdateNecessary: (ex: CoopException.HtmlChanged) -> Unit,
     showPlanUnsupported: () -> Unit,
     goToLogin: () -> Unit
 ) {
     when (error) {
-        LoadDataError.NoNetwork -> showNoNetwork()
-        LoadDataError.HtmlChanged -> showUpdateNecessary()
-        LoadDataError.PlanUnsupported -> showPlanUnsupported()
-        LoadDataError.NoClient -> goToLogin()
-        LoadDataError.Unauthorized -> goToLogin()
-        LoadDataError.FailedLogin -> goToLogin()
+        is LoadDataError.NoNetwork -> showNoNetwork()
+        is LoadDataError.HtmlChanged -> showUpdateNecessary(error.ex)
+        is LoadDataError.PlanUnsupported -> showPlanUnsupported()
+        is LoadDataError.NoClient -> goToLogin()
+        is LoadDataError.Unauthorized -> goToLogin()
+        is LoadDataError.FailedLogin -> goToLogin()
     }
 }
 
