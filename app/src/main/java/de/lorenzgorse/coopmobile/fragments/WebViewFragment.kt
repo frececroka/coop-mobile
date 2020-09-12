@@ -155,7 +155,7 @@ class WebViewFragment : Fragment() {
                 webView?.visibility = View.GONE
 
                 // Try to get a new session.
-                lifecycleScope.launch { refreshSession() }
+                lifecycleScope.launch { context?.let { refreshSession(it) } }
 
                 // Cancel load.
                 true
@@ -184,7 +184,7 @@ class WebViewFragment : Fragment() {
         }
     }
 
-    private suspend fun refreshSession() {
+    private suspend fun refreshSession(context: Context) {
         val timeSinceLastLogin = timeSinceLastLogin()
         if (timeSinceLastLogin != null && timeSinceLastLogin < 10_000) {
             // We already tried to login too recently, this indicates a problem with
@@ -197,7 +197,7 @@ class WebViewFragment : Fragment() {
         lastLogin = Date()
 
         val coopClient = try {
-            coopClientFactory.refresh(requireContext(), true)
+            coopClientFactory.refresh(context, true)
         } catch (e: IOException) {
             // TODO: Show network error.
             return
