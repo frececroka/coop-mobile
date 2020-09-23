@@ -51,7 +51,9 @@ class RealCoopLogin : CoopLogin {
 
         // https://myaccount.coopmobile.ch/eCare/wireless/de
         // https://myaccount.coopmobile.ch/eCare/prepaid/de
-        val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/.*/(de|fr|it)/?")
+        // https://myaccount.coopmobile.ch/eCare/wireless/de?login=true
+        // https://myaccount.coopmobile.ch/eCare/prepaid/de?login=true
+        val loginSuccessLocation = Regex("${Regex.escape(coopBase)}/.*/(de|fr|it)/?(\\?login=true)?")
         return if (finalUrl.matches(loginSuccessLocation)) {
             cookieJar.get("_ecare_session")?.value
         } else {
