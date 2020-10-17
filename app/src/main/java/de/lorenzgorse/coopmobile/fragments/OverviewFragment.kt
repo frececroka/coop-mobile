@@ -21,7 +21,8 @@ import java.util.*
 class OverviewFragment: Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
-    private lateinit var viewModel: CoopDataViewModel
+    private lateinit var dataViewModel: CoopDataViewModel
+    private lateinit var profileViewModel: CoopProfileViewModel
     private lateinit var combox: Combox
     private lateinit var openSource: OpenSource
     private lateinit var encryptedDiagnostics: EncryptedDiagnostics
@@ -30,7 +31,8 @@ class OverviewFragment: Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         analytics = createAnalytics(requireContext())
-        viewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
+        dataViewModel = ViewModelProvider(this).get(CoopDataViewModel::class.java)
+        profileViewModel = ViewModelProvider(this).get(CoopProfileViewModel::class.java)
         combox = Combox(this)
         openSource = OpenSource(requireContext())
         encryptedDiagnostics = EncryptedDiagnostics(requireContext())
@@ -53,8 +55,10 @@ class OverviewFragment: Fragment() {
     override fun onStart() {
         super.onStart()
         analytics.setScreen("Overview")
-        viewModel.data.removeObservers(this)
-        viewModel.data.observe(this, Observer(::setData))
+        dataViewModel.data.removeObservers(this)
+        dataViewModel.data.observe(this, Observer(::setData))
+        profileViewModel.data.removeObservers(this)
+        profileViewModel.data.observe(this, Observer(::setProfile))
         BalanceCheckWorker.enqueueIfEnabled(requireContext())
     }
 
@@ -84,7 +88,7 @@ class OverviewFragment: Fragment() {
 
     private fun refresh() {
         analytics.logEvent("refresh", null)
-        viewModel.refresh()
+        dataViewModel.refresh()
     }
 
     private fun addOption() {
@@ -152,6 +156,22 @@ class OverviewFragment: Fragment() {
         }
     }
 
+    private fun setProfile(result: Value<List<Pair<String, String>>>?) {
+        when (result) {
+            is Value.Success -> setProfile(result.value)
+        }
+    }
+
+    private fun setProfile(result: List<Pair<String, String>>) {
+        profile.removeAllViews()
+        result.forEach {
+            val profileItem = layoutInflater.inflate(R.layout.profile_item, consumptions, false)
+            profileItem.findViewById<TextView>(R.id.txtLabel).text = it.first
+            profileItem.findViewById<TextView>(R.id.txtValue).text = it.second
+            profile.addView(profileItem)
+        }
+    }
+
     private fun showContent() {
         hideAll()
         layContent.visibility = View.VISIBLE
@@ -213,3 +233,7 @@ class OverviewFragment: Fragment() {
 class CoopDataViewModel(
     app: Application
 ): ApiDataViewModel<CoopData>(app, { { it.getData() } })
+
+class CoopProfileViewModel(
+    app: Application
+): ApiDataViewModel<List<Pair<String, String>>>(app, { { it.getProfile() } })

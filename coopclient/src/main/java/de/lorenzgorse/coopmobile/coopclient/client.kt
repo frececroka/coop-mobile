@@ -14,6 +14,9 @@ import java.util.*
 interface CoopClient {
 
     @Throws(IOException::class, CoopException::class)
+    suspend fun getProfile(): List<Pair<String, String>>
+
+    @Throws(IOException::class, CoopException::class)
     suspend fun getData(): CoopData
 
     @Throws(IOException::class, CoopException::class)
@@ -40,6 +43,20 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
     private val log = LoggerFactory.getLogger(javaClass)
 
     private var client = HttpClient(StaticCookieJar(sessionId))
+
+    override suspend fun getProfile(): List<Pair<String, String>> {
+        val html = getHtml(coopBaseAccount)
+        return html.safe {
+            val profile = selectFirst("#block_my_profile")
+            profile.select(".panel__list").map { parseProfileItem(it) }
+        }
+    }
+
+    private fun parseProfileItem(item: Element): Pair<String, String> {
+        val label = item.selectFirst(".panel__list__label").textNodes().joinToString(" ") { it.text() }.trim()
+        val value = item.select(".panel__list__item").joinToString(", ") { it.text() }.trim()
+        return Pair(label, value)
+    }
 
     override suspend fun getData(): CoopData {
         val html = getHtml(coopBaseAccount)

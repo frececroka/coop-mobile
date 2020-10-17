@@ -12,4 +12,5 @@
     <color name="background3">#CCC</color>
 
     <color name="colorOnBackground1">#000</color>
+    <color name="quietColorOnBackground1">#777</color>
 </resources>

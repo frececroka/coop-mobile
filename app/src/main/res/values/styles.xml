@@ -23,4 +23,12 @@
         <item name="android:textColor">@color/colorOnBackground1</item>
     </style>
 
+    <style name="QuietText">
+        <item name="android:textColor">@color/quietColorOnBackground1</item>
+    </style>
+
+    <style name="QuietText.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
