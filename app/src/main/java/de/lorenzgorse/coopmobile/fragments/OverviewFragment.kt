@@ -157,6 +157,7 @@ class OverviewFragment: Fragment() {
     }
 
     private fun setProfile(result: Value<List<Pair<String, String>>>?) {
+        profileProgress.visibility = View.GONE
         when (result) {
             is Value.Success -> setProfile(result.value)
         }
