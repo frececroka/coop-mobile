@@ -58,7 +58,7 @@ class BalanceCheckWorker(
         analytics.logEvent("periodically_check_balance", null)
 
         val (data, consumptionLog) = when (val result = loadData(context) { client ->
-            Pair(client.getData(), client.getConsumptionLog())
+            Pair(client.getConsumption(), client.getConsumptionLog())
         }) {
             is Either.Right -> result.value
             is Either.Left -> {

@@ -233,7 +233,7 @@ class OverviewFragment: Fragment() {
 
 class CoopDataViewModel(
     app: Application
-): ApiDataViewModel<List<UnitValue<Float>>>(app, { { it.getData() } })
+): ApiDataViewModel<List<UnitValue<Float>>>(app, { { it.getConsumption() } })
 
 class CoopProfileViewModel(
     app: Application

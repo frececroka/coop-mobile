@@ -132,7 +132,7 @@ class OverviewFragmentTest {
     @Test
     fun noNetwork() { runBlocking {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenThrow(UnknownHostException())
+        `when`(coopClient.getConsumption()).thenThrow(UnknownHostException())
 
         setLoadCount(5)
 
@@ -151,20 +151,20 @@ class OverviewFragmentTest {
     @Test
     fun refreshSession() { runBlocking {
         val coopClient = mockExpiredCoopClient()
-        `when`(coopClient.getData()).thenReturn(coopData1)
+        `when`(coopClient.getConsumption()).thenReturn(coopData1)
 
         launchFragment()
 
         onView(withId(R.id.loading)).check(matches(not(isDisplayed())))
         onView(withId(R.id.layContent)).check(matches(isDisplayed()))
         onView(withId(R.id.layError)).check(matches(not(isDisplayed())))
-        verify(coopClient).getData()
+        verify(coopClient).getConsumption()
     } }
 
     @Test
     fun htmlChanged() { runBlocking {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenThrow(HtmlChanged(Exception()))
+        `when`(coopClient.getConsumption()).thenThrow(HtmlChanged(Exception()))
 
         launchFragment()
 
@@ -179,7 +179,7 @@ class OverviewFragmentTest {
     @Test
     fun planUnsupported() { runBlocking {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenThrow(PlanUnsupported("wireless"))
+        `when`(coopClient.getConsumption()).thenThrow(PlanUnsupported("wireless"))
 
         launchFragment()
 
@@ -194,7 +194,7 @@ class OverviewFragmentTest {
     @Test
     fun refresh() { runBlocking {
         val coopClient = mockCoopClient()
-        `when`(coopClient.getData()).thenReturn(coopData1).thenReturn(coopData2)
+        `when`(coopClient.getConsumption()).thenReturn(coopData1).thenReturn(coopData2)
 
         launchFragment()
 

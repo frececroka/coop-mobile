@@ -170,5 +170,5 @@ class LegacyDateValueFormatter : ValueFormatter() {
 class ConsumptionViewModel(
     app: Application
 ): ApiDataViewModel<Pair<List<UnitValue<Float>>, List<ConsumptionLogEntry>?>>(app, { {
-    Pair(it.getData(), it.getConsumptionLog())
+    Pair(it.getConsumption(), it.getConsumptionLog())
 } })

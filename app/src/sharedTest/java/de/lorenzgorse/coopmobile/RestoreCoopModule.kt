@@ -48,7 +48,7 @@ suspend fun mockCoopClient(): CoopClient {
 
 suspend fun mockPreparedCoopClient(): CoopClient {
     val coopClient = mockCoopClient()
-    `when`(coopClient.getData()).thenReturn(MockCoopData.coopData1)
+    `when`(coopClient.getConsumption()).thenReturn(MockCoopData.coopData1)
     return coopClient
 }
 
@@ -62,7 +62,7 @@ suspend fun mockExpiredCoopClient(): CoopClient {
 suspend fun prepareExpiredCoopClient(): CoopClientFactory {
     val coopClientFactory = mockCoopClientFactory()
     val coopClient1 = mock(CoopClient::class.java)
-    `when`(coopClient1.getData()).thenThrow(CoopException.Unauthorized())
+    `when`(coopClient1.getConsumption()).thenThrow(CoopException.Unauthorized())
     `when`(coopClient1.getProducts()).thenThrow(CoopException.Unauthorized())
     `when`(coopClient1.getCorrespondeces()).thenThrow(CoopException.Unauthorized())
     `when`(coopClient1.augmentCorrespondence(anyObject())).thenThrow(CoopException.Unauthorized())

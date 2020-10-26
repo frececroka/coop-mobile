@@ -35,7 +35,7 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private suspend fun happyPath(coopClient: CoopClient) {
-		`when`(coopClient.getData()).thenReturn(coopData1)
+		`when`(coopClient.getConsumption()).thenReturn(coopData1)
 		doLoadDataTest(nullValue(), equalTo(coopData1))
 	}
 
@@ -50,7 +50,7 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private suspend fun noNetwork(coopClient: CoopClient) {
-		`when`(coopClient.getData()).thenThrow(UnknownHostException())
+		`when`(coopClient.getConsumption()).thenThrow(UnknownHostException())
 		doLoadDataTest(equalTo(LoadDataError.NoNetwork), nullValue())
 	}
 
@@ -66,14 +66,14 @@ class LoadDataAsyncTaskTest {
 
 	private suspend fun htmlChanged(coopClient: CoopClient) {
 		val htmlChanged = CoopException.HtmlChanged(Exception())
-		`when`(coopClient.getData()).thenThrow(htmlChanged)
+		`when`(coopClient.getConsumption()).thenThrow(htmlChanged)
 		doLoadDataTest(equalTo(LoadDataError.HtmlChanged(htmlChanged)), nullValue())
 	}
 
 	@Test
 	fun unauthorized() = runBlocking {
 		val coopClient = mockExpiredCoopClient()
-		`when`(coopClient.getData()).thenThrow(CoopException.Unauthorized())
+		`when`(coopClient.getConsumption()).thenThrow(CoopException.Unauthorized())
 		doLoadDataTest(equalTo(LoadDataError.Unauthorized), nullValue())
 	}
 
@@ -90,7 +90,7 @@ class LoadDataAsyncTaskTest {
 	) {
 		CoopModule.firebaseAnalytics = { mock(FirebaseAnalytics::class.java) }
 		CoopModule.firebaseCrashlytics = { mock(FirebaseCrashlytics::class.java) }
-		when (val result = loadData(mock(Context::class.java)) { it.getData() }) {
+		when (val result = loadData(mock(Context::class.java)) { it.getConsumption() }) {
 			is Either.Left -> assertThat(result.value, failureMatcher)
 			is Either.Right -> assertThat(result.value, successMatcher)
 		}

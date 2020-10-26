@@ -44,7 +44,7 @@ class CoopClientTest {
 
     @Test
     fun testLoadData() = runBlocking {
-        val data = client.getData()
+        val data = client.getConsumption()
         assertThat(data, hasSize(3))
         assertThat(data.map { it.description }, everyItem(not(emptyString())))
         assertThat(data.map { it.unit }, everyItem(not(emptyString())))
@@ -71,7 +71,7 @@ class CoopClientTest {
 
     @Test(expected = CoopException.Unauthorized::class)
     fun testLoadDataInvalidSession() { runBlocking {
-        expiredClient.getData()
+        expiredClient.getConsumption()
     } }
 
     @Test(expected = CoopException.Unauthorized::class)
