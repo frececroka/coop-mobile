@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.encryption;
+package de.lorenzgorse.coopmobile.encryption
 
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
