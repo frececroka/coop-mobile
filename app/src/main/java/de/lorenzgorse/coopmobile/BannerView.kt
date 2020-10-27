@@ -9,6 +9,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import kotlinx.android.synthetic.main.banner.view.*
+import kotlin.math.max
 
 
 class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -16,6 +17,7 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     private val analytics = FirebaseAnalytics.getInstance(context)
 
     private val dismissedFuse = Fuse(context, "rating_banner_dismissed")
+    private val loadCount = Counter(context, "load_count")
 
     var activity: Activity? = null
 
@@ -84,10 +86,13 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun incrementAndGetLoadCount(): Int {
+        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
         val prefs = context.getCoopSharedPreferences()
-        val loadCount = prefs.getInt("load_count", 0)
-        prefs.edit().putInt("load_count", loadCount + 1).apply()
-        return loadCount + 1
+        val legacyLoadCount = prefs.getInt("load_count", 0)
+        loadCount.set(max(legacyLoadCount, loadCount.get()))
+        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
+        loadCount.increment()
+        return loadCount.get()
     }
 
 }
