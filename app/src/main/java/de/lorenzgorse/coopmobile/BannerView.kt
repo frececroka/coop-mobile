@@ -15,6 +15,8 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
 
     private val analytics = FirebaseAnalytics.getInstance(context)
 
+    private val dismissedFuse = Fuse(context, "rating_banner_dismissed")
+
     var activity: Activity? = null
 
     init {
@@ -27,6 +29,9 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             analytics.logEvent("RatingBanner_No", null)
             dismiss()
         }
+        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
+        if (dismissed()) dismissedFuse.burn()
+        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
     }
 
     fun onLoadSuccess() {
@@ -61,15 +66,16 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun dismiss() {
-        context.getCoopSharedPreferences().edit()
-            .putBoolean("rating_banner_dismissed", true)
-            .apply()
         visibility = View.GONE
+        dismissedFuse.burn()
     }
 
     private fun dismissed(): Boolean {
-        return context.getCoopSharedPreferences()
+        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
+        val legacyDismissed = context.getCoopSharedPreferences()
             .getBoolean("rating_banner_dismissed", false)
+        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
+        return dismissedFuse.isBurnt() || legacyDismissed
     }
 
     private fun daysSinceInstall(): Double {
