@@ -14,8 +14,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
-import de.lorenzgorse.coopmobile.coopclient.CoopException
-import de.lorenzgorse.coopmobile.data.LoadDataError
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume

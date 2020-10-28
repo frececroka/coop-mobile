@@ -1,6 +1,5 @@
 package de.lorenzgorse.coopmobile.ui.consumption
 
-import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,23 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
-import de.lorenzgorse.coopmobile.data.ApiDataViewModel
-import de.lorenzgorse.coopmobile.data.Value
-import de.lorenzgorse.coopmobile.ui.handleLoadDataError
+import de.lorenzgorse.coopmobile.data.data
+import de.lorenzgorse.coopmobile.setScreen
+import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -34,18 +29,21 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class ConsumptionFragment : Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
+    private lateinit var viewModel: ConsumptionData
+    private lateinit var remoteDataView: RemoteDataView
     private lateinit var themeUtils: ThemeUtils
-    private lateinit var viewModel: ConsumptionViewModel
     private lateinit var consumptionLogCache: ConsumptionLogCache
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = FirebaseAnalytics.getInstance(requireContext())
         themeUtils = ThemeUtils(requireContext())
-        viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ConsumptionData::class.java)
         consumptionLogCache = ConsumptionLogCache(requireContext())
     }
 
@@ -53,38 +51,25 @@ class ConsumptionFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_consumption_log, container, false)
+    ): View {
+        remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_consumption_log)
+        return remoteDataView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        remoteDataView.bindState(viewModel.state)
     }
 
     override fun onStart() {
         super.onStart()
         analytics.setScreen("Consumption")
         prepareChart()
-        viewModel.data.removeObservers(this)
-        viewModel.data.observe(this, Observer(::setData))
-    }
-
-    private fun setData(result: Value<Pair<List<UnitValue<Float>>, List<ConsumptionLogEntry>?>>) {
-        when (result) {
-            is Value.Initiated -> { }
-            is Value.Failure ->
-                handleLoadDataError(result.error)
-            is Value.Success -> lifecycleScope.launch {
-                onSuccess(result.value.first, result.value.second)
+        lifecycleScope.launch {
+            viewModel.state.data().collect {
+                consumptionChart.data = it
+                consumptionChart.invalidate()
             }
-        }
-    }
-
-    private suspend fun onSuccess(data: List<UnitValue<Float>>, consumptionLog: List<ConsumptionLogEntry>?) {
-        if (consumptionLog != null) {
-            consumptionLogCache.insert(consumptionLog)
-            updateChart(data, consumptionLogCache.load())
-            loading.visibility = View.GONE
-            consumptionChart.visibility = View.VISIBLE
-        } else {
-            notify(getString(R.string.consumption_unavailable))
-            findNavController().navigate(R.id.action_overview)
         }
     }
 
@@ -103,46 +88,6 @@ class ConsumptionFragment : Fragment() {
         val yAxis = consumptionChart.axisLeft
         yAxis.axisMinimum = 0f
         yAxis.textColor = themeUtils.textColor()
-    }
-
-    private fun updateChart(data: List<UnitValue<Float>>, consumptionLog: List<ConsumptionLogEntry>) {
-        val currentMobileData = data.firstOrNull {
-            setOf(
-                "Mobile Daten in der Schweiz",
-                "Données mobiles en Suisse",
-                "Dati mobili in Svizzera"
-            ).contains(it.description)
-        } ?: return
-
-        val mobileDataConsumption = consumptionLog.filter {
-            setOf(
-                "Daten in der Schweiz",
-                "Données en Suisse",
-                "Traffico dati in Svizzera"
-            ).contains(it.type)
-        }
-
-        var currentData = currentMobileData.amount.toDouble()
-        val chartData = mobileDataConsumption
-            .sortedBy { it.date }
-            .reversed()
-            .map { entry ->
-                val date = entry.date.time
-                currentData += entry.amount / 1024
-                Entry(date.toFloat(), currentData.toFloat())
-            }
-            .reversed()
-
-        val dataSet = LineDataSet(chartData, "Mobile Data")
-        dataSet.setDrawCircles(false)
-        dataSet.lineWidth = 3f
-        dataSet.color = themeUtils.getColor(R.attr.colorAccent)
-        dataSet.fillColor = themeUtils.getColor(R.attr.colorPrimary)
-        dataSet.fillAlpha = 30
-        dataSet.setDrawFilled(true)
-
-        consumptionChart.data = LineData(dataSet)
-        consumptionChart.invalidate()
     }
 
 }
@@ -168,9 +113,3 @@ class LegacyDateValueFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String =
         dateFormat.format(Date(value.toLong()))
 }
-
-class ConsumptionViewModel(
-    app: Application
-): ApiDataViewModel<Pair<List<UnitValue<Float>>, List<ConsumptionLogEntry>?>>(app, { {
-    Pair(it.getConsumption(), it.getConsumptionLog())
-} })

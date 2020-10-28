@@ -16,10 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopclient.ProductBuySpec
+import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.data.Either
 import de.lorenzgorse.coopmobile.data.loadData
+import de.lorenzgorse.coopmobile.notify
+import de.lorenzgorse.coopmobile.setScreen
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 

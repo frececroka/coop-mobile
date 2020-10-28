@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
-import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 import de.lorenzgorse.coopmobile.PermissionRequest
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
+import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 
 class Combox(private val fragment: Fragment) {
 

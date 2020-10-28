@@ -16,12 +16,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
+import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.logEventOnce
 import de.lorenzgorse.coopmobile.preferences.writeCredentials
 import de.lorenzgorse.coopmobile.preferences.writeSession
+import de.lorenzgorse.coopmobile.setScreen
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
