@@ -19,7 +19,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
-import de.lorenzgorse.coopmobile.coopclient.CoopData
+import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -63,7 +63,7 @@ class ConsumptionFragment : Fragment() {
         viewModel.data.observe(this, Observer(::setData))
     }
 
-    private fun setData(result: Value<Pair<CoopData, List<ConsumptionLogEntry>?>>) {
+    private fun setData(result: Value<Pair<List<UnitValue<Float>>, List<ConsumptionLogEntry>?>>) {
         when (result) {
             is Value.Initiated -> { }
             is Value.Failure ->
@@ -74,10 +74,10 @@ class ConsumptionFragment : Fragment() {
         }
     }
 
-    private suspend fun onSuccess(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>?) {
+    private suspend fun onSuccess(data: List<UnitValue<Float>>, consumptionLog: List<ConsumptionLogEntry>?) {
         if (consumptionLog != null) {
             consumptionLogCache.insert(consumptionLog)
-            updateChart(coopData, consumptionLogCache.load())
+            updateChart(data, consumptionLogCache.load())
             loading.visibility = View.GONE
             consumptionChart.visibility = View.VISIBLE
         } else {
@@ -103,8 +103,8 @@ class ConsumptionFragment : Fragment() {
         yAxis.textColor = themeUtils.textColor()
     }
 
-    private fun updateChart(coopData: CoopData, consumptionLog: List<ConsumptionLogEntry>) {
-        val currentMobileData = coopData.items.firstOrNull {
+    private fun updateChart(data: List<UnitValue<Float>>, consumptionLog: List<ConsumptionLogEntry>) {
+        val currentMobileData = data.firstOrNull {
             setOf(
                 "Mobile Daten in der Schweiz",
                 "Données mobiles en Suisse",
@@ -169,6 +169,6 @@ class LegacyDateValueFormatter : ValueFormatter() {
 
 class ConsumptionViewModel(
     app: Application
-): ApiDataViewModel<Pair<CoopData, List<ConsumptionLogEntry>?>>(app, { {
+): ApiDataViewModel<Pair<List<UnitValue<Float>>, List<ConsumptionLogEntry>?>>(app, { {
     Pair(it.getData(), it.getConsumptionLog())
 } })

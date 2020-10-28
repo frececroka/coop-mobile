@@ -17,7 +17,7 @@ interface CoopClient {
     suspend fun getProfile(): List<Pair<String, String>>
 
     @Throws(IOException::class, CoopException::class)
-    suspend fun getData(): CoopData
+    suspend fun getData(): List<UnitValue<Float>>
 
     @Throws(IOException::class, CoopException::class)
     suspend fun getConsumptionLog(): List<ConsumptionLogEntry>?
@@ -58,7 +58,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return Pair(label, value)
     }
 
-    override suspend fun getData(): CoopData {
+    override suspend fun getData(): List<UnitValue<Float>> {
         val html = getHtml(coopBaseAccount)
         return html.safe {
             val creditBalance = selectFirst("#credit_balance")?.let { block ->
@@ -70,7 +70,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
             val consumptions2 = select("#my_consumption.panel").map {
                 parseUnitValueBlock(it, { v -> v.toFloat() })
             }
-            CoopData(creditBalance + consumptions1 + consumptions2)
+            creditBalance + consumptions1 + consumptions2
         }
     }
 

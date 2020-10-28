@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
-import de.lorenzgorse.coopmobile.coopclient.CoopData
 import de.lorenzgorse.coopmobile.coopclient.CoopException
+import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -119,7 +119,7 @@ class OverviewFragment: Fragment() {
         findNavController().navigate(R.id.action_overview_to_debug)
     }
 
-    private fun setData(result: Value<CoopData>?) {
+    private fun setData(result: Value<List<UnitValue<Float>>>?) {
         when (result) {
             is Value.Initiated -> {
                 loading.visibility = View.VISIBLE
@@ -136,13 +136,13 @@ class OverviewFragment: Fragment() {
         }
     }
 
-    private fun onSuccess(result: CoopData) {
+    private fun onSuccess(result: List<UnitValue<Float>>) {
         bannerRate.onLoadSuccess()
 
         showContent()
 
         consumptions.removeAllViews()
-        result.items.forEach {
+        result.forEach {
             val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
             val amount = if (it.amount.rem(1) <= 0.005) {
                 it.amount.toInt().toString()
@@ -233,7 +233,7 @@ class OverviewFragment: Fragment() {
 
 class CoopDataViewModel(
     app: Application
-): ApiDataViewModel<CoopData>(app, { { it.getData() } })
+): ApiDataViewModel<List<UnitValue<Float>>>(app, { { it.getData() } })
 
 class CoopProfileViewModel(
     app: Application

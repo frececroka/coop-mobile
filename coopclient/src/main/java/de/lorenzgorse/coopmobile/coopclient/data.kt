@@ -11,10 +11,6 @@ data class UnitValue<T>(
     val unit: String
 )
 
-data class CoopData(
-    val items: List<UnitValue<Float>>
-)
-
 data class Product(
     val name: String,
     val description: String,

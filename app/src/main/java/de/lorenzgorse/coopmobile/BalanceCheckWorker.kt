@@ -71,7 +71,7 @@ class BalanceCheckWorker(
             consumptionLogCache.insert(consumptionLog)
         }
 
-        val credit = data.items.firstOrNull { it.unit == "CHF" } ?: return Result.success()
+        val credit = data.firstOrNull { it.unit == "CHF" } ?: return Result.success()
         if (credit.amount < balanceThreshold()) {
             if (!notificationFuse.isBurnt()) {
                 showLowBalanceNotification(credit)
