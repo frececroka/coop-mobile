@@ -53,7 +53,7 @@
         android:id="@+id/overview"
         android:name="de.lorenzgorse.coopmobile.ui.overview.OverviewFragment"
         android:label="@string/title_overview"
-        tools:layout="@layout/fragment_overview">
+        tools:layout="@layout/fragment_remote_data">
         <action
             android:id="@+id/action_overview_to_add_product"
             app:destination="@id/add_product"

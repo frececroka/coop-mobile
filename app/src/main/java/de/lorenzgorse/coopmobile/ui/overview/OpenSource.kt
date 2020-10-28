@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.openUri
+import de.lorenzgorse.coopmobile.trim
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 

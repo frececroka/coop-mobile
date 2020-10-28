@@ -1,6 +1,5 @@
 package de.lorenzgorse.coopmobile.ui.addproduct
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,23 +9,29 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopclient.Product
-import de.lorenzgorse.coopmobile.data.ApiDataViewModel
-import de.lorenzgorse.coopmobile.data.Value
+import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.data.data
+import de.lorenzgorse.coopmobile.setScreen
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
-import de.lorenzgorse.coopmobile.ui.handleLoadDataError
+import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class AddProductFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -34,7 +39,8 @@ class AddProductFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var remoteConfig: FirebaseRemoteConfig
     private lateinit var analytics: FirebaseAnalytics
-    private lateinit var viewModel: ProductsViewModel
+    private lateinit var remoteDataView: RemoteDataView
+    private lateinit var viewModel: AddProductData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,37 +48,34 @@ class AddProductFragment : Fragment() {
         remoteConfig = FirebaseRemoteConfig.getInstance()
         remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AddProductData::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_add_product, container, false)
+    ): View {
+        remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_add_product)
+        return remoteDataView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        remoteDataView.bindState(viewModel.state)
     }
 
     override fun onStart() {
         super.onStart()
         analytics.setScreen("AddProduct")
-        viewModel.data.observe(this, Observer(::setData))
-    }
-
-    private fun setData(result: Value<List<Product>>?) {
-        when (result) {
-            is Value.Initiated -> {
-                loading.visibility = View.VISIBLE
-                layContent.visibility = View.GONE
+        lifecycleScope.launch {
+            viewModel.state.data().filterNotNull().collect { products ->
+                setProducts(products)
             }
-            is Value.Failure ->
-                handleLoadDataError(result.error)
-            is Value.Success ->
-                onSuccess(result.value)
         }
     }
 
-    private fun onSuccess(result: List<Product>) {
+    private fun setProducts(result: List<Product>) {
         linProducts.removeAllViews()
         for (product in result) {
             log.info("Adding product ${product.name}")
@@ -84,8 +87,6 @@ class AddProductFragment : Fragment() {
                 lifecycleScope.launch { confirmBuyProduct(product) } }
             linProducts.addView(productItemView)
         }
-        loading.visibility = View.GONE
-        layContent.visibility = View.VISIBLE
     }
 
     private suspend fun confirmBuyProduct(product: Product) {
@@ -109,7 +110,3 @@ class AddProductFragment : Fragment() {
     }
 
 }
-
-class ProductsViewModel(
-    app: Application
-) : ApiDataViewModel<List<Product>>(app, { { it.getProducts() } })

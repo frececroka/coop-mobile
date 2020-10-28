@@ -5,7 +5,9 @@ import android.text.InputType
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.BalanceCheckWorker
+import de.lorenzgorse.coopmobile.BuildConfig
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 
 class PreferencesFragment: PreferenceFragmentCompat() {

@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.github.mikephil.charting.charts.LineChart xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/consumptionChart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5pt"
-    tools:context=".ui.consumption.ConsumptionFragment">
-
-    <de.lorenzgorse.coopmobile.ui.LoadingView
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/consumptionChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-</LinearLayout>
+    android:layout_margin="5pt" />
