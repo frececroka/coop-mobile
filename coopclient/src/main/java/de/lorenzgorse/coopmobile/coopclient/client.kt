@@ -80,7 +80,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         sanitize: (String) -> String = { it }
     ): UnitValue<T> {
         val title = block.selectFirst(".panel__title").text()
-        val value = block.selectFirst(".panel__consumption__data--value").text()
+        val value = block.selectFirst(".contingent__data--value").text()
 
         val valueParts = value.split(" ")
         if (valueParts.size != 2) {
