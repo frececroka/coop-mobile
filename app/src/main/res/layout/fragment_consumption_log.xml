@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5pt"
-    tools:context=".fragments.ConsumptionFragment">
+    tools:context=".ui.consumption.ConsumptionFragment">
 
-    <de.lorenzgorse.coopmobile.LoadingView
+    <de.lorenzgorse.coopmobile.ui.LoadingView
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

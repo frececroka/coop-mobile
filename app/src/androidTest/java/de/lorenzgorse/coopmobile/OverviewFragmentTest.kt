@@ -24,7 +24,8 @@ import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.MockCoopData.coopData2
 import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
 import de.lorenzgorse.coopmobile.coopclient.CoopException.PlanUnsupported
-import de.lorenzgorse.coopmobile.fragments.OverviewFragment
+import de.lorenzgorse.coopmobile.ui.overview.OverviewFragment
+import de.lorenzgorse.coopmobile.ui.overview.StaticFirstInstallTimeProvider
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matchers.*
 import org.junit.Rule

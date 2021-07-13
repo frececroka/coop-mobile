@@ -13,6 +13,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import de.lorenzgorse.coopmobile.fragments.LoginFragment
+import de.lorenzgorse.coopmobile.preferences.loadSavedCredentials
+import de.lorenzgorse.coopmobile.preferences.loadSavedSession
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo

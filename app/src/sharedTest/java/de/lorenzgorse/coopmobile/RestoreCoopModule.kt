@@ -6,6 +6,8 @@ import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.CoopException
 import de.lorenzgorse.coopmobile.coopclient.CoopLogin
 import de.lorenzgorse.coopmobile.coopclient.RealCoopLogin
+import de.lorenzgorse.coopmobile.data.CoopClientFactory
+import de.lorenzgorse.coopmobile.data.RealCoopClientFactory
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement

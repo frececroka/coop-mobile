@@ -7,6 +7,9 @@ import de.lorenzgorse.coopmobile.MockCoopData.coopData1
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.CoopException
 import de.lorenzgorse.coopmobile.coopclient.UnitValue
+import de.lorenzgorse.coopmobile.data.Either
+import de.lorenzgorse.coopmobile.data.LoadDataError
+import de.lorenzgorse.coopmobile.data.loadData
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert.assertThat
@@ -85,8 +88,8 @@ class LoadDataAsyncTaskTest {
 	}
 
 	private suspend fun doLoadDataTest(
-		failureMatcher: Matcher<in LoadDataError>,
-		successMatcher: Matcher<in List<UnitValue<Float>>>
+        failureMatcher: Matcher<in LoadDataError>,
+        successMatcher: Matcher<in List<UnitValue<Float>>>
 	) {
 		CoopModule.firebaseAnalytics = { mock(FirebaseAnalytics::class.java) }
 		CoopModule.firebaseCrashlytics = { mock(FirebaseCrashlytics::class.java) }

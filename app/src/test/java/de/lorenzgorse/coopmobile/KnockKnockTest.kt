@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile
 
+import de.lorenzgorse.coopmobile.ui.preferences.KnockKnock
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before

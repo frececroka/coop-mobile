@@ -10,7 +10,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import androidx.work.*
 import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.coopclient.UnitValue
+import de.lorenzgorse.coopmobile.data.Either
+import de.lorenzgorse.coopmobile.data.loadData
+import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 

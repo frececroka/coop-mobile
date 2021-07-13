@@ -51,7 +51,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/overview"
-        android:name="de.lorenzgorse.coopmobile.fragments.OverviewFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.overview.OverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_overview">
         <action
@@ -83,7 +83,7 @@
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/add_product"
-        android:name="de.lorenzgorse.coopmobile.fragments.AddProductFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.addproduct.AddProductFragment"
         android:label="@string/title_buy_option"
         tools:layout="@layout/fragment_add_product">
         <action
@@ -98,31 +98,31 @@
     </fragment>
     <fragment
         android:id="@+id/correspondences"
-        android:name="de.lorenzgorse.coopmobile.fragments.CorrespondencesFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.correspondences.CorrespondencesFragment"
         android:label="@string/title_correspondences"
         tools:layout="@layout/fragment_correspondences" />
     <fragment
         android:id="@+id/buy_product"
-        android:name="de.lorenzgorse.coopmobile.fragments.BuyProductFragment">
+        android:name="de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment">
         <argument
             android:name="product"
             app:argType="de.lorenzgorse.coopmobile.coopclient.ProductBuySpec" />
     </fragment>
     <fragment
         android:id="@+id/web_view"
-        android:name="de.lorenzgorse.coopmobile.fragments.WebViewFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.webview.WebViewFragment"
         android:label="@string/title_web_view"
         tools:layout="@layout/fragment_web_view" />
     <fragment
         android:id="@+id/consumption"
-        android:name="de.lorenzgorse.coopmobile.fragments.ConsumptionFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment"
         android:label="@string/title_consumption" />
     <fragment
         android:id="@+id/preferences"
-        android:name="de.lorenzgorse.coopmobile.fragments.PreferencesFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.preferences.PreferencesFragment"
         android:label="@string/title_preferences" />
     <fragment
         android:id="@+id/debug"
-        android:name="de.lorenzgorse.coopmobile.fragments.DebugFragment"
+        android:name="de.lorenzgorse.coopmobile.ui.debug.DebugFragment"
         android:label="@string/title_debug" />
 </navigation>

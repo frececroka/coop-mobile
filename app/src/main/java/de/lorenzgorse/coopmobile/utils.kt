@@ -15,29 +15,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
 import de.lorenzgorse.coopmobile.coopclient.CoopException
+import de.lorenzgorse.coopmobile.data.LoadDataError
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-
-fun handleLoadDataError(
-    error: LoadDataError,
-    showNoNetwork: () -> Unit,
-    showBadHtml: () -> Unit,
-    showUpdateNecessary: (ex: CoopException.HtmlChanged) -> Unit,
-    showPlanUnsupported: () -> Unit,
-    goToLogin: () -> Unit
-) {
-    when (error) {
-        is LoadDataError.NoNetwork -> showNoNetwork()
-        is LoadDataError.BadHtml -> showBadHtml()
-        is LoadDataError.HtmlChanged -> showUpdateNecessary(error.ex)
-        is LoadDataError.PlanUnsupported -> showPlanUnsupported()
-        is LoadDataError.NoClient -> goToLogin()
-        is LoadDataError.Unauthorized -> goToLogin()
-        is LoadDataError.FailedLogin -> goToLogin()
-    }
-}
 
 fun Context.openUri(uri: String) {
     openUri(Uri.parse(uri))

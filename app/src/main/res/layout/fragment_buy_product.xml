@@ -7,9 +7,9 @@
     android:background="@color/background1"
     android:orientation="vertical"
     app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
-    tools:context=".fragments.AddProductFragment">
+    tools:context=".ui.addproduct.AddProductFragment">
 
-    <de.lorenzgorse.coopmobile.LoadingView
+    <de.lorenzgorse.coopmobile.ui.LoadingView
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
