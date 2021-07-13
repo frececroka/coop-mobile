@@ -23,7 +23,7 @@ class NavHost : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
 
-        bottom_nav.setOnNavigationItemSelectedListener { item ->
+        bottom_nav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.itOverview -> navController.navigate(R.id.action_overview)
                 R.id.itCorrespondences -> navController.navigate(R.id.action_correspondences)
