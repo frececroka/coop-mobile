@@ -8,6 +8,7 @@
     <string name="dismiss">Dismiss</string>
 
     <string name="loading">Loading data…</string>
+    <string name="generic_error">An error happened.</string>
     <string name="no_network">No internet connection.</string>
     <string name="update_necessary">You need a new version of the app due to technical reasons. Please wait until an update is available in the Play Store.</string>
     <string name="go_to_play_store">Go to Play Store</string>

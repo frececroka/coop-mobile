@@ -14,6 +14,7 @@ class LoadDataErrorHandler(private val fragment: Fragment) {
         handleLoadDataError(
             error,
             ::showNoNetwork,
+            ::showBadHtml,
             ::showUpdateNecessary,
             ::showPlanUnsupported,
             ::goToLogin)
@@ -21,6 +22,11 @@ class LoadDataErrorHandler(private val fragment: Fragment) {
 
     private fun showNoNetwork() {
         fragment.notify(R.string.no_network)
+        fragment.findNavController().navigate(R.id.action_overview)
+    }
+
+    private fun showBadHtml() {
+        fragment.notify(R.string.generic_error)
         fragment.findNavController().navigate(R.id.action_overview)
     }
 

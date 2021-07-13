@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import org.jsoup.Jsoup
+import org.jsoup.UncheckedIOException
 import org.jsoup.nodes.Document
 import java.net.URL
 
@@ -18,8 +19,14 @@ class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
     suspend inline fun <reified T> getJson(url: String, noinline check: (Response) -> Unit): T =
         Gson().fromJson(getText(url, check), T::class.java)
 
-    suspend fun getHtml(url: String, check: (Response) -> Unit = {}): Document =
-        Jsoup.parse(getText(url, check))
+    suspend fun getHtml(url: String, check: (Response) -> Unit = {}): Document {
+        val html = getText(url, check)
+        return try {
+            Jsoup.parse(html)
+        } catch (e: UncheckedIOException) {
+            throw CoopException.BadHtml(e, html)
+        }
+    }
 
     suspend fun getText(url: String, check: (Response) -> Unit = {}): String =
         withContext(Dispatchers.IO) { get(url, check).body!!.string() }

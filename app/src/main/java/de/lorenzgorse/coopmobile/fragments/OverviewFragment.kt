@@ -128,9 +128,10 @@ class OverviewFragment: Fragment() {
             }
             is Value.Failure -> handleLoadDataError(
                 result.error,
-                ::showNoNetwork,
+                {showGenericError(R.drawable.ic_offline_bolt, R.string.no_network)},
+                {showGenericError(R.drawable.ic_report, R.string.generic_error)},
                 ::showUpdateNecessary,
-                ::showPlanUnsupported,
+                {showGenericError(R.drawable.ic_report, R.string.plan_unsupported)},
                 ::goToLogin)
             is Value.Success -> onSuccess(result.value)
         }
@@ -178,10 +179,12 @@ class OverviewFragment: Fragment() {
         layContent.visibility = View.VISIBLE
     }
 
-    private fun showNoNetwork() {
+    private fun showGenericError(icon: Int, message: Int) {
         hideAll()
+        imGenericError.setImageDrawable(requireContext().getDrawable(icon))
+        txtGenericError.setText(message)
+        layGenericError.visibility = View.VISIBLE
         layError.visibility = View.VISIBLE
-        layNoNetwork.visibility = View.VISIBLE
     }
 
     private fun showUpdateNecessary(ex: CoopException.HtmlChanged) {
@@ -206,19 +209,12 @@ class OverviewFragment: Fragment() {
         }
     }
 
-    private fun showPlanUnsupported() {
-        hideAll()
-        layError.visibility = View.VISIBLE
-        layPlanUnsupported.visibility = View.VISIBLE
-    }
-
     private fun hideAll() {
         layContent.visibility = View.GONE
         loading.visibility = View.GONE
         layError.visibility = View.GONE
-        layNoNetwork.visibility = View.GONE
+        layGenericError.visibility = View.GONE
         layUpdate.visibility = View.GONE
-        layPlanUnsupported.visibility = View.GONE
     }
 
     private fun openPlayStore() {

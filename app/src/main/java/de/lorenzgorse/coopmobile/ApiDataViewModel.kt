@@ -21,6 +21,7 @@ sealed class LoadDataError {
     object NoClient: LoadDataError()
     object Unauthorized : LoadDataError()
     object FailedLogin : LoadDataError()
+    data class BadHtml(val ex: CoopException.BadHtml) : LoadDataError()
     data class HtmlChanged(val ex: CoopException.HtmlChanged) : LoadDataError()
     object PlanUnsupported : LoadDataError()
 }
@@ -91,6 +92,12 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
         firebaseCrashlytics().recordException(e)
     }
 
+    fun badHtml(e: CoopException.BadHtml) {
+        log.error("Bad HTML.", e)
+        analytics.logEvent("LoadData_BadHtml", null)
+        firebaseCrashlytics().recordException(e)
+    }
+
     fun htmlChanged(e: CoopException.HtmlChanged) {
         log.error("Html changed.", e)
         analytics.logEvent("LoadData_HtmlChanged", null)
@@ -151,6 +158,9 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
     } catch (e: CoopException.PlanUnsupported) {
         planUnsupported(e)
         Left(PlanUnsupported)
+    } catch (e: CoopException.BadHtml) {
+        badHtml(e)
+        Left(BadHtml(e))
     } catch (e: CoopException.HtmlChanged) {
         htmlChanged(e)
         Left(HtmlChanged(e))

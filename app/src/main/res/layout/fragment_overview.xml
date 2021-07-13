@@ -26,7 +26,7 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/layNoNetwork"
+            android:id="@+id/layGenericError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -34,17 +34,17 @@
             android:visibility="gone">
 
             <ImageView
+                android:id="@+id/imGenericError"
                 android:layout_width="match_parent"
                 android:layout_height="60dip"
                 android:layout_marginBottom="10dip"
-                android:src="@drawable/ic_offline_bolt"
                 android:tint="@color/colorOnBackground1" />
 
             <TextView
+                android:id="@+id/txtGenericError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/no_network" />
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -90,28 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_diagnostics" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layPlanUnsupported"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="60dip"
-                android:layout_marginBottom="10dip"
-                android:src="@drawable/ic_report"
-                android:tint="@color/colorOnBackground1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/plan_unsupported" />
         </LinearLayout>
 
     </LinearLayout>
