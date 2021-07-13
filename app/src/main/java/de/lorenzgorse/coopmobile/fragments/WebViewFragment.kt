@@ -68,7 +68,7 @@ class WebViewFragment : Fragment() {
             }
             R.id.itCorrespondences -> {
                 logNavigationEvent("my_correspondence")
-                webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/index")
+                webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence")
                 true
             }
             R.id.itTopUp -> {
