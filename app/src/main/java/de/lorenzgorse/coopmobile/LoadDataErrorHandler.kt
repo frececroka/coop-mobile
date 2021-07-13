@@ -13,30 +13,14 @@ class LoadDataErrorHandler(private val fragment: Fragment) {
     fun handle(error: LoadDataError) {
         handleLoadDataError(
             error,
-            ::showNoNetwork,
-            ::showBadHtml,
-            ::showUpdateNecessary,
-            ::showPlanUnsupported,
+            ::goToOverview,
+            ::goToOverview,
+            {goToOverview()},
+            ::goToOverview,
             ::goToLogin)
     }
 
-    private fun showNoNetwork() {
-        fragment.notify(R.string.no_network)
-        fragment.findNavController().navigate(R.id.action_overview)
-    }
-
-    private fun showBadHtml() {
-        fragment.notify(R.string.generic_error)
-        fragment.findNavController().navigate(R.id.action_overview)
-    }
-
-    private fun showUpdateNecessary(ex: CoopException.HtmlChanged) {
-        fragment.notify(R.string.update_necessary)
-        fragment.findNavController().navigate(R.id.action_overview)
-    }
-
-    private fun showPlanUnsupported() {
-        fragment.notify(R.string.plan_unsupported)
+    private fun goToOverview() {
         fragment.findNavController().navigate(R.id.action_overview)
     }
 
