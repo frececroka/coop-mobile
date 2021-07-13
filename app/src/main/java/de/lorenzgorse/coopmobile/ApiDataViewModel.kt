@@ -99,7 +99,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
     }
 
     fun htmlChanged(e: CoopException.HtmlChanged) {
-        log.error("Html changed.", e)
+        log.error("HTML changed.", e)
         analytics.logEvent("LoadData_HtmlChanged", null)
         firebaseCrashlytics().recordException(e)
     }
