@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopclient.Correspondence
-import de.lorenzgorse.coopmobile.components.LoadDataErrorHandler
+import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.data.ApiDataViewModel
 import de.lorenzgorse.coopmobile.data.Value
+import de.lorenzgorse.coopmobile.setScreen
+import de.lorenzgorse.coopmobile.ui.handleLoadDataError
 import kotlinx.android.synthetic.main.fragment_correspondences.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,14 +29,12 @@ class CorrespondencesFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: CorrespondencesViewModel
-    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(CorrespondencesViewModel::class.java)
-        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(
@@ -58,7 +58,7 @@ class CorrespondencesFragment : Fragment() {
             is Value.Progress ->
                 loading.setProgress(data.current, data.total)
             is Value.Failure ->
-                loadDataErrorHandler.handle(data.error)
+                handleLoadDataError(data.error)
             is Value.Success ->
                 onSuccess(data.value)
         }

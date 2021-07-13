@@ -18,11 +18,11 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.coopclient.Product
-import de.lorenzgorse.coopmobile.components.LoadDataErrorHandler
 import de.lorenzgorse.coopmobile.data.ApiDataViewModel
 import de.lorenzgorse.coopmobile.data.Value
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
+import de.lorenzgorse.coopmobile.ui.handleLoadDataError
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
@@ -35,7 +35,6 @@ class AddProductFragment : Fragment() {
     private lateinit var remoteConfig: FirebaseRemoteConfig
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var viewModel: ProductsViewModel
-    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,6 @@ class AddProductFragment : Fragment() {
         remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(ProductsViewModel::class.java)
-        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(
@@ -68,7 +66,7 @@ class AddProductFragment : Fragment() {
                 layContent.visibility = View.GONE
             }
             is Value.Failure ->
-                loadDataErrorHandler.handle(result.error)
+                handleLoadDataError(result.error)
             is Value.Success ->
                 onSuccess(result.value)
         }

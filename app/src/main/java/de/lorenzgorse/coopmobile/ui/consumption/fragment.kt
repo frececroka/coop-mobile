@@ -21,9 +21,9 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.coopclient.UnitValue
-import de.lorenzgorse.coopmobile.components.LoadDataErrorHandler
 import de.lorenzgorse.coopmobile.data.ApiDataViewModel
 import de.lorenzgorse.coopmobile.data.Value
+import de.lorenzgorse.coopmobile.ui.handleLoadDataError
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -40,7 +40,6 @@ class ConsumptionFragment : Fragment() {
     private lateinit var themeUtils: ThemeUtils
     private lateinit var viewModel: ConsumptionViewModel
     private lateinit var consumptionLogCache: ConsumptionLogCache
-    private lateinit var loadDataErrorHandler: LoadDataErrorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +47,6 @@ class ConsumptionFragment : Fragment() {
         themeUtils = ThemeUtils(requireContext())
         viewModel = ViewModelProvider(this).get(ConsumptionViewModel::class.java)
         consumptionLogCache = ConsumptionLogCache(requireContext())
-        loadDataErrorHandler = LoadDataErrorHandler(this)
     }
 
     override fun onCreateView(
@@ -71,7 +69,7 @@ class ConsumptionFragment : Fragment() {
         when (result) {
             is Value.Initiated -> { }
             is Value.Failure ->
-                loadDataErrorHandler.handle(result.error)
+                handleLoadDataError(result.error)
             is Value.Success -> lifecycleScope.launch {
                 onSuccess(result.value.first, result.value.second)
             }
