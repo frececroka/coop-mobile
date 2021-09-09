@@ -11,9 +11,7 @@ jobs:
     - run: echo "${{ secrets.COOP_MOBILE_USERNAME }}" > coopclient/.config/username
     - run: echo "${{ secrets.COOP_MOBILE_PASSWORD }}" > coopclient/.config/password
     - name: Test
-      uses: vgaidarji/android-github-actions-build@v1.0.1
-      with:
-        args: "./gradlew test"
+      run: "./gradlew test"
     - uses: actions/upload-artifact@v1
       with:
         name: build

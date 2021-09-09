@@ -15,9 +15,7 @@ jobs:
         echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
         echo "${{ secrets.KEYSTORE_PROPS }}" > app/keystore.properties
     - name: Build
-      uses: vgaidarji/android-github-actions-build@v1.0.1
-      with:
-        args: "./gradlew bundleRelease && chmod a+r app/build/outputs/bundle/release/app-release.aab"
+      run: "./gradlew bundleRelease && chmod a+r app/build/outputs/bundle/release/app-release.aab"
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
