@@ -4,6 +4,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
+import de.lorenzgorse.coopmobile.coopclient.CoopClient
+import de.lorenzgorse.coopmobile.data.Either
+import de.lorenzgorse.coopmobile.data.loadData
 import kotlinx.coroutines.runBlocking
 
 class AppWidgetProvider : AppWidgetProvider() {
@@ -17,7 +20,11 @@ class AppWidgetProvider : AppWidgetProvider() {
             val coopClientFactory = CoopModule.coopClientFactory
             val client = coopClientFactory.get(context)
             if (client != null) {
-                val consumption = client.getConsumption()
+                val maybeConsumption = loadData(context, CoopClient::getConsumption)
+                val consumption = when (maybeConsumption) {
+                    is Either.Left -> return@runBlocking
+                    is Either.Right -> maybeConsumption.value
+                }
                 val measure = consumption[when {
                     consumption.size >= 2 -> 1
                     consumption.size >= 1 -> 0
