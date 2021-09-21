@@ -12,7 +12,7 @@ class KV(context: Context) : AutoCloseable {
     private val gson = Gson()
 
     fun <T> set(key: String, value: T) {
-        val serializedValue = gson.toJson(value)
+        val serializedValue = gson.toJson(value).encodeToByteArray()
         val bindings = arrayOf(key, serializedValue)
         kvData.writableDatabase.execSQL(
             "insert into kv(k, v) values(?, ?)",
