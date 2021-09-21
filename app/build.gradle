@@ -6,11 +6,11 @@ apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "de.lorenzgorse.coopmobile"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 26
+        targetSdkVersion 31
         versionCode 63
         versionName "1.63"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,10 +38,10 @@ android {
             }
         }
     }
-
     testOptions {
-        unitTests.returnDefaultValues = true
-        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+        }
     }
     buildTypes {
         release {
@@ -62,15 +62,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-    sourceSets {
-        String sharedTestDir = "src/sharedTest/java"
-        test {
-            java.srcDir sharedTestDir
-        }
-        androidTest {
-            java.srcDir sharedTestDir
-        }
     }
 }
 
@@ -105,19 +96,12 @@ dependencies {
     implementation "com.google.firebase:firebase-crashlytics:18.1.0"
     implementation "com.google.firebase:firebase-storage-ktx:20.0.0"
     implementation "com.google.android.play:core:1.10.0"
+    implementation "com.google.code.gson:gson:2.8.6"
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
 
+    testImplementation "androidx.test:core-ktx:1.4.0"
+    testImplementation "org.robolectric:robolectric:4.4"
     testImplementation "junit:junit:4.13"
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "org.mockito:mockito-inline:3.1.0"
-
-    androidTestImplementation "junit:junit:4.13"
-
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:2.19.0"
-    debugImplementation "org.mockito:mockito-inline:3.1.0"
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
-    debugImplementation "androidx.fragment:fragment-testing:1.3.5"
 }
