@@ -69,6 +69,12 @@ class CoopClientTest {
         assertThat(correspondence.message, not(emptyString()))
     }
 
+    @Test
+    fun testLoadConsumptionLog() = runBlocking {
+        val consumptionLog = client.getConsumptionLog()
+        assertThat(consumptionLog, not(empty()))
+    }
+
     @Test(expected = CoopException.Unauthorized::class)
     fun testLoadDataInvalidSession() { runBlocking {
         expiredClient.getConsumption()
