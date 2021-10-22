@@ -30,6 +30,7 @@
             android:layout_weight="1"
             android:autoSizeTextType="uniform"
             android:gravity="center"
+            android:maxLines="1"
             android:textAlignment="gravity"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
