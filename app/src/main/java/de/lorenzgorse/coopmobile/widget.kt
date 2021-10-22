@@ -26,12 +26,14 @@ class AppWidgetProvider : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        AppWidgetProvider(context).onUpdate(appWidgetManager, appWidgetIds)
+        val provider = AppWidgetProvider(context)
+        provider.onUpdate(appWidgetManager, appWidgetIds)
+        provider.close()
     }
 
     data class Data(val consumption: UnitValue<Float>, val date: Instant)
 
-    inner class AppWidgetProvider(private val context: Context) {
+    inner class AppWidgetProvider(private val context: Context) : AutoCloseable {
 
         private val cacheKey = "widget"
         private val kv = KV(context)
@@ -83,6 +85,10 @@ class AppWidgetProvider : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.last_updated, pendingIntent)
 
             return views
+        }
+
+        override fun close() {
+            kv.close()
         }
 
     }
