@@ -1,8 +1,11 @@
 package de.lorenzgorse.coopmobile
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
@@ -69,6 +72,16 @@ class AppWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.amount, data.consumption.amount.toString())
             views.setTextViewText(R.id.unit, data.consumption.unit)
             views.setTextViewText(R.id.last_updated, dateTimeFormatter.format(data.date))
+
+            // update the widget when the last_updated text view is clicked
+            val intent = Intent(context, de.lorenzgorse.coopmobile.AppWidgetProvider::class.java)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val componentName = ComponentName(context, de.lorenzgorse.coopmobile.AppWidgetProvider::class.java)
+            val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            views.setOnClickPendingIntent(R.id.last_updated, pendingIntent)
+
             return views
         }
 
