@@ -9,6 +9,7 @@ import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.data.loadData
 import kotlinx.coroutines.runBlocking
+import java.time.Instant
 
 class AppWidgetProvider : AppWidgetProvider() {
 
@@ -20,6 +21,8 @@ class AppWidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         AppWidgetProvider(context).onUpdate(appWidgetManager, appWidgetIds)
     }
+
+    data class Data(val consumption: UnitValue<Float>, val date: Instant)
 
     inner class AppWidgetProvider(private val context: Context) {
 
@@ -38,25 +41,23 @@ class AppWidgetProvider : AppWidgetProvider() {
             }
         }
 
-        private fun latestData(): UnitValue<Float>? {
+        private fun latestData(): Data? {
             val maybeConsumption = runBlocking { loadData(context, CoopClient::getConsumption) }
-            val consumption = maybeConsumption.right() ?: return null
-            return consumption[when {
-                consumption.size >= 2 -> 1
-                consumption.size >= 1 -> 0
+            val consumptions = maybeConsumption.right() ?: return null
+            val consumption = consumptions[when {
+                consumptions.size >= 2 -> 1
+                consumptions.size >= 1 -> 0
                 else -> return null
             }]
+            return Data(consumption, Instant.now())
         }
 
-        private fun cachedData() = kv.get<UnitValue<Float>>(
-            cacheKey,
-            TypeToken.getParameterized(UnitValue::class.java, java.lang.Float::class.java).type
-        )
+        private fun cachedData() = kv.get<Data>(cacheKey, TypeToken.get(Data::class.java).type)
 
-        private fun views(widgetData: UnitValue<Float>): RemoteViews {
+        private fun views(data: Data): RemoteViews {
             val views = RemoteViews(context.packageName, R.layout.widget)
-            views.setTextViewText(R.id.amount, widgetData.amount.toString())
-            views.setTextViewText(R.id.unit, widgetData.unit)
+            views.setTextViewText(R.id.amount, data.consumption.amount.toString())
+            views.setTextViewText(R.id.unit, data.consumption.unit)
             return views
         }
 
