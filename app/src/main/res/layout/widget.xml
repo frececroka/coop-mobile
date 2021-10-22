@@ -33,7 +33,6 @@
             android:textAlignment="gravity"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
-            tools:targetApi="o"
             tools:text="7.16" />
 
         <TextView
@@ -43,7 +42,6 @@
             android:textAlignment="gravity"
             android:textColor="@color/colorOnPrimary"
             android:textSize="20sp"
-            tools:targetApi="o"
             tools:text="CHF" />
 
     </LinearLayout>
