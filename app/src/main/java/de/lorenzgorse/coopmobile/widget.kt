@@ -10,6 +10,10 @@ import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.data.loadData
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
 class AppWidgetProvider : AppWidgetProvider() {
 
@@ -28,6 +32,11 @@ class AppWidgetProvider : AppWidgetProvider() {
 
         private val cacheKey = "widget"
         private val kv = KV(context)
+
+        private val dateTimeFormatter = DateTimeFormatter
+            .ofLocalizedDateTime(FormatStyle.SHORT)
+            .withLocale(Locale.getDefault())
+            .withZone(ZoneId.systemDefault())
 
         fun onUpdate(
             appWidgetManager: AppWidgetManager,
@@ -56,8 +65,10 @@ class AppWidgetProvider : AppWidgetProvider() {
 
         private fun views(data: Data): RemoteViews {
             val views = RemoteViews(context.packageName, R.layout.widget)
+            views.setTextViewText(R.id.description, data.consumption.description)
             views.setTextViewText(R.id.amount, data.consumption.amount.toString())
             views.setTextViewText(R.id.unit, data.consumption.unit)
+            views.setTextViewText(R.id.last_updated, dateTimeFormatter.format(data.date))
             return views
         }
 
