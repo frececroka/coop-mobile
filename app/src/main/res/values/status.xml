@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="guthaben">Balance</string>
-
     <string name="send_diagnostics">Provide Diagnostic Information</string>
     <string name="diagnostics_uploading">Uploading…</string>
     <string name="diagnostics_upload_successful">Upload successful</string>

@@ -1,11 +1,9 @@
 package de.lorenzgorse.coopmobile.ui.consumption
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -21,13 +19,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -82,7 +78,7 @@ class ConsumptionFragment : Fragment() {
 
         val xAxis = consumptionChart.xAxis
         xAxis.labelRotationAngle = 30f
-        xAxis.valueFormatter = makeDateValueFormatter()
+        xAxis.valueFormatter = NewDateValueFormatter()
         xAxis.textColor = themeUtils.textColor()
 
         val yAxis = consumptionChart.axisLeft
@@ -92,13 +88,6 @@ class ConsumptionFragment : Fragment() {
 
 }
 
-fun makeDateValueFormatter(): ValueFormatter =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        NewDateValueFormatter()
-    else
-        LegacyDateValueFormatter()
-
-@RequiresApi(Build.VERSION_CODES.O)
 class NewDateValueFormatter : ValueFormatter() {
     private val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
     override fun getFormattedValue(value: Float): String {
@@ -106,10 +95,4 @@ class NewDateValueFormatter : ValueFormatter() {
         val localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
         return dateFormat.format(localDate)
     }
-}
-
-class LegacyDateValueFormatter : ValueFormatter() {
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    override fun getFormattedValue(value: Float): String =
-        dateFormat.format(Date(value.toLong()))
 }

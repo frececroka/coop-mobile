@@ -62,26 +62,26 @@
                         android:id="@+id/txtNoNetwork"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_offline_bolt"
                         android:drawablePadding="3pt"
-                        android:drawableTint="@color/colorOnPrimary"
                         android:gravity="center_vertical"
                         android:text="@string/no_network"
                         android:textColor="@color/colorOnPrimary"
                         android:visibility="gone"
+                        app:drawableStartCompat="@drawable/ic_offline_bolt"
+                        app:drawableTint="@color/colorOnPrimary"
                         tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txtLoginFailed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_report"
                         android:drawablePadding="3pt"
-                        android:drawableTint="@color/colorOnPrimary"
                         android:gravity="center_vertical"
                         android:text="@string/error_login_failed"
                         android:textColor="@color/colorOnPrimary"
                         android:visibility="gone"
+                        app:drawableStartCompat="@drawable/ic_report"
+                        app:drawableTint="@color/colorOnPrimary"
                         tools:visibility="visible" />
                 </LinearLayout>
 

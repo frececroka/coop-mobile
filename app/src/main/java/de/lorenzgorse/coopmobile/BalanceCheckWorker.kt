@@ -101,12 +101,10 @@ class BalanceCheckWorker(
     }
 
     private fun setupNotificationChannel(notificationManager: NotificationManagerCompat) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId, "Balance Check",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            channelId, "Balance Check",
+            NotificationManager.IMPORTANCE_DEFAULT)
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun createNotification(credit: UnitValue<Float>): Notification =

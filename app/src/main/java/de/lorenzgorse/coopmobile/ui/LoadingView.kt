@@ -16,11 +16,7 @@ class LoadingView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     fun setProgress(current: Int, total: Int) {
         progressBar.isIndeterminate = false
         progressBar.max = total
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            progressBar.setProgress(current, true)
-        } else {
-            progressBar.progress = current
-        }
+        progressBar.setProgress(current, true)
     }
 
     fun makeIndeterminate() {
