@@ -38,5 +38,5 @@ jobs:
       with:
         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
         packageName: de.lorenzgorse.coopmobile
-        releaseFile: app/build/outputs/bundle/release/app-release.aab
+        releaseFiles: app/build/outputs/bundle/release/app-release.aab
         track: beta
