@@ -3,13 +3,23 @@ package de.lorenzgorse.coopmobile
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.google.gson.Gson
+import com.google.gson.*
 import java.lang.reflect.Type
+import java.time.Instant
 
 class KV(context: Context) : AutoCloseable {
 
     private val kvData = KVData(context)
-    private val gson = Gson()
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(
+            Instant::class.java,
+            JsonDeserializer { json, _, context -> Instant.ofEpochMilli(context.deserialize(json, Long::class.java)) }
+        )
+        .registerTypeAdapter(
+            Instant::class.java,
+            JsonSerializer<Instant> { instant, _, context -> context.serialize(instant.toEpochMilli()) }
+        )
+        .create()
 
     fun <T> set(key: String, value: T) {
         val serializedValue = gson.toJson(value).encodeToByteArray()
