@@ -75,14 +75,14 @@ class AppWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.unit, data.consumption.unit)
             views.setTextViewText(R.id.last_updated, dateTimeFormatter.format(data.date))
 
-            // update the widget when the last_updated text view is clicked
+            // update the widget when the "amount" text view is clicked
             val intent = Intent(context, de.lorenzgorse.coopmobile.AppWidgetProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             val componentName = ComponentName(context, de.lorenzgorse.coopmobile.AppWidgetProvider::class.java)
             val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(componentName)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            views.setOnClickPendingIntent(R.id.last_updated, pendingIntent)
+            views.setOnClickPendingIntent(R.id.amount, pendingIntent)
 
             return views
         }
