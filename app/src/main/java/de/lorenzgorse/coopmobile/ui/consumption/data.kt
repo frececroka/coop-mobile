@@ -5,9 +5,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -23,7 +24,7 @@ class ConsumptionData(app: Application) : CoopViewModel(app) {
     val state: Flow<State<LineData?, CoopError>>
 
     init {
-        val consumptionLog = load { it.getConsumptionLog() }
+        val consumptionLog = load { client.getConsumptionLog() }
             .flatMap { v, n ->
                 if (v != null) State.Loaded(v, n)
                 else {
@@ -37,7 +38,7 @@ class ConsumptionData(app: Application) : CoopViewModel(app) {
             consumptionLogCache.load()
         }
 
-        val consumption = load { it.getConsumption() }
+        val consumption = load { client.getConsumption() }
 
         state = liftFlow(consumption, cachedConsumptionLog) { c, cl ->
             makeLineData(c, cl)

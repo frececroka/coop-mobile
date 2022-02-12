@@ -9,26 +9,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
+import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.data.data
-import de.lorenzgorse.coopmobile.preferences.clearCredentials
-import de.lorenzgorse.coopmobile.preferences.clearSession
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.remote_data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.util.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class OverviewFragment: Fragment() {
+class OverviewFragment : Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var remoteDataView: RemoteDataView
@@ -36,6 +33,7 @@ class OverviewFragment: Fragment() {
     private lateinit var combox: Combox
     private lateinit var openSource: OpenSource
     private lateinit var encryptedDiagnostics: EncryptedDiagnostics
+    private lateinit var credentialsStore: CredentialsStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +43,7 @@ class OverviewFragment: Fragment() {
         combox = Combox(this)
         openSource = OpenSource(requireContext())
         encryptedDiagnostics = EncryptedDiagnostics(requireContext())
+        credentialsStore = createCredentialsStore(requireContext())
     }
 
     override fun onCreateView(
@@ -88,13 +87,27 @@ class OverviewFragment: Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.itRefresh -> { lifecycleScope.launch { viewModel.refresh() }; true }
-            R.id.itAddOption -> { addOption(); true }
-            R.id.itCombox -> { launchCombox(); true }
-            R.id.itLogout -> { logout(); true }
-            R.id.itPreferences -> { preferences(); true }
-            R.id.itOpenSource -> { openSource(); true }
-            R.id.itDebug -> { debug(); true }
+            R.id.itRefresh -> {
+                lifecycleScope.launch { viewModel.refresh() }; true
+            }
+            R.id.itAddOption -> {
+                addOption(); true
+            }
+            R.id.itCombox -> {
+                launchCombox(); true
+            }
+            R.id.itLogout -> {
+                logout(); true
+            }
+            R.id.itPreferences -> {
+                preferences(); true
+            }
+            R.id.itOpenSource -> {
+                openSource(); true
+            }
+            R.id.itDebug -> {
+                debug(); true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -109,9 +122,8 @@ class OverviewFragment: Fragment() {
 
     private fun logout() {
         analytics.logEvent("logout", null)
-        clearSession(requireContext())
-        clearCredentials(requireContext())
-        coopClientFactory.clear()
+        credentialsStore.clearSession()
+        credentialsStore.clearCredentials()
         findNavController().navigate(R.id.action_login)
     }
 

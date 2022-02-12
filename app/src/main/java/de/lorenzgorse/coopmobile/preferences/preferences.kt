@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile
+package de.lorenzgorse.coopmobile.preferences
 
 import android.content.Context
 import android.content.SharedPreferences

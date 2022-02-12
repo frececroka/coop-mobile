@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopclient.Correspondence
+import de.lorenzgorse.coopmobile.client.Correspondence
 import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.data.data
 import de.lorenzgorse.coopmobile.setScreen
@@ -19,7 +19,6 @@ import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_correspondences.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

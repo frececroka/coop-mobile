@@ -1,6 +1,6 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
-import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
+import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
 import org.jsoup.nodes.Document
 import java.util.*
 

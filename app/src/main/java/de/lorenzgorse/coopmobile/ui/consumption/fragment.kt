@@ -17,7 +17,6 @@ import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime

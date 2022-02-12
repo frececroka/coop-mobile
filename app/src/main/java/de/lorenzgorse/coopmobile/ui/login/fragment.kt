@@ -16,17 +16,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
-import de.lorenzgorse.coopmobile.CoopModule.coopLogin
-import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
-import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
-import de.lorenzgorse.coopmobile.createAnalytics
-import de.lorenzgorse.coopmobile.logEventOnce
-import de.lorenzgorse.coopmobile.preferences.writeCredentials
-import de.lorenzgorse.coopmobile.preferences.writeSession
-import de.lorenzgorse.coopmobile.setScreen
+import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
+import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
+import de.lorenzgorse.coopmobile.client.simple.CoopLogin
+import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
@@ -50,14 +47,23 @@ class LoginFragment : Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
 
+    private lateinit var coopLogin: CoopLogin
+    private lateinit var credentialsStore: CredentialsStore
+
     private val loginInProgress = AtomicBoolean(false)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analytics = createAnalytics(requireContext())
+        coopLogin = RealCoopLogin()
+        credentialsStore = createCredentialsStore(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        analytics = createAnalytics(requireContext())
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -182,7 +188,7 @@ class LoginFragment : Fragment() {
             log.error("HTML structure changed unexpectedly.", e)
             analytics.logEvent("Login_HtmlChanged", null)
             loginTrace.incrementMetric("HtmlChanged", 1)
-            firebaseCrashlytics().recordException(e)
+            Firebase.crashlytics.recordException(e)
             showProgress(false)
             Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
             return
@@ -194,8 +200,8 @@ class LoginFragment : Fragment() {
             log.info("Obtained session ID.")
             analytics.logEvent("Login_Success", null)
             analytics.logEventOnce(requireContext(), "Onb_Login_Success", null)
-            writeCredentials(requireContext(), username, password)
-            writeSession(requireContext(), sessionId)
+            credentialsStore.setCredentials(username, password)
+            credentialsStore.setSession(sessionId)
             findNavController().navigate(R.id.action_overview)
         } else {
             log.info("Did not receive any session ID.")

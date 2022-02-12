@@ -1,7 +1,7 @@
 package de.lorenzgorse.coopmobile.ui.debug
 
 import android.content.Context
-import de.lorenzgorse.coopmobile.getCoopSharedPreferences
+import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
 
 object DebugMode {
     fun isEnabled(context: Context): Boolean {

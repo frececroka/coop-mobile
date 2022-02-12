@@ -16,13 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopclient.ProductBuySpec
-import de.lorenzgorse.coopmobile.createAnalytics
-import de.lorenzgorse.coopmobile.data.Either
-import de.lorenzgorse.coopmobile.data.loadData
-import de.lorenzgorse.coopmobile.notify
-import de.lorenzgorse.coopmobile.setScreen
+import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.client.Either
+import de.lorenzgorse.coopmobile.client.ProductBuySpec
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
@@ -33,12 +30,15 @@ class BuyProductFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
 
+    private lateinit var client: CoopClient
+
     private lateinit var productBuySpec: ProductBuySpec
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        client = createClient(requireContext())
         productBuySpec = arguments?.get("product") as ProductBuySpec
         authenticate()
     }
@@ -131,7 +131,7 @@ class BuyProductFragment : Fragment() {
 
         return
 
-        when (val result = loadData(requireContext()) { it.buyProduct(productBuySpec) }) {
+        when (val result = client.buyProduct(productBuySpec)) {
             is Either.Left -> {
                 findNavController().popBackStack()
                 notify(R.string.buying_failed)

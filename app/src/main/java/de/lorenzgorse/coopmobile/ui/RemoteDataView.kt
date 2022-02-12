@@ -13,6 +13,7 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.data.*
 import de.lorenzgorse.coopmobile.openPlayStore
@@ -111,7 +112,7 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
         }
 
         val faultyDocument = error.filterIsInstance<CoopError.HtmlChanged>()
-            .map { it.ex.document }
+            .map { it.cause.document }
 
         val diagnosticsEnabled = faultyDocument.map { it != null && DebugMode.isEnabled(context) }
         lifecycleOwner.applyVisibility(diagnosticsEnabled, sendDiagnosticsButton)

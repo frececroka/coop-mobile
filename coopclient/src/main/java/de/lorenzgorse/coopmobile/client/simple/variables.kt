@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
 const val coopScheme = "https"
 const val coopHost = "myaccount.coopmobile.ch"

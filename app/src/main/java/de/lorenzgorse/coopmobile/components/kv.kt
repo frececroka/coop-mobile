@@ -1,9 +1,11 @@
-package de.lorenzgorse.coopmobile
+package de.lorenzgorse.coopmobile.components
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.google.gson.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import java.time.Instant
 
