@@ -30,8 +30,7 @@ class PreferencesFragment: PreferenceFragmentCompat() {
 
     override fun onStart() {
         super.onStart()
-        val sharedPreferences = preferenceManager.sharedPreferences
-        sharedPreferences.registerOnSharedPreferenceChangeListener { preferences, key ->
+        preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener { preferences, key ->
             if (key == "check_balance") {
                 if (preferences.getBoolean(key, false)) {
                     BalanceCheckWorker.enqueue(requireContext())

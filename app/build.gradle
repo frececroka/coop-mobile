@@ -4,6 +4,7 @@ apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
+apply plugin: "com.google.firebase.firebase-perf"
 
 android {
     compileSdkVersion 31
@@ -67,35 +68,37 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 
     implementation project(path: ':coopclient')
     implementation project(path: ':encryption')
 
-    implementation "com.google.android.material:material:1.5.0-alpha04"
+    implementation "com.google.android.material:material:1.6.0-alpha02"
 
-    implementation "androidx.appcompat:appcompat:1.4.0-beta01"
+    implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-rc01"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-alpha02"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha10"
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "androidx.work:work-runtime-ktx:2.7.0"
-    implementation "androidx.preference:preference:1.1.1"
-    implementation "androidx.room:room-runtime:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.fragment:fragment-ktx:1.5.0-alpha02"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.room:room-runtime:2.4.1"
+    kapt "androidx.room:room-compiler:2.4.1"
 
-    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation platform("com.google.firebase:firebase-bom:29.1.0")
+    implementation "com.google.firebase:firebase-config"
+    implementation "com.google.firebase:firebase-analytics"
+    implementation "com.google.firebase:firebase-crashlytics"
+    implementation "com.google.firebase:firebase-storage-ktx"
+    implementation "com.google.firebase:firebase-perf-ktx"
+
+    implementation "org.slf4j:slf4j-api:1.7.32"
     implementation "com.github.tony19:logback-android:2.0.0"
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
-    implementation "com.google.firebase:firebase-config:21.0.1"
-    implementation "com.google.firebase:firebase-analytics:19.0.2"
-    implementation "com.google.firebase:firebase-crashlytics:18.2.3"
-    implementation "com.google.firebase:firebase-storage-ktx:20.0.0"
-    implementation "com.google.android.play:core:1.10.2"
+    implementation "com.google.android.play:core:1.10.3"
     implementation "com.google.code.gson:gson:2.8.6"
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"

@@ -27,12 +27,12 @@ class RealCoopLogin : CoopLogin {
         val loginFormHtml = client.getHtml(coopBaseLogin)
 
         val authenticityToken = loginFormHtml.safe {
-            selectFirst("input[name=authenticity_token]").attr("value")
+            selectFirst("input[name=authenticity_token]")!!.attr("value")
         }
         log.info("Authenticity token is $authenticityToken")
 
         val reseller = loginFormHtml.safe {
-            getElementById("user_reseller").attr("value")
+            getElementById("user_reseller")!!.attr("value")
         }
         log.info("Reseller is $reseller")
 
