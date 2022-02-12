@@ -8,12 +8,12 @@ import org.junit.Test
 
 class KnockKnockTest {
 
-    private val time = FakeTime()
-    private val knockKnock = KnockKnock(time::time, 10, 100)
+    private var time: Long = 0L
+    private val knockKnock = KnockKnock(::time, 10, 100)
 
     @Before
     fun before() {
-        time.time = 0
+        time = 0
         knockKnock.reset()
     }
 
@@ -42,18 +42,14 @@ class KnockKnockTest {
         test(listOf(5, 15, 5, 200, 15, 5, 5, 5, 15, 5, 5, 5, 5, 5, 5, 5, 15, 5, 5, 5, 5, 5), listOf(1, 4, 8, 6))
     }
 
-    fun test(delays: List<Long>, knocks: List<Int>) {
+    private fun test(delays: List<Long>, knocks: List<Int>) {
         before()
         for (delay in delays) {
-            time.time += delay
+            time += delay
             knockKnock.knock()
         }
         assertThat("delays $delays produce the right knocks",
             knockKnock.getKnocks(), equalTo(knocks))
     }
 
-}
-
-class FakeTime {
-    var time: Long = 0
 }
