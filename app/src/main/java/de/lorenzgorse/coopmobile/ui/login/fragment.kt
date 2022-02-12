@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
 import de.lorenzgorse.coopmobile.R
@@ -155,12 +157,23 @@ class LoginFragment : Fragment() {
         log.info("Performing login.")
         analytics.logEvent("Login_SendRequest", null)
 
+        val loginTrace = Firebase.performance.newTrace("InitialLogin")
+        loginTrace.start()
+        loginTrace.incrementMetric("Attempt", 1)
+
         val sessionId = try {
             log.info("Trying to obtain session ID using provided username and password.")
-            coopLogin.login(username, password)
+            coopLogin.login(username, password).also {
+                if (it == null) {
+                    loginTrace.incrementMetric("Failed", 1)
+                } else {
+                    loginTrace.incrementMetric("Success", 1)
+                }
+            }
         } catch (e: IOException) {
             log.error("No network connection available.")
             analytics.logEvent("Login_NoNetwork", null)
+            loginTrace.incrementMetric("NoNetwork", 1)
             showProgress(false)
             cardError.visibility = View.VISIBLE
             txtNoNetwork.visibility = View.VISIBLE
@@ -168,10 +181,13 @@ class LoginFragment : Fragment() {
         } catch (e: HtmlChanged) {
             log.error("HTML structure changed unexpectedly.", e)
             analytics.logEvent("Login_HtmlChanged", null)
+            loginTrace.incrementMetric("HtmlChanged", 1)
             firebaseCrashlytics().recordException(e)
             showProgress(false)
             Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
             return
+        } finally {
+            loginTrace.stop()
         }
 
         return if (sessionId != null) {

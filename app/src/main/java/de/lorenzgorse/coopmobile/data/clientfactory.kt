@@ -1,6 +1,8 @@
 package de.lorenzgorse.coopmobile.data
 
 import android.content.Context
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.CoopModule.coopLogin
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.RealCoopClient
@@ -54,5 +56,18 @@ class RealCoopClientFactory : CoopClientFactory {
 
 suspend fun newSessionFromSavedCredentials(context: Context): String? {
     val (username, password) = loadSavedCredentials(context) ?: return null
-    return coopLogin.login(username, password)
+    val loginTrace = Firebase.performance.newTrace("ReturningLogin")
+    loginTrace.start()
+    loginTrace.incrementMetric("Attempt", 1)
+    return try {
+        coopLogin.login(username, password).also {
+            if (it == null) {
+                loginTrace.incrementMetric("Failed", 1)
+            } else {
+                loginTrace.incrementMetric("Success", 1)
+            }
+        }
+    } finally {
+        loginTrace.stop()
+    }
 }

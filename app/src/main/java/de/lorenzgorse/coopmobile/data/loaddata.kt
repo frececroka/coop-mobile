@@ -2,6 +2,8 @@ package de.lorenzgorse.coopmobile.data
 
 import android.content.Context
 import androidx.core.os.bundleOf
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.CoopModule.firebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
@@ -96,10 +98,14 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
             log.info("Loading data.")
             analytics.logEventOnce(context, "onb_load_data", null)
             analytics.logEvent("LoadData_Start", null)
+            val loadDataTrace = Firebase.performance.newTrace("LoadData")
+            loadDataTrace.start()
+            loadDataTrace.incrementMetric("Attempt", 1)
             try {
                 val data = loader(client)
                 log.info("Loaded data: [redacted]")
                 loadedData()
+                loadDataTrace.incrementMetric("Success", 1)
                 Right(data)
             } catch (e: CoopException.Unauthorized) {
                 sessionExpired(e)
@@ -112,6 +118,7 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
                         val data = loader(newClient)
                         log.info("Loaded data: [redacted]")
                         loadedData()
+                        loadDataTrace.incrementMetric("Success", 1)
                         Right(data)
                     } catch (e: CoopException.Unauthorized) {
                         refreshedSessionExpired(e)
@@ -121,6 +128,8 @@ suspend fun <T> loadData(context: Context, loader: suspend (client: CoopClient) 
                     refreshFailed()
                     Left(CoopError.FailedLogin)
                 }
+            } finally {
+                loadDataTrace.stop()
             }
         }
     } catch (e: IOException) {
