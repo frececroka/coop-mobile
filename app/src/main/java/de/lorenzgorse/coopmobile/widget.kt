@@ -8,9 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.google.gson.reflect.TypeToken
-import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.UnitValue
-import de.lorenzgorse.coopmobile.data.loadData
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.ZoneId
@@ -38,6 +36,8 @@ class AppWidgetProvider : AppWidgetProvider() {
         private val cacheKey = "widget"
         private val kv = KV(context)
 
+        private val client = createClient(context)
+
         private val dateTimeFormatter = DateTimeFormatter
             .ofLocalizedDateTime(FormatStyle.SHORT)
             .withLocale(Locale.getDefault())
@@ -56,7 +56,7 @@ class AppWidgetProvider : AppWidgetProvider() {
         }
 
         private fun latestData(): Data? {
-            val maybeConsumption = runBlocking { loadData(context, CoopClient::getConsumption) }
+            val maybeConsumption = runBlocking { client.getConsumption() }
             val consumptions = maybeConsumption.right() ?: return null
             val consumption = consumptions[when {
                 consumptions.size >= 2 -> 1

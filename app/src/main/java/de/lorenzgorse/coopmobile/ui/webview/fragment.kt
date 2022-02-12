@@ -14,11 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.CoopModule.coopClientFactory
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.backend.CoopClientFactory
 import de.lorenzgorse.coopmobile.coopclient.CoopClient
 import de.lorenzgorse.coopmobile.coopclient.determineCountry
 import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.createCoopClientFactory
 import de.lorenzgorse.coopmobile.setScreen
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class WebViewFragment : Fragment() {
 
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
+    private lateinit var coopClientFactory: CoopClientFactory
 
     private var lastLogin: Date? = null
 
@@ -41,6 +43,7 @@ class WebViewFragment : Fragment() {
         setHasOptionsMenu(true)
         analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        coopClientFactory = createCoopClientFactory(requireContext())
     }
 
     override fun onCreateView(
@@ -110,7 +113,7 @@ class WebViewFragment : Fragment() {
     }
 
     private suspend fun loadCockpit() {
-        val coopClient = coopClientFactory.get(requireContext())
+        val coopClient = coopClientFactory.get()
         if (coopClient == null) {
             // There is a problem with authentication, bail out and send the user to the login
             // screen.
@@ -197,7 +200,7 @@ class WebViewFragment : Fragment() {
         lastLogin = Date()
 
         val coopClient = try {
-            coopClientFactory.refresh(context, true)
+            coopClientFactory.refresh(true)
         } catch (e: IOException) {
             // TODO: Show network error.
             return

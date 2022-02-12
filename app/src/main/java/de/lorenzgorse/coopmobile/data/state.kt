@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile.data
 
-import android.content.Context
 import android.view.View
-import de.lorenzgorse.coopmobile.coopclient.CoopClient
+import de.lorenzgorse.coopmobile.backend.CoopError
+import de.lorenzgorse.coopmobile.backend.Either
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
@@ -41,11 +41,10 @@ sealed class State<T, E> {
 @FlowPreview
 @ExperimentalCoroutinesApi
 fun <T> stateFlow(
-    context: Context,
     refresh: Flow<Unit>,
-    loader: suspend (CoopClient) -> T
+    loader: suspend () -> Either<CoopError, T>
 ): Flow<State<T, CoopError>> {
-    val data = refresh.map { loadData(context, loader) }
+    val data = refresh.map { loader() }
     return listOf(
         refresh.map { State.loading<T, CoopError>(0, 1) },
         data.map {

@@ -1,8 +1,10 @@
 package de.lorenzgorse.coopmobile.ui.correspondences
 
 import android.app.Application
+import de.lorenzgorse.coopmobile.backend.CoopError
 import de.lorenzgorse.coopmobile.coopclient.Correspondence
 import de.lorenzgorse.coopmobile.coopclient.CorrespondenceHeader
+import de.lorenzgorse.coopmobile.createClient
 import de.lorenzgorse.coopmobile.data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -13,8 +15,10 @@ import kotlinx.coroutines.sync.Semaphore
 @FlowPreview
 class CorrespondencesData(app: Application) : CoopViewModel(app) {
 
+    private val client = createClient(app)
+
     val state: Flow<State<List<Correspondence>, CoopError>> =
-        load { it.getCorrespondeces() }.flatMap(::loadFromHeaders).share()
+        load { client.getCorrespondeces() }.flatMap(::loadFromHeaders).share()
 
     private fun loadFromHeaders(headers: List<CorrespondenceHeader>): Flow<State<List<Correspondence>, CoopError>> {
         // Loading all correspondences at once sometimes leads to timeouts, so we limit the
@@ -25,7 +29,7 @@ class CorrespondencesData(app: Application) : CoopViewModel(app) {
             loadNow {
                 semaphore.acquire()
                 try {
-                    it.augmentCorrespondence(header)
+                    client.augmentCorrespondence(header)
                 } finally {
                     semaphore.release()
                 }
