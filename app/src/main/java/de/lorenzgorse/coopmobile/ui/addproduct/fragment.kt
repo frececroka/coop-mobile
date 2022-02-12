@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopclient.Product
+import de.lorenzgorse.coopmobile.client.Product
 import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.data.data
 import de.lorenzgorse.coopmobile.setScreen
@@ -25,7 +25,6 @@ import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory

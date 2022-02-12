@@ -20,9 +20,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.CoopModule.firebaseCrashlytics
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopclient.CoopException.HtmlChanged
-import de.lorenzgorse.coopmobile.coopclient.CoopLogin
-import de.lorenzgorse.coopmobile.coopclient.RealCoopLogin
+import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
+import de.lorenzgorse.coopmobile.client.simple.CoopLogin
+import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
 import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.logEventOnce
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore

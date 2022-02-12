@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile.ui.overview
 
 import android.app.Application
-import de.lorenzgorse.coopmobile.backend.CoopError
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.createClient
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import de.lorenzgorse.coopmobile.data.State

@@ -1,6 +1,7 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
 import com.google.gson.JsonSyntaxException
+import de.lorenzgorse.coopmobile.client.*
 import okhttp3.FormBody
 import okhttp3.Response
 import org.jsoup.nodes.Element
@@ -12,67 +13,55 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 interface CoopClient {
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun getProfile(): List<Pair<String, String>>
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun getConsumption(): List<UnitValue<Float>>
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun getConsumptionLog(): List<ConsumptionLogEntry>?
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun getProducts(): List<Product>
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun buyProduct(buySpec: ProductBuySpec): Boolean
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun getCorrespondeces(): List<CorrespondenceHeader>
-
-    @Throws(IOException::class, CoopException::class)
-    suspend fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence
-
-    fun sessionId(): String
-
+    suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>>
+    suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>>
+    suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?>
+    suspend fun getProducts(): Either<CoopError, List<Product>>
+    suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean>
+    suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>>
+    suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence>
+    suspend fun sessionId(): String?
 }
 
-class RealCoopClient(private val sessionId: String) : CoopClient {
+class StaticSessionCoopClient(private val sessionId: String) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     private var client = HttpClient(StaticCookieJar(sessionId))
 
-    override suspend fun getProfile(): List<Pair<String, String>> {
-        val html = getHtml(coopBaseAccount)
-        return html.safe {
-            val profile = selectFirst("#block_my_profile")!!
-            profile.select(".panel__list").map { parseProfileItem(it) }
+    override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
+        translateExceptions {
+            val html = getHtml(coopBaseAccount)
+            html.safe {
+                val profile = selectFirst("#block_my_profile")!!
+                profile.select(".panel__list").map { parseProfileItem(it) }
+            }
         }
-    }
 
     private fun parseProfileItem(item: Element): Pair<String, String> {
-        val label = item.selectFirst(".panel__list__label")!!.textNodes().joinToString(" ") { it.text() }.trim()
+        val label =
+            item.selectFirst(".panel__list__label")!!.textNodes().joinToString(" ") { it.text() }
+                .trim()
         val value = item.select(".panel__list__item").joinToString(", ") { it.text() }.trim()
         return Pair(label, value)
     }
 
-    override suspend fun getConsumption(): List<UnitValue<Float>> {
-        val html = getHtml(coopBaseAccount)
-        return html.safe {
-            val creditBalance = selectFirst("#credit_balance")?.let { block ->
-                parseUnitValueBlock(block.parent()!!, { it.toFloat() }) { it.replace(".–", "") }
-            }?.let { listOf(it) }.orEmpty()
-            val consumptions1 = select("#my_consumption .panel").map {
-                parseUnitValueBlock(it, { v -> v.toFloat() })
+    override suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>> =
+        translateExceptions {
+            val html = getHtml(coopBaseAccount)
+            html.safe {
+                val creditBalance = selectFirst("#credit_balance")?.let { block ->
+                    parseUnitValueBlock(block.parent()!!, { it.toFloat() }) { it.replace(".–", "") }
+                }?.let { listOf(it) }.orEmpty()
+                val consumptions1 = select("#my_consumption .panel").map {
+                    parseUnitValueBlock(it, { v -> v.toFloat() })
+                }
+                val consumptions2 = select("#my_consumption.panel").map {
+                    parseUnitValueBlock(it, { v -> v.toFloat() })
+                }
+                creditBalance + consumptions1 + consumptions2
             }
-            val consumptions2 = select("#my_consumption.panel").map {
-                parseUnitValueBlock(it, { v -> v.toFloat() })
-            }
-            creditBalance + consumptions1 + consumptions2
         }
-    }
 
     private fun <T> parseUnitValueBlock(
         block: Element,
@@ -100,15 +89,17 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return UnitValue(title, amount, unit)
     }
 
-    override suspend fun getConsumptionLog(): List<ConsumptionLogEntry>? {
-        return try {
-            val consumption = getJson<RawConsumptionLog>(
-                "https://myaccount.coopmobile.ch/$country/ajax_load_cdr")
-            consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
-        } catch (e: JsonSyntaxException) {
-            null
+    override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
+        translateExceptions {
+            try {
+                val consumption = getJson<RawConsumptionLog>(
+                    "https://myaccount.coopmobile.ch/$country/ajax_load_cdr"
+                )
+                consumption.data.mapNotNull { parseConsumptionLogEntry(it) }
+            } catch (e: JsonSyntaxException) {
+                null
+            }
         }
-    }
 
     private fun parseConsumptionLogEntry(
         rawConsumptionLogEntry: RawConsumptionLogEntry
@@ -124,9 +115,9 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return ConsumptionLogEntry(date, type, amount)
     }
 
-    override suspend fun getProducts(): List<Product> {
+    override suspend fun getProducts(): Either<CoopError, List<Product>> = translateExceptions {
         val html = getHtml("$coopBaseAccount/add_product")
-        return html.safe { select(".add_product").map { parseProductBlock(it) } }
+        html.safe { select(".add_product").map { parseProductBlock(it) } }
     }
 
     private fun parseProductBlock(productBlock: Element): Product {
@@ -172,24 +163,26 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return Product(name, description, price, buySpec)
     }
 
-    override suspend fun buyProduct(buySpec: ProductBuySpec): Boolean {
-        log.info("Buying according to $buySpec")
-        val body = buySpec.parameters.let {
-            val builder = FormBody.Builder()
-            for ((name, value) in it) {
-                builder.add(name, value)
+    override suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean> =
+        translateExceptions {
+            log.info("Buying according to $buySpec")
+            val body = buySpec.parameters.let {
+                val builder = FormBody.Builder()
+                for ((name, value) in it) {
+                    builder.add(name, value)
+                }
+                builder.build()
             }
-            builder.build()
+            val response = client.post(URL(coopScheme, coopHost, buySpec.url), body)
+            log.info("Buy request completed with status code: ${response.code}")
+            response.isRedirect || response.isSuccessful
         }
-        val response = client.post(URL(coopScheme, coopHost, buySpec.url), body)
-        log.info("Buy request completed with status code: ${response.code}")
-        return response.isRedirect || response.isSuccessful
-    }
 
-    override suspend fun getCorrespondeces(): List<CorrespondenceHeader> {
-        val html = getHtml("$coopBaseAccount/my_correspondence")
-        return html.safe { select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
-    }
+    override suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>> =
+        translateExceptions {
+            val html = getHtml("$coopBaseAccount/my_correspondence")
+            html.safe { select(".table--mail tbody tr").map { parseCorrespondenceRow(it) } }
+        }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
@@ -199,16 +192,17 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
         return CorrespondenceHeader(date, subject, details)
     }
 
-    override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Correspondence {
-        return Correspondence(header, getCorrespondenceMessage(header.details))
-    }
+    override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence> =
+        translateExceptions {
+            Correspondence(header, getCorrespondenceMessage(header.details))
+        }
 
     private suspend fun getCorrespondenceMessage(url: URL): String {
         val html = getHtml(url.toString())
         return html.safe { selectFirst(".panel__print__content")!!.text() }
     }
 
-    override fun sessionId() = sessionId
+    override suspend fun sessionId() = sessionId
 
     private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
     private suspend inline fun <reified T> getJson(url: String): T =
@@ -229,7 +223,7 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
                 val matchResult = planRegex.matchEntire(location)
                 if (matchResult != null) {
                     val plan = matchResult.groups[1]?.value
-                    if (!listOf("prepaid", "wireless").contains(plan) ) {
+                    if (!listOf("prepaid", "wireless").contains(plan)) {
                         throw CoopException.PlanUnsupported(plan)
                     }
                 }
@@ -238,4 +232,19 @@ class RealCoopClient(private val sessionId: String) : CoopClient {
 
     }
 
+}
+
+suspend fun <T> translateExceptions(block: suspend () -> T): Either<CoopError, T> = try {
+    Either.Right(block())
+} catch (e: IOException) {
+    Either.Left(CoopError.NoNetwork)
+} catch (e: CoopException) {
+    Either.Left(
+        when (e) {
+            is CoopException.Unauthorized -> CoopError.Unauthorized
+            is CoopException.PlanUnsupported -> CoopError.PlanUnsupported
+            is CoopException.BadHtml -> CoopError.BadHtml(e)
+            is CoopException.HtmlChanged -> CoopError.HtmlChanged(e)
+        }
+    )
 }

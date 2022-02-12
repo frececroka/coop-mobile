@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
 import org.jsoup.nodes.Document
 
@@ -8,7 +8,7 @@ sealed class CoopException(cause: Throwable?) : Exception(cause) {
     data class BadHtml(
         override val cause: Throwable,
         val html: String
-    ) : java.lang.Exception(cause)
+    ) : CoopException(cause)
 
     data class HtmlChanged(
         override val cause: Throwable? = null,

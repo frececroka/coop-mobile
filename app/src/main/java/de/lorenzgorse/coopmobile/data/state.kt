@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile.data
 
 import android.view.View
-import de.lorenzgorse.coopmobile.backend.CoopError
-import de.lorenzgorse.coopmobile.backend.Either
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.Either
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose

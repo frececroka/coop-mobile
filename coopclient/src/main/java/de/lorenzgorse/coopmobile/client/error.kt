@@ -1,6 +1,6 @@
-package de.lorenzgorse.coopmobile.backend
+package de.lorenzgorse.coopmobile.client
 
-import de.lorenzgorse.coopmobile.coopclient.CoopException
+import de.lorenzgorse.coopmobile.client.simple.CoopException
 
 sealed class CoopError {
     object NoNetwork : CoopError()

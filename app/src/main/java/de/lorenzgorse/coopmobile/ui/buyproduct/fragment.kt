@@ -17,9 +17,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.backend.CoopClientProxy
-import de.lorenzgorse.coopmobile.backend.Either
-import de.lorenzgorse.coopmobile.coopclient.ProductBuySpec
+import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
+import de.lorenzgorse.coopmobile.client.Either
+import de.lorenzgorse.coopmobile.client.ProductBuySpec
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
@@ -30,7 +30,7 @@ class BuyProductFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
 
-    private lateinit var client: CoopClientProxy
+    private lateinit var client: RefreshingSessionCoopClient
 
     private lateinit var productBuySpec: ProductBuySpec
 

@@ -1,6 +1,6 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
-import de.lorenzgorse.coopmobile.coopclient.CoopException.PlanUnsupported
+import de.lorenzgorse.coopmobile.client.simple.CoopException.PlanUnsupported
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
 import okhttp3.Request
@@ -19,10 +19,10 @@ class CoopClientTest {
 
     private val client by lazy {
         val sessionId = runBlocking { RealCoopLogin().login(username, password) }
-        RealCoopClient(sessionId!!)
+        StaticSessionCoopClient(sessionId!!)
     }
 
-    private val expiredClient = RealCoopClient("23847329847324")
+    private val expiredClient = StaticSessionCoopClient("23847329847324")
 
     @Test
     fun testLogin() = runBlocking {
@@ -95,7 +95,7 @@ class CoopClientTest {
         val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/unsupported/de"
         )
-        RealCoopClient.assertResponseSuccessful(response)
+        StaticSessionCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = PlanUnsupported::class)
@@ -103,7 +103,7 @@ class CoopClientTest {
         val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/unsupported/de/add_product"
         )
-        RealCoopClient.assertResponseSuccessful(response)
+        StaticSessionCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = PlanUnsupported::class)
@@ -111,7 +111,7 @@ class CoopClientTest {
         val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/unsupported/de/my_correspondence/index"
         )
-        RealCoopClient.assertResponseSuccessful(response)
+        StaticSessionCoopClient.assertResponseSuccessful(response)
     }
 
     @Test(expected = CoopException.Unauthorized::class)
@@ -119,7 +119,7 @@ class CoopClientTest {
         val response = makeResponse(
             "https://myaccount.coopmobile.ch/eCare/de/users/sign_in"
         )
-        RealCoopClient.assertResponseSuccessful(response)
+        StaticSessionCoopClient.assertResponseSuccessful(response)
     }
 
     private fun makeResponse(responseUrl: String): Response {

@@ -3,10 +3,8 @@ package de.lorenzgorse.coopmobile.data
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import de.lorenzgorse.coopmobile.backend.CoopError
-import de.lorenzgorse.coopmobile.backend.Either
-import de.lorenzgorse.coopmobile.coopclient.CoopClient
-import de.lorenzgorse.coopmobile.coopclient.CoopException
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.Either
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

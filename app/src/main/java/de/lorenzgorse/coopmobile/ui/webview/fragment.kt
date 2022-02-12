@@ -15,14 +15,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.backend.CoopClientFactory
-import de.lorenzgorse.coopmobile.coopclient.CoopClient
-import de.lorenzgorse.coopmobile.coopclient.determineCountry
+import de.lorenzgorse.coopmobile.client.refreshing.CoopClientFactory
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
+import de.lorenzgorse.coopmobile.client.simple.determineCountry
 import de.lorenzgorse.coopmobile.createAnalytics
 import de.lorenzgorse.coopmobile.createCoopClientFactory
 import de.lorenzgorse.coopmobile.setScreen
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -126,7 +127,7 @@ class WebViewFragment : Fragment() {
 
     private fun loadCockpit(coopClient: CoopClient) {
         // Setup the session cookie.
-        val sessionId = coopClient.sessionId()
+        val sessionId = runBlocking { coopClient.sessionId() }
         CookieManager.getInstance().setCookie(
             "https://myaccount.coopmobile.ch/",
             "_ecare_session=$sessionId")

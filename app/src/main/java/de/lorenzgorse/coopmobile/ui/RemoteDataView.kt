@@ -13,7 +13,7 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.backend.CoopError
+import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.data.*
 import de.lorenzgorse.coopmobile.openPlayStore

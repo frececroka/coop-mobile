@@ -5,10 +5,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.backend.CoopError
+import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.coopclient.ConsumptionLogEntry
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.createClient
 import de.lorenzgorse.coopmobile.data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

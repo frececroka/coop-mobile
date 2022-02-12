@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
 import okhttp3.FormBody
 import org.slf4j.LoggerFactory

@@ -106,7 +106,7 @@
         android:name="de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment">
         <argument
             android:name="product"
-            app:argType="de.lorenzgorse.coopmobile.coopclient.ProductBuySpec" />
+            app:argType="de.lorenzgorse.coopmobile.client.ProductBuySpec" />
     </fragment>
     <fragment
         android:id="@+id/web_view"

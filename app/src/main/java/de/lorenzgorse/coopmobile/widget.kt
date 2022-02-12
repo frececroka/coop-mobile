@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.google.gson.reflect.TypeToken
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
+import de.lorenzgorse.coopmobile.client.UnitValue
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.ZoneId

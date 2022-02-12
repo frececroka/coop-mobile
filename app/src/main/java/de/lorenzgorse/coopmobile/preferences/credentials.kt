@@ -1,7 +1,7 @@
 package de.lorenzgorse.coopmobile.preferences
 
 import android.content.Context
-import de.lorenzgorse.coopmobile.backend.CredentialsStore
+import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.getCoopSharedPreferences
 import java.io.File
 import java.io.FileNotFoundException

@@ -9,8 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
-import de.lorenzgorse.coopmobile.coopclient.UnitValue
 import de.lorenzgorse.coopmobile.data.data
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 import de.lorenzgorse.coopmobile.ui.RemoteDataView

@@ -1,8 +1,8 @@
-package de.lorenzgorse.coopmobile.backend
+package de.lorenzgorse.coopmobile.client.refreshing
 
-import de.lorenzgorse.coopmobile.coopclient.CoopClient
-import de.lorenzgorse.coopmobile.coopclient.CoopLogin
-import de.lorenzgorse.coopmobile.coopclient.RealCoopClient
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
+import de.lorenzgorse.coopmobile.client.simple.CoopLogin
+import de.lorenzgorse.coopmobile.client.simple.StaticSessionCoopClient
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -35,7 +35,7 @@ class RealCoopClientFactory(
 
     override suspend fun refresh(invalidateSession: Boolean): CoopClient? {
         val sessionId = newSession(invalidateSession) ?: return null
-        return RealCoopClient(sessionId).also { instance = it }
+        return StaticSessionCoopClient(sessionId).also { instance = it }
     }
 
     private val sessionMtx = Mutex()

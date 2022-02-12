@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.coopclient
+package de.lorenzgorse.coopmobile.client.simple
 
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
