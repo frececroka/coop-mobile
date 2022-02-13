@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class CoopViewModel(private val app: Application) : AndroidViewModel(app) {
+abstract class CoopViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _refresh = MutableSharedFlow<Unit>(replay = 1)
-    val refresh: Flow<Unit> = _refresh
+    private val refresh: Flow<Unit> = _refresh
 
     init {
         viewModelScope.launch { refresh() }

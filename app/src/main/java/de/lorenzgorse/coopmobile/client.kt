@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile
 
 import android.content.Context
-import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
 import de.lorenzgorse.coopmobile.client.refreshing.RealCoopClientFactory
+import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
 import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 

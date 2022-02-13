@@ -12,7 +12,6 @@ import org.hamcrest.Matchers.*
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
-import java.lang.AssertionError
 
 @RunWith(Enclosed::class)
 class StaticSessionCoopClientTest {

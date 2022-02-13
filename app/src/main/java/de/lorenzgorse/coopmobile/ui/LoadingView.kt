@@ -1,7 +1,6 @@
 package de.lorenzgorse.coopmobile.ui
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import de.lorenzgorse.coopmobile.R

@@ -3,6 +3,7 @@ package de.lorenzgorse.coopmobile
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.google.gson.reflect.TypeToken
+import de.lorenzgorse.coopmobile.components.KV
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.After

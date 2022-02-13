@@ -6,6 +6,7 @@ import java.io.IOException
 import java.net.URLEncoder
 
 interface CoopLogin {
+    // TODO: this can throw errors that crash the app
     @Throws(IOException::class)
     suspend fun login(username: String, password: String): String?
 }

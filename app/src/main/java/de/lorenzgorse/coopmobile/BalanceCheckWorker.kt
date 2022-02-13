@@ -10,8 +10,8 @@ import androidx.preference.PreferenceManager
 import androidx.work.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.client.Either
-import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit

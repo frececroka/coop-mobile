@@ -1,7 +1,7 @@
 package de.lorenzgorse.coopmobile.components
 
 import android.content.Context
-import de.lorenzgorse.coopmobile.getCoopSharedPreferences
+import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
 
 class Counter(context: Context, name: String) {
 
