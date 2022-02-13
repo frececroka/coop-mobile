@@ -19,7 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.ProductBuySpec
-import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
@@ -30,7 +30,7 @@ class BuyProductFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
 
-    private lateinit var client: RefreshingSessionCoopClient
+    private lateinit var client: CoopClient
 
     private lateinit var productBuySpec: ProductBuySpec
 
