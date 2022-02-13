@@ -9,7 +9,7 @@ import de.lorenzgorse.coopmobile.client.DecoratedCoopClient
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
-class PerformanceInstrumentedCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
+class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
 
     override suspend fun <T> decorator(
         loader: suspend (client: CoopClient) -> Either<CoopError, T>,

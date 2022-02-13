@@ -8,7 +8,7 @@ import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 
 fun createClient(context: Context): CoopClient =
-    PerformanceInstrumentedCoopClient(RefreshingSessionCoopClient(createCoopClientFactory(context)))
+    MonitoredCoopClient(RefreshingSessionCoopClient(createCoopClientFactory(context)))
 
 fun createCoopClientFactory(context: Context) = RealCoopClientFactory(
     SharedPreferencesCredentialsStore(context),
