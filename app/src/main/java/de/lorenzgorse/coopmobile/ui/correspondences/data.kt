@@ -4,7 +4,6 @@ import android.app.Application
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Correspondence
 import de.lorenzgorse.coopmobile.client.CorrespondenceHeader
-import de.lorenzgorse.coopmobile.createClient
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import de.lorenzgorse.coopmobile.data.State
 import de.lorenzgorse.coopmobile.data.flatMap
@@ -17,8 +16,6 @@ import kotlinx.coroutines.sync.Semaphore
 @ExperimentalCoroutinesApi
 @FlowPreview
 class CorrespondencesData(app: Application) : CoopViewModel(app) {
-
-    private val client = createClient(app)
 
     val state: Flow<State<List<Correspondence>, CoopError>> =
         load { client.getCorrespondeces() }.flatMap(::loadFromHeaders).share()
