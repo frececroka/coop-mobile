@@ -12,7 +12,9 @@ fun createClient(context: Context): CoopClient =
 
 fun createCoopClientFactory(context: Context) = RealCoopClientFactory(
     createCredentialsStore(context),
-    RealCoopLogin()
+    createCoopLogin(context)
 )
+
+fun createCoopLogin(context: Context) = MonitoredCoopLogin(UserProperties(context), RealCoopLogin())
 
 fun createCredentialsStore(context: Context) = SharedPreferencesCredentialsStore(context)

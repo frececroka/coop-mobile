@@ -9,6 +9,7 @@
     <uses-permission-sdk-23 android:name="android.permission.CALL_PHONE" />
 
     <application
+        android:name=".CoopMobileApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="true"

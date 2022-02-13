@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
-        coopLogin = RealCoopLogin()
+        coopLogin = createCoopLogin(requireContext())
         credentialsStore = createCredentialsStore(requireContext())
     }
 
