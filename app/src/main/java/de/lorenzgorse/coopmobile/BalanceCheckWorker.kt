@@ -14,21 +14,20 @@ import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 
 class BalanceCheckWorker(
-    private val context: Context,
-    params: WorkerParameters
+    context: Context,
+    params: WorkerParameters,
+    client: CoopClient,
 ) : CoroutineWorker(context, params) {
 
     companion object {
-        val log = LoggerFactory.getLogger(BalanceCheckWorker::class.java)!!
-
         private const val uniqueWorkId = "checkBalance"
-        private const val channelId = "BALANCE_CHECK"
 
         fun enqueueIfEnabled(context: Context) {
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -56,11 +55,27 @@ class BalanceCheckWorker(
         private fun workManager(context: Context) = WorkManager.getInstance(context)
     }
 
-    private val client = createClient(context)
+    private val balanceCheck = BalanceCheck(context, client)
+
+    override suspend fun doWork(): Result =
+        if (balanceCheck.checkBalance()) Result.success() else Result.failure()
+
+}
+
+class BalanceCheck(
+    private val context: Context,
+    private val client: CoopClient,
+) {
+
+    companion object {
+        private const val channelId = "BALANCE_CHECK"
+    }
+
+    private val log = LoggerFactory.getLogger(BalanceCheck::class.java)!!
     private val notificationFuse = Fuse(context, "checkBalance")
     private val consumptionLogCache = ConsumptionLogCache(context)
 
-    override suspend fun doWork(): Result {
+    suspend fun checkBalance(): Boolean {
         val fuseOld = notificationFuse.isBurnt()
         fun logEvent(coopError: CoopError? = null) {
             val result = coopError?.let(::coopErrorToAnalyticsResult) ?: "Success"
@@ -78,7 +93,7 @@ class BalanceCheckWorker(
             is Either.Left -> {
                 log.error("Loading consumption failed: ${result.value}")
                 logEvent(result.value)
-                return Result.failure()
+                return false
             }
             is Either.Right -> result.value
         }
@@ -93,7 +108,7 @@ class BalanceCheckWorker(
         }
 
         logEvent()
-        return Result.success()
+        return true
     }
 
     private suspend fun isBalanceLow(): Either<CoopError, UnitValue<Float>?> {
