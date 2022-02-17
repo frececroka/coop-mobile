@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
+import de.lorenzgorse.coopmobile.client.CoopError
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
@@ -88,3 +89,5 @@ fun Context.openPlayStore() {
 fun FirebaseAnalytics.setScreen(screenName: String) {
     logEvent(SCREEN_VIEW, bundleOf(SCREEN_NAME to screenName))
 }
+
+fun coopErrorToAnalyticsResult(coopError: CoopError) = coopError::class.simpleName

@@ -6,9 +6,12 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.preference.PreferenceManager
 import androidx.work.*
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
+import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.components.Fuse
@@ -53,27 +56,54 @@ class BalanceCheckWorker(
         private fun workManager(context: Context) = WorkManager.getInstance(context)
     }
 
-    private val analytics = FirebaseAnalytics.getInstance(context)
     private val client = createClient(context)
     private val notificationFuse = Fuse(context, "checkBalance")
     private val consumptionLogCache = ConsumptionLogCache(context)
 
     override suspend fun doWork(): Result {
-        analytics.logEvent("periodically_check_balance", null)
+        val fuseOld = notificationFuse.isBurnt()
+        fun logEvent(coopError: CoopError? = null) {
+            val result = coopError?.let(::coopErrorToAnalyticsResult) ?: "Success"
+            Firebase.analytics.logEvent(
+                "LowBalance_Check",
+                bundleOf(
+                    "Result" to result,
+                    "FuseOld" to fuseOld,
+                    "FuseNew" to notificationFuse.isBurnt()
+                )
+            )
+        }
 
-        val consumption = when (val result = client.getConsumption()) {
+        val lowBalance = when (val result = isBalanceLow()) {
             is Either.Left -> {
                 log.error("Loading consumption failed: ${result.value}")
+                logEvent(result.value)
                 return Result.failure()
             }
             is Either.Right -> result.value
         }
 
-        val consumptionLog = when (val result = client.getConsumptionLog()) {
-            is Either.Left -> {
-                log.error("Loading consumption log failed: ${result.value}")
-                return Result.failure()
+        if (lowBalance != null) {
+            if (!notificationFuse.isBurnt()) {
+                showLowBalanceNotification(lowBalance)
+                notificationFuse.burn()
             }
+        } else {
+            notificationFuse.mend()
+        }
+
+        logEvent()
+        return Result.success()
+    }
+
+    private suspend fun isBalanceLow(): Either<CoopError, UnitValue<Float>?> {
+        val consumption = when (val result = client.getConsumption()) {
+            is Either.Left -> return result
+            is Either.Right -> result.value
+        }
+
+        val consumptionLog = when (val result = client.getConsumptionLog()) {
+            is Either.Left -> return result
             is Either.Right -> result.value
         }
 
@@ -81,17 +111,11 @@ class BalanceCheckWorker(
             consumptionLogCache.insert(consumptionLog)
         }
 
-        val credit = consumption.firstOrNull { it.unit == "CHF" } ?: return Result.success()
-        if (credit.amount < balanceThreshold()) {
-            if (!notificationFuse.isBurnt()) {
-                showLowBalanceNotification(credit)
-                notificationFuse.burn()
-            }
-        } else {
-            notificationFuse.mend()
-        }
+        val credit = consumption.firstOrNull { it.unit == "CHF" }
+            ?: return Either.Left(CoopError.Other("NoMoneyItem"))
 
-        return Result.success()
+        val balanceIslow = credit.amount < balanceThreshold()
+        return Either.Right(if (balanceIslow) credit else null)
     }
 
     private fun balanceThreshold(): Float {
@@ -100,6 +124,7 @@ class BalanceCheckWorker(
     }
 
     private fun showLowBalanceNotification(credit: UnitValue<Float>) {
+        Firebase.analytics.logEvent("LowBalance_Notification", bundleOf())
         val notificationManager = NotificationManagerCompat.from(context)
         setupNotificationChannel(notificationManager)
         val notification = createNotification(credit)
