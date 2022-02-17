@@ -92,8 +92,6 @@ class LoginFragment : Fragment() {
 
     private suspend fun attemptLoginGuard() {
         log.info("Starting login.")
-        analytics.logEvent("Login_Start", null)
-        analytics.logEventOnce(requireContext(), "Onb_Login_Start", null)
 
         if (!loginInProgress.compareAndSet(false, true)) {
             log.info("Aborting attempt, because another login task is currently running.")
@@ -125,34 +123,29 @@ class LoginFragment : Fragment() {
         val username = txtUsername.text.toString()
         val password = txtPassword.text.toString()
 
-        var cancel = false
+        var cancel: String? = null
         var focusView: View? = null
 
         if (TextUtils.isEmpty(password)) {
-            log.info("Cancelling login, because the password is empty.")
-            analytics.logEvent("Login_PasswordEmpty", null)
             txtPassword.error = getString(R.string.error_field_required)
             focusView = txtPassword
-            cancel = true
+            cancel = "Login_PasswordEmpty"
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(username)) {
-            log.info("Cancelling login, because the username is empty.")
-            analytics.logEvent("Login_UsernameEmpty", null)
             txtUsername.error = getString(R.string.error_field_required)
             focusView = txtUsername
-            cancel = true
+            cancel = "Login_UsernameEmpty"
         } else if (!isUsernameValid(username)) {
-            log.info("Cancelling login, because the username is invalid.")
-            analytics.logEvent("Login_UsernameInvalid", null)
             txtUsername.error = getString(R.string.error_invalid_username)
             focusView = txtUsername
-            cancel = true
+            cancel = "Login_UsernameInvalid"
         }
 
-        if (cancel) {
-            analytics.logEvent("Login_InputError", null)
+        if (cancel != null) {
+            log.info("Cancelling login: $cancel")
+            analytics.logEvent("Login_InputError", bundleOf("Reason" to cancel))
             focusView?.requestFocus()
             return
         }
