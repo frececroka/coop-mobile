@@ -7,13 +7,20 @@ import java.net.URLEncoder
 import java.util.concurrent.atomic.AtomicReference
 
 interface CoopLogin {
+
+    enum class Origin {
+        Manual, SessionRefresh
+    }
+
     // TODO: this can throw errors that crash the app
     @Throws(IOException::class)
     suspend fun login(
         username: String,
         password: String,
+        origin: Origin,
         plan: AtomicReference<String?>? = null
     ): String?
+
 }
 
 class RealCoopLogin : CoopLogin {
@@ -28,6 +35,7 @@ class RealCoopLogin : CoopLogin {
     override suspend fun login(
         username: String,
         password: String,
+        origin: CoopLogin.Origin,
         plan: AtomicReference<String?>?
     ): String? {
         val cookieJar = SessionCookieJar()

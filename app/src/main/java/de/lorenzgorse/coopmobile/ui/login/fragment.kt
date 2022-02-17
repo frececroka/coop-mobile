@@ -10,20 +10,19 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
-import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
@@ -161,51 +160,29 @@ class LoginFragment : Fragment() {
         showProgress(true)
 
         log.info("Performing login.")
-        analytics.logEvent("Login_SendRequest", null)
-
-        val loginTrace = Firebase.performance.newTrace("InitialLogin")
-        loginTrace.start()
-        loginTrace.incrementMetric("Attempt", 1)
 
         val sessionId = try {
-            log.info("Trying to obtain session ID using provided username and password.")
-            coopLogin.login(username, password).also {
-                if (it == null) {
-                    loginTrace.incrementMetric("Failed", 1)
-                } else {
-                    loginTrace.incrementMetric("Success", 1)
-                }
-            }
+            coopLogin.login(username, password, CoopLogin.Origin.Manual)
         } catch (e: IOException) {
-            log.error("No network connection available.")
-            analytics.logEvent("Login_NoNetwork", null)
-            loginTrace.incrementMetric("NoNetwork", 1)
+            log.error("No network connection available.", e)
             showProgress(false)
             cardError.visibility = View.VISIBLE
             txtNoNetwork.visibility = View.VISIBLE
             return
         } catch (e: HtmlChanged) {
             log.error("HTML structure changed unexpectedly.", e)
-            analytics.logEvent("Login_HtmlChanged", null)
-            loginTrace.incrementMetric("HtmlChanged", 1)
-            Firebase.crashlytics.recordException(e)
             showProgress(false)
             Toast.makeText(context, R.string.update_necessary, Toast.LENGTH_LONG).show()
             return
-        } finally {
-            loginTrace.stop()
         }
 
         return if (sessionId != null) {
             log.info("Obtained session ID.")
-            analytics.logEvent("Login_Success", null)
-            analytics.logEventOnce(requireContext(), "Onb_Login_Success", null)
             credentialsStore.setCredentials(username, password)
             credentialsStore.setSession(sessionId)
             findNavController().navigate(R.id.action_overview)
         } else {
             log.info("Did not receive any session ID.")
-            analytics.logEvent("Login_AuthFailed", null)
             showProgress(false)
             cardError.visibility = View.VISIBLE
             txtLoginFailed.visibility = View.VISIBLE

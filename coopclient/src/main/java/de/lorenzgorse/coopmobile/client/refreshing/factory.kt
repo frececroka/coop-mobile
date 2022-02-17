@@ -57,7 +57,7 @@ class RealCoopClientFactory(
     @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun newSessionFromSavedCredentials(): String? {
         val (username, password) = credentialsStore.loadCredentials() ?: return null
-        return coopLogin.login(username, password)
+        return coopLogin.login(username, password, CoopLogin.Origin.SessionRefresh)
     }
 
     override fun clear() {
