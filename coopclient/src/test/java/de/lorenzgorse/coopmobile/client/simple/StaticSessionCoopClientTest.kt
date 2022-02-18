@@ -22,7 +22,7 @@ class StaticSessionCoopClientTest {
 
         private val client by lazy {
             val sessionId =
-                runBlocking { RealCoopLogin().login(backend.username, backend.password) }
+                runBlocking { RealCoopLogin().login(backend.username, backend.password, CoopLogin.Origin.Manual) }
             StaticSessionCoopClient(sessionId!!)
         }
 

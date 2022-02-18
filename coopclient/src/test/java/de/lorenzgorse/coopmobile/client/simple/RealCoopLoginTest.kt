@@ -11,20 +11,23 @@ class RealCoopLoginTest {
 
     @Test
     fun testLogin() = runBlocking {
-        val sessionId = RealCoopLogin().login(backend.username, backend.password)
+        val sessionId = login(backend.username, backend.password)
         MatcherAssert.assertThat(sessionId, Matchers.not(Matchers.nullValue()))
     }
 
     @Test
     fun testLoginWrongUsername() = runBlocking {
-        val sessionId = RealCoopLogin().login(backend.wrongUsername, backend.password)
+        val sessionId = login(backend.wrongUsername, backend.password)
         MatcherAssert.assertThat(sessionId, Matchers.nullValue())
     }
 
     @Test
     fun testLoginWrongPassword() = runBlocking {
-        val sessionId = RealCoopLogin().login(backend.username, backend.wrongPassword)
+        val sessionId = login(backend.username, backend.wrongPassword)
         MatcherAssert.assertThat(sessionId, Matchers.nullValue())
     }
+
+    private suspend fun login(username: String, password: String): String? =
+        RealCoopLogin().login(username, password, CoopLogin.Origin.Manual)
 
 }
