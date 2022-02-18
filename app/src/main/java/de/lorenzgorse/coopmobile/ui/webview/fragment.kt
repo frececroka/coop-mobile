@@ -88,7 +88,6 @@ class WebViewFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         analytics.setScreen("WebView")
-        analytics.logEvent("web_view", null)
 
         // Initialize the web view.
         webView.settings.javaScriptEnabled = true
