@@ -3,7 +3,6 @@ package de.lorenzgorse.coopmobile
 import android.os.Bundle
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.firebase.FirebaseApp
 import de.lorenzgorse.coopmobile.client.simple.CoopException
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import kotlinx.coroutines.runBlocking
@@ -20,15 +19,8 @@ import java.util.concurrent.atomic.AtomicReference
 
 
 @RunWith(AndroidJUnit4::class)
-@Config(application = MonitoredCoopLoginTest.TestApplication::class)
+@Config(application = TestApplication::class)
 class MonitoredCoopLoginTest {
-
-    class TestApplication : CoopMobileApplication() {
-        override fun onCreate() {
-            FirebaseApp.initializeApp(this)
-            super.onCreate()
-        }
-    }
 
     private val context: TestApplication = getApplicationContext()!!
     private lateinit var monitoredCoopLogin: MonitoredCoopLogin
