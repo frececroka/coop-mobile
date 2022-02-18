@@ -55,7 +55,8 @@ class BalanceCheckWorker(
         private fun workManager(context: Context) = WorkManager.getInstance(context)
     }
 
-    private val balanceCheck = BalanceCheck(context, client)
+    private val balanceCheck =
+        BalanceCheck(context, client, RealFirebaseAnalytics(Firebase.analytics))
 
     override suspend fun doWork(): Result =
         if (balanceCheck.checkBalance()) Result.success() else Result.failure()
@@ -65,6 +66,7 @@ class BalanceCheckWorker(
 class BalanceCheck(
     private val context: Context,
     private val client: CoopClient,
+    private val analytics: FirebaseAnalytics,
 ) {
 
     companion object {
@@ -79,7 +81,7 @@ class BalanceCheck(
         val fuseOld = notificationFuse.isBurnt()
         fun logEvent(coopError: CoopError? = null) {
             val result = coopError?.let(::coopErrorToAnalyticsResult) ?: "Success"
-            Firebase.analytics.logEvent(
+            analytics.logEvent(
                 "LowBalance_Check",
                 bundleOf(
                     "Result" to result,
@@ -139,7 +141,7 @@ class BalanceCheck(
     }
 
     private fun showLowBalanceNotification(credit: UnitValue<Float>) {
-        Firebase.analytics.logEvent("LowBalance_Notification", bundleOf())
+        analytics.logEvent("LowBalance_Notification", bundleOf())
         val notificationManager = NotificationManagerCompat.from(context)
         setupNotificationChannel(notificationManager)
         val notification = createNotification(credit)

@@ -26,6 +26,7 @@ class BalanceCheckTest {
         shadowOf(context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
     private val notificationFuse = Fuse(context, "checkBalance")
 
+    private lateinit var analytics: FakeFirebaseAnalytics
     private lateinit var balanceCheck: BalanceCheck
 
     @Test
@@ -35,6 +36,7 @@ class BalanceCheckTest {
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, emptyArray())
         assertThat(notificationFuse.isBurnt(), equalTo(false))
+        analytics.matchEvents(checkEvent("Success", false, false))
     }
 
     @Test
@@ -45,6 +47,7 @@ class BalanceCheckTest {
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, emptyArray())
         assertThat(notificationFuse.isBurnt(), equalTo(false))
+        analytics.matchEvents(checkEvent("Success", true, false))
     }
 
     @Test
@@ -54,6 +57,10 @@ class BalanceCheckTest {
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, arrayWithSize(1))
         assertThat(notificationFuse.isBurnt(), equalTo(true))
+        analytics.matchEvents(
+            notifyEvent(),
+            checkEvent("Success", false, true)
+        )
     }
 
     @Test
@@ -64,6 +71,7 @@ class BalanceCheckTest {
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, emptyArray())
         assertThat(notificationFuse.isBurnt(), equalTo(true))
+        analytics.matchEvents(checkEvent("Success", true, true))
     }
 
     @Test
@@ -76,14 +84,40 @@ class BalanceCheckTest {
         assertThat(notificationFuse.isBurnt(), equalTo(true))
     }
 
+    @Test
+    fun testError(): Unit = runBlocking {
+        setup(Either.Left(CoopError.NoNetwork))
+
+        balanceCheck.checkBalance()
+        assertThat(notificationManager.activeNotifications, emptyArray())
+        assertThat(notificationFuse.isBurnt(), equalTo(false))
+        analytics.matchEvents(checkEvent("NoNetwork", false, false))
+    }
+
     private fun setup(consumption: Either<CoopError, List<UnitValue<Float>>>) {
         val coopClient = FakeCoopClient(consumption)
-        balanceCheck = BalanceCheck(context, coopClient)
+        analytics = FakeFirebaseAnalytics()
+        balanceCheck = BalanceCheck(context, coopClient, analytics)
     }
 
     private fun setBalanceThreshold(value: Float) {
         sharedPreferences.edit().putString("check_balance_threshold", value.toString()).apply()
     }
+
+    private fun checkEvent(
+        result: String,
+        fuseOld: Boolean,
+        fuseNew: Boolean
+    ) = FakeFirebaseAnalytics.Invocation(
+        "LowBalance_Check",
+        mapOf(
+            "Result" to result,
+            "FuseOld" to fuseOld,
+            "FuseNew" to fuseNew,
+        )
+    )
+
+    private fun notifyEvent() = FakeFirebaseAnalytics.Invocation("LowBalance_Notification", mapOf())
 
     class FakeCoopClient(
         private val consumption: Either<CoopError, List<UnitValue<Float>>>
