@@ -45,7 +45,7 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
         }
     }
 
-    fun startReview() {
+    private fun startReview() {
         layResponse.visibility = View.GONE
         layProgress.visibility = View.VISIBLE
         val activity = activity
