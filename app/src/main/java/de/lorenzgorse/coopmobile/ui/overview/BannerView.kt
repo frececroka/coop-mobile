@@ -40,7 +40,8 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     fun onLoadSuccess() {
-        if (incrementAndGetLoadCount() >= 10 && daysSinceInstall() > 5 && !dismissed()) {
+        loadCount.increment()
+        if (loadCount.get() >= 10 && daysSinceInstall() > 5 && !dismissed()) {
             analytics.logEvent("RatingBanner_Show", null)
             visibility = View.VISIBLE
         }
@@ -91,11 +92,6 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     private fun daysSinceInstall(): Double {
         val elapsedMs = System.currentTimeMillis() - firstInstallTimeProvider.get(context)
         return elapsedMs.toDouble() / 1000 / 60 / 60 / 24
-    }
-
-    private fun incrementAndGetLoadCount(): Int {
-        loadCount.increment()
-        return loadCount.get()
     }
 
 }
