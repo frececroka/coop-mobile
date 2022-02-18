@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.os.bundleOf
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
@@ -29,11 +30,11 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     init {
         inflate(context, R.layout.banner, this)
         btOkay.setOnClickListener {
-            analytics.logEvent("RatingBanner_Okay", null)
+            analytics.logEvent("RatingBanner_Interaction", bundleOf("Choice" to "Okay"))
             startReview()
         }
         btNo.setOnClickListener {
-            analytics.logEvent("RatingBanner_No", null)
+            analytics.logEvent("RatingBanner_Interaction", bundleOf("Choice" to "No"))
             dismiss()
         }
     }
@@ -55,15 +56,24 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             request.addOnCompleteListener {
                 dismiss()
                 if (it.isSuccessful) {
-                    analytics.logEvent("RatingBanner_InAppReview", null)
+                    analytics.logEvent(
+                        "RatingBanner_Review",
+                        bundleOf("Method" to "InAppReview")
+                    )
                     reviewManager.launchReviewFlow(activity, it.result)
                 } else {
-                    analytics.logEvent("RatingBanner_ExternalPlayStore2", null)
+                    analytics.logEvent(
+                        "RatingBanner_Review",
+                        bundleOf("Method" to "ExternalPlayStore2")
+                    )
                     context.openPlayStore()
                 }
             }
         } else {
-            analytics.logEvent("RatingBanner_ExternalPlayStore1", null)
+            analytics.logEvent(
+                "RatingBanner_Review",
+                bundleOf("Method" to "ExternalPlayStore1")
+            )
             dismiss()
             context.openPlayStore()
         }
