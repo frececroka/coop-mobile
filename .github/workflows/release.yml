@@ -34,7 +34,7 @@ jobs:
         asset_name: app-release.aab
         asset_content_type: application/zip
     - name: Create Play Store Release
-      uses: r0adkll/upload-google-play@v1
+      uses: r0adkll/upload-google-play@v1.0.15
       with:
         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
         packageName: de.lorenzgorse.coopmobile
