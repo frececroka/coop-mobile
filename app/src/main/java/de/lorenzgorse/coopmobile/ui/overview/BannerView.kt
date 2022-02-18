@@ -36,9 +36,6 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             analytics.logEvent("RatingBanner_No", null)
             dismiss()
         }
-        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
-        if (dismissed()) dismissedFuse.burn()
-        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
     }
 
     fun onLoadSuccess() {
@@ -78,11 +75,7 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun dismissed(): Boolean {
-        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
-        val legacyDismissed = context.getCoopSharedPreferences()
-            .getBoolean("rating_banner_dismissed", false)
-        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
-        return dismissedFuse.isBurnt() || legacyDismissed
+        return dismissedFuse.isBurnt()
     }
 
     private fun daysSinceInstall(): Double {
@@ -91,11 +84,6 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun incrementAndGetLoadCount(): Int {
-        // ↓↓ This is here to be backwards compatible. Remove after ca 10 weeks. ↓↓
-        val prefs = context.getCoopSharedPreferences()
-        val legacyLoadCount = prefs.getInt("load_count", 0)
-        loadCount.set(max(legacyLoadCount, loadCount.get()))
-        // ↑↑ This is here to be backwards compatible. Remove after ca 10 weeks. ↑↑
         loadCount.increment()
         return loadCount.get()
     }
