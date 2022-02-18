@@ -9,6 +9,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
@@ -35,6 +36,7 @@ class StaticSessionCoopClientTest {
         }
 
         @Test
+        @Ignore
         fun testLoadProducts() = runBlocking {
             val products = assertRight(client.getProducts())
             assertThat(products, not(empty()))
