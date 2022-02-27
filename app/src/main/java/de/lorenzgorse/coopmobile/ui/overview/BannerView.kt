@@ -13,9 +13,7 @@ import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.components.Counter
 import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.openPlayStore
-import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
 import kotlinx.android.synthetic.main.banner.view.*
-import kotlin.math.max
 
 
 class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

@@ -1,13 +1,13 @@
 package de.lorenzgorse.coopmobile.ui.correspondences
 
 import android.app.Application
+import de.lorenzgorse.coopmobile.State
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Correspondence
 import de.lorenzgorse.coopmobile.client.CorrespondenceHeader
 import de.lorenzgorse.coopmobile.data.CoopViewModel
-import de.lorenzgorse.coopmobile.data.State
-import de.lorenzgorse.coopmobile.data.flatMap
-import de.lorenzgorse.coopmobile.data.liftFlow
+import de.lorenzgorse.coopmobile.flatMap
+import de.lorenzgorse.coopmobile.liftFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

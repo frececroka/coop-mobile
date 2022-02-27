@@ -12,7 +12,6 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
-import de.lorenzgorse.coopmobile.data.data
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.android.synthetic.main.fragment_overview.*

@@ -11,7 +11,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.data.data
+import de.lorenzgorse.coopmobile.data
 import de.lorenzgorse.coopmobile.setScreen
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_consumption_log.*

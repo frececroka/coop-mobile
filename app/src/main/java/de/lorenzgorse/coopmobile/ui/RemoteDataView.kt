@@ -12,11 +12,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
-import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
-import de.lorenzgorse.coopmobile.data.*
-import de.lorenzgorse.coopmobile.openPlayStore
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*

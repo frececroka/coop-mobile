@@ -4,12 +4,12 @@ import android.app.Application
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.data.*
+import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

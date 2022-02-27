@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.createClient
+import de.lorenzgorse.coopmobile.stateFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,5 @@
-package de.lorenzgorse.coopmobile.data
+package de.lorenzgorse.coopmobile
 
-import android.view.View
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -149,10 +148,4 @@ fun <A, Z, E> liftFlow(
     return fs.fold(flowOf(State.loaded<List<A>, E>(listOf(), 0))) { lifted, f ->
         liftFlow(lifted, f) { liftedv, fv -> liftedv + fv }
     }.mapValue(op)
-}
-
-@ExperimentalCoroutinesApi
-fun View.onClickFlow(): Flow<Unit> = callbackFlow {
-    setOnClickListener { trySendBlocking(Unit) }
-    awaitClose { setOnClickListener(null) }
 }
