@@ -1,12 +1,26 @@
-name: Release
-on:
-  push:
-    tags:
-      - "v*"
+name: CI
+on: push
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir coopclient/.config
+      - run: echo "${{ secrets.COOP_MOBILE_USERNAME }}" > coopclient/.config/username
+      - run: echo "${{ secrets.COOP_MOBILE_PASSWORD }}" > coopclient/.config/password
+      - name: Test
+        run: "./gradlew test"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: app/build
   release:
     name: Release
+    needs:
+      - test
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -33,6 +47,12 @@ jobs:
         asset_path: app/build/outputs/bundle/release/app-release.aab
         asset_name: app-release.aab
         asset_content_type: application/zip
+  googleplay:
+    name: Google Play
+    needs:
+      - release
+    runs-on: ubuntu-latest
+    steps:
     - name: Create Play Store Release
       uses: r0adkll/upload-google-play@v1.0.15
       with:
