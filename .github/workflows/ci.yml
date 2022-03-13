@@ -34,7 +34,6 @@ jobs:
     - name: Build
       run: "./gradlew bundleRelease && chmod a+r app/build/outputs/bundle/release/app-release.aab"
     - name: Create GitHub Release
-      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
