@@ -14,10 +14,3 @@ fun createAnalytics(ctx: Context): FirebaseAnalytics {
     }
     return analytics
 }
-
-fun FirebaseAnalytics.logEventOnce(ctx: Context, name: String, params: Bundle?) {
-    if (!File(ctx.filesDir, name).exists()) {
-        logEvent(name, params)
-        File(ctx.filesDir, name).writeText(System.currentTimeMillis().toString())
-    }
-}
