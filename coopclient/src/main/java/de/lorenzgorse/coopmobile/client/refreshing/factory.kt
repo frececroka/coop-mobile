@@ -8,7 +8,7 @@ import kotlinx.coroutines.sync.withLock
 
 interface CoopClientFactory {
     suspend fun get(): CoopClient?
-    suspend fun refresh(invalidateSession: Boolean = false): CoopClient?
+    suspend fun refresh(oldClient: CoopClient? = null): CoopClient?
     fun clear()
 }
 
@@ -27,22 +27,28 @@ class RealCoopClientFactory(
 ) : CoopClientFactory {
 
     private var instance: CoopClient? = null
+    private val mtx = Mutex()
 
-    private val refreshMtx = Mutex()
-    override suspend fun get(): CoopClient? = refreshMtx.withLock {
+    override suspend fun get(): CoopClient? = mtx.withLock {
         if (instance == null) {
-            refresh()
+            refreshInternal()
         }
         return instance
     }
 
-    override suspend fun refresh(invalidateSession: Boolean): CoopClient? {
+    override suspend fun refresh(oldClient: CoopClient?): CoopClient? = mtx.withLock {
+        // Mutexes are not reentrant, so we need a public version of the method that aquires the mutex
+        // and an internal version that doesn't.
+        refreshInternal(oldClient)
+    }
+
+    private suspend fun refreshInternal(oldClient: CoopClient? = null): CoopClient? {
+        val invalidateSession = oldClient != null && instance == oldClient
         val sessionId = newSession(invalidateSession) ?: return null
         return StaticSessionCoopClient(sessionId).also { instance = it }
     }
 
-    private val sessionMtx = Mutex()
-    private suspend fun newSession(invalidateSession: Boolean): String? = sessionMtx.withLock {
+    private suspend fun newSession(invalidateSession: Boolean): String? {
         val sessionId = if (invalidateSession) {
             newSessionFromSavedCredentials()
         } else {
@@ -51,7 +57,7 @@ class RealCoopClientFactory(
         if (sessionId != null) {
             credentialsStore.setSession(sessionId)
         }
-        sessionId
+        return sessionId
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")

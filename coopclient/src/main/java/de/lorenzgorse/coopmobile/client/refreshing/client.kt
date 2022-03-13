@@ -22,7 +22,7 @@ class RefreshingSessionCoopClient(
             is Either.Right -> result
             is Either.Left -> when (result.value) {
                 is CoopError.Unauthorized -> {
-                    val newClient = coopClientFactory.refresh(true)
+                    val newClient = coopClientFactory.refresh(client)
                         ?: return Either.Left(CoopError.FailedLogin)
                     loader(newClient)
                 }

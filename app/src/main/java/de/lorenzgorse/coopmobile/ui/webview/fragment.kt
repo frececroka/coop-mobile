@@ -36,6 +36,7 @@ class WebViewFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var analytics: FirebaseAnalytics
     private lateinit var coopClientFactory: CoopClientFactory
+    private var coopClient: CoopClient? = null
 
     private var lastLogin: Date? = null
 
@@ -119,6 +120,8 @@ class WebViewFragment : Fragment() {
             // screen.
             findNavController().navigate(R.id.action_login)
             return
+        } else {
+            this.coopClient = coopClient
         }
 
         loadCockpit(coopClient)
@@ -200,7 +203,7 @@ class WebViewFragment : Fragment() {
         lastLogin = Date()
 
         val coopClient = try {
-            coopClientFactory.refresh(true)
+            coopClientFactory.refresh()
         } catch (e: IOException) {
             // TODO: Show network error.
             return
@@ -211,6 +214,8 @@ class WebViewFragment : Fragment() {
             // out and send the user to the login screen.
             findNavController().navigate(R.id.action_login)
             return
+        } else {
+            this.coopClient = coopClient
         }
 
         // Try to load the cockpit with the refreshed session.
