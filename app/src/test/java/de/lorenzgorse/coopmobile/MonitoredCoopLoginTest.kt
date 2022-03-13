@@ -41,13 +41,13 @@ class MonitoredCoopLoginTest {
         monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "Success", true)
+            loginEvent("Manual", "Success", true)
         )
 
         monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "Success", false)
+            loginEvent("Manual", "Success", false)
         )
     }
 
@@ -58,13 +58,13 @@ class MonitoredCoopLoginTest {
         monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "AuthFailed", true)
+            loginEvent("Manual", "AuthFailed", true)
         )
 
         monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "Success", true)
+            loginEvent("Manual", "Success", true)
         )
     }
 
@@ -78,7 +78,7 @@ class MonitoredCoopLoginTest {
 
         firebaseAnalytics.matchEvents(
             migrationEvent(),
-            loginEvent(CoopLogin.Origin.Manual, "Success", false)
+            loginEvent("Manual", "Success", false)
         )
 
         assertThat(File(context.filesDir, "Onb_Login_Success").exists(), equalTo(false))
@@ -94,7 +94,7 @@ class MonitoredCoopLoginTest {
         for (origin in CoopLogin.Origin.values()) {
             setup(successfulLogin.copy(origin = origin))
             monitoredCoopLogin.login("username", "password", origin)
-            firebaseAnalytics.matchEvents(loginEvent(origin, "Success", false))
+            firebaseAnalytics.matchEvents(loginEvent(origin.name, "Success", false))
         }
     }
 
@@ -102,7 +102,7 @@ class MonitoredCoopLoginTest {
     fun testReportsAuthFailedError() = runBlocking {
         setup(failedLogin)
         monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
-        firebaseAnalytics.matchEvents(loginEvent(CoopLogin.Origin.Manual, "AuthFailed", true))
+        firebaseAnalytics.matchEvents(loginEvent("Manual", "AuthFailed", true))
     }
 
     @Test
@@ -116,7 +116,7 @@ class MonitoredCoopLoginTest {
         }
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "NoNetwork", true)
+            loginEvent("Manual", "NoNetwork", true)
         )
     }
 
@@ -131,7 +131,7 @@ class MonitoredCoopLoginTest {
         }
 
         firebaseAnalytics.matchEvents(
-            loginEvent(CoopLogin.Origin.Manual, "HtmlChanged", true)
+            loginEvent("Manual", "HtmlChanged", true)
         )
     }
 
@@ -166,7 +166,7 @@ class MonitoredCoopLoginTest {
         maybeThrow = CoopException.HtmlChanged()
     )
 
-    private fun loginEvent(origin: CoopLogin.Origin, status: String, newUser: Boolean) =
+    private fun loginEvent(origin: String, status: String, newUser: Boolean) =
         FakeFirebaseAnalytics.Invocation(
             "Login",
             mapOf(

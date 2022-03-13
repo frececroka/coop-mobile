@@ -50,7 +50,7 @@ class MonitoredCoopLogin(
         val plan = plan ?: AtomicReference()
 
         val loginEventParameters = bundleOf(
-            "Origin" to origin,
+            "Origin" to origin.name,
             "NewUser" to !successfulLogin.isBurnt(),
         )
 
