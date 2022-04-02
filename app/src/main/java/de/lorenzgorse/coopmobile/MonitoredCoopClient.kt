@@ -8,9 +8,44 @@ import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.DecoratedCoopClient
 import de.lorenzgorse.coopmobile.client.Either
+import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
 class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
+
+    override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> {
+        val profile = super.getProfile()
+        if (profile is Either.Right) {
+            Firebase.analytics.logEvent("ProfileItems", bundleOf("Length" to profile.value.size))
+            for (profileItem in profile.value) {
+                Firebase.analytics.logEvent(
+                    "ProfileItem",
+                    bundleOf("Description" to profileItem.first)
+                )
+            }
+        }
+        return profile
+    }
+
+    override suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>> {
+        val consumption = super.getConsumption()
+        if (consumption is Either.Right) {
+            Firebase.analytics.logEvent(
+                "ConsumptionItems",
+                bundleOf("Length" to consumption.value.size)
+            )
+            for (consumptionItem in consumption.value) {
+                Firebase.analytics.logEvent(
+                    "ConsumptionItem",
+                    bundleOf(
+                        "Description" to consumptionItem.description,
+                        "Unit" to consumptionItem.unit,
+                    )
+                )
+            }
+        }
+        return consumption
+    }
 
     override suspend fun <T> decorator(
         loader: suspend (client: CoopClient) -> Either<CoopError, T>,
