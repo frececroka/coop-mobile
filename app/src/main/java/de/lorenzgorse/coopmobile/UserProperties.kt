@@ -29,6 +29,7 @@ class UserProperties(context: Context) {
     private fun apply(data: Data) {
         log.info("Applying user properties: $data")
         Firebase.analytics.setUserProperty("Plan", data.plan)
+        // TODO: do the same for crashlytics as well
     }
 
     private val kv = KV(context)
