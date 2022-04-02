@@ -26,12 +26,14 @@ class MonitoredCoopLoginTest {
     private lateinit var monitoredCoopLogin: MonitoredCoopLogin
     private lateinit var firebaseAnalytics: FakeFirebaseAnalytics
     private lateinit var coopLogin: FakeCoopLogin
+    private lateinit var userProperties: UserProperties
 
     fun setup(vararg loginInvocations: FakeCoopLogin.Invocation) {
         coopLogin = FakeCoopLogin(*loginInvocations)
         firebaseAnalytics = FakeFirebaseAnalytics()
+        userProperties = UserProperties(context)
         monitoredCoopLogin =
-            MonitoredCoopLogin(context, UserProperties(context), coopLogin, firebaseAnalytics)
+            MonitoredCoopLogin(context, userProperties, coopLogin, firebaseAnalytics)
     }
 
     @Test
@@ -133,6 +135,14 @@ class MonitoredCoopLoginTest {
         firebaseAnalytics.matchEvents(
             loginEvent("Manual", "HtmlChanged", true)
         )
+    }
+
+    @Test
+    fun testSetsUserProperties(): Unit = runBlocking {
+        setup(successfulLogin)
+        assertThat(userProperties.data(), equalTo(UserProperties.Data()))
+        monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
+        assertThat(userProperties.data(), equalTo(UserProperties.Data(plan = "prepaid")))
     }
 
     private val successfulLogin = FakeCoopLogin.Invocation(

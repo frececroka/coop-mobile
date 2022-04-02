@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 class UserProperties(context: Context) {
 
-    data class Data(val plan: String?)
+    data class Data(val plan: String? = null)
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -32,7 +32,7 @@ class UserProperties(context: Context) {
     }
 
     private val kv = KV(context)
-    private fun data() = kv.get<Data>("UserProperties", Data::class.java) ?: Data(null)
+    fun data() = kv.get<Data>("UserProperties", Data::class.java) ?: Data(null)
     private fun setData(data: Data) = kv.set("UserProperties", data)
 
 }
