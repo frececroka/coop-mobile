@@ -65,7 +65,7 @@ class StaticSessionCoopClientTest {
 
     class Expired {
 
-        private val expiredClient = StaticSessionCoopClient("23847329847324")
+        private val expiredClient = StaticSessionCoopClient("23847329847324", ::httpClientFactory)
 
         @Test
         fun testLoadDataInvalidSession() {
