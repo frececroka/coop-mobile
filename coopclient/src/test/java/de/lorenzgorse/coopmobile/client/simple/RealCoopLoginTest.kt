@@ -4,6 +4,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.CookieJar
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
+import org.junit.Ignore
 import org.junit.Test
 
 class RealCoopLoginTest {
@@ -11,6 +12,7 @@ class RealCoopLoginTest {
     private val backend = RealBackend()
 
     @Test
+    @Ignore("I don't have a CoopMobile account at the moment")
     fun testLogin() = runBlocking {
         val sessionId = login(backend.username, backend.password)
         MatcherAssert.assertThat(sessionId, Matchers.not(Matchers.nullValue()))
