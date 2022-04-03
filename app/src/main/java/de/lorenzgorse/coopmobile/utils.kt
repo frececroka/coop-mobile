@@ -65,14 +65,16 @@ class ActivityResultQuery<I, O>(fragment: Fragment, contract: ActivityResultCont
 }
 
 class PermissionRequest(fragment: Fragment) {
-    private val activityResultQuery = ActivityResultQuery(fragment, ActivityResultContracts.RequestPermission())
+    private val activityResultQuery =
+        ActivityResultQuery(fragment, ActivityResultContracts.RequestPermission())
+
     suspend fun perform(permission: String): Boolean = activityResultQuery.query(permission)
 }
 
 fun Spanned.trim() {
     if (this is SpannableStringBuilder) {
-        while (length > 0 && this[length-1].isWhitespace()) {
-            delete(length-1, length)
+        while (length > 0 && this[length - 1].isWhitespace()) {
+            delete(length - 1, length)
         }
         while (length > 0 && this[0].isWhitespace()) {
             delete(0, 1)
@@ -87,7 +89,8 @@ fun Context.openPlayStore() {
         ContextCompat.startActivity(this, Intent(Intent.ACTION_VIEW, marketUrl), null)
     } catch (anfe: android.content.ActivityNotFoundException) {
         val marketUrl = Uri.parse(
-            "https://play.google.com/store/apps/details?id=$appPackageName")
+            "https://play.google.com/store/apps/details?id=$appPackageName"
+        )
         ContextCompat.startActivity(this, Intent(Intent.ACTION_VIEW, marketUrl), null)
     }
 }
