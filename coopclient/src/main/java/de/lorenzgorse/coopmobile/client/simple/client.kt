@@ -23,11 +23,14 @@ interface CoopClient {
     suspend fun sessionId(): String?
 }
 
-class StaticSessionCoopClient(private val sessionId: String, clientFactory: HttpClientFactory) : CoopClient {
+class StaticSessionCoopClient(
+    private val sessionId: String,
+    clientFactory: HttpClientFactory
+) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    private var client = clientFactory(StaticCookieJar(sessionId))
+    private val client = clientFactory(StaticCookieJar(sessionId))
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
         translateExceptions {
@@ -155,9 +158,7 @@ class StaticSessionCoopClient(private val sessionId: String, clientFactory: Http
 
         val form = productBlock.selectFirst("form")!!
         val url = form.attr("action")
-        val parameters = form.select("input")
-            .map { Pair(it.attr("name"), it.attr("value")) }
-            .toMap()
+        val parameters = form.select("input").associate { Pair(it.attr("name"), it.attr("value")) }
         val buySpec = ProductBuySpec(url, parameters)
 
         return Product(name, description, price, buySpec)

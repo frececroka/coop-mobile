@@ -31,11 +31,10 @@ class MonitoredHttpClient(
 
     override suspend fun getHtml(url: String, check: (Response) -> Unit): Document {
         val html = httpClient.getHtml(url, check)
-        val shape = html.body().shape()
         val now = Instant.now().atZone(ZoneId.of("UTC"))
         val date = DateTimeFormatter.ISO_DATE.format(now)
         val dateTime = DateTimeFormatter.ISO_DATE_TIME.format(now)
-        val record = Record(url, dateTime, shape)
+        val record = Record(url, dateTime, html.body().shape())
         val recordBytes = gzip(Gson().toJson(record).toByteArray())
         val userPseudoId = userPseudoId() ?: "unknown-user"
         val uuid = UUID.randomUUID()

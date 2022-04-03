@@ -2,11 +2,10 @@ package de.lorenzgorse.coopmobile.client.refreshing
 
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
-import de.lorenzgorse.coopmobile.client.simple.HttpClient
+import de.lorenzgorse.coopmobile.client.simple.HttpClientFactory
 import de.lorenzgorse.coopmobile.client.simple.StaticSessionCoopClient
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import okhttp3.CookieJar
 
 interface CoopClientFactory {
     suspend fun get(): CoopClient?
@@ -26,7 +25,7 @@ interface CredentialsStore {
 class RealCoopClientFactory(
     private val credentialsStore: CredentialsStore,
     private val coopLogin: CoopLogin,
-    private val httpClientFactory: (CookieJar) -> HttpClient,
+    private val httpClientFactory: HttpClientFactory,
 ) : CoopClientFactory {
 
     private var instance: CoopClient? = null
