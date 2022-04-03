@@ -7,22 +7,29 @@ import de.lorenzgorse.coopmobile.client.refreshing.RealCoopClientFactory
 import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.RealCoopLogin
+import de.lorenzgorse.coopmobile.client.simple.SimpleHttpClient
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
+import okhttp3.CookieJar
 
 fun createClient(context: Context): CoopClient =
     MonitoredCoopClient(RefreshingSessionCoopClient(createCoopClientFactory(context)))
 
 fun createCoopClientFactory(context: Context) = RealCoopClientFactory(
     createCredentialsStore(context),
-    createCoopLogin(context)
+    createCoopLogin(context),
+    createHttpClientFactory(context),
 )
 
 fun createCoopLogin(context: Context) =
     MonitoredCoopLogin(
         context,
         UserProperties(context),
-        RealCoopLogin(),
+        RealCoopLogin(createHttpClientFactory(context)),
         RealFirebaseAnalytics(Firebase.analytics)
     )
 
 fun createCredentialsStore(context: Context) = SharedPreferencesCredentialsStore(context)
+
+fun createHttpClientFactory(context: Context) = { cookieJar: CookieJar ->
+    MonitoredHttpClient(context, SimpleHttpClient(cookieJar))
+}

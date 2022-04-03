@@ -23,11 +23,11 @@ interface CoopClient {
     suspend fun sessionId(): String?
 }
 
-class StaticSessionCoopClient(private val sessionId: String) : CoopClient {
+class StaticSessionCoopClient(private val sessionId: String, clientFactory: HttpClientFactory) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    private var client = HttpClient(StaticCookieJar(sessionId))
+    private var client = clientFactory(StaticCookieJar(sessionId))
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
         translateExceptions {
@@ -206,7 +206,7 @@ class StaticSessionCoopClient(private val sessionId: String) : CoopClient {
 
     private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
     private suspend inline fun <reified T> getJson(url: String): T =
-        client.getJson(url, ::assertResponseSuccessful)
+        client.getJson(url, T::class.java, ::assertResponseSuccessful)
 
     companion object {
 

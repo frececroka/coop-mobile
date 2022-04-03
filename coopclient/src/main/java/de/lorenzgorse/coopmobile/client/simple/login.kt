@@ -23,7 +23,7 @@ interface CoopLogin {
 
 }
 
-class RealCoopLogin : CoopLogin {
+class RealCoopLogin(private val httpClientFactory: HttpClientFactory) : CoopLogin {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -39,7 +39,7 @@ class RealCoopLogin : CoopLogin {
         plan: AtomicReference<String?>?
     ): String? {
         val cookieJar = SessionCookieJar()
-        val client = HttpClient(cookieJar)
+        val client = httpClientFactory(cookieJar)
 
         log.info("Requesting $coopBaseLogin")
         val loginFormHtml = client.getHtml(coopBaseLogin)

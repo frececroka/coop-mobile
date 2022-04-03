@@ -9,17 +9,27 @@ import org.jsoup.UncheckedIOException
 import org.jsoup.nodes.Document
 import java.net.URL
 
-class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
+typealias HttpClientFactory = (CookieJar) -> HttpClient
+
+interface HttpClient {
+    suspend fun <T> getJson(url: String, type: Class<T>, check: (Response) -> Unit): T
+    suspend fun getHtml(url: String, check: (Response) -> Unit = {}): Document
+    suspend fun getText(url: String, check: (Response) -> Unit = {}): String
+    suspend fun post(url: String, body: FormBody): Response
+    suspend fun post(url: URL, body: FormBody): Response
+}
+
+class SimpleHttpClient(cookieJar: CookieJar = SessionCookieJar()) : HttpClient {
 
     private val client = OkHttpClient.Builder()
         .followRedirects(true)
         .cookieJar(cookieJar)
         .build()
 
-    suspend inline fun <reified T> getJson(url: String, noinline check: (Response) -> Unit): T =
-        Gson().fromJson(getText(url, check), T::class.java)
+    override suspend fun <T> getJson(url: String, type: Class<T>, check: (Response) -> Unit): T =
+        Gson().fromJson(getText(url, check), type)
 
-    suspend fun getHtml(url: String, check: (Response) -> Unit = {}): Document {
+    override suspend fun getHtml(url: String, check: (Response) -> Unit): Document {
         val html = getText(url, check)
         return try {
             Jsoup.parse(html)
@@ -28,7 +38,7 @@ class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
         }
     }
 
-    suspend fun getText(url: String, check: (Response) -> Unit = {}): String =
+    override suspend fun getText(url: String, check: (Response) -> Unit): String =
         withContext(Dispatchers.IO) { get(url, check).body!!.string() }
 
     private suspend fun get(url: String, check: (Response) -> Unit): Response {
@@ -36,10 +46,10 @@ class HttpClient(cookieJar: CookieJar = SessionCookieJar()) {
         return call(request, check)
     }
 
-    suspend fun post(url: String, body: FormBody) =
+    override suspend fun post(url: String, body: FormBody) =
         post(URL(url), body)
 
-    suspend fun post(url: URL, body: FormBody): Response {
+    override suspend fun post(url: URL, body: FormBody): Response {
         val request = Request.Builder().post(body).url(url).build()
         return call(request)
     }

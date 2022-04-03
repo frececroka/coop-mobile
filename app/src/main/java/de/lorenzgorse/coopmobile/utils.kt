@@ -10,14 +10,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.client.CoopError
 import kotlinx.coroutines.sync.Mutex
+import java.io.ByteArrayOutputStream
+import java.util.zip.GZIPOutputStream
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 fun Context.openUri(uri: String) {
@@ -91,3 +97,31 @@ fun FirebaseAnalytics.setScreen(screenName: String) {
 }
 
 fun coopErrorToAnalyticsResult(coopError: CoopError) = coopError::class.simpleName
+
+suspend fun userPseudoId(): String? =
+    try {
+        waitForTask(Firebase.analytics.appInstanceId)
+    } catch (e: Exception) {
+        null
+    }
+
+suspend fun <T> waitForTask(task: Task<T>): T {
+    return suspendCoroutine {
+        task.addOnCompleteListener { task ->
+            val ex = task.exception
+            if (ex != null) {
+                it.resumeWithException(ex)
+            } else {
+                it.resume(task.result)
+            }
+        }
+    }
+}
+
+fun gzip(bytes: ByteArray): ByteArray {
+    val gzipped = ByteArrayOutputStream()
+    val gzip = GZIPOutputStream(gzipped)
+    gzip.write(bytes)
+    gzip.close()
+    return gzipped.toByteArray()
+}
