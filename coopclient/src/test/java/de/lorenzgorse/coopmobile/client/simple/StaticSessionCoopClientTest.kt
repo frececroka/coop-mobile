@@ -44,7 +44,7 @@ class StaticSessionCoopClientTest {
         }
 
         @Test
-        @Ignore
+        @Ignore("Functionality is broken")
         fun testLoadProducts() = runBlocking {
             val products = assertRight(client.getProducts())
             assertThat(products, not(empty()))
