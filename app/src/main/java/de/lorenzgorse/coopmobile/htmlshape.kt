@@ -22,19 +22,29 @@ enum class CharacterShape {
     OTHER
 }
 
-fun JsoupNode.shape(): HtmlShape {
+fun JsoupNode.shape(): HtmlShape? {
     return when (this) {
         is JsoupElement ->
             HtmlShape.Element(
                 tagName(),
-                attributes().asList().associate { Pair(it.key, it.value) },
-                childNodes().map { it.shape() })
+                attributes().asList()
+                    .filter { isAllowedAttr(it.key) }
+                    .associate { Pair(it.key, it.value) },
+                childNodes().mapNotNull { it.shape() })
         is JsoupTextNode ->
-            HtmlShape.Text(text().map(::characterShape))
+            if (text().all { it.isWhitespace() }) {
+                null
+            } else {
+                HtmlShape.Text(text().map(::characterShape))
+            }
         else ->
             HtmlShape.Unknown(this::class.qualifiedName)
     }
 }
+
+val allowedAttrs = listOf("id", "class", "name", "type", "placeholder", "action")
+
+fun isAllowedAttr(key: String): Boolean = allowedAttrs.contains(key.trim().lowercase())
 
 fun characterShape(character: Char): CharacterShape {
     return when {

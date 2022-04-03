@@ -14,7 +14,11 @@ class HtmlShapeTest {
             <html>
                 <body>
                     Text
-                    <h1 attr="value">Text</h1>
+                    <h1 class="c1" id="id1">Text</h1>
+                    <form action="/signin">
+                        <input type="text" name="username" placeholder="Username" />
+                        <input type="password" value="sensitive" />
+                    </form>
                 </body>
             </html>
         """.trimIndent()
@@ -29,15 +33,33 @@ class HtmlShapeTest {
                         HtmlShape.Text(characters = testCharacterShape("_AAAA_")),
                         HtmlShape.Element(
                             tag = "h1",
-                            attrs = mapOf("attr" to "value"),
+                            attrs = mapOf("class" to "c1", "id" to "id1"),
                             children = listOf(
                                 HtmlShape.Text(
                                     characters = testCharacterShape("AAAA")
                                 )
                             )
                         ),
-                        HtmlShape.Text(characters = testCharacterShape("_")),
-                        HtmlShape.Text(characters = testCharacterShape("_"))
+                        HtmlShape.Element(
+                            tag = "form",
+                            attrs = mapOf("action" to "/signin"),
+                            children = listOf(
+                                HtmlShape.Element(
+                                    tag = "input",
+                                    attrs = mapOf(
+                                        "type" to "text",
+                                        "name" to "username",
+                                        "placeholder" to "Username",
+                                    ),
+                                    children = listOf()
+                                ),
+                                HtmlShape.Element(
+                                    tag = "input",
+                                    attrs = mapOf("type" to "password"),
+                                    children = listOf()
+                                ),
+                            )
+                        ),
                     )
                 )
             )
