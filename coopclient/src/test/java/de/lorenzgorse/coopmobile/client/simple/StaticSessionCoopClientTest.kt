@@ -24,8 +24,15 @@ class StaticSessionCoopClientTest {
 
         private val client by lazy {
             val sessionId =
-                runBlocking { RealCoopLogin().login(backend.username, backend.password, CoopLogin.Origin.Manual) }
-            StaticSessionCoopClient(sessionId!!)
+                runBlocking {
+                    RealCoopLogin(::httpClientFactory).login(
+                        backend.username,
+                        backend.password,
+                        CoopLogin.Origin.Manual
+                    )
+                }
+            assertThat(sessionId, notNullValue())
+            StaticSessionCoopClient(sessionId!!, ::httpClientFactory)
         }
 
         @Test
