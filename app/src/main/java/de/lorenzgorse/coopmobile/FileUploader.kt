@@ -9,6 +9,7 @@ import de.lorenzgorse.coopmobile.FileUploader.UploadWorker.Companion.PAYLOAD_PAT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Paths
@@ -18,7 +19,7 @@ import java.util.*
 
 class FileUploader(context: Context) {
     companion object {
-        val log = LoggerFactory.getLogger(FileUploader::class.java)
+        val log: Logger = LoggerFactory.getLogger(FileUploader::class.java)
     }
 
     private val cacheDir = context.filesDir.resolve("FileUploader")
@@ -65,12 +66,12 @@ class FileUploader(context: Context) {
         private suspend fun doWork(path: String, payloadFile: File): Result {
             val payload = withContext(Dispatchers.IO) { payloadFile.readBytes() }
             val storageReference = Firebase.storage.reference.child(path)
-            try {
+            return try {
                 waitForTask(storageReference.putBytes(payload))
-                return Result.success()
+                Result.success()
             } catch (e: Exception) {
                 log.error("Upload of $path failed", e)
-                return Result.retry()
+                Result.retry()
             }
         }
     }
