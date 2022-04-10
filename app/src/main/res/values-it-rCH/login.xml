@@ -9,5 +9,4 @@
 
     <string name="error_field_required">Campo da riempire</string>
     <string name="error_invalid_username">L\'email o il numero di telefono sono incorretti</string>
-    <string name="error_login_failed">Login non riuscito.</string>
 </resources>

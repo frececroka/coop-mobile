@@ -67,13 +67,16 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        txtPrivacyPolicy.text = HtmlCompat.fromHtml(
-            txtPrivacyPolicy.text.toString(), FROM_HTML_MODE_COMPACT)
-        txtPrivacyPolicy.movementMethod = LinkMovementMethod.getInstance()
+        for (textView in listOf(txtPrivacyPolicy, txtLoginFailed)) {
+            textView.text = HtmlCompat.fromHtml(textView.text.toString(), FROM_HTML_MODE_COMPACT)
+            textView.movementMethod = LinkMovementMethod.getInstance()
+        }
 
         txtPassword.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_SEND -> { lifecycleScope.launch { attemptLoginGuard() }; true }
+                EditorInfo.IME_ACTION_SEND -> {
+                    lifecycleScope.launch { attemptLoginGuard() }; true
+                }
                 else -> false
             }
         }

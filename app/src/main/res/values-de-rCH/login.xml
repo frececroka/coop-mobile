@@ -9,5 +9,9 @@
 
     <string name="error_field_required">Bitte ausfüllen</string>
     <string name="error_invalid_username">Die Email oder Handynummer is ungültig</string>
-    <string name="error_login_failed">Fehler beim Einloggen.</string>
+    <string name="error_login_failed"><![CDATA[Dein Benutzername oder Password sind falsch. Bitte
+        überprüfe deine Eingabe und versuche es noch einmal. Falls es dann immer noch nicht
+        funktioniert, stelle sicher, dass du dich auf
+        <a href="https://myaccount.coopmobile.ch/">myaccount.coopmobile.ch</a> mit diesen Daten
+        anmelden kannst.]]></string>
 </resources>

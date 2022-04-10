@@ -9,7 +9,10 @@
 
     <string name="error_field_required">Please fill in</string>
     <string name="error_invalid_username">The email address or phone number is invalid</string>
-    <string name="error_login_failed">Failed to log in.</string>
+    <string name="error_login_failed"><![CDATA[Failed to log in. Please double-check your username
+        and password and try again. If it still doesn\'t work, visit
+        <a href="https://myaccount.coopmobile.ch/">myaccount.coopmobile.ch</a> and verify you can
+        log in there.]]></string>
 
     <string name="privacy_policy" translatable="false"><![CDATA[<a href=\"https://coop-mobile-df71e.firebaseapp.com/privacy_policy.html\">Privacy Policy</a>]]></string>
 </resources>
