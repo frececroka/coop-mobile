@@ -31,4 +31,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ErrorMessage">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">3pt</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textColorLink">@color/colorOnPrimary</item>
+        <item name="drawableTint">@color/colorOnPrimary</item>
+    </style>
+
 </resources>
