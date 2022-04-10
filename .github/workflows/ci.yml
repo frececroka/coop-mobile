@@ -38,12 +38,6 @@ jobs:
       with:
         name: Release ${{ github.ref }}
         files: app/build/outputs/bundle/release/app-release.aab
-  googleplay:
-    name: Google Play
-    needs:
-      - release
-    runs-on: ubuntu-latest
-    steps:
     - name: Create Play Store Release
       uses: r0adkll/upload-google-play@v1.0.15
       with:
