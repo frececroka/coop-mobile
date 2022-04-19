@@ -131,6 +131,10 @@ class BalanceCheckTest {
 
         // The other methods are irrelevant
 
+        override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> {
+            throw NotImplementedError()
+        }
+
         override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
             throw NotImplementedError()
 
