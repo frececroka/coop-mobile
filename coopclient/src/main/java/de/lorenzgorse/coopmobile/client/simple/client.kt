@@ -15,6 +15,7 @@ import java.util.*
 interface CoopClient {
     suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>>
     suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>>
+    suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>>
     suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?>
     suspend fun getProducts(): Either<CoopError, List<Product>>
     suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean>
@@ -66,15 +67,30 @@ class StaticSessionCoopClient(
             }
         }
 
+    // Tries to simplify getConsumption(), which may also help with supporting wireless users.
+    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> =
+        translateExceptions {
+            val html = getHtml(coopBaseAccount)
+            html.safe {
+                select(".contingent__data")
+                    .map { parseUnitValueBlock(it, { v -> v.toFloat() }) }
+            }
+        }
+
     private fun <T> parseUnitValueBlock(
         block: Element,
         convert: (String) -> T,
         sanitize: (String) -> String = { it }
     ): UnitValue<T> {
-        val title = block.selectFirst(".panel__title")!!.text()
+        val title = block.selectFirst(".panel__title")?.text()
+            ?: block.selectFirst(".contingent__data--legend")?.text()!!
+        log.info("title = $title")
+
         val value = block.selectFirst(".contingent__data--value")!!.text()
 
         val valueParts = value.split(" ")
+        log.info("valueParts.size = ${valueParts.size}")
+
         if (valueParts.size != 2) {
             throw CoopException.HtmlChanged()
         }
