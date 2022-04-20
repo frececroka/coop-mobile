@@ -91,19 +91,26 @@ class StaticSessionCoopClient(
         val valueParts = value.split(" ")
         log.info("valueParts.size = ${valueParts.size}")
 
-        if (valueParts.size != 2) {
-            throw CoopException.HtmlChanged()
-        }
-
-        val (amount, unit) = try {
-            Pair(convert(sanitize(valueParts[0])), valueParts[1])
-        } catch (e: NumberFormatException) {
-            try {
-                Pair(convert(sanitize(valueParts[1])), valueParts[0])
-            } catch (e: NumberFormatException) {
-                throw CoopException.HtmlChanged()
+        val candidates = buildList {
+            when (valueParts.size) {
+                1 -> add(Pair(valueParts[0], "-"))
+                2 -> {
+                    add(Pair(valueParts[0], valueParts[1]))
+                    add(Pair(valueParts[1], valueParts[0]))
+                }
             }
         }
+
+        val (amount, unit) = candidates
+            .mapNotNull { (textualAmount, unit) ->
+                try {
+                    Pair(convert(sanitize(textualAmount)), unit)
+                } catch (e: NumberFormatException) {
+                    null
+                }
+            }
+            .firstOrNull()
+            ?: throw CoopException.HtmlChanged()
 
         return UnitValue(title, amount, unit)
     }
