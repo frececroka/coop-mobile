@@ -44,4 +44,3 @@ jobs:
         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
         packageName: de.lorenzgorse.coopmobile
         releaseFiles: app/build/outputs/bundle/release/app-release.aab
-        userFraction: 0.1
