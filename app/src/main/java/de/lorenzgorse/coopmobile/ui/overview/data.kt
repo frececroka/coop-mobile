@@ -20,6 +20,12 @@ class OverviewData(app: Application) : CoopViewModel(app) {
             load { client.getConsumption() },
             load { Either.Right(client.getConsumptionGeneric().right()) },
             load { client.getProfile() }
-        ) { cv, _, pv -> Pair(cv, pv) }.share()
+        ) { cv, cvg, pv ->
+            if (cv.isEmpty() && cvg != null) {
+                Pair(cvg, pv)
+            } else {
+                Pair(cv, pv)
+            }
+        }.share()
 
 }
