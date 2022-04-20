@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.Flow
 @ExperimentalCoroutinesApi
 class OverviewData(app: Application) : CoopViewModel(app) {
 
+    private val fallbackGenericConsumption: Boolean
+        get() = Firebase.remoteConfig.getBoolean("fallback_generic_consumption")
+
     private val forceGenericConsumption: Boolean
         get() = Firebase.remoteConfig.getBoolean("use_generic_consumption")
 
@@ -32,7 +35,8 @@ class OverviewData(app: Application) : CoopViewModel(app) {
             },
             load { client.getProfile() }
         ) { cv, cvg, pv ->
-            val useGenericConsumption = forceGenericConsumption || cv.isEmpty()
+            val useGenericConsumption = forceGenericConsumption ||
+                    (fallbackGenericConsumption && cv.isEmpty())
             when {
                 cvg != null && useGenericConsumption -> Pair(cvg, pv)
                 else -> Pair(cv, pv)
