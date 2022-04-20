@@ -11,7 +11,7 @@ abstract class DecoratedCoopClient : CoopClient {
         decorator({ it.getConsumption() }, "getConsumption")
 
     override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> =
-        decorator({ it.getConsumption() }, "getConsumptionGeneric")
+        decorator({ it.getConsumptionGeneric() }, "getConsumptionGeneric")
 
     override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
         decorator({ it.getConsumptionLog() }, "getConsumptionLog")
