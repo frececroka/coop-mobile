@@ -22,8 +22,8 @@ abstract class DecoratedCoopClient : CoopClient {
     override suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean> =
         decorator({ it.buyProduct(buySpec) }, "buyProduct")
 
-    override suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>> =
-        decorator({ it.getCorrespondeces() }, "getCorrespondeces")
+    override suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>> =
+        decorator({ it.getCorrespondences() }, "getCorrespondeces")
 
     override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence> =
         decorator({ it.augmentCorrespondence(header) }, "augmentCorrespondence")

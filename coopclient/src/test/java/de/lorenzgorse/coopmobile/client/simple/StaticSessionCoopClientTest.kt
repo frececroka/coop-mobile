@@ -55,7 +55,7 @@ class StaticSessionCoopClientTest {
 
         @Test
         fun testLoadCorrespondences() = runBlocking {
-            val correspondences = assertRight(client.getCorrespondeces())
+            val correspondences = assertRight(client.getCorrespondences())
             assertThat(correspondences, not(empty()))
             assertThat(correspondences.map { it.subject }, everyItem(not(emptyString())))
             val correspondenceHeader = correspondences[0]
@@ -87,7 +87,7 @@ class StaticSessionCoopClientTest {
 
         @Test
         fun testLoadCorrespondencesInvalidSession() {
-            assertReturnsUnauthorized { expiredClient.getCorrespondeces() }
+            assertReturnsUnauthorized { expiredClient.getCorrespondences() }
         }
 
         private fun <T> assertReturnsUnauthorized(block: suspend () -> Either<CoopError, T>) {

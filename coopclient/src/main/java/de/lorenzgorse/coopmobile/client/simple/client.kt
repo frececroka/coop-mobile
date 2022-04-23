@@ -5,13 +5,9 @@ import de.lorenzgorse.coopmobile.CoopHtmlParser
 import de.lorenzgorse.coopmobile.client.*
 import okhttp3.FormBody
 import okhttp3.Response
-import org.jsoup.nodes.Element
-import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
 
 interface CoopClient {
     suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>>
@@ -20,7 +16,7 @@ interface CoopClient {
     suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?>
     suspend fun getProducts(): Either<CoopError, List<Product>>
     suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean>
-    suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>>
+    suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>>
     suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence>
     suspend fun sessionId(): String?
 }
@@ -35,14 +31,14 @@ class StaticSessionCoopClient(
     private val parser = CoopHtmlParser()
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
-        translateExceptions { getHtml(coopBaseAccount).safe { parser.getProfile(it) } }
+        translateExceptions { getHtml(coopBaseAccount).safe { parser.parseProfile(it) } }
 
     override suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>> =
-        translateExceptions { getHtml(coopBaseAccount).safe { parser.getConsumption(it) } }
+        translateExceptions { getHtml(coopBaseAccount).safe { parser.parseConsumption(it) } }
 
     // Tries to simplify getConsumption(), which may also help with supporting wireless users.
     override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> =
-        translateExceptions { getHtml(coopBaseAccount).safe { parser.getConsumptionGeneric(it) } }
+        translateExceptions { getHtml(coopBaseAccount).safe { parser.parseConsumptionGeneric(it) } }
 
     override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
         translateExceptions {
@@ -57,7 +53,7 @@ class StaticSessionCoopClient(
         }
 
     override suspend fun getProducts(): Either<CoopError, List<Product>> =
-        translateExceptions { getHtml("$coopBaseAccount/add_product").safe { parser.getProducts(it) } }
+        translateExceptions { getHtml("$coopBaseAccount/add_product").safe { parser.parseProducts(it) } }
 
     override suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean> =
         translateExceptions {
@@ -74,10 +70,10 @@ class StaticSessionCoopClient(
             response.isRedirect || response.isSuccessful
         }
 
-    override suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>> =
+    override suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>> =
         translateExceptions {
             getHtml("$coopBaseAccount/my_correspondence").safe {
-                parser.getCorrespondeces(it)
+                parser.parseCorrespondences(it)
             }
         }
 

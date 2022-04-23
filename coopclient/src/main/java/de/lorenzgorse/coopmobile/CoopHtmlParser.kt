@@ -14,7 +14,7 @@ class CoopHtmlParser {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun getProfile(html: Document): List<Pair<String, String>> =
+    fun parseProfile(html: Document): List<Pair<String, String>> =
         html.select("#block_my_profile .panel__list")
             .map { parseProfileItem(it) }
 
@@ -26,7 +26,7 @@ class CoopHtmlParser {
         return Pair(label, value)
     }
 
-    fun getConsumption(html: Document): List<UnitValue<Float>> {
+    fun parseConsumption(html: Document): List<UnitValue<Float>> {
         val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
             parseUnitValueBlock(block.parent()!!, { it.toFloat() }) { it.replace(".–", "") }
         }?.let { listOf(it) }.orEmpty()
@@ -39,8 +39,8 @@ class CoopHtmlParser {
         return creditBalance + consumptions1 + consumptions2
     }
 
-    // Tries to simplify getConsumption(), which may also help with supporting wireless users.
-    fun getConsumptionGeneric(html: Document): List<UnitValueBlock> =
+    // Tries to simplify parseConsumption(), which may also help with supporting wireless users.
+    fun parseConsumptionGeneric(html: Document): List<UnitValueBlock> =
         html.select(".panel")
             .map {
                 val title = it.select(".panel__title").text()
@@ -109,7 +109,7 @@ class CoopHtmlParser {
         return ConsumptionLogEntry(date, type, amount)
     }
 
-    fun getProducts(html: Document): List<Product> =
+    fun parseProducts(html: Document): List<Product> =
         html.select(".add_product").map { parseProductBlock(it) }
 
     private fun parseProductBlock(productBlock: Element): Product {
@@ -153,7 +153,7 @@ class CoopHtmlParser {
         return Product(name, description, price, buySpec)
     }
 
-    fun getCorrespondeces(html: Document): List<CorrespondenceHeader> =
+    fun parseCorrespondences(html: Document): List<CorrespondenceHeader> =
         html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {

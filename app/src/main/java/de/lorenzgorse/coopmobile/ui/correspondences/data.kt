@@ -18,7 +18,7 @@ import kotlinx.coroutines.sync.Semaphore
 class CorrespondencesData(app: Application) : CoopViewModel(app) {
 
     val state: Flow<State<List<Correspondence>, CoopError>> =
-        load { client.getCorrespondeces() }.flatMap(::loadFromHeaders).share()
+        load { client.getCorrespondences() }.flatMap(::loadFromHeaders).share()
 
     private fun loadFromHeaders(headers: List<CorrespondenceHeader>): Flow<State<List<Correspondence>, CoopError>> {
         // Loading all correspondences at once sometimes leads to timeouts, so we limit the

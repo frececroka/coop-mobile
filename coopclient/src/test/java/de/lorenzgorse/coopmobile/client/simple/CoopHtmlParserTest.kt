@@ -20,8 +20,8 @@ class CoopHtmlParserTest {
     @RunWith(Parameterized::class)
     class Consumption(
         private val input: Document,
-        private val output: List<UnitValue<Float>>,
-        private val outputGeneric: List<UnitValueBlock>,
+        private val consumption: List<UnitValue<Float>>,
+        private val consumptionGeneric: List<UnitValueBlock>,
     ) {
 
         companion object {
@@ -72,13 +72,13 @@ class CoopHtmlParserTest {
         private val parser = CoopHtmlParser()
 
         @Test
-        fun testGetConsumption() {
-            assertThat(parser.getConsumption(input), equalTo(output))
+        fun testParseConsumption() {
+            assertThat(parser.parseConsumption(input), equalTo(consumption))
         }
 
         @Test
-        fun testGetConsumptionGeneric() {
-            assertThat(parser.getConsumptionGeneric(input), equalTo(outputGeneric))
+        fun testParseConsumptionGeneric() {
+            assertThat(parser.parseConsumptionGeneric(input), equalTo(consumptionGeneric))
         }
 
         @Suppress("unused")
