@@ -1,0 +1,32 @@
+[
+  {
+    "description": "Daten in der Schweiz",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 12.34,
+        "unit": "GB"
+      },
+      {
+        "description": "diesen Monat genutzt",
+        "amount": 1.23,
+        "unit": "GB"
+      },
+      {
+        "description": "monatliche Aufladung",
+        "amount": 12.34,
+        "unit": "-"
+      }
+    ]
+  },
+  {
+    "description": "Daten weltweit",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 123.0,
+        "unit": "MB"
+      }
+    ]
+  }
+]

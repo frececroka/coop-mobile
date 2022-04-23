@@ -1,0 +1,12 @@
+[
+  {
+    "description": "Mon crédit disponible",
+    "amount": 12.34,
+    "unit": "CHF"
+  },
+  {
+    "description": "Données mobiles en Suisse",
+    "amount": 123.0,
+    "unit": "Mo"
+  }
+]

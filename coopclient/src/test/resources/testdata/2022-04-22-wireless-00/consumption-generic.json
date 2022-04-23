@@ -1,0 +1,17 @@
+[
+  {
+    "description": "Daten in der Schweiz",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 0.0,
+        "unit": "aaaaaaaaaa"
+      },
+      {
+        "description": "Diesen Monat genutzt",
+        "amount": 12.34,
+        "unit": "GB"
+      }
+    ]
+  }
+]

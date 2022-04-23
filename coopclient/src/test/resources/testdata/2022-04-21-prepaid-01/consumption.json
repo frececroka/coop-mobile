@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Mein verfügbarer Kredit",
+    "amount": 12.34,
+    "unit": "CHF"
+  },
+  {
+    "description": "Mobile Daten in der Schweiz",
+    "amount": 123.0,
+    "unit": "MB"
+  },
+  {
+    "description": "Mobil-Einheiten in der Schweiz",
+    "amount": 12.0,
+    "unit": "Einheiten"
+  },
+  {
+    "description": "Optionen und inkludierte Anrufe",
+    "amount": 8.0,
+    "unit": "MB"
+  }
+]

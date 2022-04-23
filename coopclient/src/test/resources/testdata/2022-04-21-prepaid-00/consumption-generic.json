@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Mon crédit disponible",
+    "unitValues": [
+      {
+        "description": "restant",
+        "amount": 12.34,
+        "unit": "CHF"
+      }
+    ]
+  },
+  {
+    "description": "Données mobiles en Suisse",
+    "unitValues": [
+      {
+        "description": "restant",
+        "amount": 123.0,
+        "unit": "Mo"
+      }
+    ]
+  }
+]
