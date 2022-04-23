@@ -67,7 +67,10 @@ class CoopHtmlParser {
 
         val candidates = buildList {
             when (valueParts.size) {
-                1 -> add(Pair(valueParts[0], "-"))
+                1 -> {
+                    add(Pair(valueParts[0], "-"))
+                    add(Pair("0", valueParts[0]))
+                }
                 2 -> {
                     add(Pair(valueParts[0], valueParts[1]))
                     add(Pair(valueParts[1], valueParts[0]))
