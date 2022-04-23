@@ -131,7 +131,7 @@ class BalanceCheckTest {
 
         // The other methods are irrelevant
 
-        override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> {
+        override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> {
             throw NotImplementedError()
         }
 
