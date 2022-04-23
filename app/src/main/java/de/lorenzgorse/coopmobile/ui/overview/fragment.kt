@@ -3,11 +3,14 @@ package de.lorenzgorse.coopmobile.ui.overview
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
@@ -142,6 +145,8 @@ class OverviewFragment : Fragment() {
         bannerRate.onLoadSuccess()
 
         consumptions.removeAllViews()
+        Firebase.analytics.logEvent("ConsumptionViewsCleared", null)
+
         result.forEach {
             val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
             val amount = if (it.amount.rem(1) <= 0.005) {
@@ -153,6 +158,13 @@ class OverviewFragment : Fragment() {
             consumption.findViewById<TextView>(R.id.textValue).text = amount
             consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
+            Firebase.analytics.logEvent(
+                "ConsumptionView",
+                bundleOf(
+                    "Description" to it.description,
+                    "Unit" to it.unit,
+                )
+            )
         }
     }
 
