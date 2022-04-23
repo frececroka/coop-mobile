@@ -18,7 +18,7 @@ fun determineCountry(): String {
  * [IllegalStateException]s to [HtmlChanged]s. This is used for code that extracts data
  * from the DOM.
  */
-fun <T> Document.safe(fn: Document.() -> T): T {
+fun <T> Document.safe(fn: (Document) -> T): T {
     return try {
         fn(this)
     } catch (e: NullPointerException) {
