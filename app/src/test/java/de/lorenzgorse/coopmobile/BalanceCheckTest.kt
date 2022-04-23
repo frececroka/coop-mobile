@@ -8,6 +8,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.Fuse
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
@@ -95,7 +98,9 @@ class BalanceCheckTest {
     }
 
     private fun setup(consumption: Either<CoopError, List<UnitValue<Float>>>) {
-        val coopClient = FakeCoopClient(consumption)
+        val coopClient = mockk<CoopClient>()
+        coEvery { coopClient.getConsumption() } returns consumption
+        coEvery { coopClient.getConsumptionLog() } returns Either.Right(emptyList())
         analytics = FakeFirebaseAnalytics()
         balanceCheck = BalanceCheck(context, coopClient, analytics)
     }
@@ -118,41 +123,5 @@ class BalanceCheckTest {
     )
 
     private fun notifyEvent() = FakeFirebaseAnalytics.Invocation("LowBalance_Notification", mapOf())
-
-    class FakeCoopClient(
-        private val consumption: Either<CoopError, List<UnitValue<Float>>>
-    ) : CoopClient {
-
-        override suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>> =
-            consumption
-
-        override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
-            Either.Right(listOf())
-
-        // The other methods are irrelevant
-
-        override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> {
-            throw NotImplementedError()
-        }
-
-        override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
-            throw NotImplementedError()
-
-        override suspend fun getProducts(): Either<CoopError, List<Product>> =
-            throw NotImplementedError()
-
-        override suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean> =
-            throw NotImplementedError()
-
-        override suspend fun getCorrespondeces(): Either<CoopError, List<CorrespondenceHeader>> =
-            throw NotImplementedError()
-
-        override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence> =
-            throw NotImplementedError()
-
-        override suspend fun sessionId(): String? =
-            throw NotImplementedError()
-
-    }
 
 }
