@@ -45,7 +45,6 @@ class AddProductFragment : Fragment() {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
         remoteConfig = FirebaseRemoteConfig.getInstance()
-        remoteConfig.fetchAndActivate()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         viewModel = ViewModelProvider(this).get(AddProductData::class.java)
     }
