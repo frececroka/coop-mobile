@@ -25,26 +25,39 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
     }
 
     override suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>> =
-        super.getConsumption().also { logConsumption(it) }
-
-    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> =
-        super.getConsumptionGeneric().also { logConsumption(it) }
-
-    private fun logConsumption(consumption: Either<CoopError, List<UnitValue<Float>>>) {
-        if (consumption !is Either.Right) return
-        Firebase.analytics.logEvent(
-            "ConsumptionItems",
-            bundleOf("Length" to consumption.value.size)
-        )
-        for (consumptionItem in consumption.value) {
-            Firebase.analytics.logEvent(
-                "ConsumptionItem",
-                bundleOf(
-                    "Description" to consumptionItem.description,
-                    "Unit" to consumptionItem.unit,
-                )
-            )
+        super.getConsumption().also {
+            if (it is Either.Right) logConsumptions(it.value)
         }
+
+    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> =
+        super.getConsumptionGeneric().also {
+            if (it is Either.Right) logConsumptionBlocks(it.value)
+        }
+
+    private fun logConsumptionBlocks(consumptionBlocks: List<UnitValueBlock>) {
+        for (consumptionBlock in consumptionBlocks) {
+            Firebase.analytics.logEvent(
+                "ConsumptionBlock",
+                bundleOf("Description" to consumptionBlock.description)
+            )
+            logConsumptions(consumptionBlock.unitValues)
+        }
+    }
+
+    private fun logConsumptions(consumptions: List<UnitValue<Float>>) {
+        for (consumption in consumptions) {
+            logConsumption(consumption)
+        }
+    }
+
+    private fun logConsumption(consumptionItem: UnitValue<Float>) {
+        Firebase.analytics.logEvent(
+            "ConsumptionItem",
+            bundleOf(
+                "Description" to consumptionItem.description,
+                "Unit" to consumptionItem.unit,
+            )
+        )
     }
 
     override suspend fun <T> decorator(

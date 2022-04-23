@@ -40,9 +40,15 @@ class CoopHtmlParser {
     }
 
     // Tries to simplify getConsumption(), which may also help with supporting wireless users.
-    fun getConsumptionGeneric(html: Document): List<UnitValue<Float>> =
-        html.select(".contingent__data")
-            .map { parseUnitValueBlock(it, { v -> v.toFloat() }) }
+    fun getConsumptionGeneric(html: Document): List<UnitValueBlock> =
+        html.select(".panel")
+            .map {
+                val title = it.select(".panel__title").text()
+                val unitValues = it.select(".contingent__data")
+                    .map { parseUnitValueBlock(it, { v -> v.toFloat() }) }
+                UnitValueBlock(title, unitValues)
+            }
+            .filter { it.unitValues.isNotEmpty() }
 
     private fun <T> parseUnitValueBlock(
         block: Element,
@@ -50,7 +56,8 @@ class CoopHtmlParser {
         sanitize: (String) -> String = { it }
     ): UnitValue<T> {
         val title = block.selectFirst(".panel__title")?.text()
-            ?: block.selectFirst(".contingent__data--legend")?.text()!!
+            ?: block.selectFirst(".contingent__data--legend")?.text()
+            ?: block.selectFirst(".contingent__data--remaining")?.text()!!
         log.info("title = $title")
 
         val value = block.selectFirst(".contingent__data--value")!!.text()

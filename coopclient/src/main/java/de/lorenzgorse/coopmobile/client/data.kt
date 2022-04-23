@@ -5,6 +5,11 @@ import java.io.Serializable
 import java.net.URL
 import java.util.*
 
+data class UnitValueBlock(
+    val description: String,
+    val unitValues: List<UnitValue<Float>>
+)
+
 data class UnitValue<T>(
     val description: String,
     val amount: T,
@@ -41,6 +46,7 @@ data class RawConsumptionLogEntry(
     val type: String,
     val amount: String
 )
+
 data class ConsumptionLogEntry(
     val date: Date,
     val type: String,

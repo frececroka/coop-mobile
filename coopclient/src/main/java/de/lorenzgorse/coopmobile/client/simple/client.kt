@@ -16,7 +16,7 @@ import java.util.*
 interface CoopClient {
     suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>>
     suspend fun getConsumption(): Either<CoopError, List<UnitValue<Float>>>
-    suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>>
+    suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>>
     suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?>
     suspend fun getProducts(): Either<CoopError, List<Product>>
     suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean>
@@ -41,7 +41,7 @@ class StaticSessionCoopClient(
         translateExceptions { getHtml(coopBaseAccount).safe { parser.getConsumption(it) } }
 
     // Tries to simplify getConsumption(), which may also help with supporting wireless users.
-    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValue<Float>>> =
+    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> =
         translateExceptions { getHtml(coopBaseAccount).safe { parser.getConsumptionGeneric(it) } }
 
     override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
