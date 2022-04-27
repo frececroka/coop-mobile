@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.client.UnitValueBlock
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
@@ -114,7 +115,7 @@ class BalanceCheck(
     }
 
     private suspend fun isBalanceLow(): Either<CoopError, UnitValue<Float>?> {
-        val consumption = when (val result = client.getConsumption()) {
+        val consumption = when (val result = client.getConsumptionGeneric()) {
             is Either.Left -> return result
             is Either.Right -> result.value
         }
@@ -128,11 +129,13 @@ class BalanceCheck(
             consumptionLogCache.insert(consumptionLog)
         }
 
-        val credit = consumption.firstOrNull { it.unit == "CHF" }
-            ?: return Either.Left(CoopError.Other("NoMoneyItem"))
+        val credit = consumption.firstOrNull { it.kind == UnitValueBlock.Kind.Credit }
+            ?: return Either.Left(CoopError.Other("NoCreditItem"))
+        val creditValue = credit.unitValues.firstOrNull()
+            ?: return Either.Left(CoopError.Other("NoCreditValue"))
 
-        val balanceIslow = credit.amount < balanceThreshold()
-        return Either.Right(if (balanceIslow) credit else null)
+        val balanceIslow = creditValue.amount < balanceThreshold()
+        return Either.Right(if (balanceIslow) creditValue else null)
     }
 
     private fun balanceThreshold(): Float {
