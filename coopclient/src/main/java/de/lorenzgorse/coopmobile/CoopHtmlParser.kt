@@ -26,19 +26,6 @@ class CoopHtmlParser {
         return Pair(label, value)
     }
 
-    fun parseConsumption(html: Document): List<UnitValue<Float>> {
-        val creditBalance = html.selectFirst("#credit_balance")?.let { block ->
-            parseUnitValueBlock(block.parent()!!, { it.toFloat() }) { it.replace(".–", "") }
-        }?.let { listOf(it) }.orEmpty()
-        val consumptions1 = html.select("#my_consumption .panel").map {
-            parseUnitValueBlock(it, { v -> v.toFloat() })
-        }
-        val consumptions2 = html.select("#my_consumption.panel").map {
-            parseUnitValueBlock(it, { v -> v.toFloat() })
-        }
-        return creditBalance + consumptions1 + consumptions2
-    }
-
     // Tries to simplify parseConsumption(), which may also help with supporting wireless users.
     fun parseConsumptionGeneric(html: Document): List<UnitValueBlock> =
         html.select(".panel")

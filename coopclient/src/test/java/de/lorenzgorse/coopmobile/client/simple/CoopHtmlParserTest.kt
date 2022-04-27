@@ -3,7 +3,6 @@ package de.lorenzgorse.coopmobile.client.simple
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.CoopHtmlParser
-import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.UnitValueBlock
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -13,14 +12,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
-import java.lang.Exception
 
 class CoopHtmlParserTest {
 
     @RunWith(Parameterized::class)
     class Consumption(
         private val input: Document,
-        private val consumption: List<UnitValue<Float>>,
         private val consumptionGeneric: List<UnitValueBlock>,
     ) {
 
@@ -34,25 +31,13 @@ class CoopHtmlParserTest {
                 "2022-04-22-wireless-00",
             ).map {
                 val input = getInput(it)
-                val consumption = getConsumption(it)
                 val consumptionGeneric = getConsumptionGeneric(it)
-                arrayOf(input, consumption, consumptionGeneric)
+                arrayOf(input, consumptionGeneric)
             }
 
             private fun getInput(name: String): Document {
                 val inputHtml = getResource("testdata/$name/input.html")
                 return Jsoup.parse(inputHtml)
-            }
-
-            private fun getConsumption(name: String): List<UnitValue<Float>> {
-                val outputJson = getResource("testdata/$name/consumption.json")
-                val type = TypeToken.getParameterized(
-                    List::class.java,
-                    TypeToken.getParameterized(
-                        UnitValue::class.java, java.lang.Float::class.java
-                    ).type
-                ).type
-                return Gson().fromJson(outputJson, type)
             }
 
             private fun getConsumptionGeneric(it: String): List<UnitValueBlock> {
@@ -70,11 +55,6 @@ class CoopHtmlParserTest {
         }
 
         private val parser = CoopHtmlParser()
-
-        @Test
-        fun testParseConsumption() {
-            assertThat(parser.parseConsumption(input), equalTo(consumption))
-        }
 
         @Test
         fun testParseConsumptionGeneric() {
