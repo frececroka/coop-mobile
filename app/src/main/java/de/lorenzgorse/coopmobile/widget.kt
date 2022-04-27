@@ -57,7 +57,7 @@ class AppWidgetProvider : AppWidgetProvider() {
         }
 
         private fun latestData(): Data? {
-            val maybeConsumption = runBlocking { client.getConsumptionGeneric() }
+            val maybeConsumption = runBlocking { client.getConsumption() }
             val blocks = maybeConsumption.right() ?: return null
             val block = blocks[when {
                 blocks.size >= 2 -> 1

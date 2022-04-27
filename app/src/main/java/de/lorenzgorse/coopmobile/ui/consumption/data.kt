@@ -7,7 +7,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.UnitValueBlock
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.data.CoopViewModel
@@ -39,7 +38,7 @@ class ConsumptionData(app: Application) : CoopViewModel(app) {
             consumptionLogCache.load()
         }
 
-        val consumption = load { client.getConsumptionGeneric() }
+        val consumption = load { client.getConsumption() }
 
         state = liftFlow(consumption, cachedConsumptionLog) { c, cl ->
             makeLineData(c, cl)

@@ -37,7 +37,7 @@ class StaticSessionCoopClientTest {
 
         @Test
         fun testLoadData() = runBlocking {
-            val data = assertRight(client.getConsumptionGeneric())
+            val data = assertRight(client.getConsumption())
             assertThat(data, hasSize(3))
             assertThat(data.map { it.description }, everyItem(not(emptyString())))
         }
@@ -76,7 +76,7 @@ class StaticSessionCoopClientTest {
 
         @Test
         fun testLoadDataInvalidSession() {
-            assertReturnsUnauthorized { expiredClient.getConsumptionGeneric() }
+            assertReturnsUnauthorized { expiredClient.getConsumption() }
         }
 
         @Test

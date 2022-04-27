@@ -27,7 +27,7 @@ class CoopHtmlParser {
     }
 
     // Tries to simplify parseConsumption(), which may also help with supporting wireless users.
-    fun parseConsumptionGeneric(html: Document): List<UnitValueBlock> =
+    fun parseConsumption(html: Document): List<UnitValueBlock> =
         html.select(".panel")
             .map {
                 val title = it.select(".panel__title").text()

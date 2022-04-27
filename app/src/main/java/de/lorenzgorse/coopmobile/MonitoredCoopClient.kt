@@ -24,8 +24,8 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         return profile
     }
 
-    override suspend fun getConsumptionGeneric(): Either<CoopError, List<UnitValueBlock>> =
-        super.getConsumptionGeneric().also {
+    override suspend fun getConsumption(): Either<CoopError, List<UnitValueBlock>> =
+        super.getConsumption().also {
             if (it is Either.Right) logConsumptionBlocks(it.value)
         }
 

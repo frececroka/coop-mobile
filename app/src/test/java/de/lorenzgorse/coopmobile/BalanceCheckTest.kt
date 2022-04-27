@@ -9,7 +9,6 @@ import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.Fuse
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
@@ -105,7 +104,7 @@ class BalanceCheckTest {
 
     private fun setup(consumption: Either<CoopError, List<UnitValueBlock>>) {
         val coopClient = mockk<CoopClient>()
-        coEvery { coopClient.getConsumptionGeneric() } returns consumption
+        coEvery { coopClient.getConsumption() } returns consumption
         coEvery { coopClient.getConsumptionLog() } returns Either.Right(emptyList())
         analytics = FakeFirebaseAnalytics()
         balanceCheck = BalanceCheck(context, coopClient, analytics)

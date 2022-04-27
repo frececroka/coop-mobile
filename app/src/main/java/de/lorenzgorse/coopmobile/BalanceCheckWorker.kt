@@ -115,7 +115,7 @@ class BalanceCheck(
     }
 
     private suspend fun isBalanceLow(): Either<CoopError, UnitValue<Float>?> {
-        val consumption = when (val result = client.getConsumptionGeneric()) {
+        val consumption = when (val result = client.getConsumption()) {
             is Either.Left -> return result
             is Either.Right -> result.value
         }

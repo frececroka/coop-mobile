@@ -18,7 +18,7 @@ class CoopHtmlParserTest {
     @RunWith(Parameterized::class)
     class Consumption(
         private val input: Document,
-        private val consumptionGeneric: List<UnitValueBlock>,
+        private val consumption: List<UnitValueBlock>,
     ) {
 
         companion object {
@@ -31,8 +31,8 @@ class CoopHtmlParserTest {
                 "2022-04-22-wireless-00",
             ).map {
                 val input = getInput(it)
-                val consumptionGeneric = getConsumptionGeneric(it)
-                arrayOf(input, consumptionGeneric)
+                val consumption = getConsumption(it)
+                arrayOf(input, consumption)
             }
 
             private fun getInput(name: String): Document {
@@ -40,11 +40,10 @@ class CoopHtmlParserTest {
                 return Jsoup.parse(inputHtml)
             }
 
-            private fun getConsumptionGeneric(it: String): List<UnitValueBlock> {
-                val outputGenericJson = getResource("testdata/$it/consumption-generic.json")
-                val typeGeneric =
-                    TypeToken.getParameterized(List::class.java, UnitValueBlock::class.java).type
-                return Gson().fromJson(outputGenericJson, typeGeneric)
+            private fun getConsumption(it: String): List<UnitValueBlock> {
+                val json = getResource("testdata/$it/consumption.json")
+                val type = TypeToken.getParameterized(List::class.java, UnitValueBlock::class.java).type
+                return Gson().fromJson(json, type)
             }
 
             private fun getResource(name: String): String {
@@ -57,8 +56,8 @@ class CoopHtmlParserTest {
         private val parser = CoopHtmlParser()
 
         @Test
-        fun testParseConsumptionGeneric() {
-            assertThat(parser.parseConsumptionGeneric(input), equalTo(consumptionGeneric))
+        fun testParseConsumption() {
+            assertThat(parser.parseConsumption(input), equalTo(consumption))
         }
 
         @Suppress("unused")
