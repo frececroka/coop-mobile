@@ -28,7 +28,7 @@ data class UnitValueBlock(
                 ),
                 DataSwitzerland to listOf(
                     "Mobile Daten in der Schweiz",
-                    "TODO: it",
+                    "Dati mobili in Svizzera",
                     "Données mobiles en Suisse",
                     "Daten in der Schweiz",
                     "TODO: it",
