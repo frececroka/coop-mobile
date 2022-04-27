@@ -8,6 +8,7 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.client.UnitValueBlock
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,7 +39,7 @@ class ConsumptionData(app: Application) : CoopViewModel(app) {
             consumptionLogCache.load()
         }
 
-        val consumption = load { client.getConsumption() }
+        val consumption = load { client.getConsumptionGeneric() }
 
         state = liftFlow(consumption, cachedConsumptionLog) { c, cl ->
             makeLineData(c, cl)
@@ -46,16 +47,15 @@ class ConsumptionData(app: Application) : CoopViewModel(app) {
     }
 
     private fun makeLineData(
-        consumption: List<UnitValue<Float>>,
+        consumption: List<UnitValueBlock>,
         consumptionLog: List<ConsumptionLogEntry>
     ): LineData? {
-        val currentMobileData = consumption.firstOrNull {
-            setOf(
-                "Mobile Daten in der Schweiz",
-                "Données mobiles en Suisse",
-                "Dati mobili in Svizzera"
-            ).contains(it.description)
+        val currentMobileDataBlock = consumption.firstOrNull {
+            it.kind == UnitValueBlock.Kind.DataSwitzerland
         } ?: return null
+
+        val currentMobileData = currentMobileDataBlock.unitValues.firstOrNull()
+            ?: return null
 
         val mobileDataConsumption = consumptionLog.filter {
             setOf(
