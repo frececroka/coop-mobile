@@ -38,7 +38,10 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         for (consumptionBlock in consumptionBlocks) {
             Firebase.analytics.logEvent(
                 "ConsumptionBlock",
-                bundleOf("Description" to consumptionBlock.description)
+                bundleOf(
+                    "Kind" to consumptionBlock.kind,
+                    "Description" to consumptionBlock.description,
+                )
             )
             logConsumptions(consumptionBlock.unitValues)
         }

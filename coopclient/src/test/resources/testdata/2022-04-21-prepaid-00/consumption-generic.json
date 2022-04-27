@@ -1,5 +1,6 @@
 [
   {
+    "kind": "Credit",
     "description": "Mon crédit disponible",
     "unitValues": [
       {
@@ -10,6 +11,7 @@
     ]
   },
   {
+    "kind": "DataSwitzerland",
     "description": "Données mobiles en Suisse",
     "unitValues": [
       {

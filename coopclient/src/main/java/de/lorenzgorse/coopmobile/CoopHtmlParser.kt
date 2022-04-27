@@ -46,7 +46,8 @@ class CoopHtmlParser {
                 val title = it.select(".panel__title").text()
                 val unitValues = it.select(".contingent__data")
                     .map { parseUnitValueBlock(it, { v -> v.toFloat() }) }
-                UnitValueBlock(title, unitValues)
+                val kind = UnitValueBlock.Kind.fromString(title)
+                UnitValueBlock(kind, title, unitValues)
             }
             .filter { it.unitValues.isNotEmpty() }
 

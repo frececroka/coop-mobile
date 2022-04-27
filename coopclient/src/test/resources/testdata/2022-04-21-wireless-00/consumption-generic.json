@@ -1,5 +1,6 @@
 [
   {
+    "kind": "DataSwitzerland",
     "description": "Daten in der Schweiz",
     "unitValues": [
       {
@@ -20,6 +21,7 @@
     ]
   },
   {
+    "kind": "Unknown",
     "description": "Daten weltweit",
     "unitValues": [
       {

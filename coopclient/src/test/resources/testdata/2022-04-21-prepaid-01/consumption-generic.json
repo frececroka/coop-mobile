@@ -1,5 +1,6 @@
 [
   {
+    "kind": "Credit",
     "description": "Mein verfügbarer Kredit",
     "unitValues": [
       {
@@ -10,6 +11,7 @@
     ]
   },
   {
+    "kind": "DataSwitzerland",
     "description": "Mobile Daten in der Schweiz",
     "unitValues": [
       {
@@ -20,6 +22,7 @@
     ]
   },
   {
+    "kind": "CallsAndSmsSwitzerland",
     "description": "Mobil-Einheiten in der Schweiz",
     "unitValues": [
       {
@@ -30,6 +33,7 @@
     ]
   },
   {
+    "kind": "OptionsAndCalls",
     "description": "Optionen und inkludierte Anrufe",
     "unitValues": [
       {
