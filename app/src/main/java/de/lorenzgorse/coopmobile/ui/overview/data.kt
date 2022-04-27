@@ -18,31 +18,12 @@ import kotlinx.coroutines.flow.Flow
 @ExperimentalCoroutinesApi
 class OverviewData(app: Application) : CoopViewModel(app) {
 
-    private val fallbackGenericConsumption: Boolean
-        get() = Firebase.remoteConfig.getBoolean("fallback_generic_consumption")
-
-    private val forceGenericConsumption: Boolean
-        get() = Firebase.remoteConfig.getBoolean("use_generic_consumption")
-
     val state: Flow<State<Pair<List<UnitValue<Float>>, List<Pair<String, String>>>, CoopError>> =
         liftFlow(
-            load { client.getConsumption() },
-            load {
-                val consumption = client.getConsumptionGeneric()
-                when {
-                    forceGenericConsumption -> consumption
-                    else -> Either.Right(consumption.right())
-                }
-            },
+            load { client.getConsumptionGeneric() },
             load { client.getProfile() }
-        ) { cv, cvg, pv ->
-            val useGenericConsumption = forceGenericConsumption ||
-                    (fallbackGenericConsumption && cv.isEmpty())
-            when {
-                cvg != null && useGenericConsumption ->
-                    Pair(shoehornUnitValueBlocks(cvg), pv)
-                else -> Pair(cv, pv)
-            }
+        ) { cv, pv ->
+            Pair(shoehornUnitValueBlocks(cv), pv)
         }.share()
 
     // We get a list of UnitValueBlock from getConsumptionGeneric, which is more comprehensive
