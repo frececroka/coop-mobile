@@ -57,14 +57,15 @@ class AppWidgetProvider : AppWidgetProvider() {
         }
 
         private fun latestData(): Data? {
-            val maybeConsumption = runBlocking { client.getConsumption() }
-            val consumptions = maybeConsumption.right() ?: return null
-            val consumption = consumptions[when {
-                consumptions.size >= 2 -> 1
-                consumptions.size >= 1 -> 0
+            val maybeConsumption = runBlocking { client.getConsumptionGeneric() }
+            val blocks = maybeConsumption.right() ?: return null
+            val block = blocks[when {
+                blocks.size >= 2 -> 1
+                blocks.size >= 1 -> 0
                 else -> return null
             }]
-            return Data(consumption, Instant.now())
+            val unitValue = block.unitValues.firstOrNull() ?: return null
+            return Data(unitValue, Instant.now())
         }
 
         private fun cachedData() = kv.get<Data>(cacheKey, TypeToken.get(Data::class.java).type)
