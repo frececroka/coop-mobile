@@ -32,17 +32,13 @@ class CoopHtmlParser {
             .map {
                 val title = it.select(".panel__title").text()
                 val unitValues = it.select(".contingent__data")
-                    .map { parseUnitValueBlock(it, { v -> v.toFloat() }) }
+                    .map { parseUnitValueBlock(it) }
                 val kind = UnitValueBlock.Kind.fromString(title)
                 UnitValueBlock(kind, title, unitValues)
             }
             .filter { it.unitValues.isNotEmpty() }
 
-    private fun <T> parseUnitValueBlock(
-        block: Element,
-        convert: (String) -> T,
-        sanitize: (String) -> String = { it }
-    ): UnitValue<T> {
+    private fun parseUnitValueBlock(block: Element): UnitValue<Float> {
         val title = block.selectFirst(".panel__title")?.text()
             ?: block.selectFirst(".contingent__data--legend")?.text()
             ?: block.selectFirst(".contingent__data--remaining")?.text()!!
@@ -68,8 +64,11 @@ class CoopHtmlParser {
 
         val (amount, unit) = candidates
             .mapNotNull { (textualAmount, unit) ->
+                val sanitizedTextualAmount = textualAmount
+                    .replace(".–", "")
+                    .replace(",", ".")
                 try {
-                    Pair(convert(sanitize(textualAmount.replace(",", "."))), unit)
+                    Pair(sanitizedTextualAmount.toFloat(), unit)
                 } catch (e: NumberFormatException) {
                     null
                 }

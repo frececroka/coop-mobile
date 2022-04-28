@@ -1,0 +1,24 @@
+[
+  {
+    "kind": "Credit",
+    "description": "Mein verfügbarer Kredit",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 0.0,
+        "unit": "CHF"
+      }
+    ]
+  },
+  {
+    "kind": "DataSwitzerland",
+    "description": "Mobile Daten in der Schweiz",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 1234.0,
+        "unit": "MB"
+      }
+    ]
+  }
+]

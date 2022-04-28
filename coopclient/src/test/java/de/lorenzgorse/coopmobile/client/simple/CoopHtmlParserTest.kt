@@ -29,6 +29,7 @@ class CoopHtmlParserTest {
                 "2022-04-21-prepaid-01",
                 "2022-04-21-wireless-00",
                 "2022-04-22-wireless-00",
+                "2022-04-27-prepaid-00",
             ).map {
                 val input = getInput(it)
                 val consumption = getConsumption(it)
