@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.client.refreshing
 
+import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import de.lorenzgorse.coopmobile.client.simple.HttpClientFactory
@@ -23,6 +24,7 @@ interface CredentialsStore {
 }
 
 class RealCoopClientFactory(
+    private val config: Config,
     private val credentialsStore: CredentialsStore,
     private val coopLogin: CoopLogin,
     private val httpClientFactory: HttpClientFactory,
@@ -47,7 +49,7 @@ class RealCoopClientFactory(
     private suspend fun refreshInternal(oldClient: CoopClient? = null): CoopClient? {
         val invalidateSession = oldClient != null && instance == oldClient
         val sessionId = newSession(invalidateSession) ?: return null
-        return StaticSessionCoopClient(sessionId, httpClientFactory).also { instance = it }
+        return StaticSessionCoopClient(config, sessionId, httpClientFactory).also { instance = it }
     }
 
     private suspend fun newSession(invalidateSession: Boolean): String? {

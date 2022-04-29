@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.client.simple
 
+import de.lorenzgorse.coopmobile.client.Config
 import okhttp3.FormBody
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -23,7 +24,10 @@ interface CoopLogin {
 
 }
 
-class RealCoopLogin(private val httpClientFactory: HttpClientFactory) : CoopLogin {
+class RealCoopLogin(
+    private val config: Config,
+    private val httpClientFactory: HttpClientFactory,
+) : CoopLogin {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -41,8 +45,8 @@ class RealCoopLogin(private val httpClientFactory: HttpClientFactory) : CoopLogi
         val cookieJar = SessionCookieJar()
         val client = httpClientFactory(cookieJar)
 
-        log.info("Requesting $coopBaseLogin")
-        val loginFormHtml = client.getHtml(coopBaseLogin)
+        log.info("Requesting login page")
+        val loginFormHtml = client.getHtml(config.loginUrl())
 
         val authenticityToken = loginFormHtml.safe {
             it.selectFirst("input[name=authenticity_token]")!!.attr("value")
@@ -61,18 +65,17 @@ class RealCoopLogin(private val httpClientFactory: HttpClientFactory) : CoopLogi
             .addEncoded("user[reseller]", reseller)
             .add("button", "")
             .build()
-        val loginResponse = client.post(coopBaseLogin, formBody)
+        // The server verifies the credentials and redirects to the overview page
+        val loginResponse = client.post(config.loginUrl(), formBody)
+        // loginResponse.request is the second request, the one resulting from the redirect to the
+        // overview page; or if the login failed, resulting from the redirect back to the login
+        // page
         val finalUrl = loginResponse.request.url.toUrl().toString()
         log.info("Login result: [${loginResponse.code}] $finalUrl")
 
         if (!loginResponse.isSuccessful) return null
 
-        // https://myaccount.coopmobile.ch/eCare/wireless/de
-        // https://myaccount.coopmobile.ch/eCare/prepaid/de
-        // https://myaccount.coopmobile.ch/eCare/wireless/de?login=true
-        // https://myaccount.coopmobile.ch/eCare/prepaid/de?login=true
-        val loginSuccessLocation =
-            Regex("${Regex.escape(coopBase)}/(.*)/(de|fr|it)/?(\\?login=true)?")
+        val loginSuccessLocation = Regex(config.loginSuccessRegex())
         val match = loginSuccessLocation.find(finalUrl) ?: return null
         plan?.set(match.groups[1]!!.value)
         return cookieJar.get("_ecare_session")?.value

@@ -3,6 +3,7 @@ package de.lorenzgorse.coopmobile.client.simple
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.CoopHtmlParser
+import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.UnitValueBlock
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -54,7 +55,7 @@ class CoopHtmlParserTest {
             }
         }
 
-        private val parser = CoopHtmlParser()
+        private val parser = CoopHtmlParser(Config())
 
         @Test
         fun testParseConsumption() {

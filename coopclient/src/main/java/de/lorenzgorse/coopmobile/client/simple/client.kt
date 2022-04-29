@@ -21,26 +21,25 @@ interface CoopClient {
 }
 
 class StaticSessionCoopClient(
+    private val config: Config,
     private val sessionId: String,
     clientFactory: HttpClientFactory
 ) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
     private val client = clientFactory(StaticCookieJar(sessionId))
-    private val parser = CoopHtmlParser()
+    private val parser = CoopHtmlParser(config)
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
-        translateExceptions { getHtml(coopBaseAccount).safe { parser.parseProfile(it) } }
+        translateExceptions { getHtml(config.overviewUrl()).safe { parser.parseProfile(it) } }
 
     override suspend fun getConsumption(): Either<CoopError, List<UnitValueBlock>> =
-        translateExceptions { getHtml(coopBaseAccount).safe { parser.parseConsumption(it) } }
+        translateExceptions { getHtml(config.overviewUrl()).safe { parser.parseConsumption(it) } }
 
     override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =
         translateExceptions {
             try {
-                val consumption = getJson<RawConsumptionLog>(
-                    "https://myaccount.coopmobile.ch/$country/ajax_load_cdr"
-                )
+                val consumption = getJson<RawConsumptionLog>(config.consumptionLogUrl())
                 parser.parseConsumptionLog(consumption)
             } catch (e: JsonSyntaxException) {
                 null
@@ -48,7 +47,7 @@ class StaticSessionCoopClient(
         }
 
     override suspend fun getProducts(): Either<CoopError, List<Product>> =
-        translateExceptions { getHtml("$coopBaseAccount/add_product").safe { parser.parseProducts(it) } }
+        translateExceptions { getHtml(config.productsUrl()).safe { parser.parseProducts(it) } }
 
     override suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean> =
         translateExceptions {
@@ -60,14 +59,14 @@ class StaticSessionCoopClient(
                 }
                 builder.build()
             }
-            val response = client.post(URL(coopScheme, coopHost, buySpec.url), body)
+            val response = client.post(URL(URL(config.coopBase()), buySpec.url), body)
             log.info("Buy request completed with status code: ${response.code}")
             response.isRedirect || response.isSuccessful
         }
 
     override suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>> =
         translateExceptions {
-            getHtml("$coopBaseAccount/my_correspondence").safe {
+            getHtml(config.correspondencesUrl()).safe {
                 parser.parseCorrespondences(it)
             }
         }
@@ -86,30 +85,23 @@ class StaticSessionCoopClient(
     private suspend inline fun <reified T> getJson(url: String): T =
         client.getJson(url, T::class.java, ::assertResponseSuccessful)
 
-    companion object {
+    private val signInRegex = Regex(config.loginUrlRegex())
+    private val planRegex = Regex(config.planRegex())
 
-        private val signInRegex =
-            Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/users/sign_in")
-        private val planRegex =
-            Regex("https://myaccount\\.coopmobile\\.ch/eCare/([^/]+)/.+")
-
-        fun assertResponseSuccessful(response: Response) {
-            val location = response.request.url.toString()
-            if (signInRegex.matches(location)) {
-                throw CoopException.Unauthorized(location)
-            } else {
-                val matchResult = planRegex.matchEntire(location)
-                if (matchResult != null) {
-                    val plan = matchResult.groups[1]?.value
-                    if (!listOf("prepaid", "wireless").contains(plan)) {
-                        throw CoopException.PlanUnsupported(plan)
-                    }
+    fun assertResponseSuccessful(response: Response) {
+        val location = response.request.url.toString()
+        if (signInRegex.matches(location)) {
+            throw CoopException.Unauthorized(location)
+        } else {
+            val matchResult = planRegex.matchEntire(location)
+            if (matchResult != null) {
+                val plan = matchResult.groups[1]?.value
+                if (!listOf("prepaid", "wireless").contains(plan)) {
+                    throw CoopException.PlanUnsupported(plan)
                 }
             }
         }
-
     }
-
 }
 
 suspend fun <T> translateExceptions(block: suspend () -> T): Either<CoopError, T> = try {

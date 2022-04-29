@@ -10,7 +10,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CoopHtmlParser {
+class CoopHtmlParser(private val config: Config) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -147,7 +147,7 @@ class CoopHtmlParser {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
         val date = dateFormat.parse(it.selectFirst(".first")!!.text())!!
         val subject = it.selectFirst(".second")!!.text()
-        val details = URL(coopScheme, coopHost, it.selectFirst("a")!!.attr("href"))
+        val details = URL(URL(config.coopBase()), it.selectFirst("a")!!.attr("href"))
         return CorrespondenceHeader(date, subject, details)
     }
 

@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.client.simple
 
+import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopException.PlanUnsupported
@@ -25,14 +26,14 @@ class StaticSessionCoopClientTest {
         private val client by lazy {
             val sessionId =
                 runBlocking {
-                    RealCoopLogin(::httpClientFactory).login(
+                    RealCoopLogin(Config(), ::httpClientFactory).login(
                         backend.username,
                         backend.password,
                         CoopLogin.Origin.Manual
                     )
                 }
             assertThat(sessionId, notNullValue())
-            StaticSessionCoopClient(sessionId!!, ::httpClientFactory)
+            StaticSessionCoopClient(Config(), sessionId!!, ::httpClientFactory)
         }
 
         @Test
@@ -72,7 +73,7 @@ class StaticSessionCoopClientTest {
 
     class Expired {
 
-        private val expiredClient = StaticSessionCoopClient("23847329847324", ::httpClientFactory)
+        private val expiredClient = StaticSessionCoopClient(Config(), "23847329847324", ::httpClientFactory)
 
         @Test
         fun testLoadDataInvalidSession() {
@@ -97,12 +98,14 @@ class StaticSessionCoopClientTest {
 
     class AssertResponseSuccessful {
 
+        private val client = StaticSessionCoopClient(Config(), "", ::httpClientFactory)
+
         @Test(expected = PlanUnsupported::class)
         fun testAssertResponseSuccessfulWirelessPlanUnsupported() {
             val response = makeResponse(
                 "https://myaccount.coopmobile.ch/eCare/unsupported/de"
             )
-            StaticSessionCoopClient.assertResponseSuccessful(response)
+            client.assertResponseSuccessful(response)
         }
 
         @Test(expected = PlanUnsupported::class)
@@ -110,7 +113,7 @@ class StaticSessionCoopClientTest {
             val response = makeResponse(
                 "https://myaccount.coopmobile.ch/eCare/unsupported/de/add_product"
             )
-            StaticSessionCoopClient.assertResponseSuccessful(response)
+            client.assertResponseSuccessful(response)
         }
 
         @Test(expected = PlanUnsupported::class)
@@ -118,7 +121,7 @@ class StaticSessionCoopClientTest {
             val response = makeResponse(
                 "https://myaccount.coopmobile.ch/eCare/unsupported/de/my_correspondence/index"
             )
-            StaticSessionCoopClient.assertResponseSuccessful(response)
+            client.assertResponseSuccessful(response)
         }
 
         @Test(expected = CoopException.Unauthorized::class)
@@ -126,7 +129,7 @@ class StaticSessionCoopClientTest {
             val response = makeResponse(
                 "https://myaccount.coopmobile.ch/eCare/de/users/sign_in"
             )
-            StaticSessionCoopClient.assertResponseSuccessful(response)
+            client.assertResponseSuccessful(response)
         }
 
         private fun makeResponse(responseUrl: String): Response {
