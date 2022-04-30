@@ -2,7 +2,6 @@ package de.lorenzgorse.coopmobile.client
 
 import de.lorenzgorse.coopmobile.client.simple.determineCountry
 
-// TODO: write all values to analytics at some point
 open class Config {
     private val country = determineCountry()
     private val coopBase = "https://myaccount.coopmobile.ch"
