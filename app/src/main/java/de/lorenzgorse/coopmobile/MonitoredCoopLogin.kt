@@ -68,6 +68,9 @@ class MonitoredCoopLogin(
             loginEventParameters.putString("Status", "HtmlChanged")
             Firebase.crashlytics.recordException(e)
             throw e
+        } catch (e: Exception) {
+            loginEventParameters.putString("Exception", e.javaClass.simpleName)
+            throw e
         } finally {
             firebaseAnalytics.logEvent("Login", loginEventParameters)
         } ?: return null
