@@ -44,16 +44,16 @@ class LoginFragment : Fragment() {
 
     private lateinit var analytics: FirebaseAnalytics
 
-    private lateinit var coopLogin: CoopLogin
     private lateinit var credentialsStore: CredentialsStore
+    private lateinit var testAccounts: TestAccounts
 
     private val loginInProgress = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analytics = createAnalytics(requireContext())
-        coopLogin = createCoopLogin(requireContext())
         credentialsStore = createCredentialsStore(requireContext())
+        testAccounts = TestAccounts(requireContext())
     }
 
     override fun onCreateView(
@@ -124,6 +124,12 @@ class LoginFragment : Fragment() {
         val username = txtUsername.text.toString()
         val password = txtPassword.text.toString()
 
+        if (testAccounts.isTestAccount(username)) {
+            testAccounts.activate()
+        } else {
+            testAccounts.deactivate()
+        }
+
         var cancel: String? = null
         var focusView: View? = null
 
@@ -152,6 +158,10 @@ class LoginFragment : Fragment() {
         }
 
         showProgress(true)
+
+        // Create CoopLogin right before the login attempt, since the login
+        // implementation depends on the (variable) test account mode
+        val coopLogin = createCoopLogin(requireContext())
 
         log.info("Performing login.")
 

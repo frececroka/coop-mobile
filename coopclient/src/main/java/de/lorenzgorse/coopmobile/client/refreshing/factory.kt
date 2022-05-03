@@ -24,10 +24,9 @@ interface CredentialsStore {
 }
 
 class RealCoopClientFactory(
-    private val config: Config,
     private val credentialsStore: CredentialsStore,
     private val coopLogin: CoopLogin,
-    private val httpClientFactory: HttpClientFactory,
+    private val staticSessionCoopClient: (String) -> CoopClient,
 ) : CoopClientFactory {
 
     private var instance: CoopClient? = null
@@ -49,7 +48,7 @@ class RealCoopClientFactory(
     private suspend fun refreshInternal(oldClient: CoopClient? = null): CoopClient? {
         val invalidateSession = oldClient != null && instance == oldClient
         val sessionId = newSession(invalidateSession) ?: return null
-        return StaticSessionCoopClient(config, sessionId, httpClientFactory).also { instance = it }
+        return staticSessionCoopClient(sessionId).also { instance = it }
     }
 
     private suspend fun newSession(invalidateSession: Boolean): String? {
