@@ -59,6 +59,9 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
 
     // TODO: add data for more methods
 
+    // TODO: expire session after some
+    //  time to test session refresh logic
+
     override suspend fun getProfile() = Either.Right(
         listOf(
             Pair("Name", "Peter Lustig"),
