@@ -1,0 +1,18 @@
+[
+  {
+    "kind": "DataSwitzerland",
+    "description": "Daten in der Schweiz",
+    "unitValues": [
+      {
+        "description": "verbleibend",
+        "amount": 0.0,
+        "unit": "unbegrenzt"
+      },
+      {
+        "description": "diesen Monat genutzt",
+        "amount": 1.23,
+        "unit": "GB"
+      }
+    ]
+  }
+]
