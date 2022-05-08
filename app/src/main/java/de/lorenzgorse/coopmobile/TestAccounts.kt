@@ -111,7 +111,11 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
         Either.Right(true)
 
     override suspend fun getCorrespondences() =
-        Either.Right(listOf<CorrespondenceHeader>())
+        Either.Right(
+            listOf(
+                CorrespondenceHeader(Date(), "Betreff", URL("https://example.com/"))
+            )
+        )
 
     override suspend fun augmentCorrespondence(header: CorrespondenceHeader) =
         Either.Right(
