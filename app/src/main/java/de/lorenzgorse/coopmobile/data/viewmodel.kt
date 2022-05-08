@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
-import de.lorenzgorse.coopmobile.createClient
 import de.lorenzgorse.coopmobile.stateFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -19,8 +18,6 @@ import kotlinx.coroutines.launch
 @FlowPreview
 @ExperimentalCoroutinesApi
 abstract class CoopViewModel(app: Application) : AndroidViewModel(app) {
-
-    protected val client = createClient(app)
 
     private val _refresh = MutableSharedFlow<Unit>(replay = 1)
     private val refresh: Flow<Unit> = _refresh

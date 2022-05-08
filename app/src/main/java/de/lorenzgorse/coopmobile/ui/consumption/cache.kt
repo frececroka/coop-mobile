@@ -7,8 +7,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.util.*
+import javax.inject.Inject
 
-class ConsumptionLogCache(context: Context) {
+class ConsumptionLogCache @Inject constructor(context: Context) {
 
     private val log = LoggerFactory.getLogger(ConsumptionLogCache::class.java)
 

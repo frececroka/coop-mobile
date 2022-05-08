@@ -15,30 +15,29 @@ import androidx.activity.result.contract.ActivityResultContract
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.ProductBuySpec
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
+import javax.inject.Inject
 
 class BuyProductFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    private lateinit var inflater: LayoutInflater
-    private lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var client: CoopClient
 
-    private lateinit var client: CoopClient
+    private lateinit var inflater: LayoutInflater
 
     private lateinit var productBuySpec: ProductBuySpec
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analytics = createAnalytics(requireContext())
+        coopComponent().inject(this)
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        client = createClient(requireContext())
         productBuySpec = arguments?.get("product") as ProductBuySpec
         authenticate()
     }

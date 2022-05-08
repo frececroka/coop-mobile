@@ -13,14 +13,12 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.refreshing.CoopClientFactory
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.determineCountry
-import de.lorenzgorse.coopmobile.createAnalytics
-import de.lorenzgorse.coopmobile.createCoopClientFactory
-import de.lorenzgorse.coopmobile.setScreen
+import de.lorenzgorse.coopmobile.coopComponent
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,24 +26,25 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.*
+import javax.inject.Inject
 
 class WebViewFragment : Fragment() {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
+    @Inject lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var coopClientFactory: CoopClientFactory
+
     private lateinit var inflater: LayoutInflater
-    private lateinit var analytics: FirebaseAnalytics
-    private lateinit var coopClientFactory: CoopClientFactory
     private var coopClient: CoopClient? = null
 
     private var lastLogin: Date? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        coopComponent().inject(this)
         setHasOptionsMenu(true)
-        analytics = createAnalytics(requireContext())
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        coopClientFactory = createCoopClientFactory(requireContext())
     }
 
     override fun onCreateView(

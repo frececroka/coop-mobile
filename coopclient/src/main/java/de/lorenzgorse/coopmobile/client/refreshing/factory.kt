@@ -1,10 +1,7 @@
 package de.lorenzgorse.coopmobile.client.refreshing
 
-import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
-import de.lorenzgorse.coopmobile.client.simple.HttpClientFactory
-import de.lorenzgorse.coopmobile.client.simple.StaticSessionCoopClient
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicReference
 
 class MonitoredCoopLogin(
     context: Context,
-    private val userProperties: UserProperties,
     private val coopLogin: CoopLogin,
+    private val userProperties: UserProperties,
     private val firebaseAnalytics: FirebaseAnalytics,
 ) : CoopLogin {
 

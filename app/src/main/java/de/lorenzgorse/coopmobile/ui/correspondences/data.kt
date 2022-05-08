@@ -5,6 +5,7 @@ import de.lorenzgorse.coopmobile.State
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Correspondence
 import de.lorenzgorse.coopmobile.client.CorrespondenceHeader
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import de.lorenzgorse.coopmobile.flatMap
 import de.lorenzgorse.coopmobile.liftFlow
@@ -12,10 +13,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Semaphore
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class CorrespondencesData(app: Application) : CoopViewModel(app) {
+class CorrespondencesData @Inject constructor(
+    app: Application,
+    private val client: CoopClient
+) : CoopViewModel(app) {
 
     val state: Flow<State<List<Correspondence>, CoopError>> =
         load { client.getCorrespondences() }.flatMap(::loadFromHeaders).share()

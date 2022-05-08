@@ -10,6 +10,7 @@ import de.lorenzgorse.coopmobile.PermissionRequest
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
+import javax.inject.Inject
 
 class Combox(private val fragment: Fragment) {
 

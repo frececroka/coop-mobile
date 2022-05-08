@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
 import kotlinx.android.synthetic.main.fragment_debug.*
 import java.text.SimpleDateFormat
@@ -15,6 +16,11 @@ import java.util.*
 
 
 class DebugFragment : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        coopComponent().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

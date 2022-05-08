@@ -9,12 +9,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Correspondence
-import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
-import de.lorenzgorse.coopmobile.setScreen
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_correspondences.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -30,16 +30,16 @@ class CorrespondencesFragment : Fragment() {
 
     private val dateFormat = SimpleDateFormat("EEE, d. MMMM yyyy", Locale.getDefault())
 
+    @Inject lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var viewModel: CorrespondencesData
+
     private lateinit var remoteDataView: RemoteDataView
     private lateinit var inflater: LayoutInflater
-    private lateinit var analytics: FirebaseAnalytics
-    private lateinit var viewModel: CorrespondencesData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analytics = createAnalytics(requireContext())
+        coopComponent().inject(this)
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        viewModel = ViewModelProvider(this).get(CorrespondencesData::class.java)
     }
 
     override fun onCreateView(

@@ -16,7 +16,6 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
@@ -27,6 +26,7 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 val phoneRegex = Pattern.compile("0[0-9\\s]{5,14}").toRegex()
 val emailRegex = Pattern.compile(
@@ -42,18 +42,16 @@ class LoginFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    private lateinit var analytics: FirebaseAnalytics
-
-    private lateinit var credentialsStore: CredentialsStore
-    private lateinit var testAccounts: TestAccounts
+    @Inject lateinit var coopLogin: CoopLogin
+    @Inject lateinit var credentialsStore: CredentialsStore
+    @Inject lateinit var testAccounts: TestAccounts
+    @Inject lateinit var analytics: FirebaseAnalytics
 
     private val loginInProgress = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analytics = createAnalytics(requireContext())
-        credentialsStore = createCredentialsStore(requireContext())
-        testAccounts = TestAccounts(requireContext())
+        coopComponent().inject(this)
     }
 
     override fun onCreateView(
@@ -130,6 +128,11 @@ class LoginFragment : Fragment() {
             testAccounts.deactivate()
         }
 
+        // Recreate dependencies, since the CoopLogin implementation
+        // depends on the (variable) test account mode
+        app().recreateComponent()
+        coopComponent().inject(this)
+
         var cancel: String? = null
         var focusView: View? = null
 
@@ -158,10 +161,6 @@ class LoginFragment : Fragment() {
         }
 
         showProgress(true)
-
-        // Create CoopLogin right before the login attempt, since the login
-        // implementation depends on the (variable) test account mode
-        val coopLogin = createCoopLogin(requireContext())
 
         log.info("Performing login.")
 

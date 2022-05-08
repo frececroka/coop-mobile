@@ -3,8 +3,9 @@ package de.lorenzgorse.coopmobile.components
 import android.content.Context
 import android.graphics.Color
 import de.lorenzgorse.coopmobile.R
+import javax.inject.Inject
 
-class ThemeUtils(private val context: Context) {
+class ThemeUtils @Inject constructor(private val context: Context) {
 
     fun textColor() = getColor(R.attr.colorOnBackground)
 

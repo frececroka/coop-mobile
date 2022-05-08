@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.UnitValue
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
@@ -24,28 +21,26 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class OverviewFragment : Fragment() {
 
-    private lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var viewModel: OverviewData
+    @Inject lateinit var credentialsStore: CredentialsStore
+    @Inject lateinit var openSource: OpenSource
+    @Inject lateinit var encryptedDiagnostics: EncryptedDiagnostics
+    @Inject lateinit var analytics: FirebaseAnalytics
+
     private lateinit var remoteDataView: RemoteDataView
-    private lateinit var viewModel: OverviewData
     private lateinit var combox: Combox
-    private lateinit var openSource: OpenSource
-    private lateinit var encryptedDiagnostics: EncryptedDiagnostics
-    private lateinit var credentialsStore: CredentialsStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        coopComponent().inject(this)
         setHasOptionsMenu(true)
-        analytics = createAnalytics(requireContext())
-        viewModel = ViewModelProvider(this).get(OverviewData::class.java)
         combox = Combox(this)
-        openSource = OpenSource(requireContext())
-        encryptedDiagnostics = EncryptedDiagnostics(requireContext())
-        credentialsStore = createCredentialsStore(requireContext())
     }
 
     override fun onCreateView(
@@ -145,7 +140,7 @@ class OverviewFragment : Fragment() {
         bannerRate.onLoadSuccess()
 
         consumptions.removeAllViews()
-        Firebase.analytics.logEvent("ConsumptionViewsCleared", null)
+        analytics.logEvent("ConsumptionViewsCleared", null)
 
         result.forEach {
             val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
@@ -158,7 +153,7 @@ class OverviewFragment : Fragment() {
             consumption.findViewById<TextView>(R.id.textValue).text = amount
             consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
-            Firebase.analytics.logEvent(
+            analytics.logEvent(
                 "ConsumptionView",
                 bundleOf(
                     "Description" to it.description,

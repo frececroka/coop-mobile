@@ -95,9 +95,10 @@ fun Context.openPlayStore() {
     }
 }
 
-fun FirebaseAnalytics.setScreen(screenName: String) {
-    logEvent(SCREEN_VIEW, bundleOf(SCREEN_NAME to screenName))
-}
+fun Fragment.app() =
+    requireContext().applicationContext as CoopMobileApplication
+
+fun Fragment.coopComponent() = app().component
 
 fun coopErrorToAnalyticsResult(coopError: CoopError) = coopError::class.simpleName
 

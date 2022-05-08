@@ -27,12 +27,12 @@ class MonitoredCoopLoginTest {
     private lateinit var coopLogin: FakeCoopLogin
     private lateinit var userProperties: UserProperties
 
-    fun setup(vararg loginInvocations: FakeCoopLogin.Invocation) {
+    private fun setup(vararg loginInvocations: FakeCoopLogin.Invocation) {
         coopLogin = FakeCoopLogin(*loginInvocations)
         firebaseAnalytics = FakeFirebaseAnalytics()
         userProperties = UserProperties(context)
         monitoredCoopLogin =
-            MonitoredCoopLogin(context, userProperties, coopLogin, firebaseAnalytics)
+            MonitoredCoopLogin(context, coopLogin, userProperties, firebaseAnalytics)
     }
 
     @Test
@@ -234,6 +234,10 @@ class FakeFirebaseAnalytics : FirebaseAnalytics {
     override fun logEvent(name: String, params: Bundle?) {
         val paramsMap = params?.keySet()?.associate { Pair(it, params.get(it)) }
         events.add(Invocation(name, paramsMap))
+    }
+
+    override fun setScreen(name: String) {
+        TODO("Not yet implemented")
     }
 
     fun matchEvents(matcher: Matcher<List<Invocation>>) {

@@ -13,8 +13,9 @@ import de.lorenzgorse.coopmobile.userPseudoId
 import de.lorenzgorse.coopmobile.waitForTask
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class EncryptedDiagnostics(private val context: Context) {
+class EncryptedDiagnostics @Inject constructor(private val context: Context) {
 
     private val analytics = FirebaseAnalytics.getInstance(context)
     private val storage = FirebaseStorage.getInstance()

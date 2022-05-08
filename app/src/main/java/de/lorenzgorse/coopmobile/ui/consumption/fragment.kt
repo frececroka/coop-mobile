@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.components.ThemeUtils
+import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
-import de.lorenzgorse.coopmobile.setScreen
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,23 +23,22 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
 class ConsumptionFragment : Fragment() {
 
-    private lateinit var analytics: FirebaseAnalytics
-    private lateinit var viewModel: ConsumptionData
+    @Inject lateinit var viewModel: ConsumptionData
+    @Inject lateinit var consumptionLogCache: ConsumptionLogCache
+    @Inject lateinit var themeUtils: ThemeUtils
+    @Inject lateinit var analytics: FirebaseAnalytics
+
     private lateinit var remoteDataView: RemoteDataView
-    private lateinit var themeUtils: ThemeUtils
-    private lateinit var consumptionLogCache: ConsumptionLogCache
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analytics = FirebaseAnalytics.getInstance(requireContext())
-        themeUtils = ThemeUtils(requireContext())
-        viewModel = ViewModelProvider(this).get(ConsumptionData::class.java)
-        consumptionLogCache = ConsumptionLogCache(requireContext())
+        coopComponent().inject(this)
     }
 
     override fun onCreateView(

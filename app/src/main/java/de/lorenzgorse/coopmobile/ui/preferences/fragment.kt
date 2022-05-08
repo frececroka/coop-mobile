@@ -8,12 +8,18 @@ import androidx.preference.PreferenceFragmentCompat
 import de.lorenzgorse.coopmobile.BalanceCheckWorker
 import de.lorenzgorse.coopmobile.BuildConfig
 import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 
 class PreferencesFragment: PreferenceFragmentCompat() {
 
     private val knockKnock = KnockKnock.default(500, 5000)
     private val passcode = listOf(7, 2, 5, 3)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        coopComponent().inject(this)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)

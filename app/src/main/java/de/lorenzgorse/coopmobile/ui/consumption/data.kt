@@ -8,15 +8,20 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.UnitValueBlock
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class ConsumptionData(app: Application) : CoopViewModel(app) {
+class ConsumptionData @Inject constructor(
+    app: Application,
+    client: CoopClient
+) : CoopViewModel(app) {
 
     private val themeUtils: ThemeUtils = ThemeUtils(app)
     private val consumptionLogCache = ConsumptionLogCache(app)

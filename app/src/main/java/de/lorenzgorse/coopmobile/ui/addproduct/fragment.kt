@@ -12,13 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Product
-import de.lorenzgorse.coopmobile.createAnalytics
+import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
-import de.lorenzgorse.coopmobile.setScreen
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
@@ -28,6 +27,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
+import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -35,18 +35,18 @@ class AddProductFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
+    @Inject lateinit var viewModel: AddProductData
+    @Inject lateinit var analytics: FirebaseAnalytics
+
     private lateinit var inflater: LayoutInflater
     private lateinit var remoteConfig: FirebaseRemoteConfig
-    private lateinit var analytics: FirebaseAnalytics
     private lateinit var remoteDataView: RemoteDataView
-    private lateinit var viewModel: AddProductData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        analytics = createAnalytics(requireContext())
+        coopComponent().inject(this)
         remoteConfig = FirebaseRemoteConfig.getInstance()
         inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        viewModel = ViewModelProvider(this).get(AddProductData::class.java)
     }
 
     override fun onCreateView(
