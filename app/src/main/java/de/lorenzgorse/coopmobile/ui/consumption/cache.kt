@@ -6,7 +6,7 @@ import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
-import java.util.*
+import java.time.Instant
 import javax.inject.Inject
 
 class ConsumptionLogCache @Inject constructor(context: Context) {
@@ -22,7 +22,7 @@ class ConsumptionLogCache @Inject constructor(context: Context) {
     suspend fun insert(consumptionLog: List<ConsumptionLogEntry>) {
         log.info("Updating consumption log with ${consumptionLog.size} entries.")
         val entries = consumptionLog.map {
-            Entry(it.date.time, it.type, it.amount)
+            Entry(it.instant.toEpochMilli(), it.type, it.amount)
         }
         withContext(Dispatchers.IO) {
             userDao.insertAll(entries)
@@ -32,8 +32,8 @@ class ConsumptionLogCache @Inject constructor(context: Context) {
     suspend fun load(): List<ConsumptionLogEntry> {
         val entries = withContext(Dispatchers.IO) { userDao.load() }
         return entries.map {
-            val date = Date(it.timestamp)
-            ConsumptionLogEntry(date, it.type, it.amount)
+            val instant = Instant.ofEpochMilli(it.timestamp)
+            ConsumptionLogEntry(instant, it.type, it.amount)
         }
     }
 

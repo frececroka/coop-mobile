@@ -3,6 +3,7 @@ package de.lorenzgorse.coopmobile.client
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URL
+import java.time.Instant
 import java.util.*
 
 data class UnitValueBlock(
@@ -107,7 +108,7 @@ data class RawConsumptionLogEntry(
 )
 
 data class ConsumptionLogEntry(
-    val date: Date,
+    val instant: Instant,
     val type: String,
     val amount: Double
 )

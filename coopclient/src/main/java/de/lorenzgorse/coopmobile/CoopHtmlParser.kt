@@ -1,13 +1,15 @@
 package de.lorenzgorse.coopmobile
 
 import de.lorenzgorse.coopmobile.client.*
-import de.lorenzgorse.coopmobile.client.simple.*
+import de.lorenzgorse.coopmobile.client.simple.CoopException
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CoopHtmlParser(private val config: Config) {
@@ -89,8 +91,8 @@ class CoopHtmlParser(private val config: Config) {
             return null
         }
 
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.GERMAN)
-        val date = dateFormat.parse(rawConsumptionLogEntry.date)!!
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.GERMAN)
+        val date = dateTimeFormatter.parse(rawConsumptionLogEntry.date, Instant::from)
         val type = rawConsumptionLogEntry.type
         val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
         return ConsumptionLogEntry(date, type, amount)

@@ -88,8 +88,21 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
         )
     )
 
-    override suspend fun getConsumptionLog() =
-        Either.Right(listOf<ConsumptionLogEntry>())
+    override suspend fun getConsumptionLog(): Either.Right<List<ConsumptionLogEntry>> {
+        fun mk(time: String, value: Double) =
+            ConsumptionLogEntry(Instant.parse(time), "Daten in der Schweiz", value)
+        return Either.Right(
+            listOf(
+                mk("2022-02-03T10:15:30.00Z", 1234.56),
+                mk("2022-02-04T10:15:30.00Z", 1230.56),
+                mk("2022-02-05T10:15:30.00Z", 1204.56),
+                mk("2022-02-06T10:15:30.00Z", 1034.56),
+                mk("2022-02-07T10:15:30.00Z", 234.56),
+                mk("2022-02-08T10:15:30.00Z", 230.56),
+                mk("2022-02-09T10:15:30.00Z", 204.56),
+            )
+        )
+    }
 
     override suspend fun getProducts() =
         Either.Right(listOf<Product>())

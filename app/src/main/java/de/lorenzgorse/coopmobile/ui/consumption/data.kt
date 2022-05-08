@@ -71,12 +71,12 @@ class ConsumptionData @Inject constructor(
 
         var currentData = currentMobileData.amount.toDouble()
         val chartData = mobileDataConsumption
-            .sortedBy { it.date }
+            .sortedBy { it.instant }
             .reversed()
             .map { entry ->
-                val date = entry.date.time
+                val epochMillis = entry.instant.toEpochMilli()
                 currentData += entry.amount / 1024
-                Entry(date.toFloat(), currentData.toFloat())
+                Entry(epochMillis.toFloat(), currentData.toFloat())
             }
             .reversed()
 
