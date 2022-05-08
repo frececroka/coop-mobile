@@ -84,6 +84,12 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
                     UnitValue("verbleibend", 4.56F, "GB"),
                     UnitValue("Diesen Monat genutzt", 7.89F, "GB"),
                 )
+            ),
+            UnitValueBlock(
+                UnitValueBlock.Kind.DataEurope,
+                "Daten in der EU",
+                // TODO: for unlimited contracts, the parsing kind of falls short
+                listOf(UnitValue("verbleibend", 0F, "unbegrenzt"))
             )
         )
     )
