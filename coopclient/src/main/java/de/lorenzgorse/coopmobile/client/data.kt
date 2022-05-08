@@ -94,7 +94,7 @@ data class Correspondence(
 )
 
 data class CorrespondenceHeader(
-    val date: Date,
+    val instant: Instant,
     val subject: String,
     val details: URL
 )

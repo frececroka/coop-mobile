@@ -113,7 +113,7 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
     override suspend fun getCorrespondences() =
         Either.Right(
             listOf(
-                CorrespondenceHeader(Date(), "Betreff", URL("https://example.com/"))
+                CorrespondenceHeader(Instant.now(), "Betreff", URL("https://example.com/"))
             )
         )
 
@@ -121,7 +121,7 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
         Either.Right(
             Correspondence(
                 CorrespondenceHeader(
-                    Date.from(Instant.now()),
+                    Instant.now(),
                     "Betreff",
                     URL("https://example.com/")
                 ),

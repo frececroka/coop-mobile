@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
@@ -20,7 +19,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class CorrespondencesFragment : Fragment() {
 
-    private val dateFormat = SimpleDateFormat("EEE, d. MMMM yyyy", Locale.getDefault())
+    private val dateFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
 
     @Inject lateinit var analytics: FirebaseAnalytics
     @Inject lateinit var viewModel: CorrespondencesData
@@ -75,7 +76,8 @@ class CorrespondencesFragment : Fragment() {
             val txtSubject = productItemView.findViewById<TextView>(R.id.txtSubject)
             val txtMessage = productItemView.findViewById<TextView>(R.id.txtMessage)
 
-            txtDate.text = dateFormat.format(correspondence.header.date)
+            val zonedDateTime = correspondence.header.instant.atZone(ZoneId.systemDefault())
+            txtDate.text = dateFormat.format(zonedDateTime)
             txtSubject.text = correspondence.header.subject
             txtMessage.text = correspondence.message
             correspondences.addView(productItemView)

@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
 import java.net.URL
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -146,11 +145,11 @@ class CoopHtmlParser(private val config: Config) {
         html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY)
-        val date = dateFormat.parse(it.selectFirst(".first")!!.text())!!
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMANY)
+        val instant = dateTimeFormatter.parse(it.selectFirst(".first")!!.text(), Instant::from)
         val subject = it.selectFirst(".second")!!.text()
         val details = URL(URL(config.coopBase()), it.selectFirst("a")!!.attr("href"))
-        return CorrespondenceHeader(date, subject, details)
+        return CorrespondenceHeader(instant, subject, details)
     }
 
     fun getCorrespondenceMessage(html: Document): String =
