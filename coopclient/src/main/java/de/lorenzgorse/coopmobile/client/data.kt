@@ -43,7 +43,7 @@ data class UnitValueBlock(
                 DataSwitzerlandAndEurope to listOf(
                     "Daten in der Schweiz inkl. EU/Westeuropa",
                     "Dati in Svizzera, UE/Europa Occidentale inclusi",
-                    "TODO fr",
+                    "Données en Suisse, UE et Europe de l`Ouest incl.",
                 ),
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
