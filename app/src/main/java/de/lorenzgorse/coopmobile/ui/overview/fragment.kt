@@ -29,11 +29,20 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class OverviewFragment : Fragment(), MenuProvider {
 
-    @Inject lateinit var viewModel: OverviewData
-    @Inject lateinit var credentialsStore: CredentialsStore
-    @Inject lateinit var openSource: OpenSource
-    @Inject lateinit var encryptedDiagnostics: EncryptedDiagnostics
-    @Inject lateinit var analytics: FirebaseAnalytics
+    @Inject
+    lateinit var viewModel: OverviewData
+
+    @Inject
+    lateinit var credentialsStore: CredentialsStore
+
+    @Inject
+    lateinit var openSource: OpenSource
+
+    @Inject
+    lateinit var encryptedDiagnostics: EncryptedDiagnostics
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private lateinit var remoteDataView: RemoteDataView
     private lateinit var combox: Combox
