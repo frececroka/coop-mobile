@@ -36,9 +36,6 @@ class OverviewFragment : Fragment(), MenuProvider {
     lateinit var credentialsStore: CredentialsStore
 
     @Inject
-    lateinit var openSource: OpenSource
-
-    @Inject
     lateinit var encryptedDiagnostics: EncryptedDiagnostics
 
     @Inject
@@ -108,9 +105,6 @@ class OverviewFragment : Fragment(), MenuProvider {
             R.id.itPreferences -> {
                 preferences(); true
             }
-            R.id.itOpenSource -> {
-                openSource(); true
-            }
             R.id.itDebug -> {
                 debug(); true
             }
@@ -137,10 +131,6 @@ class OverviewFragment : Fragment(), MenuProvider {
     private fun preferences() {
         analytics.logEvent("Preferences", null)
         findNavController().navigate(R.id.action_overview_to_preferences)
-    }
-
-    private fun openSource() {
-        lifecycleScope.launch { openSource.launch() }
     }
 
     private fun debug() {

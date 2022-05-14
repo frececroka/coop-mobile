@@ -2,23 +2,29 @@ package de.lorenzgorse.coopmobile.ui.preferences
 
 import android.os.Bundle
 import android.text.InputType
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import de.lorenzgorse.coopmobile.BalanceCheckWorker
-import de.lorenzgorse.coopmobile.BuildConfig
-import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopComponent
+import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
+import de.lorenzgorse.coopmobile.ui.overview.OpenSource
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PreferencesFragment: PreferenceFragmentCompat() {
+class PreferencesFragment : PreferenceFragmentCompat() {
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     private val knockKnock = KnockKnock.default(500, 5000)
     private val passcode = listOf(7, 2, 5, 3)
+    lateinit var openSource: OpenSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
+        openSource = OpenSource(requireContext(), analytics)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -31,6 +37,10 @@ class PreferencesFragment: PreferenceFragmentCompat() {
         appInfo?.summary = getString(R.string.summary_app_info, BuildConfig.VERSION_NAME)
         appInfo?.setOnPreferenceClickListener {
             onAppInfoClick(); true
+        }
+        val preferenceOpenSource = findPreference<Preference>("open_source")
+        preferenceOpenSource?.setOnPreferenceClickListener {
+            lifecycleScope.launch { openSource.launch() }; true
         }
     }
 

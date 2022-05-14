@@ -9,9 +9,8 @@ import de.lorenzgorse.coopmobile.openUri
 import de.lorenzgorse.coopmobile.trim
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
-import javax.inject.Inject
 
-class OpenSource @Inject constructor(
+class OpenSource constructor(
     private val context: Context,
     private val analytics: FirebaseAnalytics,
 ) {

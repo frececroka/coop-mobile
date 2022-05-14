@@ -14,6 +14,4 @@
 
     <string name="title_logout">Logout</string>
     <string name="title_login">Login</string>
-
-    <string name="title_open_source" translatable="false">Open Source</string>
 </resources>

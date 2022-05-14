@@ -23,10 +23,6 @@
         android:title="@string/title_preferences"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itOpenSource"
-        android:title="@string/title_open_source"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/itDebug"
         android:title="@string/title_debug"
         android:visible="false"
