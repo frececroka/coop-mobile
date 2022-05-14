@@ -1,6 +1,7 @@
 package de.lorenzgorse.coopmobile.ui.consumption
 
 import android.app.Application
+import androidx.core.os.bundleOf
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class ConsumptionData @Inject constructor(
     app: Application,
-    client: CoopClient
+    client: CoopClient,
+    private val analytics: FirebaseAnalytics,
 ) : CoopViewModel(app) {
 
     private val themeUtils: ThemeUtils = ThemeUtils(app)
@@ -68,6 +70,8 @@ class ConsumptionData @Inject constructor(
                 "Traffico dati in Svizzera"
             ).contains(it.type)
         }
+
+        analytics.logEvent("ConsumptionLog", bundleOf("Length" to mobileDataConsumption.size))
 
         var currentData = currentMobileData.amount.value
         val chartData = mobileDataConsumption
