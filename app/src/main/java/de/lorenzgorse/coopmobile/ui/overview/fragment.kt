@@ -123,6 +123,7 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun launchCombox() {
+        analytics.logEvent("Combox", null)
         lifecycleScope.launch { combox.launch() }
     }
 
@@ -134,6 +135,7 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun preferences() {
+        analytics.logEvent("Preferences", null)
         findNavController().navigate(R.id.action_overview_to_preferences)
     }
 
