@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -16,9 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
-import de.lorenzgorse.coopmobile.ui.overview.Combox
 import kotlinx.android.synthetic.main.activity_nav_host.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NavHost : AppCompatActivity(), MenuProvider {
@@ -53,8 +50,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
             }
             true
         }
-
-        addMenuProvider(this)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -63,7 +58,11 @@ class NavHost : AppCompatActivity(), MenuProvider {
         destination: NavDestination,
         bundle: Bundle?
     ) {
-        bottom_nav.visibility = if (destination.id == R.id.login) View.GONE else View.VISIBLE
+        val isLogin = destination.id == R.id.login
+        bottom_nav.visibility = if (isLogin) View.GONE else View.VISIBLE
+        // TODO: The menu is briefly visible after opening app, before login is shown.
+        //  Make the login page the default page, then this shouldn't happen anymore.
+        if (isLogin) disableMenu() else enableMenu()
         when (destination.id) {
             R.id.overview -> {
                 setBottomNavItem(R.id.itOverview)
@@ -88,6 +87,20 @@ class NavHost : AppCompatActivity(), MenuProvider {
         val navController = findNavController(R.id.nav_host_fragment)
         navController.navigateUp()
         return super.onSupportNavigateUp()
+    }
+
+    private var menuActive = false
+
+    private fun enableMenu() {
+        if (!menuActive) {
+            addMenuProvider(this, this)
+            menuActive = true
+        }
+    }
+
+    private fun disableMenu() {
+        removeMenuProvider(this)
+        menuActive = false
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
