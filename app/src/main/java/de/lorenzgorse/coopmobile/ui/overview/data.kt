@@ -3,7 +3,6 @@ package de.lorenzgorse.coopmobile.ui.overview
 import android.app.Application
 import de.lorenzgorse.coopmobile.State
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.LabelledAmount
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.data.CoopViewModel
@@ -20,10 +19,15 @@ class OverviewData @Inject constructor(
     client: CoopClient
 ) : CoopViewModel(app) {
 
-    val state: Flow<State<Pair<List<LabelledAmounts>, List<Pair<String, String>>>, CoopError>> =
+    data class S(
+        val consumption: List<LabelledAmounts>,
+        val profile: List<Pair<String, String>>
+    )
+
+    val state: Flow<State<S, CoopError>> =
         liftFlow(
             load { client.getConsumption() },
             load { client.getProfile() }
-        ) { cv, pv -> Pair(cv, pv) }.share()
+        ) { cv, pv -> S(cv, pv) }.share()
 
 }
