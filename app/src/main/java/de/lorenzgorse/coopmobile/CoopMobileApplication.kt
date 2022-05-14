@@ -16,6 +16,7 @@ import de.lorenzgorse.coopmobile.client.refreshing.RealCoopClientFactory
 import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
 import de.lorenzgorse.coopmobile.client.simple.*
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
+import de.lorenzgorse.coopmobile.ui.NavHost
 import de.lorenzgorse.coopmobile.ui.addproduct.AddProductFragment
 import de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment
@@ -53,6 +54,7 @@ open class CoopMobileApplication : Application() {
 
 @Component(modules = [MainCoopModule::class])
 interface CoopComponent {
+    fun inject(fragment: NavHost)
     fun inject(fragment: OverviewFragment)
     fun inject(fragment: AddProductFragment)
     fun inject(fragment: BuyProductFragment)

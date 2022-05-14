@@ -49,33 +49,32 @@
         app:popExitAnim="@anim/nav_default_pop_exit_anim"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_preferences"
+        app:destination="@id/preferences"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_debug"
+        app:destination="@id/debug"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <action
+        android:id="@+id/action_add_product"
+        app:destination="@id/add_product"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/overview"
         android:name="de.lorenzgorse.coopmobile.ui.overview.OverviewFragment"
         android:label="@string/title_overview"
-        tools:layout="@layout/fragment_remote_data">
-        <action
-            android:id="@+id/action_overview_to_add_product"
-            app:destination="@id/add_product"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_overview_to_preferences"
-            app:destination="@id/preferences"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_overview_to_debug"
-            app:destination="@id/debug"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
+        tools:layout="@layout/fragment_remote_data" />
     <fragment
         android:id="@+id/login"
         android:name="de.lorenzgorse.coopmobile.ui.login.LoginFragment"

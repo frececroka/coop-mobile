@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -95,10 +96,12 @@ fun Context.openPlayStore() {
     }
 }
 
-fun Fragment.app() =
-    requireContext().applicationContext as CoopMobileApplication
+fun Context.app() =
+    applicationContext as CoopMobileApplication
+fun Context.coopComponent() = app().component
 
-fun Fragment.coopComponent() = app().component
+fun Fragment.app() = requireContext().app()
+fun Fragment.coopComponent() = requireContext().app().component
 
 fun coopErrorToAnalyticsResult(coopError: CoopError) = coopError::class.simpleName
 

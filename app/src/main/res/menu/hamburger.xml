@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/itAddOption"
+        android:title="@string/title_buy_option"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itDebug"
+        android:title="@string/title_debug"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itPreferences"
+        android:title="@string/title_preferences"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itLogout"
+        android:title="@string/title_logout"
+        app:showAsAction="never" />
+</menu>

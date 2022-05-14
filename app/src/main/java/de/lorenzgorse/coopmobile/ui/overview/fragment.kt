@@ -83,58 +83,22 @@ class OverviewFragment : Fragment(), MenuProvider {
         menuInflater.inflate(R.menu.overview, menu)
     }
 
-    override fun onPrepareMenu(menu: Menu) {
-        val enabled = DebugMode.isEnabled(requireContext())
-        menu.findItem(R.id.itDebug).isVisible = enabled
-    }
-
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.itRefresh -> {
                 lifecycleScope.launch { viewModel.refresh() }; true
             }
-            R.id.itAddOption -> {
-                addOption(); true
-            }
             R.id.itCombox -> {
+                // TODO: move to NavHost
                 launchCombox(); true
-            }
-            R.id.itLogout -> {
-                logout(); true
-            }
-            R.id.itPreferences -> {
-                preferences(); true
-            }
-            R.id.itDebug -> {
-                debug(); true
             }
             else -> false
         }
     }
 
-    private fun addOption() {
-        findNavController().navigate(R.id.action_overview_to_add_product)
-    }
-
     private fun launchCombox() {
         analytics.logEvent("Combox", null)
         lifecycleScope.launch { combox.launch() }
-    }
-
-    private fun logout() {
-        analytics.logEvent("logout", null)
-        credentialsStore.clearSession()
-        credentialsStore.clearCredentials()
-        findNavController().navigate(R.id.action_login)
-    }
-
-    private fun preferences() {
-        analytics.logEvent("Preferences", null)
-        findNavController().navigate(R.id.action_overview_to_preferences)
-    }
-
-    private fun debug() {
-        findNavController().navigate(R.id.action_overview_to_debug)
     }
 
     private fun setConsumption(result: List<LabelledAmounts>) {
