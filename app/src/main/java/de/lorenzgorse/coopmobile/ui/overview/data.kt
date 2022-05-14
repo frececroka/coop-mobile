@@ -20,25 +20,10 @@ class OverviewData @Inject constructor(
     client: CoopClient
 ) : CoopViewModel(app) {
 
-    val state: Flow<State<Pair<List<LabelledAmount>, List<Pair<String, String>>>, CoopError>> =
+    val state: Flow<State<Pair<List<LabelledAmounts>, List<Pair<String, String>>>, CoopError>> =
         liftFlow(
             load { client.getConsumption() },
             load { client.getProfile() }
-        ) { cv, pv ->
-            Pair(shoehornLabelledAmounts(cv), pv)
-        }.share()
-
-    // We get a list of LabelledAmounts from getConsumption, which is more comprehensive than the
-    // list of LabelledAmount we got before. The UI can't display LabelledAmounts values yet, so we
-    // shoehorn them into LabelledAmount values.
-    private fun shoehornLabelledAmounts(labelledAmounts: List<LabelledAmounts>): List<LabelledAmount> =
-        labelledAmounts.mapNotNull { shoehornLabelledAmounts(it) }
-
-    private fun shoehornLabelledAmounts(labelledAmounts: LabelledAmounts): LabelledAmount? {
-        val labelledAmount = labelledAmounts.labelledAmounts.firstOrNull() ?: return null
-        // The description of the labelledAmounts is more useful than the description of an
-        // individual labelledAmount.
-        return labelledAmount.copy(description = labelledAmounts.description)
-    }
+        ) { cv, pv -> Pair(cv, pv) }.share()
 
 }

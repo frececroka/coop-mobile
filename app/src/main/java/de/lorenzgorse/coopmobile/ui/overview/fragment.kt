@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.client.LabelledAmount
+import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
@@ -135,39 +135,56 @@ class OverviewFragment : Fragment() {
         findNavController().navigate(R.id.action_overview_to_debug)
     }
 
-    private fun setConsumption(result: List<LabelledAmount>) {
+    private fun setConsumption(result: List<LabelledAmounts>) {
         bannerRate.onLoadSuccess()
 
-        consumptions.removeAllViews()
         analytics.logEvent("ConsumptionViewsCleared", null)
-
+        consumptions.removeAllViews()
         result.forEach {
-            val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
-            val textTitle = consumption.findViewById<TextView>(R.id.textTitle)
-            val textValue = consumption.findViewById<TextView>(R.id.textValue)
-            val textUnit = consumption.findViewById<TextView>(R.id.textUnit)
-            textTitle.text = it.description
-            if (it.amount.value.isInfinite()) {
-                textValue.text = "unbegrenzt"
-                textUnit.visibility = View.GONE
-            }else{
-                textValue.text = if (it.amount.value.rem(1) <= 0.005) {
-                    it.amount.value.toInt().toString()
-                } else {
-                    String.format(Locale.GERMAN, "%.2f", it.amount.value)
-                }
-                textUnit.text = it.amount.unit
-            }
-            consumptions.addView(consumption)
-            analytics.logEvent(
-                "ConsumptionView",
-                bundleOf(
-                    "Description" to it.description,
-                    "Unit" to it.amount.unit,
-                )
-            )
+            createConsumptionView(it).ifPresent(consumptions::addView)
         }
     }
+
+    private fun createConsumptionView(labelledAmounts: LabelledAmounts): Optional<View> {
+        val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
+        val textTitle = consumption.findViewById<TextView>(R.id.textTitle)
+        val textValue = consumption.findViewById<TextView>(R.id.textValue)
+        val textUnit = consumption.findViewById<TextView>(R.id.textUnit)
+
+        val labelledAmount =
+            labelledAmounts.labelledAmounts.firstOrNull() ?: return Optional.empty()
+        val amount = labelledAmount.amount
+
+        textTitle.text = labelledAmount.description
+
+        if (amount.value.isInfinite()) {
+            // TODO: extract to resources
+            textValue.text = "unbegrenzt"
+            textUnit.visibility = View.GONE
+        } else {
+            textValue.text = formatFiniteValue(amount.value)
+            textUnit.text = amount.unit
+        }
+
+        analytics.logEvent(
+            "ConsumptionView",
+            bundleOf(
+                "Description" to textTitle.text,
+                "Unit" to textUnit.text,
+                "UnitVisibility" to textUnit.visibility
+            )
+        )
+
+        return Optional.of(consumption)
+    }
+
+    private fun formatFiniteValue(value: Double) =
+        if (value.rem(1) <= 0.005) {
+            value.toInt().toString()
+        } else {
+            // TODO: system locale?
+            String.format(Locale.GERMAN, "%.2f", value)
+        }
 
     private fun setProfile(result: List<Pair<String, String>>) {
         profile.removeAllViews()
