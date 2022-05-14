@@ -15,16 +15,16 @@
         android:title="@string/title_combox"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itLogout"
-        android:title="@string/title_logout"
+        android:id="@+id/itDebug"
+        android:title="@string/title_debug"
+        android:visible="false"
         app:showAsAction="never" />
     <item
         android:id="@+id/itPreferences"
         android:title="@string/title_preferences"
         app:showAsAction="never" />
     <item
-        android:id="@+id/itDebug"
-        android:title="@string/title_debug"
-        android:visible="false"
+        android:id="@+id/itLogout"
+        android:title="@string/title_logout"
         app:showAsAction="never" />
 </menu>
