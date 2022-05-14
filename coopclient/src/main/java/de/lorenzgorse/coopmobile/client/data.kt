@@ -23,7 +23,7 @@ data class LabelledAmounts(
             private val toString: Map<Kind, List<String>> = mapOf(
                 Credit to listOf(
                     "Mein verfügbarer Kredit",
-                    "TODO: it",
+                    "Il mio credito disponibile",
                     "Mon crédit disponible",
                 ),
                 DataSwitzerland to listOf(
@@ -31,7 +31,7 @@ data class LabelledAmounts(
                     "Dati mobili in Svizzera",
                     "Données mobiles en Suisse",
                     "Daten in der Schweiz",
-                    "TODO: it",
+                    "Dati in Svizzera",
                     "Données en Suisse",
                 ),
                 DataEurope to listOf(
@@ -46,13 +46,13 @@ data class LabelledAmounts(
                 ),
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
-                    "TODO: it",
+                    "Unità mobili in Svizzera",
                     "Unités mobiles en Suisse",
                 ),
                 OptionsAndCalls to listOf(
                     "Optionen und inkludierte Anrufe",
                     "Opzioni e chiamate comprese",
-                    "TODO: fr",
+                    "Options et appels inclus",
                 ),
             )
 
