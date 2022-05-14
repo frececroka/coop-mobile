@@ -3,7 +3,10 @@ package de.lorenzgorse.coopmobile.ui.overview
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,7 +27,7 @@ import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class OverviewFragment : Fragment() {
+class OverviewFragment : Fragment(), MenuProvider {
 
     @Inject lateinit var viewModel: OverviewData
     @Inject lateinit var credentialsStore: CredentialsStore
@@ -38,7 +41,7 @@ class OverviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
-        setHasOptionsMenu(true)
+        (activity as MenuHost).addMenuProvider(this, this)
         combox = Combox(this)
     }
 
@@ -70,18 +73,16 @@ class OverviewFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.overview, menu)
-        return super.onCreateOptionsMenu(menu, menuInflater)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
+    override fun onPrepareMenu(menu: Menu) {
         val enabled = DebugMode.isEnabled(requireContext())
         menu.findItem(R.id.itDebug).isVisible = enabled
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.itRefresh -> {
                 lifecycleScope.launch { viewModel.refresh() }; true
@@ -104,7 +105,7 @@ class OverviewFragment : Fragment() {
             R.id.itDebug -> {
                 debug(); true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
     }
 
