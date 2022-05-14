@@ -3,7 +3,7 @@ package de.lorenzgorse.coopmobile.ui.overview
 import android.content.Context
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
-import com.google.firebase.analytics.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.openUri
 import de.lorenzgorse.coopmobile.trim
@@ -11,9 +11,10 @@ import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 import javax.inject.Inject
 
-class OpenSource @Inject constructor(private val context: Context) {
-
-    private val analytics = FirebaseAnalytics.getInstance(context)
+class OpenSource @Inject constructor(
+    private val context: Context,
+    private val analytics: FirebaseAnalytics,
+) {
 
     suspend fun launch() {
         analytics.logEvent("view_open_source", bundleOf())
