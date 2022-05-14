@@ -4,12 +4,11 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URL
 import java.time.Instant
-import java.util.*
 
-data class UnitValueBlock(
+data class LabelledAmounts(
     val kind: Kind,
     val description: String,
-    val unitValues: List<UnitValue<Float>>
+    val labelledAmounts: List<LabelledAmount>
 ) {
     enum class Kind {
         Unknown,
@@ -70,11 +69,12 @@ data class UnitValueBlock(
     }
 }
 
-data class UnitValue<T>(
+data class LabelledAmount(
     val description: String,
-    val amount: T,
-    val unit: String
+    val amount: Amount,
 )
+
+data class Amount(val value: Double, val unit: String?)
 
 data class Product(
     val name: String,

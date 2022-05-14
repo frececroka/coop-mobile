@@ -24,12 +24,12 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         return profile
     }
 
-    override suspend fun getConsumption(): Either<CoopError, List<UnitValueBlock>> =
+    override suspend fun getConsumption(): Either<CoopError, List<LabelledAmounts>> =
         super.getConsumption().also {
             if (it is Either.Right) logConsumptionBlocks(it.value)
         }
 
-    private fun logConsumptionBlocks(consumptionBlocks: List<UnitValueBlock>) {
+    private fun logConsumptionBlocks(consumptionBlocks: List<LabelledAmounts>) {
         for (consumptionBlock in consumptionBlocks) {
             Firebase.analytics.logEvent(
                 "ConsumptionBlock",
@@ -38,22 +38,22 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
                     "Description" to consumptionBlock.description,
                 )
             )
-            logConsumptions(consumptionBlock.unitValues)
+            logConsumptions(consumptionBlock.labelledAmounts)
         }
     }
 
-    private fun logConsumptions(consumptions: List<UnitValue<Float>>) {
+    private fun logConsumptions(consumptions: List<LabelledAmount>) {
         for (consumption in consumptions) {
             logConsumption(consumption)
         }
     }
 
-    private fun logConsumption(consumptionItem: UnitValue<Float>) {
+    private fun logConsumption(consumptionItem: LabelledAmount) {
         Firebase.analytics.logEvent(
             "ConsumptionItem",
             bundleOf(
                 "Description" to consumptionItem.description,
-                "Unit" to consumptionItem.unit,
+                "Unit" to consumptionItem.amount.unit,
             )
         )
     }

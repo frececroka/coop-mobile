@@ -13,8 +13,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
-import de.lorenzgorse.coopmobile.client.UnitValue
-import de.lorenzgorse.coopmobile.client.UnitValueBlock
+import de.lorenzgorse.coopmobile.client.LabelledAmount
+import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
@@ -114,7 +114,7 @@ class BalanceCheck(
         return true
     }
 
-    private suspend fun isBalanceLow(): Either<CoopError, UnitValue<Float>?> {
+    private suspend fun isBalanceLow(): Either<CoopError, LabelledAmount?> {
         val consumption = when (val result = client.getConsumption()) {
             is Either.Left -> return result
             is Either.Right -> result.value
@@ -129,12 +129,12 @@ class BalanceCheck(
             consumptionLogCache.insert(consumptionLog)
         }
 
-        val credit = consumption.firstOrNull { it.kind == UnitValueBlock.Kind.Credit }
+        val credit = consumption.firstOrNull { it.kind == LabelledAmounts.Kind.Credit }
             ?: return Either.Left(CoopError.Other("NoCreditItem"))
-        val creditValue = credit.unitValues.firstOrNull()
+        val creditValue = credit.labelledAmounts.firstOrNull()
             ?: return Either.Left(CoopError.Other("NoCreditValue"))
 
-        val balanceIslow = creditValue.amount < balanceThreshold()
+        val balanceIslow = creditValue.amount.value < balanceThreshold()
         return Either.Right(if (balanceIslow) creditValue else null)
     }
 
@@ -143,7 +143,7 @@ class BalanceCheck(
         return sharedPreferences.getString("check_balance_threshold", "5")!!.toFloat()
     }
 
-    private fun showLowBalanceNotification(credit: UnitValue<Float>) {
+    private fun showLowBalanceNotification(credit: LabelledAmount) {
         analytics.logEvent("LowBalance_Notification", bundleOf())
         val notificationManager = NotificationManagerCompat.from(context)
         setupNotificationChannel(notificationManager)
@@ -159,15 +159,15 @@ class BalanceCheck(
         notificationManager.createNotificationChannel(channel)
     }
 
-    private fun createNotification(credit: UnitValue<Float>): Notification =
+    private fun createNotification(credit: LabelledAmount): Notification =
         NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_euro)
             .setContentTitle(context.getString(R.string.title_balance_low))
             .setContentText(
                 context.getString(
                     R.string.message_balance_low,
-                    credit.amount,
-                    credit.unit
+                    credit.amount.value,
+                    credit.amount.unit,
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

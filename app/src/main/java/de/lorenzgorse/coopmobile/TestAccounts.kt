@@ -7,7 +7,6 @@ import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import de.lorenzgorse.coopmobile.components.Fuse
 import java.net.URL
 import java.time.Instant
-import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
 class TestAccounts(context: Context) {
@@ -72,24 +71,28 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
 
     override suspend fun getConsumption() = Either.Right(
         listOf(
-            UnitValueBlock(
-                UnitValueBlock.Kind.Credit,
+            LabelledAmounts(
+                LabelledAmounts.Kind.Credit,
                 "Guthaben",
-                listOf(UnitValue("verbleibend", 1.23F, "CHF"))
+                listOf(LabelledAmount("verbleibend", Amount(1.23, "CHF")))
             ),
-            UnitValueBlock(
-                UnitValueBlock.Kind.DataSwitzerland,
+            LabelledAmounts(
+                LabelledAmounts.Kind.DataSwitzerland,
                 "Daten in der Schweiz",
                 listOf(
-                    UnitValue("verbleibend", 4.56F, "GB"),
-                    UnitValue("Diesen Monat genutzt", 7.89F, "GB"),
+                    LabelledAmount("verbleibend", Amount(4.56, "GB")),
+                    LabelledAmount("Diesen Monat genutzt", Amount(7.89, "GB")),
                 )
             ),
-            UnitValueBlock(
-                UnitValueBlock.Kind.DataEurope,
+            LabelledAmounts(
+                LabelledAmounts.Kind.DataEurope,
                 "Daten in der EU",
-                // TODO: for unlimited contracts, the parsing kind of falls short
-                listOf(UnitValue("verbleibend", 0F, "unbegrenzt"))
+                listOf(
+                    LabelledAmount(
+                        "verbleibend",
+                        Amount(Double.POSITIVE_INFINITY, "unbegrenzt")
+                    )
+                )
             )
         )
     )

@@ -28,18 +28,18 @@ class CoopHtmlParser(private val config: Config) {
     }
 
     // Tries to simplify parseConsumption(), which may also help with supporting wireless users.
-    fun parseConsumption(html: Document): List<UnitValueBlock> =
+    fun parseConsumption(html: Document): List<LabelledAmounts> =
         html.select(".panel")
             .map {
                 val title = it.select(".panel__title").text()
-                val unitValues = it.select(".contingent__data")
-                    .map { parseUnitValueBlock(it) }
-                val kind = UnitValueBlock.Kind.fromString(title)
-                UnitValueBlock(kind, title, unitValues)
+                val labelledAmounts = it.select(".contingent__data")
+                    .map { parseLabelledAmount(it) }
+                val kind = LabelledAmounts.Kind.fromString(title)
+                LabelledAmounts(kind, title, labelledAmounts)
             }
-            .filter { it.unitValues.isNotEmpty() }
+            .filter { it.labelledAmounts.isNotEmpty() }
 
-    private fun parseUnitValueBlock(block: Element): UnitValue<Float> {
+    private fun parseLabelledAmount(block: Element): LabelledAmount {
         val title = block.selectFirst(".panel__title")?.text()
             ?: block.selectFirst(".contingent__data--legend")?.text()
             ?: block.selectFirst(".contingent__data--remaining")?.text()!!
@@ -53,8 +53,7 @@ class CoopHtmlParser(private val config: Config) {
         val candidates = buildList {
             when (valueParts.size) {
                 1 -> {
-                    add(Pair(valueParts[0], "-"))
-                    add(Pair("0", valueParts[0]))
+                    add(Pair(valueParts[0], null))
                 }
                 2 -> {
                     add(Pair(valueParts[0], valueParts[1]))
@@ -64,20 +63,21 @@ class CoopHtmlParser(private val config: Config) {
         }
 
         val (amount, unit) = candidates
-            .mapNotNull { (textualAmount, unit) ->
-                val sanitizedTextualAmount = textualAmount
-                    .replace(".–", "")
-                    .replace(",", ".")
-                try {
-                    Pair(sanitizedTextualAmount.toFloat(), unit)
-                } catch (e: NumberFormatException) {
-                    null
-                }
+            .mapNotNull { (value, unit) ->
+                val parsedValue = tryParseValue(value) ?: return@mapNotNull null
+                Amount(parsedValue, unit)
             }
             .firstOrNull()
             ?: throw CoopException.HtmlChanged()
 
-        return UnitValue(title, amount, unit)
+        return LabelledAmount(title, Amount(amount, unit))
+    }
+
+    private fun tryParseValue(value: String): Double? = when {
+        setOf("unbegrenzt", "illimitato", "illimité").contains(value) ->
+            Double.POSITIVE_INFINITY
+        else ->
+            value.replace(".–", "").replace(",", ".").toDoubleOrNull()
     }
 
     fun parseConsumptionLog(consumption: RawConsumptionLog): List<ConsumptionLogEntry> =

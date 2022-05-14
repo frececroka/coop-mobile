@@ -7,7 +7,7 @@ abstract class DecoratedCoopClient : CoopClient {
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
         decorator({ it.getProfile() }, "getProfile")
 
-    override suspend fun getConsumption(): Either<CoopError, List<UnitValueBlock>> =
+    override suspend fun getConsumption(): Either<CoopError, List<LabelledAmounts>> =
         decorator({ it.getConsumption() }, "getConsumption")
 
     override suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?> =

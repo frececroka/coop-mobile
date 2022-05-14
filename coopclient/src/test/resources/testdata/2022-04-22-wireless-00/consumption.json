@@ -2,16 +2,19 @@
   {
     "kind": "DataSwitzerland",
     "description": "Daten in der Schweiz",
-    "unitValues": [
+    "labelledAmounts": [
       {
         "description": "verbleibend",
-        "amount": 0.0,
-        "unit": "aaaaaaaaaa"
+        "amount": {
+          "value": 9999
+        }
       },
       {
         "description": "Diesen Monat genutzt",
-        "amount": 12.34,
-        "unit": "GB"
+        "amount": {
+          "value": 12.34,
+          "unit": "GB"
+        }
       }
     ]
   }

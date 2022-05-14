@@ -5,11 +5,10 @@ import android.view.*
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.client.UnitValue
+import de.lorenzgorse.coopmobile.client.LabelledAmount
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
@@ -136,7 +135,7 @@ class OverviewFragment : Fragment() {
         findNavController().navigate(R.id.action_overview_to_debug)
     }
 
-    private fun setConsumption(result: List<UnitValue<Float>>) {
+    private fun setConsumption(result: List<LabelledAmount>) {
         bannerRate.onLoadSuccess()
 
         consumptions.removeAllViews()
@@ -144,20 +143,27 @@ class OverviewFragment : Fragment() {
 
         result.forEach {
             val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
-            val amount = if (it.amount.rem(1) <= 0.005) {
-                it.amount.toInt().toString()
-            } else {
-                String.format(Locale.GERMAN, "%.2f", it.amount)
+            val textTitle = consumption.findViewById<TextView>(R.id.textTitle)
+            val textValue = consumption.findViewById<TextView>(R.id.textValue)
+            val textUnit = consumption.findViewById<TextView>(R.id.textUnit)
+            textTitle.text = it.description
+            if (it.amount.value.isInfinite()) {
+                textValue.text = "unbegrenzt"
+                textUnit.visibility = View.GONE
+            }else{
+                textValue.text = if (it.amount.value.rem(1) <= 0.005) {
+                    it.amount.value.toInt().toString()
+                } else {
+                    String.format(Locale.GERMAN, "%.2f", it.amount.value)
+                }
+                textUnit.text = it.amount.unit
             }
-            consumption.findViewById<TextView>(R.id.textTitle).text = it.description
-            consumption.findViewById<TextView>(R.id.textValue).text = amount
-            consumption.findViewById<TextView>(R.id.textUnit).text = it.unit
             consumptions.addView(consumption)
             analytics.logEvent(
                 "ConsumptionView",
                 bundleOf(
                     "Description" to it.description,
-                    "Unit" to it.unit,
+                    "Unit" to it.amount.unit,
                 )
             )
         }

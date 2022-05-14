@@ -7,7 +7,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.UnitValueBlock
+import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.data.CoopViewModel
@@ -51,14 +51,14 @@ class ConsumptionData @Inject constructor(
     }
 
     private fun makeLineData(
-        consumption: List<UnitValueBlock>,
+        consumption: List<LabelledAmounts>,
         consumptionLog: List<ConsumptionLogEntry>
     ): LineData? {
         val currentMobileDataBlock = consumption.firstOrNull {
-            it.kind == UnitValueBlock.Kind.DataSwitzerland
+            it.kind == LabelledAmounts.Kind.DataSwitzerland
         } ?: return null
 
-        val currentMobileData = currentMobileDataBlock.unitValues.firstOrNull()
+        val currentMobileData = currentMobileDataBlock.labelledAmounts.firstOrNull()
             ?: return null
 
         val mobileDataConsumption = consumptionLog.filter {
@@ -69,7 +69,7 @@ class ConsumptionData @Inject constructor(
             ).contains(it.type)
         }
 
-        var currentData = currentMobileData.amount.toDouble()
+        var currentData = currentMobileData.amount.value
         val chartData = mobileDataConsumption
             .sortedBy { it.instant }
             .reversed()

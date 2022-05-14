@@ -2,44 +2,52 @@
   {
     "kind": "Credit",
     "description": "Mein verfügbarer Kredit",
-    "unitValues": [
+    "labelledAmounts": [
       {
         "description": "verbleibend",
-        "amount": 12.34,
-        "unit": "CHF"
+        "amount": {
+          "value": 12.34,
+          "unit": "CHF"
+        }
       }
     ]
   },
   {
     "kind": "DataSwitzerland",
     "description": "Mobile Daten in der Schweiz",
-    "unitValues": [
+    "labelledAmounts": [
       {
         "description": "verbleibend",
-        "amount": 123.0,
-        "unit": "MB"
+        "amount": {
+          "value": 123.0,
+          "unit": "MB"
+        }
       }
     ]
   },
   {
     "kind": "CallsAndSmsSwitzerland",
     "description": "Mobil-Einheiten in der Schweiz",
-    "unitValues": [
+    "labelledAmounts": [
       {
         "description": "verbleibend",
-        "amount": 12.0,
-        "unit": "Einheiten"
+        "amount": {
+          "value": 12.0,
+          "unit": "Einheiten"
+        }
       }
     ]
   },
   {
     "kind": "OptionsAndCalls",
     "description": "Optionen und inkludierte Anrufe",
-    "unitValues": [
+    "labelledAmounts": [
       {
         "description": "verbleibend",
-        "amount": 8.0,
-        "unit": "MB"
+        "amount": {
+          "value": 8.0,
+          "unit": "MB"
+        }
       }
     ]
   }

@@ -1,10 +1,10 @@
 package de.lorenzgorse.coopmobile.client.simple
 
-import com.google.gson.Gson
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.CoopHtmlParser
 import de.lorenzgorse.coopmobile.client.Config
-import de.lorenzgorse.coopmobile.client.UnitValueBlock
+import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.jsoup.Jsoup
@@ -13,16 +13,21 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
+import java.lang.reflect.Type
 
 class CoopHtmlParserTest {
 
     @RunWith(Parameterized::class)
     class Consumption(
         private val input: Document,
-        private val consumption: List<UnitValueBlock>,
+        private val consumption: List<LabelledAmounts>,
     ) {
 
         companion object {
+            private val gson = GsonBuilder()
+                .registerTypeAdapter(Double::class.java, DoubleDeserializer())
+                .create()
+
             @JvmStatic
             @Parameters
             fun data(): List<Array<Any>> = listOf(
@@ -43,10 +48,11 @@ class CoopHtmlParserTest {
                 return Jsoup.parse(inputHtml)
             }
 
-            private fun getConsumption(it: String): List<UnitValueBlock> {
+            private fun getConsumption(it: String): List<LabelledAmounts> {
                 val json = getResource("testdata/$it/consumption.json")
-                val type = TypeToken.getParameterized(List::class.java, UnitValueBlock::class.java).type
-                return Gson().fromJson(json, type)
+                val type =
+                    TypeToken.getParameterized(List::class.java, LabelledAmounts::class.java).type
+                return gson.fromJson(json, type)
             }
 
             private fun getResource(name: String): String {
@@ -69,4 +75,15 @@ class CoopHtmlParserTest {
 
     }
 
+}
+
+private class DoubleDeserializer : JsonDeserializer<Double> {
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
+    ) = when (val double = json.asDouble) {
+        9999.0 -> Double.POSITIVE_INFINITY
+        else -> double
+    }
 }

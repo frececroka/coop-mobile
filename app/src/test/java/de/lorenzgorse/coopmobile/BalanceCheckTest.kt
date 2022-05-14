@@ -33,7 +33,7 @@ class BalanceCheckTest {
 
     @Test
     fun testBalanceHigh(): Unit = runBlocking {
-        setup(Either.Right(listOf(credit(12F))))
+        setup(Either.Right(listOf(credit(12.0))))
 
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, emptyArray())
@@ -43,7 +43,7 @@ class BalanceCheckTest {
 
     @Test
     fun testBalanceHighMendsFuse(): Unit = runBlocking {
-        setup(Either.Right(listOf(credit(12F))))
+        setup(Either.Right(listOf(credit(12.0))))
         notificationFuse.burn()
 
         balanceCheck.checkBalance()
@@ -54,7 +54,7 @@ class BalanceCheckTest {
 
     @Test
     fun testBalanceLow(): Unit = runBlocking {
-        setup(Either.Right(listOf(credit(4F))))
+        setup(Either.Right(listOf(credit(4.0))))
 
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, arrayWithSize(1))
@@ -67,7 +67,7 @@ class BalanceCheckTest {
 
     @Test
     fun testBalanceLowAlreadyNotified(): Unit = runBlocking {
-        setup(Either.Right(listOf(credit(4F))))
+        setup(Either.Right(listOf(credit(4.0))))
         notificationFuse.burn()
 
         balanceCheck.checkBalance()
@@ -78,18 +78,18 @@ class BalanceCheckTest {
 
     @Test
     fun testBalanceLowExplicitThreshold(): Unit = runBlocking {
-        setup(Either.Right(listOf(credit(12F))))
-        setBalanceThreshold(13F)
+        setup(Either.Right(listOf(credit(12.0))))
+        setBalanceThreshold(13.0)
 
         balanceCheck.checkBalance()
         assertThat(notificationManager.activeNotifications, arrayWithSize(1))
         assertThat(notificationFuse.isBurnt(), equalTo(true))
     }
 
-    private fun credit(v: Float) = UnitValueBlock(
-        kind = UnitValueBlock.Kind.Credit,
+    private fun credit(v: Double) = LabelledAmounts(
+        kind = LabelledAmounts.Kind.Credit,
         description = "Mein verfügbarer Kredit",
-        unitValues = listOf(UnitValue("verbleibend", v, "CHF"))
+        labelledAmounts = listOf(LabelledAmount("verbleibend", Amount(v, "CHF")))
     )
 
     @Test
@@ -102,7 +102,7 @@ class BalanceCheckTest {
         analytics.matchEvents(checkEvent("NoNetwork", false, false))
     }
 
-    private fun setup(consumption: Either<CoopError, List<UnitValueBlock>>) {
+    private fun setup(consumption: Either<CoopError, List<LabelledAmounts>>) {
         val coopClient = mockk<CoopClient>()
         coEvery { coopClient.getConsumption() } returns consumption
         coEvery { coopClient.getConsumptionLog() } returns Either.Right(emptyList())
@@ -110,7 +110,7 @@ class BalanceCheckTest {
         balanceCheck = BalanceCheck(context, coopClient, analytics)
     }
 
-    private fun setBalanceThreshold(value: Float) {
+    private fun setBalanceThreshold(value: Double) {
         sharedPreferences.edit().putString("check_balance_threshold", value.toString()).apply()
     }
 
