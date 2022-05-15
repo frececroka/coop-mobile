@@ -124,8 +124,7 @@ class OverviewFragment : Fragment(), MenuProvider {
         textTitle.text = labelledAmount.description
 
         if (amount.value.isInfinite()) {
-            // TODO: extract to resources
-            textValue.text = "unbegrenzt"
+            textValue.text = getString(R.string.unlimited)
             textUnit.visibility = View.GONE
         } else {
             textValue.text = formatFiniteValue(amount.value)
