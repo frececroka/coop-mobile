@@ -147,8 +147,7 @@ class OverviewFragment : Fragment(), MenuProvider {
         if (value.rem(1) <= 0.005) {
             value.toInt().toString()
         } else {
-            // TODO: system locale?
-            String.format(Locale.GERMAN, "%.2f", value)
+            String.format(Locale.getDefault(), "%.2f", value)
         }
 
     private fun setProfile(result: List<Pair<String, String>>) {
