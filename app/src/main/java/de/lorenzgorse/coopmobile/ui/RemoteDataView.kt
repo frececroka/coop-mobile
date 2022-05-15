@@ -14,11 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -38,6 +40,12 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
         }
     }
 
+    @Inject
+    lateinit var encryptedDiagnostics: EncryptedDiagnostics
+
+    @Inject
+    lateinit var credentialsStore: CredentialsStore
+
     private var bound = false
 
     val contentView: LinearLayout
@@ -50,10 +58,9 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
     private val errorOtherMessageView: TextView
     private val sendDiagnosticsButton: Button
 
-    private val encryptedDiagnostics = EncryptedDiagnostics(context)
-
     init {
         inflate(context, R.layout.remote_data, this)
+        context.coopComponent().inject(this)
         contentView = findViewById(R.id.rdContent)
         loadingView = findViewById(R.id.rdLoading)
         errorView = findViewById(R.id.rdError)
@@ -105,6 +112,7 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
             error
                 .filter { it is CoopError.FailedLogin || it is CoopError.Unauthorized || it is CoopError.NoClient }
                 .collect {
+                    credentialsStore.clearCredentials()
                     findNavController(this@RemoteDataView).navigate(R.id.action_login)
                 }
         }

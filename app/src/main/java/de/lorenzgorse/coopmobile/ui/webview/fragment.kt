@@ -117,6 +117,7 @@ class WebViewFragment : Fragment() {
         if (coopClient == null) {
             // There is a problem with authentication, bail out and send the user to the login
             // screen.
+            // TODO: clear credentials
             findNavController().navigate(R.id.action_login)
             return
         } else {
@@ -194,6 +195,7 @@ class WebViewFragment : Fragment() {
         if (timeSinceLastLogin != null && timeSinceLastLogin < 10_000) {
             // We already tried to login too recently, this indicates a problem with
             // authentication. Bail out and send the user to the login screen.
+            // TODO: clear credentials
             findNavController().navigate(R.id.action_login)
             return
         }
@@ -211,6 +213,7 @@ class WebViewFragment : Fragment() {
         if (coopClient == null) {
             // We couldn't refresh the session, this indicates a problem with authentication. Bail
             // out and send the user to the login screen.
+            // TODO: clear credentials
             findNavController().navigate(R.id.action_login)
             return
         } else {

@@ -60,8 +60,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
     ) {
         val isLogin = destination.id == R.id.login
         bottom_nav.visibility = if (isLogin) View.GONE else View.VISIBLE
-        // TODO: The menu is briefly visible after opening app, before login is shown.
-        //  Make the login page the default page, then this shouldn't happen anymore.
         if (isLogin) disableMenu() else enableMenu()
         when (destination.id) {
             R.id.overview -> {

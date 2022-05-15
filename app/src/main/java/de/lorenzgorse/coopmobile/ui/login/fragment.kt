@@ -52,6 +52,9 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
+        if (credentialsStore.loadCredentials() != null) {
+            findNavController().navigate(R.id.action_overview)
+        }
     }
 
     override fun onCreateView(

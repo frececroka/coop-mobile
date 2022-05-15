@@ -17,6 +17,7 @@ import de.lorenzgorse.coopmobile.client.refreshing.RefreshingSessionCoopClient
 import de.lorenzgorse.coopmobile.client.simple.*
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 import de.lorenzgorse.coopmobile.ui.NavHost
+import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import de.lorenzgorse.coopmobile.ui.addproduct.AddProductFragment
 import de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment
@@ -64,6 +65,7 @@ interface CoopComponent {
     fun inject(fragment: LoginFragment)
     fun inject(fragment: PreferencesFragment)
     fun inject(fragment: WebViewFragment)
+    fun inject(remoteDataView: RemoteDataView)
 }
 
 @Module
