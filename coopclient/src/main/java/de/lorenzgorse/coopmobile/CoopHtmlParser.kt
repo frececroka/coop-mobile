@@ -8,6 +8,7 @@ import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.time.Instant
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -91,7 +92,7 @@ class CoopHtmlParser(private val config: Config) {
         }
 
         val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.GERMAN)
-        val date = dateTimeFormatter.parse(rawConsumptionLogEntry.date, Instant::from)
+        val date = dateTimeFormatter.parse(rawConsumptionLogEntry.date.trim(), Instant::from)
         val type = rawConsumptionLogEntry.type
         val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
         return ConsumptionLogEntry(date, type, amount)
@@ -146,7 +147,7 @@ class CoopHtmlParser(private val config: Config) {
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
         val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMANY)
-        val instant = dateTimeFormatter.parse(it.selectFirst(".first")!!.text(), Instant::from)
+        val instant = dateTimeFormatter.parse(it.selectFirst(".first")!!.text(), LocalDate::from)
         val subject = it.selectFirst(".second")!!.text()
         val details = URL(URL(config.coopBase()), it.selectFirst("a")!!.attr("href"))
         return CorrespondenceHeader(instant, subject, details)

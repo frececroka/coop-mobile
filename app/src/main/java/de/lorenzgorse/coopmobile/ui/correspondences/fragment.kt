@@ -19,17 +19,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
 import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class CorrespondencesFragment : Fragment() {
 
-    private val dateFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
+    private val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
 
     @Inject lateinit var analytics: FirebaseAnalytics
     @Inject lateinit var viewModel: CorrespondencesData
@@ -76,8 +74,7 @@ class CorrespondencesFragment : Fragment() {
             val txtSubject = productItemView.findViewById<TextView>(R.id.txtSubject)
             val txtMessage = productItemView.findViewById<TextView>(R.id.txtMessage)
 
-            val zonedDateTime = correspondence.header.instant.atZone(ZoneId.systemDefault())
-            txtDate.text = dateFormat.format(zonedDateTime)
+            txtDate.text = dateFormat.format(correspondence.header.date)
             txtSubject.text = correspondence.header.subject
             txtMessage.text = correspondence.message
             correspondences.addView(productItemView)

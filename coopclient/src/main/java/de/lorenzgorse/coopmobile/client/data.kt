@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URL
 import java.time.Instant
+import java.time.LocalDate
 
 data class LabelledAmounts(
     val kind: Kind,
@@ -94,7 +95,7 @@ data class Correspondence(
 )
 
 data class CorrespondenceHeader(
-    val instant: Instant,
+    val date: LocalDate,
     val subject: String,
     val details: URL
 )
