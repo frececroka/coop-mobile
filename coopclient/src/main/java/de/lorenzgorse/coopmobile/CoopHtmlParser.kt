@@ -7,8 +7,9 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
 import java.net.URL
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -91,11 +92,14 @@ class CoopHtmlParser(private val config: Config) {
             return null
         }
 
+        // 17.05.2022 06:00:00
+        // 11.05.2022 09:08:55
         val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.GERMAN)
-        val date = dateTimeFormatter.parse(rawConsumptionLogEntry.date.trim(), Instant::from)
+        val dateTime = dateTimeFormatter.parse(rawConsumptionLogEntry.date.trim(), LocalDateTime::from)
+        val instant = dateTime.atZone(ZoneId.of("Europe/Zurich")).toInstant()
         val type = rawConsumptionLogEntry.type
         val amount = rawConsumptionLogEntry.amount.replace("&#39;", "").toDouble()
-        return ConsumptionLogEntry(date, type, amount)
+        return ConsumptionLogEntry(instant, type, amount)
     }
 
     fun parseProducts(html: Document): List<Product> =
@@ -146,6 +150,7 @@ class CoopHtmlParser(private val config: Config) {
         html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
+        // 09.05.2022
         val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMANY)
         val instant = dateTimeFormatter.parse(it.selectFirst(".first")!!.text(), LocalDate::from)
         val subject = it.selectFirst(".second")!!.text()

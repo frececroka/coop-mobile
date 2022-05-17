@@ -3,8 +3,8 @@ package de.lorenzgorse.coopmobile.client.simple
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.CoopHtmlParser
+import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.Config
-import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.jsoup.Jsoup
@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import java.lang.reflect.Type
+import java.time.Instant
 
 class CoopHtmlParserTest {
 
@@ -72,6 +73,39 @@ class CoopHtmlParserTest {
         @Suppress("unused")
         private fun <T> peekJson(value: T) =
             value.also { println(Gson().toJson(value)) }
+
+    }
+
+    class ConsumptionLog {
+
+        private val parser = CoopHtmlParser(Config())
+
+        @Test
+        fun test() {
+            val consumptionLog = parser.parseConsumptionLog(
+                RawConsumptionLog(
+                    listOf(
+                        RawConsumptionLogEntry(
+                            " 17.05.2022 06:00:00 ",
+                            true,
+                            "type",
+                            "12&#39;34"
+                        )
+                    )
+                )
+            )
+            assertThat(
+                consumptionLog, equalTo(
+                    listOf(
+                        ConsumptionLogEntry(
+                            Instant.parse("2022-05-17T04:00:00Z"),
+                            "type",
+                            1234.0
+                        )
+                    )
+                )
+            )
+        }
 
     }
 
