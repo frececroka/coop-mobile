@@ -102,7 +102,8 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun setConsumption(result: List<LabelledAmounts>) {
-        bannerRate.onLoadSuccess()
+        // TODO: why is this null for some users?
+        bannerRate?.onLoadSuccess()
 
         analytics.logEvent("ConsumptionViewsCleared", null)
         consumptions.removeAllViews()
