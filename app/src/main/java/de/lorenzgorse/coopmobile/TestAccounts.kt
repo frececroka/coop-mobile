@@ -14,7 +14,11 @@ class TestAccounts(context: Context) {
 
     // The list of test accounts; login information and data
     // are defined in TestModeCoopLogin and TestModeCoopClient
-    private val testAccounts = setOf("prepaid@example.com", "wireless@example.com")
+    private val testAccounts = setOf(
+        "0780000000",
+        "prepaid@example.com",
+        "wireless@example.com"
+    )
 
     fun isTestAccount(username: String): Boolean {
         return testAccounts.contains(username)
@@ -35,6 +39,7 @@ class TestModeCoopLogin : CoopLogin {
 
     // The test accounts; map of username to password
     private val testAccounts = mapOf(
+        "0780000000" to "prepaid",
         "prepaid@example.com" to "prepaid",
         "wireless@example.com" to "wireless",
     )

@@ -16,6 +16,8 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
@@ -125,17 +127,6 @@ class LoginFragment : Fragment() {
         val username = txtUsername.text.toString()
         val password = txtPassword.text.toString()
 
-        if (testAccounts.isTestAccount(username)) {
-            testAccounts.activate()
-        } else {
-            testAccounts.deactivate()
-        }
-
-        // Recreate dependencies, since the CoopLogin implementation
-        // depends on the (variable) test account mode
-        app().recreateComponent()
-        coopComponent().inject(this)
-
         var cancel: String? = null
         var focusView: View? = null
 
@@ -163,12 +154,32 @@ class LoginFragment : Fragment() {
             return
         }
 
+        val loginCleanPhoneNumber =
+            Firebase.remoteConfig.getValue("login_clean_phone_number").asBoolean()
+        val cleanedUsername =
+            if (isPhoneNumber(username) && loginCleanPhoneNumber) {
+                username.replace(Regex("\\s"), "")
+            } else {
+                username
+            }
+
+        if (testAccounts.isTestAccount(cleanedUsername)) {
+            testAccounts.activate()
+        } else {
+            testAccounts.deactivate()
+        }
+
+        // Recreate dependencies, since the CoopLogin implementation
+        // depends on the (variable) test account mode
+        app().recreateComponent()
+        coopComponent().inject(this)
+
         showProgress(true)
 
         log.info("Performing login.")
 
         val sessionId = try {
-            coopLogin.login(username, password, CoopLogin.Origin.Manual)
+            coopLogin.login(cleanedUsername, password, CoopLogin.Origin.Manual)
         } catch (e: IOException) {
             log.error("No network connection available.", e)
             showProgress(false)
@@ -184,7 +195,7 @@ class LoginFragment : Fragment() {
 
         return if (sessionId != null) {
             log.info("Obtained session ID.")
-            credentialsStore.setCredentials(username, password)
+            credentialsStore.setCredentials(cleanedUsername, password)
             credentialsStore.setSession(sessionId)
             findNavController().navigate(R.id.action_overview)
         } else {
@@ -198,6 +209,9 @@ class LoginFragment : Fragment() {
     private fun isUsernameValid(username: String): Boolean {
         return username.matches(phoneRegex) || username.matches(emailRegex)
     }
+
+    private fun isPhoneNumber(username: String): Boolean =
+        username.matches(phoneRegex)
 
     private fun showProgress(show: Boolean) {
         login_form?.visibility = if (show) View.GONE else View.VISIBLE
