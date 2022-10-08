@@ -6,6 +6,7 @@
         android:title="@string/title_overview" />
     <item
         android:id="@+id/itCorrespondences"
+        android:visible="false"
         android:icon="@drawable/ic_message"
         android:title="@string/title_correspondences" />
     <item
