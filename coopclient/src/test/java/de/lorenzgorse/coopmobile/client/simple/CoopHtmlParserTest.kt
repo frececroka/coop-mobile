@@ -15,59 +15,59 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import java.lang.reflect.Type
 import java.time.Instant
+import java.util.*
 
 class CoopHtmlParserTest {
 
     @RunWith(Parameterized::class)
-    class Consumption(
-        private val input: Document,
-        private val consumption: List<LabelledAmounts>,
-    ) {
+    class Consumption(private val testcase: String) {
 
         companion object {
-            private val gson = GsonBuilder()
-                .registerTypeAdapter(Double::class.java, DoubleDeserializer())
-                .create()
 
             @JvmStatic
             @Parameters
-            fun data(): List<Array<Any>> = listOf(
+            fun data(): List<String> = listOf(
                 "2022-04-21-prepaid-00",
                 "2022-04-21-prepaid-01",
                 "2022-04-21-wireless-00",
                 "2022-04-22-wireless-00",
                 "2022-04-27-prepaid-00",
                 "2022-05-02-wireless-00",
-            ).map {
-                val input = getInput(it)
-                val consumption = getConsumption(it)
-                arrayOf(input, consumption)
-            }
-
-            private fun getInput(name: String): Document {
-                val inputHtml = getResource("testdata/$name/input.html")
-                return Jsoup.parse(inputHtml)
-            }
-
-            private fun getConsumption(it: String): List<LabelledAmounts> {
-                val json = getResource("testdata/$it/consumption.json")
-                val type =
-                    TypeToken.getParameterized(List::class.java, LabelledAmounts::class.java).type
-                return gson.fromJson(json, type)
-            }
-
-            private fun getResource(name: String): String {
-                val resource = Consumption::class.java.classLoader.getResourceAsStream(name)
-                    ?: throw  Exception("resource $name not found")
-                return resource.readAllBytes().decodeToString()
-            }
+            )
         }
+
+        private val gson = GsonBuilder()
+            .registerTypeAdapter(Double::class.java, DoubleDeserializer())
+            .create()
 
         private val parser = CoopHtmlParser(Config())
 
         @Test
         fun testParseConsumption() {
-            assertThat(parser.parseConsumption(input), equalTo(consumption))
+            val input = getInput()
+            getConsumption().ifPresent{
+                assertThat(parser.parseConsumption(input), equalTo(it)) }
+        }
+
+        private fun getInput(): Document {
+            val inputHtml = getResource("input.html").get()
+            return Jsoup.parse(inputHtml)
+        }
+
+        private fun getConsumption(): Optional<List<LabelledAmounts>> {
+            val type =
+                TypeToken.getParameterized(List::class.java, LabelledAmounts::class.java).type
+            return getJson("consumption", type)
+        }
+
+        private fun <T> getJson(kind: String, type: Type): Optional<T> =
+            getResource("$kind.json").map { gson.fromJson(it, type) }
+
+        private fun getResource(name: String): Optional<String> {
+            val path = "testdata/$testcase/$name"
+            val resource = Consumption::class.java.classLoader.getResourceAsStream(path)
+                ?: return Optional.empty()
+            return Optional.of(resource.readAllBytes().decodeToString())
         }
 
         @Suppress("unused")
