@@ -111,6 +111,8 @@ class LoginFragment : Fragment() {
     }
 
     private suspend fun attemptLogin() {
+        analytics.logEvent("Login_Attempt", null)
+
         cardError.visibility = View.GONE
         txtNoNetwork.visibility = View.GONE
         txtLoginFailed.visibility = View.GONE
