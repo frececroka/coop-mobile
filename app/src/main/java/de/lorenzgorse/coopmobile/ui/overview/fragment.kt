@@ -123,7 +123,7 @@ class OverviewFragment : Fragment(), MenuProvider {
             labelledAmounts.labelledAmounts.firstOrNull() ?: return Optional.empty()
         val amount = labelledAmount.amount
 
-        textTitle.text = labelledAmount.description
+        textTitle.text = labelledAmounts.description
 
         if (amount.value.isInfinite()) {
             textValue.text = getString(R.string.unlimited)
