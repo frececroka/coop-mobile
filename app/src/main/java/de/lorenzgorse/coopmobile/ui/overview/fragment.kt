@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import de.lorenzgorse.coopmobile.*
@@ -47,7 +48,7 @@ class OverviewFragment : Fragment(), MenuProvider {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
-        (activity as MenuHost).addMenuProvider(this, this)
+        (activity as MenuHost).addMenuProvider(this, this, Lifecycle.State.STARTED)
         combox = Combox(this)
     }
 
