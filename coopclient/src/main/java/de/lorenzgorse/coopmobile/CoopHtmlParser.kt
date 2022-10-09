@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
+import java.lang.IllegalArgumentException
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -147,15 +148,36 @@ class CoopHtmlParser(private val config: Config) {
     }
 
     fun parseCorrespondences(html: Document): List<CorrespondenceHeader> =
-        html.select(".table--mail tbody tr").map { parseCorrespondenceRow(it) }
+        html.select(".list-correspondence__item").map { parseCorrespondenceRow(it) }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
-        // 09.05.2022
-        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMANY)
-        val instant = dateTimeFormatter.parse(it.selectFirst(".first")!!.text(), LocalDate::from)
-        val subject = it.selectFirst(".second")!!.text()
-        val details = URL(URL(config.coopBase()), it.selectFirst("a")!!.attr("href"))
-        return CorrespondenceHeader(instant, subject, details)
+        val date = parseDate(it.selectFirst(".list-correspondence__data")!!.text())
+        val subject = it.selectFirst(".list-correspondence__subject")!!.text()
+        return CorrespondenceHeader(date, subject, details = null)
+    }
+
+    private fun parseDate(dateStr: String): LocalDate {
+        val months = mapOf(
+            "Januar" to 1, "Gennaio" to 1, "Janvier" to 1,
+            "Februar" to 2, "Febbraio" to 2, "Février" to 2,
+            "März" to 3, "Marzo" to 3, "Mars" to 3,
+            "April" to 4, "Aprile" to 4, "Avril" to 4,
+            "Mai" to 5, "Maggio" to 5, "Mai" to 5,
+            "Juni" to 6, "Giugno" to 6, "Juin" to 6,
+            "Juli" to 7, "Luglio" to 7, "Juillet" to 7,
+            "August" to 8, "Agosto" to 8, "Août" to 8,
+            "September" to 9, "Settembre" to 9, "Septembre" to 9,
+            "Oktober" to 10, "Ottobre" to 10, "Octobre" to 10,
+            "November" to 11, "Novembre" to 11, "Novembre" to 11,
+            "Dezember" to 12, "Dicembre" to 12, "Décembre" to 12,
+        )
+        val match = Regex("(\\d{2}) (\\p{L}+) (\\d{4})").matchEntire(dateStr)
+            ?: throw IllegalArgumentException("Cannot parse date: $dateStr")
+        val day = match.groups[1]!!.value.toInt()
+        val month = months[match.groups[2]!!.value]
+            ?: throw IllegalArgumentException("Unknown month: ${match.groups[2]!!.value}")
+        val year = match.groups[3]!!.value.toInt()
+        return LocalDate.of(year, month, day)
     }
 
     fun getCorrespondenceMessage(html: Document): String =

@@ -97,7 +97,7 @@ data class Correspondence(
 data class CorrespondenceHeader(
     val date: LocalDate,
     val subject: String,
-    val details: URL
+    val details: URL?,
 )
 
 data class RawConsumptionLog(val data: List<RawConsumptionLogEntry>)

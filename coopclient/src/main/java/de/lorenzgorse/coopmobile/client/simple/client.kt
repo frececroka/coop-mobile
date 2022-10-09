@@ -73,7 +73,12 @@ class StaticSessionCoopClient(
 
     override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence> =
         translateExceptions {
-            Correspondence(header, getCorrespondenceMessage(header.details))
+            if (header.details != null) {
+                Correspondence(header, getCorrespondenceMessage(header.details))
+            } else {
+                // TODO: find way to obtain correspondence body
+                Correspondence(header, "")
+            }
         }
 
     private suspend fun getCorrespondenceMessage(url: URL) =
