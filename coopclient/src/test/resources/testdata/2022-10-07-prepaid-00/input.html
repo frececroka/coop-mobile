@@ -1,534 +1,136 @@
-<body class="ecare">
- <div class="modal fade modal--spinner js-spinner">
-  <div class="modal-dialog">
-   <div class="modal-content">
-    <div class="modal-body">
-     <div class="spinner">
-      <div class="rect1">
-      </div>
-      <div class="rect2">
-      </div>
-      <div class="rect3">
-      </div>
-      <div class="rect4">
-      </div>
-      <div class="rect5">
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
- <nav id="menu">
-  <div class="menu menu--desktop" id="menu_desktop">
-   <div class="menu__section">
-    <a class="menu__section__logo">
-     <img/>
-    </a>
-    <ul class="menu__section__list">
-     <li class="js-home menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaa
-       </span>
-      </a>
-     </li>
-    </ul>
-   </div>
-   <div class="menu__section">
-    <div class="menu__section__title">
-     <span>
-      aaaaa aaaaa
-     </span>
-    </div>
-    <ul class="menu__section__list">
-     <li class="js-my_data-my_profile menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_data-my_correspondence active menu__section__item">
-      <a>
-       <span>
-        aaaaa aaaaaaaaaaa
-       </span>
-      </a>
-     </li>
-    </ul>
-   </div>
-   <div class="menu__section">
-    <div class="menu__section__title">
-     <span>
-      aaaa aaaaaaa
-     </span>
-    </div>
-    <ul class="menu__section__list">
-     <li class="js-my_prepaid-my_topup menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_consumption menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-add_product menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_requests menu__section__item">
-      <a>
-       <span>
-        aaaaa aaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_ban menu__section__item">
-      <a>
-       <span>
-        aaaaaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-    </ul>
-   </div>
-   <div class="menu__section">
-    <div class="menu__section__title">
-     <span>
-      aaaaa aaaaaaaa
-     </span>
-    </div>
-    <ul class="menu__section__list">
-     <li class="js-my_services-contact menu__section__item">
-      <a>
-       <span>
-        aaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_services-logout menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa
-       </span>
-      </a>
-     </li>
-    </ul>
-   </div>
-   <div class="menu__language-selector">
-    <a class="active">
-     aa
-    </a>
-    <a class="">
-     aa
-    </a>
-    <a class="">
-     aa
-    </a>
-   </div>
-  </div>
-  <div class="dark-overlay js-dark-overlay js-toggle-menu">
-  </div>
-  <div class="menu menu--mobile">
-   <div class="menu__control js-toggle-menu">
-    <span class="menu__control--open js-menu-open" id="menuLine">
-     <i class="fa fa-bars">
-     </i>
-    </span>
-    <span class="menu__control--close js-menu-close" id="closeMenu">
-     <i class="fa fa-times">
-     </i>
-    </span>
-   </div>
-   <div class="menu__section nav-container js-menu-container">
-    <a class="menu__section__logo">
-     <img/>
-    </a>
-    <ul class="menu__section__list">
-     <li class="js-home menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_data-my_profile menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_data-my_correspondence menu__section__item active">
-      <a>
-       <span>
-        aaaaa aaaaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_topup menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_consumption menu__section__item">
-      <a>
-       <span>
-        aaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-add_product menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_requests menu__section__item">
-      <a>
-       <span>
-        aaaaa aaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_prepaid-my_ban menu__section__item">
-      <a>
-       <span>
-        aaaaaaa aaaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_services-contact menu__section__item">
-      <a>
-       <span>
-        aaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_services-change menu__section__item inactive">
-      <a class="menu__section__item--deactivated">
-       <span>
-        aaaaa aaaaaaaa
-       </span>
-      </a>
-     </li>
-     <li class="js-my_services-logout menu__section__item">
-      <a>
-       <span>
-        aaaaaaaa
-       </span>
-      </a>
-     </li>
-    </ul>
-    <div class="menu__language-selector mb-5">
-     <a class="active">
-      aa
-     </a>
-     <a class="">
-      aa
-     </a>
-     <a class="">
-      aa
-     </a>
-    </div>
-   </div>
-  </div>
- </nav>
- <div class="container-fluid">
-  <div class="row">
-   <div class="account">
-    <div class="account-management" id="account-management">
-     <div class="account-overlay" id="js_account_action_overlay">
-     </div>
-     <div class="account-management__toggle" id="switchAccount">
-      <span>
-       a# aaaaaaaaa
-      </span>
-      <a class="btn btn--primary">
-       <i class="fa fa-user">
-       </i>
-      </a>
-     </div>
-     <div class="account-management__info" id="js_account_action">
-      <a class="btn btn--disabled track_change-account_link_prepaid">
-       aaaaa aaaaaaaa
-      </a>
-      <a class="btn btn--cancel">
-       aaaaaaaa
-      </a>
-     </div>
-    </div>
-   </div>
-   <div class="modal fade js-modal js-sms-token-modal">
-    <div class="modal-dialog">
-     <div class="modal-content">
-      <div class="modal-header">
-       <h2 class="modal-title" id="modal-edit-email-success">
-        aaa aaaaaaaaa
-       </h2>
-       <div class="modal__top__close js-close">
-       </div>
-      </div>
-      <div class="modal-body">
-       <p class="js-confirmation-sms">
-        aaaaa aaaaa aaa aaa aaaa aaa# aaa aaa aaaaaa aaa aaa aaaaaaaa aaaaa
-       </p>
-       <form action="/eCare/prepaid/de">
-        <input name="utf8" type="hidden"/>
-        <input name="authenticity_token" type="hidden"/>
-        <input id="authenticity_token" name="authenticity_token" type="hidden"/>
-        <label>
-         aaa#aaaa
-        </label>
-        <input id="sms-code" name="cockpit_user[password]" placeholder="Ex. 1234" type="tel"/>
-       </form>
-       <p class="mt-3">
-        <a class="resend">
-         aaa aaaaa aaaaa aaa aaa aaa aaaa aaaaaaaa# aaaaaaa aaa aaaa aa aaaaa aaaaa aaaa aaaaaaaaaaa#
+<body class='ecare'>
+<div class='container-fluid'>
+  <div class='row'>
+    <input id='locale' type='hidden' value='de-pepper'>
+    <div class='content' id='content'>
+      <div class='content__header col-12'>
+        <a class='content__header__logo' href='/eCare/de/home'>
+          <img src='/assets/pepper/svg/logo.svg'>
         </a>
-       </p>
+        <h1>
+          Meine Nachrichten
+        </h1>
       </div>
-      <div class="modal-footer">
-       <a class="btn btn--cancel js-close">
-        aaaaaaaaa
-       </a>
-       <a class="btn btn--primary btn--disabled js-sms-submit">
-        aaaaaaaaa aaa aaa#aaaa
-       </a>
-      </div>
-     </div>
+      <section id='my_correspondence_index'>
+        <div class='row'>
+          <div class='col-12 col-md-8 col-lg-12 col-xl-8'>
+            <form accept-charset='UTF-8' action='' id='my_correspondence_form'
+                  method='get' name='my_correspondence_form'>
+              <div class='panel'>
+                <h2 class='panel__title'>
+                  Details
+                </h2>
+                <div class='panel__content mb-3 d-md-none'>
+                  <label>
+                    Filter
+                  </label>
+                  <select class='js-filter-select' id='filter_type'
+                          name='filter_type'>
+                    <option filter='all' selected>
+                      Alle
+                    </option>
+                    <option filter='e-mail'>
+                      E-mail
+                    </option>
+                    <option filter='sms'>
+                      SMS
+                    </option>
+                    <option filter='post'>
+                      Post
+                    </option>
+                  </select>
+                </div>
+                <div class='panel__content panel__filters mb-4 d-none d-md-flex'>
+                  <a class='btn btn--secondary btn--secondary--active js-filter'
+                     filter='all' href='javascript:;'>
+                    Alle
+                  </a>
+                  <a class='btn btn--secondary js-filter' filter='e-mail'
+                     href='javascript:;'>
+                    E-mail
+                  </a>
+                  <a class='btn btn--secondary js-filter' filter='sms'
+                     href='javascript:;'>
+                    SMS
+                  </a>
+                  <a class='btn btn--secondary js-filter' filter='post'
+                     href='javascript:;'>
+                    Post
+                  </a>
+                </div>
+                <p class='panel__content js-no-entry'></p>
+                <div class='list-correspondence'>
+                  <div class='list-correspondence__item js-correspondence-type js-correspondence-sms'
+                       link-data='/eCare/prepaid/de/my_correspondence/7330186619?type=SMS+ausgehend'>
+                    <div class='list-correspondence__data'>
+                      14 November 2022
+                    </div>
+                    <div class='list-correspondence__subject'>
+                      <div class='list-correspondence__attachement'>
+                      </div>
+                      Sms ausgehend
+                      :
+                      Information über Sperrsets und Callfilter
+                    </div>
+                  </div>
+                  <div class='list-correspondence__item js-correspondence-type js-correspondence-sms'
+                       link-data='/eCare/prepaid/de/my_correspondence/7330186351?type=SMS+ausgehend'>
+                    <div class='list-correspondence__data'>
+                      10 Août 2022
+                    </div>
+                    <div class='list-correspondence__subject'>
+                      <div class='list-correspondence__attachement'>
+                      </div>
+                      Sms ausgehend
+                      :
+                      Information über Roaming
+                    </div>
+                  </div>
+                  <div class='list-correspondence__item js-correspondence-type js-correspondence-sms'
+                       link-data='/eCare/prepaid/de/my_correspondence/7327366938?type=SMS+ausgehend'>
+                    <div class='list-correspondence__data'>
+                      13 Oktober 2022
+                    </div>
+                    <div class='list-correspondence__subject'>
+                      <div class='list-correspondence__attachement'>
+                      </div>
+                      Sms ausgehend
+                      :
+                      Willkommen bei Coop Mobile
+                    </div>
+                  </div>
+                </div>
+                <script>
+                  function filterCorrespondence(element){
+                      $('.js-correspondence-type').hide();
+                      element === 'all' ? $('.js-correspondence-type').show() : $('.js-correspondence-'+element).show();
+                      $('.js-correspondence-type').is(':visible') ? $('.js-no-entry').text('') : $('.js-no-entry').text("Kein Eintrag")
+                  }
+                  $(document).ready(function () {
+                      filterCorrespondence('all');
+                      $('.js-filter').on('click', function(){
+                          $('.js-filter').removeClass('btn--secondary--active');
+                          $(this).addClass('btn--secondary--active');
+                          filterCorrespondence($(this).attr('filter'))
+                      });
+                      $('.js-filter-select').on('change', function(){
+                          $('.js-filter').removeClass('btn--secondary--active');
+                          filterCorrespondence($(this).find(':selected').attr('filter'))
+                      });
+                      $('.js-correspondence-type').on('click', function(){
+                          window.open($(this).attr('link-data'), '_blank');
+                      });
+                  });
+
+                </script>
+              </div>
+            </form>
+            <iframe id='download_pdf_document' name='download_pdf_document' src=''
+                    style='display:none;' type='application/pdf'></iframe>
+          </div>
+        </div>
+      </section>
     </div>
-   </div>
-   <script>
-   </script>
-   <input id="locale" type="hidden"/>
-   <div class="content" id="content">
-    <div class="content__header col-12">
-     <a class="content__header__logo">
-      <img/>
-     </a>
-     <h1>
-      aaaaa aaaaaaaaaaa
-     </h1>
-     <h2>
-     </h2>
-    </div>
-    <section id="my_correspondence_index">
-     <div class="row">
-      <div class="col-12 col-md-8 col-lg-12 col-xl-8">
-       <form action="" id="my_correspondence_form" name="my_correspondence_form">
-        <div class="panel">
-         <h2 class="panel__title">
-          aaaaaaa
-         </h2>
-         <div class="panel__content mb-3 d-md-none">
-          <label>
-           aaaaaa
-          </label>
-          <select class="js-filter-select" id="filter_type" name="filter_type">
-           <option>
-            aaaa
-           </option>
-           <option>
-            a#aaaa
-           </option>
-           <option>
-            aaa
-           </option>
-           <option>
-            aaaa
-           </option>
-          </select>
-         </div>
-         <div class="panel__content panel__filters mb-4 d-none d-md-flex">
-          <a class="btn btn--secondary btn--secondary--active js-filter">
-           aaaa
-          </a>
-          <a class="btn btn--secondary js-filter">
-           a#aaaa
-          </a>
-          <a class="btn btn--secondary js-filter">
-           aaa
-          </a>
-          <a class="btn btn--secondary js-filter">
-           aaaa
-          </a>
-         </div>
-         <p class="panel__content js-no-entry">
-         </p>
-         <div class="list-correspondence">
-          <div class="list-correspondence__item js-correspondence-type js-correspondence-sms">
-           <div class="list-correspondence__data">
-            12 Oktober 2022
-           </div>
-           <div class="list-correspondence__subject">
-            <div class="list-correspondence__attachement">
-            </div>
-            aaa aaaaaaaaa # aaaaaaaaaaa aaaa aaaaaaaaa aaa aaaaaaaaaa
-           </div>
-          </div>
-          <div class="list-correspondence__item js-correspondence-type js-correspondence-sms">
-           <div class="list-correspondence__data">
-            10 Août 2022
-           </div>
-           <div class="list-correspondence__subject">
-            <div class="list-correspondence__attachement">
-            </div>
-            aaa aaaaaaaaa # aaaaaaaaaaa aaaa aaaaaaa
-           </div>
-          </div>
-          <div class="list-correspondence__item js-correspondence-type js-correspondence-sms">
-           <div class="list-correspondence__data">
-            08 Juni 2022
-           </div>
-           <div class="list-correspondence__subject">
-            <div class="list-correspondence__attachement">
-            </div>
-            aaa aaaaaaaaa # aaaaa aaaa aaaa aaaaaaaaa aaa aaa
-           </div>
-          </div>
-         </div>
-         <script>
-         </script>
-        </div>
-       </form>
-       <iframe id="download_pdf_document" name="download_pdf_document" type="application/pdf">
-       </iframe>
-      </div>
-      <div class="col-12 col-md-4 col-lg-12 col-xl-4">
-       <div class="panel" id="right_block_1">
-        <div id="block_my_billing_address">
-         <h2 class="panel__title">
-          aaaaaaa
-         </h2>
-         <ul class="panel__list">
-          <li class="panel__list__label">
-           aaaaaaa aaa aaaa
-          </li>
-          <li class="panel__list__item">
-           aaaaa aaaaaaaaa
-          </li>
-         </ul>
-         <ul class="panel__list">
-          <li class="panel__list__label">
-           aaaaaaa
-           <a class="em-link panel__list__label--link js-redirection">
-            aaaaaa
-           </a>
-          </li>
-          <form action="" class="form_edit" id="edit_billing_address">
-           <div class="input-inline">
-            <div class="input-inline__large input-inline--first">
-             <label>
-              aaaaaaa
-             </label>
-             <input class="required" id="billing_street" name="edit_billing_street" type="text"/>
-            </div>
-            <div class="input-inline__small">
-             <label>
-              aa#
-             </label>
-             <input id="billing_num" name="edit_billing_num" type="text"/>
-            </div>
-           </div>
-           <div class="input-inline">
-            <label>
-             aaa
-            </label>
-            <input class="required zipcode" id="billing_zip" name="edit_billing_zip" type="text"/>
-           </div>
-           <div class="input-inline">
-            <label>
-             aaa
-            </label>
-            <input class="required" id="billing_city" name="edit_billing_city" type="text"/>
-           </div>
-           <div class="form-cta">
-            <a class="cancel btn btn--cancel em-cancel js-cancel js-close">
-             aaaaaaaaa
-            </a>
-            <a class="order btn btn--primary em-confirm js-save">
-             aaaaaaaaa
-            </a>
-           </div>
-          </form>
-          <li class="panel__list__item js-toggle-on-modification">
-           aaaaaaaaaaaaaa# 00
-          </li>
-          <li class="panel__list__item js-toggle-on-modification">
-           0000 aaaaaaaaaa
-          </li>
-          <li class="panel__list__item js-toggle-on-modification">
-           aaaaaaa
-          </li>
-         </ul>
-        </div>
-       </div>
-       <div class="panel panel--quicklinks" id="right_block_2">
-        <h2 class="panel__title">
-         aaaaaaaaaa
-        </h2>
-        <div class="panel__content panel__content--quicklinks" id="quick_links_content">
-         <ul>
-          <li>
-           <a class="track_quicklink_link_check-my-consumption">
-            aaaa aaaaaaaaa
-           </a>
-          </li>
-          <li>
-           <a class="track_quicklink_link_check-roaming-costs">
-            aaaaaaaaaaaaaa aaa aaaaaaa
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-   </div>
   </div>
- </div>
- <section class="container-fluid">
-  <div class="footer row justify-content-center align-content-center" id="footer">
-   <div class="col-auto">
-    <a>
-     aaaaaaa
-    </a>
-   </div>
-   <div class="col-auto">
-    <a>
-     aaaaaaaaaa aaaaaaaa
-    </a>
-   </div>
-   <div class="col-auto">
-    <a>
-     <i class="fa fa-copyright">
-     </i>
-     aaaa aaaaaa
-    </a>
-   </div>
-  </div>
-  <iframe id="download_pdf" name="download_pdf" type="application/pdf">
-  </iframe>
-  <iframe id="download_pdf_portability" name="download_pdf_portability" type="application/pdf">
-  </iframe>
- </section>
- <script>
- </script>
- <script>
- </script>
+</div>
 </body>

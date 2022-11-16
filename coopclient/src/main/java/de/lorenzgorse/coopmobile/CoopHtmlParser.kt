@@ -153,7 +153,8 @@ class CoopHtmlParser(private val config: Config) {
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
         val date = parseDate(it.selectFirst(".list-correspondence__data")!!.text())
         val subject = it.selectFirst(".list-correspondence__subject")!!.text()
-        return CorrespondenceHeader(date, subject, details = null)
+        val details = URL(URL(config.coopBase()), it.attr("link-data"))
+        return CorrespondenceHeader(date, subject, details)
     }
 
     private fun parseDate(dateStr: String): LocalDate {
