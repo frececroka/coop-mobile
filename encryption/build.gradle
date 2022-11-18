@@ -1,10 +1,12 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+plugins {
+    id "java-library"
+    id "org.jetbrains.kotlin.jvm"
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "org.bouncycastle:bcpg-jdk15on:1.64"
-    implementation "org.bouncycastle:bcprov-jdk15on:1.65"
+    implementation "org.bouncycastle:bcprov-jdk15on:1.67"
     testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
 }
 
