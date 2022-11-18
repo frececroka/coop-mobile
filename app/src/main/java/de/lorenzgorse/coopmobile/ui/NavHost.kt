@@ -12,6 +12,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
@@ -40,6 +42,11 @@ class NavHost : AppCompatActivity(), MenuProvider {
         val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
+
+        val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
+        if (!enableCorrespondences) {
+            bottom_nav.menu.removeItem(R.id.itCorrespondences)
+        }
 
         bottom_nav.setOnItemSelectedListener { item ->
             when (item.itemId) {
