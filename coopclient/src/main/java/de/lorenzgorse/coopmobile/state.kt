@@ -35,6 +35,10 @@ sealed class State<T, E> {
 
 }
 
+fun <T, E> Flow<T>.toState(): Flow<State<T, E>> {
+    return this.map { State.loaded(it, 1) }
+}
+
 @FlowPreview
 @ExperimentalCoroutinesApi
 fun <T> stateFlow(

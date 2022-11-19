@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.mikephil.charting.charts.LineChart xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/consumptionChart"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5pt" />
+    android:layout_margin="5pt"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/rangeButtonsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/bt1w"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_1w" />
+
+        <Button
+            android:id="@+id/bt1m"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_1m" />
+
+        <Button
+            android:id="@+id/bt3m"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_3m" />
+
+        <Button
+            android:id="@+id/bt6m"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_6m" />
+
+        <Button
+            android:id="@+id/bt1y"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_1y" />
+
+        <Button
+            android:id="@+id/btmax"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:text="@string/range_max" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/consumptionChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

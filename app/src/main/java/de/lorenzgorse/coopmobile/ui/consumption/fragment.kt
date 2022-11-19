@@ -5,19 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.formatter.ValueFormatter
-import de.lorenzgorse.coopmobile.FirebaseAnalytics
-import de.lorenzgorse.coopmobile.R
+import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.components.ThemeUtils
-import de.lorenzgorse.coopmobile.coopComponent
-import de.lorenzgorse.coopmobile.data
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -35,6 +33,15 @@ class ConsumptionFragment : Fragment() {
     @Inject lateinit var analytics: FirebaseAnalytics
 
     private lateinit var remoteDataView: RemoteDataView
+
+    object Ranges {
+        val range1w = Duration.ofDays(7)!!
+        val range1m = Duration.ofDays(30)!!
+        val range3m = Duration.ofDays(91)!!
+        val range6m = Duration.ofDays(182)!!
+        val range1y = Duration.ofDays(365)!!
+        val rangemax = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +66,62 @@ class ConsumptionFragment : Fragment() {
         super.onStart()
         analytics.setScreen("Consumption")
         prepareChart()
+
         lifecycleScope.launch {
             viewModel.state.data().collect {
                 consumptionChart.data = it
                 consumptionChart.invalidate()
             }
+        }
+
+        val rangeButtons = listOf(
+            Pair(bt1w, Ranges.range1w),
+            Pair(bt1m, Ranges.range1m),
+            Pair(bt3m, Ranges.range3m),
+            Pair(bt6m, Ranges.range6m),
+            Pair(bt1y, Ranges.range1y),
+            Pair(btmax, Ranges.rangemax),
+        )
+
+        // Forward button clicks to view model.
+        rangeButtons.forEach {
+            val (bt, range) = it
+            lifecycleScope.launch {
+                bt.onClickFlow().collect { viewModel.range.emit(range) }
+            }
+        }
+
+        // Forward view model updates to buttons.
+        lifecycleScope.launch {
+            viewModel.range.collect { range ->
+                rangeButtonsGroup.clearChecked()
+                val (button, _) = rangeButtons.find { range == it.second } ?: return@collect
+                rangeButtonsGroup.check(button.id)
+            }
+        }
+
+        // Enable buttons that are useful. If the oldest data point is 4 months
+        // old, enable buttons up to 6 months, but not 1 year and max.
+        lifecycleScope.launch {
+            viewModel.consumptionLog.data().filterNotNull().collect { entries ->
+                val first = entries.minOfOrNull { it.instant }
+                val now = Instant.now()
+                for ((button, _) in rangeButtons) {
+                    button.isEnabled = false
+                }
+                for ((button, range) in rangeButtons) {
+                    button.isEnabled = true
+                    if (range != null && now.minus(range).isBefore(first)) {
+                        // This button covers all data
+                        break
+                    }
+                }
+            }
+        }
+
+        // Initialize range to 1 month.
+        lifecycleScope.launch {
+            viewModel.range.emit(Ranges.range1m)
         }
     }
 

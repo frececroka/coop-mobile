@@ -17,8 +17,10 @@ import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import java.time.Duration
 import java.time.Instant
+import java.time.temporal.TemporalAmount
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -33,6 +35,8 @@ class ConsumptionData @Inject constructor(
     private val themeUtils: ThemeUtils = ThemeUtils(app)
     private val consumptionLogCache = ConsumptionLogCache(app)
 
+    val range: MutableSharedFlow<TemporalAmount?> = MutableSharedFlow()
+    val consumptionLog: Flow<State<List<ConsumptionLogEntry>, CoopError>>
     val state: Flow<State<LineData?, CoopError>>
 
     init {
@@ -56,18 +60,19 @@ class ConsumptionData @Inject constructor(
 
         val useFallbackConsumptionLog =
             Firebase.remoteConfig.getBoolean("use_fallback_consumption_log")
-        val consumptionLog =
+        consumptionLog =
             if (useFallbackConsumptionLog) fallbackConsumptionLog
             else cachedConsumptionLog
 
         val consumption = load { client.getConsumption() }
 
-        state = liftFlow(consumption, consumptionLog) { c, cl ->
-            makeLineData(c, cl)
+        state = liftFlow(range.toState(), consumption, consumptionLog) { r, c, cl ->
+            makeLineData(r, c, cl)
         }.share()
     }
 
     private fun makeLineData(
+        range: TemporalAmount?,
         consumption: List<LabelledAmounts>,
         consumptionLog: List<ConsumptionLogEntry>
     ): LineData? {
@@ -88,8 +93,13 @@ class ConsumptionData @Inject constructor(
 
         analytics.logEvent("ConsumptionLog", bundleOf("Length" to mobileDataConsumption.size))
 
+        val begin = if (range != null)
+            Instant.now().minus(range)
+            else Instant.MIN
+
         var currentData = currentMobileData.amount.value
         val chartData = mobileDataConsumption
+            .filter { it.instant.isAfter(begin) }
             .sortedBy { it.instant }
             .reversed()
             .map { entry ->

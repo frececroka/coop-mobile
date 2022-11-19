@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="consumption_unavailable">Sorry, we are unable to load the consumption data.</string>
+
+    <string name="range_1w">1w</string>
+    <string name="range_1m">1m</string>
+    <string name="range_3m">3m</string>
+    <string name="range_6m">6m</string>
+    <string name="range_1y">1y</string>
+    <string name="range_max">max</string>
 </resources>
