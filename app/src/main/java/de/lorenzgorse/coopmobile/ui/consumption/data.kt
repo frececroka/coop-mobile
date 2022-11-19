@@ -110,12 +110,15 @@ class ConsumptionData @Inject constructor(
             .reversed()
 
         val dataSet = LineDataSet(chartData, "Mobile Data")
-        dataSet.setDrawCircles(false)
+        dataSet.setDrawValues(false)
+        dataSet.setDrawCircles(true)
+        dataSet.setDrawFilled(true)
+        dataSet.circleRadius = 2f
         dataSet.lineWidth = 3f
-        dataSet.color = themeUtils.getColor(R.attr.colorAccent)
+        dataSet.setCircleColor(themeUtils.getColor(R.attr.colorAccent))
+        dataSet.color = themeUtils.getColor(R.attr.colorPrimary)
         dataSet.fillColor = themeUtils.getColor(R.attr.colorPrimary)
         dataSet.fillAlpha = 30
-        dataSet.setDrawFilled(true)
 
         return LineData(dataSet)
     }

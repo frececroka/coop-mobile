@@ -126,14 +126,16 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun prepareChart() {
-        consumptionChart.isScaleXEnabled = true
+        consumptionChart.isDragEnabled = false
+        consumptionChart.isDoubleTapToZoomEnabled = false
+        consumptionChart.isScaleXEnabled = false
         consumptionChart.isScaleYEnabled = false
         consumptionChart.legend.isEnabled = false
         consumptionChart.description.isEnabled = false
         consumptionChart.axisRight.isEnabled = false
 
         val xAxis = consumptionChart.xAxis
-        xAxis.labelRotationAngle = 30f
+        xAxis.labelRotationAngle = 90f
         xAxis.valueFormatter = NewDateValueFormatter()
         xAxis.textColor = themeUtils.textColor()
 
