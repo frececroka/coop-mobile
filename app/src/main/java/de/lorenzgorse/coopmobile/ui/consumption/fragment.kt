@@ -11,6 +11,7 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import de.lorenzgorse.coopmobile.ui.applyVisibility
+import de.lorenzgorse.coopmobile.ui.onEach
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -68,11 +69,9 @@ class ConsumptionFragment : Fragment() {
         analytics.setScreen("Consumption")
         prepareChart()
 
-        lifecycleScope.launch {
-            viewModel.state.data().collect {
-                consumptionChart.data = it
-                consumptionChart.invalidate()
-            }
+        viewLifecycleOwner.onEach(viewModel.state.data()) {
+            consumptionChart.data = it
+            consumptionChart.invalidate()
         }
 
         val hasDataFlow = viewModel.visibleConsumptionLog.data().filterNotNull()
@@ -92,35 +91,31 @@ class ConsumptionFragment : Fragment() {
         // Forward button clicks to view model.
         rangeButtons.forEach {
             val (bt, range) = it
-            lifecycleScope.launch {
-                bt.onClickFlow().collect { viewModel.range.emit(range) }
+            viewLifecycleOwner.onEach(bt.onClickFlow()) {
+                viewModel.range.emit(range)
             }
         }
 
         // Forward view model updates to buttons.
-        lifecycleScope.launch {
-            viewModel.range.collect { range ->
-                rangeButtonsGroup.clearChecked()
-                val (button, _) = rangeButtons.find { range == it.second } ?: return@collect
-                rangeButtonsGroup.check(button.id)
-            }
+        viewLifecycleOwner.onEach(viewModel.range) { range ->
+            rangeButtonsGroup.clearChecked()
+            val (button, _) = rangeButtons.find { range == it.second } ?: return@onEach
+            rangeButtonsGroup.check(button.id)
         }
 
         // Enable buttons that are useful. If the oldest data point is 4 months
         // old, enable buttons up to 6 months, but not 1 year and max.
-        lifecycleScope.launch {
-            viewModel.consumptionLog.data().filterNotNull().collect { entries ->
-                val first = entries.minOfOrNull { it.instant }
-                val now = Instant.now()
-                for ((button, _) in rangeButtons) {
-                    button.isEnabled = false
-                }
-                for ((button, range) in rangeButtons) {
-                    button.isEnabled = true
-                    if (range != null && now.minus(range).isBefore(first)) {
-                        // This button covers all data
-                        break
-                    }
+        viewLifecycleOwner.onEach(viewModel.consumptionLog.data().filterNotNull()) { entries ->
+            val first = entries.minOfOrNull { it.instant }
+            val now = Instant.now()
+            for ((button, _) in rangeButtons) {
+                button.isEnabled = false
+            }
+            for ((button, range) in rangeButtons) {
+                button.isEnabled = true
+                if (range != null && now.minus(range).isBefore(first)) {
+                    // This button covers all data
+                    break
                 }
             }
         }
