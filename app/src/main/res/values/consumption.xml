@@ -8,4 +8,5 @@
     <string name="range_6m">6m</string>
     <string name="range_1y">1y</string>
     <string name="range_max">max</string>
+    <string name="no_data">No data :(</string>
 </resources>

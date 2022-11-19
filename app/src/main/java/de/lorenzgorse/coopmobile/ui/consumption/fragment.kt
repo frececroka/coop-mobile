@@ -10,6 +10,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
+import de.lorenzgorse.coopmobile.ui.applyVisibility
 import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -73,6 +74,11 @@ class ConsumptionFragment : Fragment() {
                 consumptionChart.invalidate()
             }
         }
+
+        val hasDataFlow = viewModel.visibleConsumptionLog.data().filterNotNull()
+            .map { it.size >= 2 }
+        viewLifecycleOwner.applyVisibility(hasDataFlow, consumptionChart)
+        viewLifecycleOwner.applyVisibility(hasDataFlow.map { !it }, noConsumptionChart)
 
         val rangeButtons = listOf(
             Pair(bt1w, Ranges.range1w),
