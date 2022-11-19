@@ -37,6 +37,7 @@ class ConsumptionData @Inject constructor(
 
     val range: MutableSharedFlow<TemporalAmount?> = MutableSharedFlow()
     val consumptionLog: Flow<State<List<ConsumptionLogEntry>, CoopError>>
+    val visibleConsumptionLog: Flow<State<List<ConsumptionLogEntry>, CoopError>>
     val state: Flow<State<LineData?, CoopError>>
 
     init {
@@ -64,15 +65,21 @@ class ConsumptionData @Inject constructor(
             if (useFallbackConsumptionLog) fallbackConsumptionLog
             else cachedConsumptionLog
 
+        visibleConsumptionLog = liftFlow(consumptionLog, range.toState()) { consumptionLog, range ->
+            val begin = if (range != null)
+                Instant.now().minus(range)
+                else Instant.MIN
+            consumptionLog.filter { it.instant.isAfter(begin) }
+        }
+
         val consumption = load { client.getConsumption() }
 
-        state = liftFlow(range.toState(), consumption, consumptionLog) { r, c, cl ->
-            makeLineData(r, c, cl)
+        state = liftFlow(consumption, visibleConsumptionLog) { c, cl ->
+            makeLineData(c, cl)
         }.share()
     }
 
     private fun makeLineData(
-        range: TemporalAmount?,
         consumption: List<LabelledAmounts>,
         consumptionLog: List<ConsumptionLogEntry>
     ): LineData? {
@@ -93,13 +100,8 @@ class ConsumptionData @Inject constructor(
 
         analytics.logEvent("ConsumptionLog", bundleOf("Length" to mobileDataConsumption.size))
 
-        val begin = if (range != null)
-            Instant.now().minus(range)
-            else Instant.MIN
-
         var currentData = currentMobileData.amount.value
         val chartData = mobileDataConsumption
-            .filter { it.instant.isAfter(begin) }
             .sortedBy { it.instant }
             .reversed()
             .map { entry ->
