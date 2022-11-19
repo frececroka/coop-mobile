@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.installations.FirebaseInstallations
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
+import de.lorenzgorse.coopmobile.waitForTask
 import kotlinx.android.synthetic.main.fragment_debug.*
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +38,11 @@ class DebugFragment : Fragment() {
         super.onStart()
         renderGeneralAppInformation()
         renderPreferences()
+
+        lifecycleScope.launch {
+            val firebaseId = waitForTask(FirebaseInstallations.getInstance().id)
+            addAppInfo("Firebase id", firebaseId)
+        }
     }
 
     private fun renderGeneralAppInformation() {
