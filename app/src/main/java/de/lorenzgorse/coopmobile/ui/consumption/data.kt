@@ -55,7 +55,17 @@ class ConsumptionData @Inject constructor(
             consumptionLogCache.load()
         }
 
-        val fallbackConsumptionLog = cachedConsumptionLog.mapValue {
+        val mobileConsumptionLog = cachedConsumptionLog.mapValue { consumptionLog ->
+            consumptionLog.filter {
+                setOf(
+                    "Daten in der Schweiz",
+                    "Données en Suisse",
+                    "Traffico dati in Svizzera"
+                ).contains(it.type)
+            }
+        }
+
+        val fallbackConsumptionLog = mobileConsumptionLog.mapValue {
             if (it.size < 10) fakeData() else it
         }
 
@@ -63,7 +73,7 @@ class ConsumptionData @Inject constructor(
             Firebase.remoteConfig.getBoolean("use_fallback_consumption_log")
         consumptionLog =
             if (useFallbackConsumptionLog) fallbackConsumptionLog
-            else cachedConsumptionLog
+            else mobileConsumptionLog
 
         visibleConsumptionLog = liftFlow(consumptionLog, range.toState()) { consumptionLog, range ->
             val begin = if (range != null)
@@ -90,18 +100,10 @@ class ConsumptionData @Inject constructor(
         val currentMobileData = currentMobileDataBlock.labelledAmounts.firstOrNull()
             ?: return null
 
-        val mobileDataConsumption = consumptionLog.filter {
-            setOf(
-                "Daten in der Schweiz",
-                "Données en Suisse",
-                "Traffico dati in Svizzera"
-            ).contains(it.type)
-        }
-
-        analytics.logEvent("ConsumptionLog", bundleOf("Length" to mobileDataConsumption.size))
+        analytics.logEvent("ConsumptionLog", bundleOf("Length" to consumptionLog.size))
 
         var currentData = currentMobileData.amount.value
-        val chartData = mobileDataConsumption
+        val chartData = consumptionLog
             .sortedBy { it.instant }
             .reversed()
             .map { entry ->
