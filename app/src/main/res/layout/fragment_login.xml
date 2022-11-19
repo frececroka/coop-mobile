@@ -83,16 +83,16 @@
 
             <!-- Username -->
             <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="no"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/prompt_email"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -100,18 +100,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
             <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="no"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/prompt_password"
                     android:imeOptions="actionSend"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
