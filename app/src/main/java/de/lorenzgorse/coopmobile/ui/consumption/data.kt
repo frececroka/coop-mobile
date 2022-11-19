@@ -5,6 +5,8 @@ import androidx.core.os.bundleOf
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
@@ -15,7 +17,10 @@ import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
+import kotlin.random.Random
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -31,7 +36,7 @@ class ConsumptionData @Inject constructor(
     val state: Flow<State<LineData?, CoopError>>
 
     init {
-        val consumptionLog = load { client.getConsumptionLog() }
+        val newConsumptionLog = load { client.getConsumptionLog() }
             .flatMap { v, n ->
                 if (v != null) State.Loaded(v, n)
                 else {
@@ -40,14 +45,24 @@ class ConsumptionData @Inject constructor(
                 }
             }
 
-        val cachedConsumptionLog = consumptionLog.mapValue {
+        val cachedConsumptionLog = newConsumptionLog.mapValue {
             consumptionLogCache.insert(it)
             consumptionLogCache.load()
         }
 
+        val fallbackConsumptionLog = cachedConsumptionLog.mapValue {
+            if (it.size < 10) fakeData() else it
+        }
+
+        val useFallbackConsumptionLog =
+            Firebase.remoteConfig.getBoolean("use_fallback_consumption_log")
+        val consumptionLog =
+            if (useFallbackConsumptionLog) fallbackConsumptionLog
+            else cachedConsumptionLog
+
         val consumption = load { client.getConsumption() }
 
-        state = liftFlow(consumption, cachedConsumptionLog) { c, cl ->
+        state = liftFlow(consumption, consumptionLog) { c, cl ->
             makeLineData(c, cl)
         }.share()
     }
@@ -93,6 +108,16 @@ class ConsumptionData @Inject constructor(
         dataSet.setDrawFilled(true)
 
         return LineData(dataSet)
+    }
+
+    private fun fakeData(): List<ConsumptionLogEntry> {
+        var instant = Instant.now()
+        return (0 until 100).map {
+            val dataDelta = Random.nextDouble() * 100 * 1024
+            val timeDelta = Random.nextDouble() * 60 * 24 * 2
+            instant = instant.minus(Duration.ofMinutes(timeDelta.toLong()))
+            ConsumptionLogEntry(instant, "Daten in der Schweiz", dataDelta)
+        }
     }
 
 }
