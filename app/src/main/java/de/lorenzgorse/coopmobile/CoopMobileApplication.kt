@@ -26,7 +26,6 @@ import de.lorenzgorse.coopmobile.ui.debug.DebugFragment
 import de.lorenzgorse.coopmobile.ui.login.LoginFragment
 import de.lorenzgorse.coopmobile.ui.overview.OverviewFragment
 import de.lorenzgorse.coopmobile.ui.preferences.PreferencesFragment
-import de.lorenzgorse.coopmobile.ui.webview.WebViewFragment
 import okhttp3.CookieJar
 
 @Suppress("unused")
@@ -64,7 +63,6 @@ interface CoopComponent {
     fun inject(fragment: DebugFragment)
     fun inject(fragment: LoginFragment)
     fun inject(fragment: PreferencesFragment)
-    fun inject(fragment: WebViewFragment)
     fun inject(remoteDataView: RemoteDataView)
 }
 

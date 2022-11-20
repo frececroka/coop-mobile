@@ -23,15 +23,6 @@
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/action_web_view"
-        app:destination="@id/web_view"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/nav_graph"
-        app:popUpToInclusive="true" />
-    <action
         android:id="@+id/action_consumption"
         app:destination="@id/consumption"
         app:enterAnim="@anim/nav_default_enter_anim"
@@ -109,11 +100,6 @@
             android:name="product"
             app:argType="de.lorenzgorse.coopmobile.client.ProductBuySpec" />
     </fragment>
-    <fragment
-        android:id="@+id/web_view"
-        android:name="de.lorenzgorse.coopmobile.ui.webview.WebViewFragment"
-        android:label="@string/title_web_view"
-        tools:layout="@layout/fragment_web_view" />
     <fragment
         android:id="@+id/consumption"
         android:name="de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment"

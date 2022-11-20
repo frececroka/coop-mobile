@@ -38,7 +38,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
 
         navController = findNavController(R.id.nav_host_fragment)
         val topLevelDestinationIds = setOf(
-            R.id.login, R.id.overview, R.id.options, R.id.correspondences, R.id.web_view, R.id.consumption)
+            R.id.login, R.id.overview, R.id.options, R.id.correspondences, R.id.consumption)
         val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
@@ -58,7 +58,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
                 R.id.itOverview -> navController.navigate(R.id.action_overview)
                 R.id.itOptions -> navController.navigate(R.id.action_options)
                 R.id.itCorrespondences -> navController.navigate(R.id.action_correspondences)
-                R.id.itWebView -> navController.navigate(R.id.action_web_view)
                 R.id.itConsumption -> navController.navigate(R.id.action_consumption)
             }
             true
@@ -83,9 +82,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
             }
             R.id.consumption -> {
                 setBottomNavItem(R.id.itConsumption)
-            }
-            R.id.web_view -> {
-                setBottomNavItem(R.id.itWebView)
             }
         }
     }
