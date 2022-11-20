@@ -48,6 +48,11 @@ class ConsumptionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
+
+        // Initialize range to 1 month.
+        lifecycleScope.launch {
+            viewModel.range.emit(Ranges.range1m)
+        }
     }
 
     override fun onCreateView(
@@ -118,11 +123,6 @@ class ConsumptionFragment : Fragment() {
                     break
                 }
             }
-        }
-
-        // Initialize range to 1 month.
-        lifecycleScope.launch {
-            viewModel.range.emit(Ranges.range1m)
         }
     }
 

@@ -35,7 +35,7 @@ class ConsumptionData @Inject constructor(
     private val themeUtils: ThemeUtils = ThemeUtils(app)
     private val consumptionLogCache = ConsumptionLogCache(app)
 
-    val range: MutableSharedFlow<TemporalAmount?> = MutableSharedFlow()
+    val range: MutableSharedFlow<TemporalAmount?> = MutableSharedFlow(replay = 1)
     val consumptionLog: Flow<State<List<ConsumptionLogEntry>, CoopError>>
     val visibleConsumptionLog: Flow<State<List<ConsumptionLogEntry>, CoopError>>
     val state: Flow<State<LineData?, CoopError>>
