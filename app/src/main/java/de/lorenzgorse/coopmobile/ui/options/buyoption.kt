@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.ui.options
 
+import android.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
@@ -9,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Either
-import de.lorenzgorse.coopmobile.client.ProductBuySpec
+import de.lorenzgorse.coopmobile.client.Product
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.notify
 import kotlinx.coroutines.channels.Channel
@@ -24,8 +25,8 @@ class BuyProduct(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    suspend fun start(spec: ProductBuySpec) {
-        log.info("Buying product: $spec")
+    suspend fun start(product: Product) {
+        log.info("Buying product: $product")
 
         val authenticators = BIOMETRIC_WEAK or DEVICE_CREDENTIAL
 
@@ -67,21 +68,50 @@ class BuyProduct(
 
         log.info("Sending request to buy product to Coop Mobile servers")
 
-        // TODO: Show progress indicator.
-        when (val result = client.buyProduct(spec)) {
+        val dialog = notifyBuyingInProgress(product)
+        dialog.show()
+
+        val result = client.buyProduct(product.buySpec)
+        dialog.dismiss()
+
+        when (result) {
             is Either.Left -> {
                 log.error("Failed to buy product: $result")
-                fragment.notify(R.string.buying_failed)
+                notifyBuyingFailed(product)
             }
             is Either.Right -> {
                 log.info("Bought product: $result")
                 if (result.value) {
-                    fragment.notify(R.string.bought)
+                    notifyBuyingSuccess(product)
                 } else {
-                    fragment.notify(R.string.buying_failed)
+                    notifyBuyingFailed(product)
                 }
             }
         }
+    }
+
+    private fun notifyBuyingInProgress(product: Product) =
+        AlertDialog.Builder(fragment.requireContext())
+            .setTitle(R.string.buying_option)
+            .setMessage(product.name)
+            .setView(R.layout.loading)
+            .setCancelable(false)
+            .create()
+
+    private fun notifyBuyingSuccess(product: Product) {
+        AlertDialog.Builder(fragment.requireContext())
+            .setTitle(R.string.option_bought_title)
+            .setMessage(fragment.getString(R.string.option_bought_body, product.name))
+            .setNeutralButton(R.string.okay, null)
+            .create().show()
+    }
+
+    private fun notifyBuyingFailed(product: Product) {
+        AlertDialog.Builder(fragment.requireContext())
+            .setTitle(R.string.buying_option_failed_title)
+            .setMessage(fragment.getString(R.string.buying_option_failed_body, product.name))
+            .setNeutralButton(R.string.okay, null)
+            .create().show()
     }
 
     private sealed class AuthenticationResult {

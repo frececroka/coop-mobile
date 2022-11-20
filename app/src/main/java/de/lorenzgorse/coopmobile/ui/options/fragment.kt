@@ -100,7 +100,7 @@ class OptionsFragment : Fragment() {
 
     private suspend fun buyProduct(product: Product) {
         val buyProduct = BuyProduct(this, coopClient)
-        buyProduct.start(product.buySpec)
+        buyProduct.start(product)
     }
 
 }
