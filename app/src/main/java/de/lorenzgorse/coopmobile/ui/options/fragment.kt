@@ -98,7 +98,7 @@ class OptionsFragment : Fragment() {
         }
     }
 
-    private fun buyProduct(product: Product) {
+    private suspend fun buyProduct(product: Product) {
         val buyProduct = BuyProduct(this, coopClient)
         buyProduct.start(product.buySpec)
     }

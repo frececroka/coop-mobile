@@ -12,6 +12,8 @@ import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.ProductBuySpec
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.notify
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 
@@ -22,33 +24,15 @@ class BuyProduct(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun start(spec: ProductBuySpec) {
-        val callback = object : BiometricPrompt.AuthenticationCallback() {
-            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                super.onAuthenticationError(errorCode, errString)
-                if (errorCode != BiometricPrompt.ERROR_USER_CANCELED) {
-                    authentificationCancelled()
-                } else {
-                    authentificationFailed(errString)
-                }
-            }
-
-            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                super.onAuthenticationSucceeded(result)
-                fragment.lifecycleScope.launch { buyProduct(spec) }
-            }
-
-            override fun onAuthenticationFailed() {
-                super.onAuthenticationFailed()
-                authentificationFailed()
-            }
-        }
+    suspend fun start(spec: ProductBuySpec) {
+        log.info("Buying product: $spec")
 
         val authenticators = BIOMETRIC_WEAK or DEVICE_CREDENTIAL
 
         val biometricManager = BiometricManager.from(fragment.requireContext())
         if (biometricManager.canAuthenticate(authenticators) != BIOMETRIC_SUCCESS) {
-            deviceNotSecure()
+            log.info("Not buying product, because the device is not sufficiently secured")
+            fragment.notify(fragment.getString(R.string.device_not_secure))
             return
         }
 
@@ -57,30 +41,40 @@ class BuyProduct(
             .setAllowedAuthenticators(authenticators)
             .build()
 
-        val biometricPrompt = BiometricPrompt(fragment, callback)
+        val authenticationResult = Channel<AuthenticationResult>()
+        val authenticationCallback = AuthenticationCallback(authenticationResult)
+        val biometricPrompt = BiometricPrompt(fragment, authenticationCallback)
         biometricPrompt.authenticate(prompInfo)
-    }
 
-    private fun deviceNotSecure() {
-        log.info("Device is not secure.")
-        fragment.notify(fragment.getString(R.string.device_not_secure))
-    }
+        log.info("Waiting for authentication result")
+        when (val result = authenticationResult.receive()) {
+            AuthenticationResult.Cancelled -> {
+                // The user cancelled the operation,
+                // so we don't do anything.
+                log.info("The user cancelled the authentication")
+                return
+            }
+            is AuthenticationResult.Error -> {
+                log.error("The authentication was not successful: $result")
+                // TODO: What error messages will we show? Can we be more helpful?
+                fragment.notify(result.errorMessage)
+                return
+            }
+            AuthenticationResult.Success -> {
+                log.info("The authentication was successful")
+            }
+        }
 
-    private fun authentificationCancelled() {
-    }
+        log.info("Sending request to buy product to Coop Mobile servers")
 
-    private fun authentificationFailed(errString: CharSequence? = null) {
-        val nonNullErrString = errString
-            ?: fragment.getString(R.string.authentication_unsuccessful)
-        fragment.notify(nonNullErrString)
-    }
-
-    private suspend fun buyProduct(spec: ProductBuySpec) {
+        // TODO: Show progress indicator.
         when (val result = client.buyProduct(spec)) {
             is Either.Left -> {
+                log.error("Failed to buy product: $result")
                 fragment.notify(R.string.buying_failed)
             }
             is Either.Right -> {
+                log.info("Bought product: $result")
                 if (result.value) {
                     fragment.notify(R.string.bought)
                 } else {
@@ -88,6 +82,36 @@ class BuyProduct(
                 }
             }
         }
+    }
+
+    private sealed class AuthenticationResult {
+        object Success : AuthenticationResult()
+        object Cancelled : AuthenticationResult()
+        data class Error(val errorCode: Int, val errorMessage: String) : AuthenticationResult()
+    }
+
+    private inner class AuthenticationCallback(
+        private val resultChannel: SendChannel<AuthenticationResult>,
+    ) : BiometricPrompt.AuthenticationCallback() {
+
+        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+            super.onAuthenticationError(errorCode, errString)
+            val result = when (errorCode) {
+                BiometricPrompt.ERROR_USER_CANCELED -> AuthenticationResult.Cancelled
+                else -> AuthenticationResult.Error(errorCode, errString.toString())
+            }
+            fragment.lifecycleScope.launch {
+                resultChannel.send(result)
+            }
+        }
+
+        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+            super.onAuthenticationSucceeded(result)
+            fragment.lifecycleScope.launch {
+                resultChannel.send(AuthenticationResult.Success)
+            }
+        }
+
     }
 
 }
