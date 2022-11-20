@@ -6,7 +6,6 @@
     android:layout_margin="@dimen/card_margin">
 
     <LinearLayout
-        android:id="@+id/linProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -19,8 +18,8 @@
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="24sp"
+            android:textStyle="bold"
             tools:text="Product Name" />
 
         <TextView
@@ -28,7 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5pt"
-            android:layout_weight="1"
             android:textColor="@color/coopGreen"
             android:textSize="18sp"
             tools:text="Price" />
@@ -37,8 +35,15 @@
             android:id="@+id/txtDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             tools:text="Product Description" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btBuy"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/buy" />
 
     </LinearLayout>
 

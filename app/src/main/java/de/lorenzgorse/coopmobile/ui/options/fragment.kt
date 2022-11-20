@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -17,8 +17,6 @@ import de.lorenzgorse.coopmobile.client.Product
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
-import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
-import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import kotlinx.android.synthetic.main.fragment_options.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -81,7 +79,7 @@ class OptionsFragment : Fragment() {
             productItemView.findViewById<TextView>(R.id.txtName).text = product.name
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price
             productItemView.findViewById<TextView>(R.id.txtDescription).text = product.description
-            productItemView.findViewById<LinearLayout>(R.id.linProduct).setOnClickListener {
+            productItemView.findViewById<Button>(R.id.btBuy).setOnClickListener {
                 lifecycleScope.launch { buyProduct(product) } }
             linProducts.addView(productItemView)
         }

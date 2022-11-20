@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="buy">Buy</string>
+
     <!-- confirmation dialog -->
     <string name="confirm_buy_option_title">Confirm purchase</string>
     <string name="confirm_buy_option_body">Do you really want to buy the option \"%1$s\" for %2$s?</string>
