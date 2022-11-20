@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_1w" />
 
         <Button
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_1m" />
 
         <Button
@@ -35,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_3m" />
 
         <Button
@@ -43,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_6m" />
 
         <Button
@@ -51,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_1y" />
 
         <Button
@@ -59,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="10dp"
             android:text="@string/range_max" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>

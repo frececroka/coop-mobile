@@ -116,7 +116,6 @@
 
             <!-- Username -->
             <com.google.android.material.textfield.TextInputLayout
-                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email">
@@ -139,7 +138,6 @@
 
             <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
-                style="?attr/textInputOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password">
@@ -160,14 +158,10 @@
             <!-- Login Button -->
             <Button
                 android:id="@+id/btLogin"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/action_sign_in"
-                android:textColor="?attr/colorOnPrimary"
-                android:textStyle="bold" />
+                android:text="@string/action_sign_in" />
 
         </LinearLayout>
 
