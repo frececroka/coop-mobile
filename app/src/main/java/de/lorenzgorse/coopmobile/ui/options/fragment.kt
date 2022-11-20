@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -75,7 +76,7 @@ class OptionsFragment : Fragment() {
     private fun setProducts(result: List<Product>) {
         linProducts.removeAllViews()
         for (product in result) {
-            log.info("Adding product ${product.name}")
+            logOptionView(product)
             val productItemView = inflater.inflate(R.layout.product_item, linProducts, false)
             productItemView.findViewById<TextView>(R.id.txtName).text = product.name
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price
@@ -86,7 +87,17 @@ class OptionsFragment : Fragment() {
         }
     }
 
+    private fun logOptionView(product: Product) {
+        log.info("Adding product ${product.name}")
+        analytics.logEvent("OptionView", bundleOf(
+            "Name" to product.name,
+            "Price" to product.price
+        ))
+    }
+
+    // TODO: Move this function into the BuyProduct class.
     private suspend fun confirmBuyProduct(product: Product) {
+        analytics.logEvent("BuyOption_Start", null)
         val result = AlertDialogBuilder(requireContext())
             .setTitle(R.string.confirm_buy_option_title)
             .setMessage(resources.getString(R.string.confirm_buy_option_body, product.name, product.price))
@@ -95,11 +106,13 @@ class OptionsFragment : Fragment() {
             .show()
         if (result == AlertDialogChoice.POSITIVE) {
             buyProduct(product)
+        } else {
+            analytics.logEvent("BuyOption", bundleOf("Status" to "Cancelled"))
         }
     }
 
     private suspend fun buyProduct(product: Product) {
-        val buyProduct = BuyProduct(this, coopClient)
+        val buyProduct = BuyProduct(this, coopClient, analytics)
         buyProduct.start(product)
     }
 

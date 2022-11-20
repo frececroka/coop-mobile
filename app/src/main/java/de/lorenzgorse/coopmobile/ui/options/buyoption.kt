@@ -6,8 +6,10 @@ import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
 import androidx.biometric.BiometricPrompt
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.Product
@@ -20,7 +22,8 @@ import org.slf4j.LoggerFactory
 
 class BuyProduct(
     private val fragment: Fragment,
-    private val client: CoopClient
+    private val client: CoopClient,
+    private val analytics: FirebaseAnalytics,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -33,6 +36,7 @@ class BuyProduct(
         val biometricManager = BiometricManager.from(fragment.requireContext())
         if (biometricManager.canAuthenticate(authenticators) != BIOMETRIC_SUCCESS) {
             log.info("Not buying product, because the device is not sufficiently secured")
+            analytics.logEvent("BuyOption", bundleOf("Status" to "NoScreenLock"))
             fragment.notify(fragment.getString(R.string.device_not_secure))
             return
         }
@@ -53,12 +57,14 @@ class BuyProduct(
                 // The user cancelled the operation,
                 // so we don't do anything.
                 log.info("The user cancelled the authentication")
+                analytics.logEvent("BuyOption", bundleOf("Status" to "UserCancelled"))
                 return
             }
             is AuthenticationResult.Error -> {
                 log.error("The authentication was not successful: $result")
                 // TODO: What error messages will we show? Can we be more helpful?
                 fragment.notify(result.errorMessage)
+                analytics.logEvent("BuyOption", bundleOf("Status" to "AuthenticationFailed"))
                 return
             }
             AuthenticationResult.Success -> {
@@ -77,13 +83,16 @@ class BuyProduct(
         when (result) {
             is Either.Left -> {
                 log.error("Failed to buy product: $result")
+                analytics.logEvent("BuyOption", bundleOf("Status" to "RequestFailed"))
                 notifyBuyingFailed(product)
             }
             is Either.Right -> {
                 log.info("Bought product: $result")
                 if (result.value) {
+                    analytics.logEvent("BuyOption", bundleOf("Status" to "Success"))
                     notifyBuyingSuccess(product)
                 } else {
+                    analytics.logEvent("BuyOption", bundleOf("Status" to "ResponseFailed"))
                     notifyBuyingFailed(product)
                 }
             }
