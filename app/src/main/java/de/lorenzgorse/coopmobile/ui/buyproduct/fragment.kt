@@ -1,24 +1,25 @@
 package de.lorenzgorse.coopmobile.ui.buyproduct
 
-import android.app.Activity
-import android.app.KeyguardManager
 import android.content.Context
-import android.content.Intent
-import android.hardware.biometrics.BiometricPrompt
-import android.os.Build
 import android.os.Bundle
-import android.os.CancellationSignal
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContract
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
+import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.FirebaseAnalytics
+import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.ProductBuySpec
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
+import de.lorenzgorse.coopmobile.coopComponent
+import de.lorenzgorse.coopmobile.notify
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -56,65 +57,51 @@ class BuyProductFragment : Fragment() {
     }
 
     private fun authenticate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val callback = object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-                    if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL) {
-                        // TODO: BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL is not
-                        //  the only case where the device is not considered secure.
-                        deviceNotSecure()
-                    } else {
-                        authentificationFailed(errString)
-                    }
-                }
-
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult?
-                ) {
-                    lifecycleScope.launch { buyProduct() }
-                }
-
-                override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-                    if (helpString != null) {
-                        notify(helpString)
-                    }
-                }
-
-                override fun onAuthenticationFailed() {
-                    authentificationFailed()
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                if (errorCode != BiometricPrompt.ERROR_USER_CANCELED) {
+                    authentificationCancelled()
+                } else {
+                    authentificationFailed(errString)
                 }
             }
 
-            BiometricPrompt.Builder(context)
-                .setTitle(getString(R.string.confirm_purchase))
-                .setDeviceCredentialAllowed(true)
-                .build()
-                .authenticate(CancellationSignal(), requireContext().mainExecutor, callback)
-        } else {
-            val keyguardManager = requireContext().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            @Suppress("DEPRECATION")
-            val intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                getString(R.string.confirm_purchase), null)
-            if (intent != null) {
-                registerForActivityResult(object : ActivityResultContract<Int, Int>() {
-                    override fun createIntent(context: Context, input: Int) = intent
-                    override fun parseResult(resultCode: Int, intent: Intent?) = resultCode
-                }) {
-                    if (it == Activity.RESULT_OK) {
-                        lifecycleScope.launch { buyProduct() }
-                    } else {
-                        authentificationFailed()
-                    }
-                }
-            } else {
-                deviceNotSecure()
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                lifecycleScope.launch { buyProduct() }
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                authentificationFailed()
             }
         }
+
+        val authenticators = BIOMETRIC_WEAK or DEVICE_CREDENTIAL
+
+        val biometricManager = BiometricManager.from(requireContext())
+        if (biometricManager.canAuthenticate(authenticators) != BIOMETRIC_SUCCESS) {
+            deviceNotSecure()
+            return
+        }
+
+        val prompInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getString(R.string.confirm_purchase))
+            .setAllowedAuthenticators(authenticators)
+            .build()
+
+        val biometricPrompt = BiometricPrompt(this, callback)
+        biometricPrompt.authenticate(prompInfo)
     }
 
     private fun deviceNotSecure() {
         log.info("Device is not secure.")
         notify(getString(R.string.device_not_secure))
+        findNavController().popBackStack()
+    }
+
+    private fun authentificationCancelled() {
         findNavController().popBackStack()
     }
 
