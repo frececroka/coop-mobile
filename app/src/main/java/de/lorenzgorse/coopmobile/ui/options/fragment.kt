@@ -82,7 +82,7 @@ class OptionsFragment : Fragment() {
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price
             productItemView.findViewById<TextView>(R.id.txtDescription).text = product.description
             productItemView.findViewById<LinearLayout>(R.id.linProduct).setOnClickListener {
-                lifecycleScope.launch { confirmBuyProduct(product) } }
+                lifecycleScope.launch { buyProduct(product) } }
             linProducts.addView(productItemView)
         }
     }
@@ -95,25 +95,11 @@ class OptionsFragment : Fragment() {
         ))
     }
 
-    // TODO: Move this function into the BuyProduct class.
-    private suspend fun confirmBuyProduct(product: Product) {
-        analytics.logEvent("BuyOption_Start", null)
-        val result = AlertDialogBuilder(requireContext())
-            .setTitle(R.string.confirm_buy_option_title)
-            .setMessage(resources.getString(R.string.confirm_buy_option_body, product.name, product.price))
-            .setNegativeButton(R.string.no)
-            .setPositiveButton(R.string.yes)
-            .show()
-        if (result == AlertDialogChoice.POSITIVE) {
-            buyProduct(product)
-        } else {
-            analytics.logEvent("BuyOption", bundleOf("Status" to "Cancelled"))
-        }
-    }
-
     private suspend fun buyProduct(product: Product) {
-        val buyProduct = BuyProduct(this, coopClient, analytics)
-        buyProduct.start(product)
+        analytics.logEvent("BuyOption_Start", null)
+        val buyProduct = BuyProduct(this, coopClient)
+        val result = buyProduct.start(product)
+        analytics.logEvent("BuyOption", bundleOf("Status" to result.name))
     }
 
 }
