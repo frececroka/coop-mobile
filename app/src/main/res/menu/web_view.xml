@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/itAddOption"
-        android:title="@string/title_buy_option"
+        android:id="@+id/itOptions"
+        android:title="@string/title_options"
         app:showAsAction="never" />
     <item
         android:id="@+id/itCorrespondences"

@@ -2,7 +2,7 @@
 <resources>
     <string name="title_overview">Overview</string>
     <string name="title_correspondences">Messages</string>
-    <string name="title_buy_option">Add Option</string>
+    <string name="title_options">Options</string>
     <string name="title_top_up">Top Up Balance</string>
 
     <string name="title_combox" translatable="false">COMBOX®</string>

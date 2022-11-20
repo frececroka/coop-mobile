@@ -2,7 +2,7 @@
 <resources>
     <string name="title_overview">Aperçu</string>
     <string name="title_correspondences">Messages</string>
-    <string name="title_buy_option">Commander une option</string>
+    <string name="title_options">Options</string>
 
     <string name="title_login">S\'identifier</string>
 </resources>

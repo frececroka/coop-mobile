@@ -64,12 +64,14 @@
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <action
-        android:id="@+id/action_add_product"
-        app:destination="@id/add_product"
+        android:id="@+id/action_options"
+        app:destination="@id/options"
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/overview"
         android:name="de.lorenzgorse.coopmobile.ui.overview.OverviewFragment"
@@ -81,9 +83,9 @@
         android:label="@string/title_login"
         tools:layout="@layout/fragment_login" />
     <fragment
-        android:id="@+id/add_product"
+        android:id="@+id/options"
         android:name="de.lorenzgorse.coopmobile.ui.addproduct.AddProductFragment"
-        android:label="@string/title_buy_option"
+        android:label="@string/title_options"
         tools:layout="@layout/fragment_add_product">
         <action
             android:id="@+id/action_add_product_to_buy_product"
@@ -92,8 +94,8 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/add_product"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@+id/options"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/correspondences"

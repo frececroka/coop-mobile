@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -88,22 +87,15 @@ class AddProductFragment : Fragment() {
     }
 
     private suspend fun confirmBuyProduct(product: Product) {
-        if (remoteConfig.getBoolean("buy_option_enabled")) {
-            val result = AlertDialogBuilder(requireContext())
-                .setTitle(R.string.buy_confirm_title)
-                .setMessage(resources.getString(R.string.buy_confirm_message, product.name, product.price))
-                .setNegativeButton(R.string.no)
-                .setPositiveButton(R.string.yes)
-                .show()
-            if (result == AlertDialogChoice.POSITIVE) {
-                val data = bundleOf("product" to product.buySpec)
-                findNavController().navigate(R.id.action_add_product_to_buy_product, data)
-            }
-        } else {
-            AlertDialogBuilder(requireContext())
-                .setMessage(R.string.buy_option_not_available)
-                .setNeutralButton(R.string.okay)
-                .show()
+        val result = AlertDialogBuilder(requireContext())
+            .setTitle(R.string.buy_confirm_title)
+            .setMessage(resources.getString(R.string.buy_confirm_message, product.name, product.price))
+            .setNegativeButton(R.string.no)
+            .setPositiveButton(R.string.yes)
+            .show()
+        if (result == AlertDialogChoice.POSITIVE) {
+            val data = bundleOf("product" to product.buySpec)
+            findNavController().navigate(R.id.action_add_product_to_buy_product, data)
         }
     }
 

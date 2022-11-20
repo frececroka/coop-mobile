@@ -65,7 +65,7 @@ class WebViewFragment : Fragment() {
             analytics.logEvent("web_view_navigate", bundleOf("target" to target))
         }
         return when (item.itemId) {
-            R.id.itAddOption -> {
+            R.id.itOptions -> {
                 logNavigationEvent("add_product")
                 webView.loadUrl("https://myaccount.coopmobile.ch/eCare/prepaid/de/add_product")
                 true

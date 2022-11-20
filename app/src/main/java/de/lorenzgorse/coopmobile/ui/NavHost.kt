@@ -38,7 +38,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
 
         navController = findNavController(R.id.nav_host_fragment)
         val topLevelDestinationIds = setOf(
-            R.id.login, R.id.overview, R.id.correspondences, R.id.web_view, R.id.consumption)
+            R.id.login, R.id.overview, R.id.options, R.id.correspondences, R.id.web_view, R.id.consumption)
         val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
@@ -48,9 +48,15 @@ class NavHost : AppCompatActivity(), MenuProvider {
             bottom_nav.menu.removeItem(R.id.itCorrespondences)
         }
 
+        val enableOptions = Firebase.remoteConfig.getBoolean("enable_options")
+        if (!enableOptions) {
+            bottom_nav.menu.removeItem(R.id.itOptions)
+        }
+
         bottom_nav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.itOverview -> navController.navigate(R.id.action_overview)
+                R.id.itOptions -> navController.navigate(R.id.action_options)
                 R.id.itCorrespondences -> navController.navigate(R.id.action_correspondences)
                 R.id.itWebView -> navController.navigate(R.id.action_web_view)
                 R.id.itConsumption -> navController.navigate(R.id.action_consumption)
@@ -119,9 +125,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.itAddOption -> {
-                addOption(); true
-            }
             R.id.itLogout -> {
                 logout(); true
             }
@@ -133,10 +136,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
             }
             else -> false
         }
-    }
-
-    private fun addOption() {
-        navController.navigate(R.id.action_add_product)
     }
 
     private fun logout() {

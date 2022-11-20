@@ -60,6 +60,8 @@ class BuyProductFragment : Fragment() {
             val callback = object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
                     if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL) {
+                        // TODO: BIOMETRIC_ERROR_NO_DEVICE_CREDENTIAL is not
+                        //  the only case where the device is not considered secure.
                         deviceNotSecure()
                     } else {
                         authentificationFailed(errString)
@@ -117,19 +119,12 @@ class BuyProductFragment : Fragment() {
     }
 
     private fun authentificationFailed(errString: CharSequence? = null) {
-        log.info(errString.toString())
         val nonNullErrString = errString ?: getString(R.string.authentication_unsuccessful)
         notify(nonNullErrString)
         findNavController().popBackStack()
     }
 
-    @Suppress("UNREACHABLE_CODE")
     private suspend fun buyProduct() {
-        notify(R.string.buy_option_not_available)
-        findNavController().popBackStack()
-
-        return
-
         when (val result = client.buyProduct(productBuySpec)) {
             is Either.Left -> {
                 findNavController().popBackStack()
