@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- confirmation dialog -->
+    <string name="confirm_buy_option_title">Confirm purchase</string>
+    <string name="confirm_buy_option_body">Do you really want to buy the option \"%1$s\" for \"%2$s?\"</string>
+
+    <!-- in progress dialog -->
+    <string name="buying_option">Buying option</string>
+
+    <!-- success dialog -->
     <string name="option_bought_title">The option has been bought</string>
     <string name="option_bought_body">The option \"%1$s\" has been bought! It will be available soon.</string>
-    <string name="buy_confirm_message">Do you really want to buy the option \"%1$s\" for \"%2$s?\"</string>
-    <string name="buy_confirm_title">Sure?</string>
-    <string name="buy_option_not_available">You cannot buy options with the app yet.</string>
-    <string name="buying_option">Buying option</string>
+
+    <!-- failure dialog -->
     <string name="buying_option_failed_title">Buying the option might have failed</string>
     <string name="buying_option_failed_body">Buying the option \"%1$s\" might have failed. Please try again if you do not receive an SMS confirmation soon.</string>
+
+    <!-- authentication errors -->
     <string name="device_not_secure">The device must be secured with a PIN or password to buy options.</string>
     <string name="authentication_unsuccessful">Authentification was unsuccessful.</string>
-    <string name="confirm_purchase">Confirm purchase</string>
 </resources>

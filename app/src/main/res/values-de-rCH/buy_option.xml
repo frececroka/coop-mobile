@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="buy_confirm_title">Sicher?</string>
-    <string name="buy_confirm_message">Willst du die Option \"%1$s\" wirklich für \"%2$s\" kaufen?</string>
+    <!-- confirmation dialog -->
+    <string name="confirm_buy_option_title">Kauf bestätigen</string>
+    <string name="confirm_buy_option_body">Willst du die Option \"%1$s\" wirklich für \"%2$s\" kaufen?</string>
+
+    <!-- in progress dialog -->
+    <string name="buying_option">Kaufe Option</string>
+
+    <!-- success dialog -->
     <string name="option_bought_title">Die Option wurde gekauft</string>
     <string name="option_bought_body">Die Option \"%1$s\" wurde gekauft und wird bald verfügbar sein.</string>
-    <string name="buying_option">Kaufe Option</string>
+
+    <!-- failure dialog -->
+    <string name="buying_option_failed_title">Der Kauf ist möglicherweise fehlgeschlagen</string>
     <string name="buying_option_failed_body">Der Kauf der Option \"%1$s\" ist möglicherweise fehlgeschlagen. Probiere es bitte erneut, wenn du in den nächsten Minuten keine Bestätigung per SMS bekommst.</string>
-    <string name="buy_option_not_available">Optionen können noch nicht über die App gekauft werden.</string>
-    <string name="confirm_purchase">Kauf bestätigen</string>
+
+    <!-- authentication errors -->
     <string name="device_not_secure">Das Gerät muss gesichert sein (PIN-Code, Passwort, Fingerabdruck, …), um Optionen kaufen zu können.</string>
     <string name="authentication_unsuccessful">Authentifizierung war nicht erfolgreich.</string>
 </resources>

@@ -38,7 +38,7 @@ class BuyProduct(
         }
 
         val prompInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(fragment.getString(R.string.confirm_purchase))
+            .setTitle(fragment.getString(R.string.confirm_buy_option_title))
             .setAllowedAuthenticators(authenticators)
             .build()
 

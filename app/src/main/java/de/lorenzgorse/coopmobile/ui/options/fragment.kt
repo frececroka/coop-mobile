@@ -88,8 +88,8 @@ class OptionsFragment : Fragment() {
 
     private suspend fun confirmBuyProduct(product: Product) {
         val result = AlertDialogBuilder(requireContext())
-            .setTitle(R.string.buy_confirm_title)
-            .setMessage(resources.getString(R.string.buy_confirm_message, product.name, product.price))
+            .setTitle(R.string.confirm_buy_option_title)
+            .setMessage(resources.getString(R.string.confirm_buy_option_body, product.name, product.price))
             .setNegativeButton(R.string.no)
             .setPositiveButton(R.string.yes)
             .show()
