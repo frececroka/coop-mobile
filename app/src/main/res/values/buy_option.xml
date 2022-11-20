@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bought">Bought!</string>
-    <string name="buy_confirm_message">Do you really want to buy the option %1$s for %2$s ?</string>
+    <string name="buy_confirm_message">Do you really want to buy the option %1$s for %2$s?</string>
     <string name="buy_confirm_title">Sure?</string>
     <string name="buy_option_not_available">You cannot buy options with the app yet.</string>
     <string name="buying">Buying…</string>
