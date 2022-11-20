@@ -4,48 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
     tools:context=".ui.login.LoginFragment">
 
-    <de.lorenzgorse.coopmobile.ui.LoadingView
-        android:id="@+id/loading"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/loginProgressIndicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible" />
 
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Privacy Policy -->
+            <TextView
+                android:id="@+id/txtPrivacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_policy"
+                android:textAlignment="textEnd"
+                tools:text="Privacy Policy" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20pt" />
+                android:textSize="20pt"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10pt"
                 android:text="@string/login_private" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardError"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10pt"
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/colorAccent"
@@ -53,14 +86,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="3pt">
 
                     <TextView
                         android:id="@+id/txtNoNetwork"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/no_network"
                         android:theme="@style/ErrorMessage"
@@ -70,13 +102,14 @@
 
                     <TextView
                         android:id="@+id/txtLoginFailed"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/error_login_failed"
                         android:theme="@style/ErrorMessage"
                         android:visibility="gone"
                         app:drawableStartCompat="@drawable/ic_report"
                         tools:visibility="visible" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -135,24 +168,6 @@
                 android:text="@string/action_sign_in"
                 android:textColor="?attr/colorOnPrimary"
                 android:textStyle="bold" />
-
-            <!-- Privacy Policy -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15pt"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtPrivacyPolicy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/privacy_policy"
-                    tools:text="Privacy Policy" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

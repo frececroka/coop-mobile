@@ -216,8 +216,10 @@ class LoginFragment : Fragment() {
         username.matches(phoneRegex)
 
     private fun showProgress(show: Boolean) {
-        login_form?.visibility = if (show) View.GONE else View.VISIBLE
-        loading?.visibility = if (show) View.VISIBLE else View.GONE
+        txtUsername.isEnabled = !show
+        txtPassword.isEnabled = !show
+        btLogin.isEnabled = !show
+        loginProgressIndicator.visibility = if (show) View.VISIBLE else View.INVISIBLE
     }
 
 }
