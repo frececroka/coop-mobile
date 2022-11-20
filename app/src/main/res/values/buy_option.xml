@@ -2,7 +2,7 @@
 <resources>
     <!-- confirmation dialog -->
     <string name="confirm_buy_option_title">Confirm purchase</string>
-    <string name="confirm_buy_option_body">Do you really want to buy the option \"%1$s\" for \"%2$s?\"</string>
+    <string name="confirm_buy_option_body">Do you really want to buy the option \"%1$s\" for %2$s?</string>
 
     <!-- in progress dialog -->
     <string name="buying_option">Buying option</string>
