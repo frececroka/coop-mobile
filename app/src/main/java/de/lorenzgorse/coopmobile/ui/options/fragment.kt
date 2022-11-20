@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import de.lorenzgorse.coopmobile.FirebaseAnalytics
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Product
+import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
@@ -36,6 +35,7 @@ class OptionsFragment : Fragment() {
 
     @Inject lateinit var viewModel: OptionsData
     @Inject lateinit var analytics: FirebaseAnalytics
+    @Inject lateinit var coopClient: CoopClient
 
     private lateinit var inflater: LayoutInflater
     private lateinit var remoteConfig: FirebaseRemoteConfig
@@ -94,9 +94,13 @@ class OptionsFragment : Fragment() {
             .setPositiveButton(R.string.yes)
             .show()
         if (result == AlertDialogChoice.POSITIVE) {
-            val data = bundleOf("product" to product.buySpec)
-            findNavController().navigate(R.id.action_add_product_to_buy_product, data)
+            buyProduct(product)
         }
+    }
+
+    private fun buyProduct(product: Product) {
+        val buyProduct = BuyProduct(this, coopClient)
+        buyProduct.start(product.buySpec)
     }
 
 }

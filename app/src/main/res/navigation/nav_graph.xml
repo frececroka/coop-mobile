@@ -78,28 +78,12 @@
         android:name="de.lorenzgorse.coopmobile.ui.options.OptionsFragment"
         android:label="@string/title_options"
         tools:layout="@layout/fragment_options">
-        <action
-            android:id="@+id/action_add_product_to_buy_product"
-            app:destination="@id/buy_product"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/options"
-            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/correspondences"
         android:name="de.lorenzgorse.coopmobile.ui.correspondences.CorrespondencesFragment"
         android:label="@string/title_correspondences"
         tools:layout="@layout/fragment_correspondences" />
-    <fragment
-        android:id="@+id/buy_product"
-        android:name="de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment">
-        <argument
-            android:name="product"
-            app:argType="de.lorenzgorse.coopmobile.client.ProductBuySpec" />
-    </fragment>
     <fragment
         android:id="@+id/consumption"
         android:name="de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment"

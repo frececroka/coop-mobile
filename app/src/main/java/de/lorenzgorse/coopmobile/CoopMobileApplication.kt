@@ -18,12 +18,11 @@ import de.lorenzgorse.coopmobile.client.simple.*
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 import de.lorenzgorse.coopmobile.ui.NavHost
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import de.lorenzgorse.coopmobile.ui.options.OptionsFragment
-import de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment
 import de.lorenzgorse.coopmobile.ui.correspondences.CorrespondencesFragment
 import de.lorenzgorse.coopmobile.ui.debug.DebugFragment
 import de.lorenzgorse.coopmobile.ui.login.LoginFragment
+import de.lorenzgorse.coopmobile.ui.options.OptionsFragment
 import de.lorenzgorse.coopmobile.ui.overview.OverviewFragment
 import de.lorenzgorse.coopmobile.ui.preferences.PreferencesFragment
 import okhttp3.CookieJar
@@ -57,7 +56,6 @@ interface CoopComponent {
     fun inject(fragment: NavHost)
     fun inject(fragment: OverviewFragment)
     fun inject(fragment: OptionsFragment)
-    fun inject(fragment: BuyProductFragment)
     fun inject(fragment: ConsumptionFragment)
     fun inject(fragment: CorrespondencesFragment)
     fun inject(fragment: DebugFragment)
