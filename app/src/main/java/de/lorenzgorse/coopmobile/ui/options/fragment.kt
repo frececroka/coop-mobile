@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.ui.addproduct
+package de.lorenzgorse.coopmobile.ui.options
 
 import android.content.Context
 import android.os.Bundle
@@ -20,7 +20,7 @@ import de.lorenzgorse.coopmobile.data
 import de.lorenzgorse.coopmobile.ui.AlertDialogBuilder
 import de.lorenzgorse.coopmobile.ui.AlertDialogChoice
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import kotlinx.android.synthetic.main.fragment_add_product.*
+import kotlinx.android.synthetic.main.fragment_options.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
@@ -30,11 +30,11 @@ import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class AddProductFragment : Fragment() {
+class OptionsFragment : Fragment() {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @Inject lateinit var viewModel: AddProductData
+    @Inject lateinit var viewModel: OptionsData
     @Inject lateinit var analytics: FirebaseAnalytics
 
     private lateinit var inflater: LayoutInflater
@@ -53,7 +53,7 @@ class AddProductFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_add_product)
+        remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_options)
         return remoteDataView
     }
 
@@ -64,7 +64,7 @@ class AddProductFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        analytics.setScreen("AddProduct")
+        analytics.setScreen("Options")
         lifecycleScope.launch {
             viewModel.state.data().filterNotNull().collect { products ->
                 setProducts(products)

@@ -18,7 +18,7 @@ import de.lorenzgorse.coopmobile.client.simple.*
 import de.lorenzgorse.coopmobile.preferences.SharedPreferencesCredentialsStore
 import de.lorenzgorse.coopmobile.ui.NavHost
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import de.lorenzgorse.coopmobile.ui.addproduct.AddProductFragment
+import de.lorenzgorse.coopmobile.ui.options.OptionsFragment
 import de.lorenzgorse.coopmobile.ui.buyproduct.BuyProductFragment
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionFragment
 import de.lorenzgorse.coopmobile.ui.correspondences.CorrespondencesFragment
@@ -56,7 +56,7 @@ open class CoopMobileApplication : Application() {
 interface CoopComponent {
     fun inject(fragment: NavHost)
     fun inject(fragment: OverviewFragment)
-    fun inject(fragment: AddProductFragment)
+    fun inject(fragment: OptionsFragment)
     fun inject(fragment: BuyProductFragment)
     fun inject(fragment: ConsumptionFragment)
     fun inject(fragment: CorrespondencesFragment)

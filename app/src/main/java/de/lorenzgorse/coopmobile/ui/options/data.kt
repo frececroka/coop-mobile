@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile.ui.addproduct
+package de.lorenzgorse.coopmobile.ui.options
 
 import android.app.Application
 import de.lorenzgorse.coopmobile.State
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class AddProductData @Inject constructor(
+class OptionsData @Inject constructor(
     app: Application,
     client: CoopClient
 ) : CoopViewModel(app) {
