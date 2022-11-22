@@ -18,6 +18,6 @@ class RealFirebaseAnalytics(
     }
 
     override fun setScreen(name: String) {
-        logEvent(Event.SCREEN_VIEW, bundleOf(Param.SCREEN_NAME to name))
+        logEvent(Event.SCREEN_VIEW, bundleOf(Param.SCREEN_CLASS to name))
     }
 }
