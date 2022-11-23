@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.installations.FirebaseInstallations
-import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.coopComponent
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
-import de.lorenzgorse.coopmobile.waitForTask
+import de.lorenzgorse.coopmobile.ui.onEach
 import kotlinx.android.synthetic.main.fragment_debug.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +36,7 @@ class DebugFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_debug, container, false)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onStart() {
         super.onStart()
         renderGeneralAppInformation()
@@ -42,6 +45,11 @@ class DebugFragment : Fragment() {
         lifecycleScope.launch {
             val firebaseId = waitForTask(FirebaseInstallations.getInstance().id)
             addAppInfo("Firebase id", firebaseId)
+        }
+
+        viewLifecycleOwner.onEach(btRefreshRemoteConfig.onClickFlow()) {
+            waitForTask(Firebase.remoteConfig.fetch(0))
+            notify("RemoteConfig refreshed")
         }
     }
 
