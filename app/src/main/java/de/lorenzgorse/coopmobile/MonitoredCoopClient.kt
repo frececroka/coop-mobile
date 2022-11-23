@@ -81,9 +81,15 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
 
         when (result) {
             is Either.Left -> when (result.value) {
-                is CoopError.BadHtml, CoopError.Unauthorized ->
+                is CoopError.PlanUnsupported,
+                is CoopError.HtmlChanged,
+                is CoopError.BadHtml,
+                is CoopError.Unauthorized ->
                     Firebase.crashlytics.recordException(result.value)
-                else -> {}
+                is CoopError.FailedLogin,
+                is CoopError.NoClient,
+                is CoopError.NoNetwork,
+                is CoopError.Other -> {}
             }
             else -> {}
         }
