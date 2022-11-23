@@ -46,6 +46,8 @@ class PreferencesFragment : PreferenceFragmentCompat() {
 
     override fun onStart() {
         super.onStart()
+        analytics.setScreen("Preferences")
+
         preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener { preferences, key ->
             if (key == "check_balance") {
                 if (preferences.getBoolean(key, false)) {

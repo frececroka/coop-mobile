@@ -142,7 +142,6 @@ class NavHost : AppCompatActivity(), MenuProvider {
     }
 
     private fun preferences() {
-        analytics.logEvent("Preferences", null)
         navController.navigate(R.id.action_preferences)
     }
 
