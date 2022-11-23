@@ -111,11 +111,12 @@ class ConsumptionFragment : Fragment() {
         // Enable buttons that are useful. If the oldest data point is 4 months
         // old, enable buttons up to 6 months, but not 1 year and max.
         viewLifecycleOwner.onEach(viewModel.consumptionLog.data().filterNotNull()) { entries ->
-            val first = entries.minOfOrNull { it.instant }
-            val now = Instant.now()
             for ((button, _) in rangeButtons) {
                 button.isEnabled = false
             }
+            val first = entries.minOfOrNull { it.instant }
+                ?: return@onEach
+            val now = Instant.now()
             for ((button, range) in rangeButtons) {
                 button.isEnabled = true
                 if (range != null && now.minus(range).isBefore(first)) {
