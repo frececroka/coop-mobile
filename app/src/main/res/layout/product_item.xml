@@ -38,6 +38,10 @@
             android:layout_height="wrap_content"
             tools:text="Product Description" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btBuy"
             style="?attr/materialButtonOutlinedStyle"
