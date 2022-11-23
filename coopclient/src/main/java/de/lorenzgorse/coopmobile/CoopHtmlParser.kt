@@ -6,12 +6,12 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
-import java.lang.IllegalArgumentException
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.*
 
 class CoopHtmlParser(private val config: Config) {
@@ -158,6 +158,10 @@ class CoopHtmlParser(private val config: Config) {
     }
 
     private fun parseDate(dateStr: String): LocalDate {
+        return parseDate1(dateStr) ?: parseDate2(dateStr) ?: throw CoopException.HtmlChanged()
+    }
+
+    private fun parseDate1(dateStr: String): LocalDate? {
         val months = mapOf(
             "Januar" to 1, "Gennaio" to 1, "Janvier" to 1,
             "Februar" to 2, "Febbraio" to 2, "Février" to 2,
@@ -172,13 +176,20 @@ class CoopHtmlParser(private val config: Config) {
             "November" to 11, "Novembre" to 11, "Novembre" to 11,
             "Dezember" to 12, "Dicembre" to 12, "Décembre" to 12,
         )
-        val match = Regex("(\\d{2}) (\\p{L}+) (\\d{4})").matchEntire(dateStr)
-            ?: throw IllegalArgumentException("Cannot parse date: $dateStr")
+        val match = Regex("(\\d{2}) (\\p{L}+) (\\d{4})").matchEntire(dateStr) ?: return null
         val day = match.groups[1]!!.value.toInt()
-        val month = months[match.groups[2]!!.value]
-            ?: throw IllegalArgumentException("Unknown month: ${match.groups[2]!!.value}")
+        val month = months[match.groups[2]!!.value] ?: return null
         val year = match.groups[3]!!.value.toInt()
         return LocalDate.of(year, month, day)
+    }
+
+    private fun parseDate2(dateStr: String): LocalDate? {
+        return try {
+            LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        } catch (e: DateTimeParseException) {
+            log.error("Cannot parse date: $dateStr", e)
+            null
+        }
     }
 
     fun getCorrespondenceMessage(html: Document): String =
