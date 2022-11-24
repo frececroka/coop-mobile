@@ -91,7 +91,7 @@ class MainCoopModule(private val app: Application) {
         httpClientFactory: HttpClientFromCookieJar,
     ): CoopClientFromSessionId = object : CoopClientFromSessionId {
         override fun create(sessionId: String): CoopClient =
-            if (testAccounts().modeActive()) TestModeCoopClient(sessionId)
+            if (testAccounts().modeActive()) TestModeCoopClient()
             else StaticSessionCoopClient(config, sessionId, httpClientFactory::create)
     }
 

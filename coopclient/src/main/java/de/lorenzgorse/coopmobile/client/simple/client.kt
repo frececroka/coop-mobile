@@ -17,12 +17,11 @@ interface CoopClient {
     suspend fun buyProduct(buySpec: ProductBuySpec): Either<CoopError, Boolean>
     suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>>
     suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence>
-    suspend fun sessionId(): String?
 }
 
 class StaticSessionCoopClient(
     private val config: Config,
-    private val sessionId: String,
+    sessionId: String,
     clientFactory: HttpClientFactory
 ) : CoopClient {
 
@@ -78,8 +77,6 @@ class StaticSessionCoopClient(
 
     private suspend fun getCorrespondenceMessage(url: URL) =
         getHtml(url.toString()).safe { parser.getCorrespondenceMessage(it) }
-
-    override suspend fun sessionId() = sessionId
 
     private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
     private suspend inline fun <reified T> getJson(url: String): T =

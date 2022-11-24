@@ -104,6 +104,4 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         return result
     }
 
-    override suspend fun sessionId(): String? = client.sessionId()
-
 }

@@ -1,13 +1,16 @@
 package de.lorenzgorse.coopmobile.client.refreshing
 
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import okio.IOException
 
 interface CoopClientFactory {
-    suspend fun get(): CoopClient?
-    suspend fun refresh(oldClient: CoopClient? = null): CoopClient?
+    suspend fun get(): Either<CoopError, CoopClient>
+    suspend fun refresh(oldClient: CoopClient? = null): Either<CoopError, CoopClient>
     fun clear()
 }
 
@@ -29,41 +32,52 @@ class RealCoopClientFactory(
     private var instance: CoopClient? = null
     private val mtx = Mutex()
 
-    override suspend fun get(): CoopClient? = mtx.withLock {
-        if (instance == null) {
-            refreshInternal()
-        }
-        return instance
+    override suspend fun get(): Either<CoopError, CoopClient> = mtx.withLock {
+        return Either.Right(instance ?: return refreshInternal())
     }
 
-    override suspend fun refresh(oldClient: CoopClient?): CoopClient? = mtx.withLock {
+    override suspend fun refresh(oldClient: CoopClient?): Either<CoopError, CoopClient> = mtx.withLock {
         // Mutexes are not reentrant, so we need a public version of the method that aquires the mutex
         // and an internal version that doesn't.
         refreshInternal(oldClient)
     }
 
-    private suspend fun refreshInternal(oldClient: CoopClient? = null): CoopClient? {
+    private suspend fun refreshInternal(oldClient: CoopClient? = null): Either<CoopError, CoopClient> {
         val invalidateSession = oldClient != null && instance == oldClient
-        val sessionId = newSession(invalidateSession) ?: return null
-        return staticSessionCoopClient(sessionId).also { instance = it }
+        val sessionId = when (val sessionId = newSession(invalidateSession)) {
+            is Either.Left -> return sessionId
+            is Either.Right -> sessionId.value
+        }
+        val coopClient = staticSessionCoopClient(sessionId)
+        instance = coopClient
+        return Either.Right(coopClient)
     }
 
-    private suspend fun newSession(invalidateSession: Boolean): String? {
-        val sessionId = if (invalidateSession) {
-            newSessionFromSavedCredentials()
-        } else {
-            credentialsStore.loadSession() ?: newSessionFromSavedCredentials()
+    private suspend fun newSession(invalidateSession: Boolean): Either<CoopError, String> {
+        val currentSessionId = when {
+            invalidateSession -> null
+            else -> credentialsStore.loadSession()
         }
-        if (sessionId != null) {
-            credentialsStore.setSession(sessionId)
-        }
-        return sessionId
+        val sessionId = currentSessionId
+            ?: when (val sessionId = newSessionFromSavedCredentials()) {
+                is Either.Left -> return sessionId
+                is Either.Right -> sessionId.value
+            }
+        credentialsStore.setSession(sessionId)
+        return Either.Right(sessionId)
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun newSessionFromSavedCredentials(): String? {
-        val (username, password) = credentialsStore.loadCredentials() ?: return null
-        return coopLogin.login(username, password, CoopLogin.Origin.SessionRefresh)
+    private suspend fun newSessionFromSavedCredentials(): Either<CoopError, String> {
+        val (username, password) = credentialsStore.loadCredentials()
+            ?: return Either.Left(CoopError.NoClient)
+        return try {
+            val sessionId = coopLogin.login(username, password, CoopLogin.Origin.SessionRefresh)
+                ?: return Either.Left(CoopError.FailedLogin)
+            Either.Right(sessionId)
+        } catch (_: IOException) {
+            Either.Left(CoopError.NoNetwork)
+        }
     }
 
     override fun clear() {

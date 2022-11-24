@@ -60,7 +60,7 @@ class TestModeCoopLogin : CoopLogin {
 
 }
 
-class TestModeCoopClient(private val sessionId: String) : CoopClient {
+class TestModeCoopClient : CoopClient {
 
     // TODO: add data for more methods
 
@@ -143,7 +143,5 @@ class TestModeCoopClient(private val sessionId: String) : CoopClient {
                 "Nachricht"
             )
         )
-
-    override suspend fun sessionId() = sessionId
 
 }
