@@ -163,22 +163,22 @@ class CoopHtmlParser(private val config: Config) {
 
     private fun parseDate1(dateStr: String): LocalDate? {
         val months = mapOf(
-            "Januar" to 1, "Gennaio" to 1, "Janvier" to 1,
-            "Februar" to 2, "Febbraio" to 2, "Février" to 2,
-            "März" to 3, "Marzo" to 3, "Mars" to 3,
-            "April" to 4, "Aprile" to 4, "Avril" to 4,
-            "Mai" to 5, "Maggio" to 5, "Mai" to 5,
-            "Juni" to 6, "Giugno" to 6, "Juin" to 6,
-            "Juli" to 7, "Luglio" to 7, "Juillet" to 7,
-            "August" to 8, "Agosto" to 8, "Août" to 8,
-            "September" to 9, "Settembre" to 9, "Septembre" to 9,
-            "Oktober" to 10, "Ottobre" to 10, "Octobre" to 10,
-            "November" to 11, "Novembre" to 11, "Novembre" to 11,
-            "Dezember" to 12, "Dicembre" to 12, "Décembre" to 12,
+            "januar" to 1, "gennaio" to 1, "janvier" to 1,
+            "februar" to 2, "febbraio" to 2, "février" to 2,
+            "märz" to 3, "marzo" to 3, "mars" to 3,
+            "april" to 4, "aprile" to 4, "avril" to 4,
+            "mai" to 5, "maggio" to 5, "mai" to 5,
+            "juni" to 6, "giugno" to 6, "juin" to 6,
+            "juli" to 7, "Luglio" to 7, "juillet" to 7,
+            "august" to 8, "agosto" to 8, "août" to 8,
+            "september" to 9, "settembre" to 9, "septembre" to 9,
+            "oktober" to 10, "ottobre" to 10, "octobre" to 10,
+            "november" to 11, "novembre" to 11, "novembre" to 11,
+            "dezember" to 12, "dicembre" to 12, "décembre" to 12,
         )
         val match = Regex("(\\d{2}) (\\p{L}+) (\\d{4})").matchEntire(dateStr) ?: return null
         val day = match.groups[1]!!.value.toInt()
-        val month = months[match.groups[2]!!.value] ?: return null
+        val month = months[match.groups[2]!!.value.lowercase()] ?: return null
         val year = match.groups[3]!!.value.toInt()
         return LocalDate.of(year, month, day)
     }
