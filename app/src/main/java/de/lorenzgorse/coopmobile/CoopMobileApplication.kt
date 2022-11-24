@@ -62,6 +62,7 @@ interface CoopComponent {
     fun inject(fragment: LoginFragment)
     fun inject(fragment: PreferencesFragment)
     fun inject(remoteDataView: RemoteDataView)
+    fun inject(balanceCheckWorker: BalanceCheckWorker)
 }
 
 @Module

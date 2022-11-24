@@ -9,8 +9,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceManager
 import androidx.work.*
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.LabelledAmount
@@ -20,11 +18,11 @@ import de.lorenzgorse.coopmobile.components.Fuse
 import de.lorenzgorse.coopmobile.ui.consumption.ConsumptionLogCache
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class BalanceCheckWorker(
-    context: Context,
+    private val context: Context,
     params: WorkerParameters,
-    client: CoopClient,
 ) : CoroutineWorker(context, params) {
 
     companion object {
@@ -56,11 +54,24 @@ class BalanceCheckWorker(
         private fun workManager(context: Context) = WorkManager.getInstance(context)
     }
 
-    private val balanceCheck =
-        BalanceCheck(context, client, RealFirebaseAnalytics(Firebase.analytics))
+    @Inject
+    lateinit var client: CoopClient
 
-    override suspend fun doWork(): Result =
-        if (balanceCheck.checkBalance()) Result.success() else Result.failure()
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
+
+    init {
+        context.coopComponent().inject(this)
+    }
+
+    override suspend fun doWork(): Result {
+        val balanceCheck = BalanceCheck(context, client, analytics)
+        return if (balanceCheck.checkBalance()) {
+            Result.success()
+        } else {
+            Result.failure()
+        }
+    }
 
 }
 
