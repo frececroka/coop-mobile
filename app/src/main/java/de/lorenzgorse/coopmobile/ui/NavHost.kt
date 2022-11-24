@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -18,6 +19,7 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.android.synthetic.main.activity_nav_host.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NavHost : AppCompatActivity(), MenuProvider {
@@ -43,15 +45,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(::onDestinationChanged)
 
-        val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
-        if (!enableCorrespondences) {
-            bottom_nav.menu.removeItem(R.id.itCorrespondences)
-        }
-
-        val enableOptions = Firebase.remoteConfig.getBoolean("enable_options")
-        if (!enableOptions) {
-            bottom_nav.menu.removeItem(R.id.itOptions)
-        }
+        lifecycleScope.launch { removeMenuItems() }
 
         bottom_nav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -61,6 +55,20 @@ class NavHost : AppCompatActivity(), MenuProvider {
                 R.id.itConsumption -> navController.navigate(R.id.action_consumption)
             }
             true
+        }
+    }
+
+    private suspend fun removeMenuItems() {
+        waitForTask(Firebase.remoteConfig.fetchAndActivate())
+
+        val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
+        if (!enableCorrespondences) {
+            bottom_nav.menu.removeItem(R.id.itCorrespondences)
+        }
+
+        val enableOptions = Firebase.remoteConfig.getBoolean("enable_options")
+        if (!enableOptions) {
+            bottom_nav.menu.removeItem(R.id.itOptions)
         }
     }
 
