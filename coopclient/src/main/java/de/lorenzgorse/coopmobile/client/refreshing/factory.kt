@@ -7,6 +7,7 @@ import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import okio.IOException
+import org.slf4j.LoggerFactory
 
 interface CoopClientFactory {
     suspend fun get(): Either<CoopError, CoopClient>
@@ -29,6 +30,8 @@ class RealCoopClientFactory(
     private val staticSessionCoopClient: (String) -> CoopClient,
 ) : CoopClientFactory {
 
+    private val log = LoggerFactory.getLogger(RealCoopClientFactory::class.java)
+
     private var instance: CoopClient? = null
     private val mtx = Mutex()
 
@@ -44,6 +47,7 @@ class RealCoopClientFactory(
 
     private suspend fun refreshInternal(oldClient: CoopClient? = null): Either<CoopError, CoopClient> {
         val invalidateSession = oldClient != null && instance == oldClient
+        log.info("Creating new client instance with invalidateSession=$invalidateSession")
         val sessionId = when (val sessionId = newSession(invalidateSession)) {
             is Either.Left -> return sessionId
             is Either.Right -> sessionId.value
