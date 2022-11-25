@@ -19,8 +19,8 @@ android {
         applicationId "de.lorenzgorse.coopmobile"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 98
-        versionName "1.98"
+        versionCode 99
+        versionName "1.99"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
