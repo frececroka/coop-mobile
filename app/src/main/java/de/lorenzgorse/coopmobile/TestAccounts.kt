@@ -1,6 +1,7 @@
 package de.lorenzgorse.coopmobile
 
 import android.content.Context
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin

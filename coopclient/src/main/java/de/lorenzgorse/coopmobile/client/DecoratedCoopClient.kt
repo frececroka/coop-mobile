@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.client
 
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
 abstract class DecoratedCoopClient : CoopClient {

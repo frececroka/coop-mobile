@@ -1,7 +1,7 @@
 package de.lorenzgorse.coopmobile
 
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.Either
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

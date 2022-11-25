@@ -1,8 +1,9 @@
 package de.lorenzgorse.coopmobile.client.refreshing
 
+import arrow.core.Either
+import arrow.core.flatMap
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.DecoratedCoopClient
-import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import org.slf4j.LoggerFactory
 
@@ -16,30 +17,31 @@ class RefreshingSessionCoopClient(
         loader: suspend (client: CoopClient) -> Either<CoopError, T>,
         method: String?,
     ): Either<CoopError, T> {
-        val client = when (val client = coopClientFactory.get()) {
-            is Either.Left -> {
-                log.info("Failed to obtain client: $client")
-                return client
-            }
-            is Either.Right -> client.value
-        }
-        return when (val result = loader(client)) {
-            is Either.Right -> result
-            is Either.Left -> when (result.value) {
-                is CoopError.Unauthorized -> {
-                    log.info("Failed to load data, because session is expired")
-                    val newClient = when (val newClient = coopClientFactory.refresh(client)) {
-                        is Either.Left -> {
-                            log.info("Failed to refresh client: $client")
-                            return newClient
+        return loadWithRetry(null, loader)
+    }
+
+    private suspend fun <T> loadWithRetry(
+        oldClient: CoopClient?,
+        loader: suspend (client: CoopClient) -> Either<CoopError, T>,
+    ): Either<CoopError, T> {
+        val clientOrError =
+            if (oldClient == null) coopClientFactory.get()
+            else coopClientFactory.refresh(oldClient)
+        return clientOrError
+            .tapLeft { log.info("Failed to obtain client: $it") }
+            .flatMap { client ->
+                loader(client)
+                    .tapLeft { log.info("Failed to load data: $it") }
+                    .swap()
+                    .flatMap { error ->
+                        if (oldClient == null && error == CoopError.Unauthorized) {
+                            loadWithRetry(client, loader).swap()
+                        } else {
+                            Either.Right(error)
                         }
-                        is Either.Right -> newClient.value
                     }
-                    loader(newClient)
-                }
-                else -> result
+                    .swap()
             }
-        }
     }
 
 }

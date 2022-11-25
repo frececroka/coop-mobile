@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile.client.simple
 
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopException.PlanUnsupported
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol

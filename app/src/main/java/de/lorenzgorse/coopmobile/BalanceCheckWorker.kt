@@ -9,8 +9,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceManager
 import androidx.work.*
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.LabelledAmount
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient

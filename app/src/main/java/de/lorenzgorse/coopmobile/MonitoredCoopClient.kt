@@ -1,6 +1,7 @@
 package de.lorenzgorse.coopmobile
 
 import androidx.core.os.bundleOf
+import arrow.core.Either
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase

@@ -1,7 +1,7 @@
 package de.lorenzgorse.coopmobile.client.refreshing
 
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
 import kotlinx.coroutines.sync.Mutex

@@ -1,5 +1,6 @@
 package de.lorenzgorse.coopmobile.client.simple
 
+import arrow.core.Either
 import com.google.gson.JsonSyntaxException
 import de.lorenzgorse.coopmobile.CoopHtmlParser
 import de.lorenzgorse.coopmobile.client.*

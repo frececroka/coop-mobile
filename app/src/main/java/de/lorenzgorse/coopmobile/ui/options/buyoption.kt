@@ -8,8 +8,8 @@ import androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.R
-import de.lorenzgorse.coopmobile.client.Either
 import de.lorenzgorse.coopmobile.client.Product
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.notify
