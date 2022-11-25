@@ -148,7 +148,8 @@ class CoopHtmlParser(private val config: Config) {
     }
 
     fun parseCorrespondences(html: Document): List<CorrespondenceHeader> =
-        html.select(".list-correspondence__item").map { parseCorrespondenceRow(it) }
+        html.select(".list-correspondence__item.js-correspondence-type")
+            .map { parseCorrespondenceRow(it) }
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
         val date = parseDate(it.selectFirst(".list-correspondence__data")!!.text())
