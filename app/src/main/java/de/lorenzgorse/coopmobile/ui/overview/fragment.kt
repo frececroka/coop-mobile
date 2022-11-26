@@ -3,20 +3,17 @@ package de.lorenzgorse.coopmobile.ui.overview
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.remote_data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -71,7 +68,6 @@ class OverviewFragment : Fragment(), MenuProvider {
     override fun onStart() {
         super.onStart()
         analytics.setScreen("Overview")
-        BalanceCheckWorker.enqueueIfEnabled(requireContext())
         lifecycleScope.launch {
             viewModel.state.data().filterNotNull().collect { (consumption, profile) ->
                 setConsumption(consumption)

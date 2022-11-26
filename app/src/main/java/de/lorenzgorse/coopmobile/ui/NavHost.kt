@@ -56,6 +56,8 @@ class NavHost : AppCompatActivity(), MenuProvider {
             }
             true
         }
+
+        BalanceCheckWorker.enqueueIfEnabled(this)
     }
 
     private suspend fun removeMenuItems() {
