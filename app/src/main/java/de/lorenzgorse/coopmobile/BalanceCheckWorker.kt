@@ -27,10 +27,13 @@ class BalanceCheckWorker(
 
     companion object {
         private const val uniqueWorkId = "checkBalance"
+        private val log = LoggerFactory.getLogger(BalanceCheckWorker::class.java)
 
         fun enqueueIfEnabled(context: Context) {
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-            if (sharedPreferences.getBoolean("check_balance", false)) {
+            val balanceCheckEnabled = sharedPreferences.getBoolean("check_balance", false)
+            log.info("Balance check is enabled: $balanceCheckEnabled")
+            if (balanceCheckEnabled) {
                 enqueue(context)
             }
         }
