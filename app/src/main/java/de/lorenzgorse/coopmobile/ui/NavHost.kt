@@ -13,6 +13,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
@@ -20,6 +21,7 @@ import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.android.synthetic.main.activity_nav_host.*
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class NavHost : AppCompatActivity(), MenuProvider {
@@ -61,7 +63,14 @@ class NavHost : AppCompatActivity(), MenuProvider {
     }
 
     private suspend fun removeMenuItems() {
-        waitForTask(Firebase.remoteConfig.fetchAndActivate())
+        try {
+            waitForTask(Firebase.remoteConfig.fetchAndActivate())
+        } catch (_: IOException) {
+            // Ignore IOExceptions.
+        } catch (e: Exception) {
+            // Send everything that's not an IOException to Crashlytics.
+            Firebase.crashlytics.recordException(e)
+        }
 
         val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
         if (!enableCorrespondences) {
