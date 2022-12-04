@@ -153,7 +153,8 @@ class CoopHtmlParser(private val config: Config) {
 
     private fun parseCorrespondenceRow(it: Element): CorrespondenceHeader {
         val date = parseDate(it.selectFirst(".list-correspondence__data")!!.text())
-        val subject = it.selectFirst(".list-correspondence__subject")!!.text()
+        val dirtySubject = it.selectFirst(".list-correspondence__subject")!!.text()
+        val subject = cleanCorrespondenceSubject(dirtySubject)
         val details = URL(URL(config.coopBase()), it.attr("link-data"))
         return CorrespondenceHeader(date, subject, details)
     }
@@ -191,6 +192,16 @@ class CoopHtmlParser(private val config: Config) {
             log.error("Cannot parse date: $dateStr", e)
             null
         }
+    }
+
+    private fun cleanCorrespondenceSubject(string: String): String {
+        val parts = string.split(":", limit = 2)
+        val subject = if (parts.size == 1) {
+            string
+        } else {
+            parts[1]
+        }
+        return subject.trim()
     }
 
     fun getCorrespondenceMessage(html: Document): String =

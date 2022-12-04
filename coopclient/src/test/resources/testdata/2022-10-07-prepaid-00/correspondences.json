@@ -5,7 +5,7 @@
       "month": 11,
       "day": 14
     },
-    "subject": "Sms ausgehend : Information über Sperrsets und Callfilter",
+    "subject": "Information über Sperrsets und Callfilter",
     "details": "https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/7330186619?type=SMS+ausgehend"
   },
   {
@@ -14,7 +14,7 @@
       "month": 8,
       "day": 10
     },
-    "subject": "Sms ausgehend : Information über Roaming",
+    "subject": "Information über Roaming",
     "details": "https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/7330186351?type=SMS+ausgehend"
   },
   {
@@ -23,7 +23,7 @@
       "month": 11,
       "day": 10
     },
-    "subject": "Sms ausgehend : Information über Roaming",
+    "subject": "Information über Roaming",
     "details": "https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/7330186351?type=SMS+ausgehend"
   },
   {
@@ -32,7 +32,7 @@
       "month": 10,
       "day": 13
     },
-    "subject": "Sms ausgehend : Willkommen bei Coop Mobile",
+    "subject": "Willkommen bei Coop Mobile",
     "details": "https://myaccount.coopmobile.ch/eCare/prepaid/de/my_correspondence/7327366938?type=SMS+ausgehend"
   }
 ]
