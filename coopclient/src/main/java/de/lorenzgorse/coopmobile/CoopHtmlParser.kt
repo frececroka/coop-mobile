@@ -156,7 +156,7 @@ class CoopHtmlParser(private val config: Config) {
         val dirtySubject = it.selectFirst(".list-correspondence__subject")!!.text()
         val subject = cleanCorrespondenceSubject(dirtySubject)
         val details = URL(URL(config.coopBase()), it.attr("link-data"))
-        return CorrespondenceHeader(date, subject, details)
+        return CorrespondenceHeader(date, time = null, subject, details)
     }
 
     private fun parseDate(dateStr: String): LocalDate {
@@ -164,20 +164,6 @@ class CoopHtmlParser(private val config: Config) {
     }
 
     private fun parseDate1(dateStr: String): LocalDate? {
-        val months = mapOf(
-            "januar" to 1, "gennaio" to 1, "janvier" to 1,
-            "februar" to 2, "febbraio" to 2, "février" to 2,
-            "märz" to 3, "marzo" to 3, "mars" to 3,
-            "april" to 4, "aprile" to 4, "avril" to 4,
-            "mai" to 5, "maggio" to 5, "mai" to 5,
-            "juni" to 6, "giugno" to 6, "juin" to 6,
-            "juli" to 7, "Luglio" to 7, "juillet" to 7,
-            "august" to 8, "agosto" to 8, "août" to 8,
-            "september" to 9, "settembre" to 9, "septembre" to 9,
-            "oktober" to 10, "ottobre" to 10, "octobre" to 10,
-            "november" to 11, "novembre" to 11, "novembre" to 11,
-            "dezember" to 12, "dicembre" to 12, "décembre" to 12,
-        )
         val match = Regex("(\\d{2}) (\\p{L}+) (\\d{4})").matchEntire(dateStr) ?: return null
         val day = match.groups[1]!!.value.toInt()
         val month = months[match.groups[2]!!.value.lowercase()] ?: return null
@@ -204,7 +190,45 @@ class CoopHtmlParser(private val config: Config) {
         return subject.trim()
     }
 
-    fun getCorrespondenceMessage(html: Document): String =
-        html.selectFirst(".panel__print__content")!!.text()
+    fun getCorrespondence(header: CorrespondenceHeader, html: Document): Correspondence {
+        val metadata = html.select(".panel__print__header").associate { m ->
+            val pieces = m.select("span").map { it.text() }
+            if (pieces.size != 2) throw CoopException.HtmlChanged()
+            pieces[0].lowercase().trim() to pieces[1]
+        }
+        val dateTimeStr = metadata["datum:"]!!
+        val subject = metadata["betreff:"]!!
+        val dateTime = parseDateTime(dateTimeStr)
+        val body = html.selectFirst(".panel__print__content")!!.text()
+        val newHeader = header.copy(
+            date = dateTime.toLocalDate(),
+            time = dateTime.toLocalTime(),
+            subject = subject,
+        )
+        return Correspondence(newHeader, body)
+    }
+
+    private fun parseDateTime(dateTime: String): LocalDateTime {
+        val deDate = Regex("\\p{L}+, (\\d+). (\\p{L}+) (\\d+), (\\d+):(\\d+) uhr")
+        val match = deDate.matchEntire(dateTime.lowercase())
+            ?: throw IllegalArgumentException(dateTime)
+        val (day, month, year, hour, minute) = match.destructured
+        return LocalDateTime.of(year.toInt(), months[month]!!, day.toInt(), hour.toInt(), minute.toInt(), 0)
+    }
+
+    private val months = mapOf(
+        "januar" to 1,
+        "februar" to 2,
+        "märz" to 3,
+        "april" to 4,
+        "mai" to 5,
+        "juni" to 6,
+        "juli" to 7,
+        "august" to 8,
+        "september" to 9,
+        "oktober" to 10,
+        "november" to 11,
+        "dezember" to 12,
+    )
 
 }

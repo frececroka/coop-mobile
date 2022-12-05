@@ -25,6 +25,8 @@ fun <T> Document.safe(fn: (Document) -> T): T {
         throw HtmlChanged(e, this)
     } catch (e: IllegalStateException) {
         throw HtmlChanged(e, this)
+    } catch (e: IllegalArgumentException) {
+        throw HtmlChanged(e, this)
     } catch (e: HtmlChanged) {
         throw e.copy(document = this)
     }

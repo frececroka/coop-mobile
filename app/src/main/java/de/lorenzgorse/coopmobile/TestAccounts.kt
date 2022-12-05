@@ -9,6 +9,7 @@ import de.lorenzgorse.coopmobile.components.Fuse
 import java.net.URL
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.concurrent.atomic.AtomicReference
 
 class TestAccounts(context: Context) {
@@ -129,7 +130,7 @@ class TestModeCoopClient : CoopClient {
     override suspend fun getCorrespondences() =
         Either.Right(
             listOf(
-                CorrespondenceHeader(LocalDate.now(), "Betreff", URL("https://example.com/"))
+                CorrespondenceHeader(LocalDate.now(), LocalTime.now(), "Betreff", URL("https://example.com/"))
             )
         )
 
@@ -138,6 +139,7 @@ class TestModeCoopClient : CoopClient {
             Correspondence(
                 CorrespondenceHeader(
                     LocalDate.now(),
+                    LocalTime.now(),
                     "Betreff",
                     URL("https://example.com/")
                 ),

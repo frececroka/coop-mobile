@@ -5,6 +5,7 @@ import java.io.Serializable
 import java.net.URL
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 
 data class LabelledAmounts(
     val kind: Kind,
@@ -96,6 +97,7 @@ data class Correspondence(
 
 data class CorrespondenceHeader(
     val date: LocalDate,
+    val time: LocalTime?,
     val subject: String,
     val details: URL,
 )

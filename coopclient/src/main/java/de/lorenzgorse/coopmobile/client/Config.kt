@@ -28,5 +28,5 @@ open class Config {
 
     open fun productsUrl() = "$ecareLocalBase/add_product"
 
-    open fun correspondencesUrl() = "$ecareLocalBase/my_correspondence"
+    open fun correspondencesUrl() = "$ecareBase/de/my_correspondence"
 }

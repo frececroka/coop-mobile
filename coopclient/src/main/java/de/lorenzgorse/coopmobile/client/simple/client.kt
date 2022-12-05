@@ -73,11 +73,10 @@ class StaticSessionCoopClient(
 
     override suspend fun augmentCorrespondence(header: CorrespondenceHeader): Either<CoopError, Correspondence> =
         translateExceptions {
-            Correspondence(header, getCorrespondenceMessage(header.details))
+            getHtml(header.details.toString()).safe {
+                parser.getCorrespondence(header, it)
+            }
         }
-
-    private suspend fun getCorrespondenceMessage(url: URL) =
-        getHtml(url.toString()).safe { parser.getCorrespondenceMessage(it) }
 
     private suspend fun getHtml(url: String) = client.getHtml(url, ::assertResponseSuccessful)
     private suspend inline fun <reified T> getJson(url: String): T =
