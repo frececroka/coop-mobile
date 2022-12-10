@@ -1,8 +1,7 @@
 package de.lorenzgorse.coopmobile.client.simple
 
-import de.lorenzgorse.coopmobile.client.Config
+import de.lorenzgorse.coopmobile.client.LocalizedConfig
 import kotlinx.coroutines.runBlocking
-import okhttp3.CookieJar
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
 import org.junit.Ignore
@@ -32,6 +31,6 @@ class RealCoopLoginTest {
     }
 
     private suspend fun login(username: String, password: String): String? =
-        RealCoopLogin(Config(), ::httpClientFactory).login(username, password, CoopLogin.Origin.Manual)
+        RealCoopLogin(LocalizedConfig(), ::httpClientFactory).login(username, password, CoopLogin.Origin.Manual)
 
 }

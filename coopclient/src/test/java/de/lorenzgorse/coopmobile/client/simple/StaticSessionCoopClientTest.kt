@@ -1,8 +1,8 @@
 package de.lorenzgorse.coopmobile.client.simple
 
 import arrow.core.Either
-import de.lorenzgorse.coopmobile.client.Config
 import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.LocalizedConfig
 import de.lorenzgorse.coopmobile.client.simple.CoopException.PlanUnsupported
 import kotlinx.coroutines.runBlocking
 import okhttp3.Protocol
@@ -26,14 +26,14 @@ class StaticSessionCoopClientTest {
         private val client by lazy {
             val sessionId =
                 runBlocking {
-                    RealCoopLogin(Config(), ::httpClientFactory).login(
+                    RealCoopLogin(LocalizedConfig(), ::httpClientFactory).login(
                         backend.username,
                         backend.password,
                         CoopLogin.Origin.Manual
                     )
                 }
             assertThat(sessionId, notNullValue())
-            StaticSessionCoopClient(Config(), sessionId!!, ::httpClientFactory)
+            StaticSessionCoopClient(LocalizedConfig(), sessionId!!, ::httpClientFactory)
         }
 
         @Test
@@ -73,7 +73,7 @@ class StaticSessionCoopClientTest {
 
     class Expired {
 
-        private val expiredClient = StaticSessionCoopClient(Config(), "23847329847324", ::httpClientFactory)
+        private val expiredClient = StaticSessionCoopClient(LocalizedConfig(), "23847329847324", ::httpClientFactory)
 
         @Test
         fun testLoadDataInvalidSession() {
@@ -98,7 +98,7 @@ class StaticSessionCoopClientTest {
 
     class AssertResponseSuccessful {
 
-        private val client = StaticSessionCoopClient(Config(), "", ::httpClientFactory)
+        private val client = StaticSessionCoopClient(LocalizedConfig(), "", ::httpClientFactory)
 
         @Test(expected = PlanUnsupported::class)
         fun testAssertResponseSuccessfulWirelessPlanUnsupported() {

@@ -4,7 +4,6 @@ import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import de.lorenzgorse.coopmobile.CoopHtmlParser
 import de.lorenzgorse.coopmobile.client.*
-import de.lorenzgorse.coopmobile.client.Config
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.jsoup.Jsoup
@@ -41,7 +40,7 @@ class CoopHtmlParserTest {
             .registerTypeAdapter(Double::class.java, DoubleDeserializer())
             .create()
 
-        private val parser = CoopHtmlParser(Config())
+        private val parser = CoopHtmlParser(LocalizedConfig())
 
         @Test
         fun testParseConsumption() {
@@ -87,7 +86,7 @@ class CoopHtmlParserTest {
 
     class ConsumptionLog {
 
-        private val parser = CoopHtmlParser(Config())
+        private val parser = CoopHtmlParser(LocalizedConfig())
 
         @Test
         fun test() {

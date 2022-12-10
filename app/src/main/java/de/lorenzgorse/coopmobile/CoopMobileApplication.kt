@@ -9,6 +9,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.lorenzgorse.coopmobile.client.Config
+import de.lorenzgorse.coopmobile.client.LocalizedConfig
 import de.lorenzgorse.coopmobile.client.RemoteConfig
 import de.lorenzgorse.coopmobile.client.refreshing.CoopClientFactory
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
@@ -149,6 +150,6 @@ class MainCoopModule(private val app: Application) {
     fun testAccounts(): TestAccounts = TestAccounts(app)
 
     @Provides
-    fun config(): Config = RemoteConfig()
+    fun config(): Config = RemoteConfig(LocalizedConfig())
 
 }
