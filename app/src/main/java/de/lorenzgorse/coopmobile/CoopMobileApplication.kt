@@ -1,4 +1,4 @@
-package de.lorenzgorse.coopmobile;
+package de.lorenzgorse.coopmobile
 
 import android.app.Application
 import android.content.Context
@@ -26,6 +26,8 @@ import de.lorenzgorse.coopmobile.ui.login.LoginFragment
 import de.lorenzgorse.coopmobile.ui.options.OptionsFragment
 import de.lorenzgorse.coopmobile.ui.overview.OverviewFragment
 import de.lorenzgorse.coopmobile.ui.preferences.PreferencesFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import okhttp3.CookieJar
 
 @Suppress("unused")
@@ -52,6 +54,7 @@ open class CoopMobileApplication : Application() {
 
 }
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Component(modules = [MainCoopModule::class])
 interface CoopComponent {
     fun inject(fragment: NavHost)
