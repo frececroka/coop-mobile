@@ -11,6 +11,9 @@ data class LabelledAmounts(
     val description: String,
     val labelledAmounts: List<LabelledAmount>
 ) {
+    constructor(description: String, labelledAmounts: List<LabelledAmount>)
+            : this(Kind.fromString(description), description, labelledAmounts)
+
     enum class Kind {
         Unknown,
         Credit,

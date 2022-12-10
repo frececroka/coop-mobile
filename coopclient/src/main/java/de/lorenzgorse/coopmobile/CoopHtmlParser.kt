@@ -37,8 +37,7 @@ class CoopHtmlParser(private val config: Config) {
                 val title = it.select(".panel__title").text()
                 val labelledAmounts = it.select(".contingent__data")
                     .map { parseLabelledAmount(it) }
-                val kind = LabelledAmounts.Kind.fromString(title)
-                LabelledAmounts(kind, title, labelledAmounts)
+                LabelledAmounts(title, labelledAmounts)
             }
             .filter { it.labelledAmounts.isNotEmpty() }
 
