@@ -23,6 +23,16 @@ data class LabelledAmounts(
         CallsAndSmsSwitzerland,
         OptionsAndCalls;
 
+        // Use this query to find these values:
+        //     select
+        //       event_params.description,
+        //       count(*) as count,
+        //       min(event_time) as first_seen,
+        //       max(event_time) as last_seen,
+        //     from `coop-mobile-df71e.analytics_200391596.processed_events`
+        //     where event_name = "ConsumptionBlock"
+        //     group by event_params.description
+        //     order by count desc;
         companion object {
             private val toString: Map<Kind, List<String>> = mapOf(
                 Credit to listOf(
