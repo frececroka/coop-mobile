@@ -7,6 +7,13 @@
     <string name="labelled_amount_calls_and_sms_switzerland">Calls and SMS in Switzerland</string>
     <string name="labelled_amount_options_and_calls">Options and Included Calls</string>
 
+    <string name="unit_chf">CHF</string>
+    <string name="unit_minutes">minutes</string>
+    <string name="unit_units">units</string>
+    <string name="unit_gb">GB</string>
+    <string name="unit_mb">MB</string>
+    <string name="unit_unlimited">unlimited</string>
+
     <string name="profile_item_status">Status</string>
     <string name="profile_item_customer_id">Customer ID</string>
     <string name="profile_item_owner">Owner</string>

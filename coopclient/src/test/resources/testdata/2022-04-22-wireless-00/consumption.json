@@ -13,7 +13,10 @@
         "description": "Diesen Monat genutzt",
         "amount": {
           "value": 12.34,
-          "unit": "GB"
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
         }
       }
     ]

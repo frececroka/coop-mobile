@@ -79,9 +79,14 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
             "ConsumptionItem",
             bundleOf(
                 "Description" to consumptionItem.description,
-                "Unit" to consumptionItem.amount.unit,
+                "Unit" to consumptionItem.amount.unit?.kind?.name,
             )
         )
+        val unit = consumptionItem.amount.unit
+        if (unit?.kind == AmountUnit.Kind.Unknown) {
+            val msg = "No mapped AmountUnit for text '${unit.source}'"
+            Firebase.crashlytics.recordException(IllegalArgumentException(msg))
+        }
     }
 
     override suspend fun <T> decorator(

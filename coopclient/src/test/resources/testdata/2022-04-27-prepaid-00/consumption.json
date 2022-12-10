@@ -7,7 +7,10 @@
         "description": "verbleibend",
         "amount": {
           "value": 0.0,
-          "unit": "CHF"
+          "unit": {
+            "kind": "CHF",
+            "source": "CHF"
+          }
         }
       }
     ]
@@ -20,7 +23,10 @@
         "description": "verbleibend",
         "amount": {
           "value": 1234.0,
-          "unit": "MB"
+          "unit": {
+            "kind": "MB",
+            "source": "MB"
+          }
         }
       }
     ]

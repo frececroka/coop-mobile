@@ -88,7 +88,33 @@ data class LabelledAmount(
     val amount: Amount,
 )
 
-data class Amount(val value: Double, val unit: String?)
+data class Amount(val value: Double, val unit: AmountUnit?)
+
+data class AmountUnit(val kind: Kind, val source: String) {
+    constructor(source: String) : this(Kind.fromString(source), source)
+
+    enum class Kind {
+        CHF,
+        Units,
+        Minutes,
+        MB,
+        GB,
+        Unlimited,
+        Unknown;
+
+        companion object {
+            fun fromString(unit: String) = when (unit) {
+                "CHF" -> CHF
+                "Einheiten" -> Units
+                "Min" -> Minutes
+                "MB" -> MB
+                "GB" -> GB
+                "unbegrenzt" -> Unlimited
+                else -> Unknown
+            }
+        }
+    }
+}
 
 data class ProfileItem(val kind: Kind, val description: String, val value: String) {
     constructor(description: String, value: String)

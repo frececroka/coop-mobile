@@ -7,6 +7,13 @@
     <string name="labelled_amount_calls_and_sms_switzerland">Unità mobili in Svizzera</string>
     <string name="labelled_amount_options_and_calls">Opzioni e chiamate comprese</string>
 
+    <string name="unit_chf">CHF</string>
+    <string name="unit_minutes">minuti</string>
+    <string name="unit_units">unità</string>
+    <string name="unit_gb">GB</string>
+    <string name="unit_mb">MB</string>
+    <string name="unit_unlimited">illimitata</string>
+
     <string name="profile_item_status">Stato</string>
     <string name="profile_item_customer_id">Numero di cliente</string>
     <string name="profile_item_owner">Titolare</string>

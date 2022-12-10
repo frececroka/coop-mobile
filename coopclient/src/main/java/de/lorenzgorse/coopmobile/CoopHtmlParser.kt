@@ -67,7 +67,8 @@ class CoopHtmlParser(private val config: Config) {
         val (amount, unit) = candidates
             .mapNotNull { (value, unit) ->
                 val parsedValue = tryParseValue(value) ?: return@mapNotNull null
-                Amount(parsedValue, unit)
+                val parsedUnit = unit?.let { AmountUnit(it) }
+                Amount(parsedValue, parsedUnit)
             }
             .firstOrNull()
             ?: throw CoopException.HtmlChanged()

@@ -91,14 +91,14 @@ class TestModeCoopClient : CoopClient {
             LabelledAmounts(
                 LabelledAmounts.Kind.Credit,
                 "Guthaben",
-                listOf(LabelledAmount("verbleibend", Amount(1.23, "CHF")))
+                listOf(LabelledAmount("verbleibend", Amount(1.23, AmountUnit("CHF"))))
             ),
             LabelledAmounts(
                 LabelledAmounts.Kind.DataSwitzerland,
                 "Daten in der Schweiz",
                 listOf(
-                    LabelledAmount("verbleibend", Amount(4.56, "GB")),
-                    LabelledAmount("Diesen Monat genutzt", Amount(7.89, "GB")),
+                    LabelledAmount("verbleibend", Amount(4.56, AmountUnit("GB"))),
+                    LabelledAmount("Diesen Monat genutzt", Amount(7.89, AmountUnit("GB"))),
                 )
             ),
             LabelledAmounts(
@@ -107,7 +107,7 @@ class TestModeCoopClient : CoopClient {
                 listOf(
                     LabelledAmount(
                         "verbleibend",
-                        Amount(Double.POSITIVE_INFINITY, "unbegrenzt")
+                        Amount(Double.POSITIVE_INFINITY, AmountUnit("unbegrenzt"))
                     )
                 )
             )

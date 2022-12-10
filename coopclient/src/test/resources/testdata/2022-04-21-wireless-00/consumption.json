@@ -7,14 +7,20 @@
         "description": "verbleibend",
         "amount": {
           "value": 12.34,
-          "unit": "GB"
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
         }
       },
       {
         "description": "diesen Monat genutzt",
         "amount": {
           "value": 1.23,
-          "unit": "GB"
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
         }
       },
       {
@@ -33,7 +39,10 @@
         "description": "verbleibend",
         "amount": {
           "value": 123.0,
-          "unit": "MB"
+          "unit": {
+            "kind": "MB",
+            "source": "MB"
+          }
         }
       }
     ]

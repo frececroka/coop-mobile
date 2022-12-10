@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import arrow.core.Either
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.client.AmountUnit
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.ProfileItem
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
@@ -131,7 +132,7 @@ class OverviewFragment : Fragment(), MenuProvider {
             textUnit.visibility = View.GONE
         } else {
             textValue.text = formatFiniteValue(amount.value)
-            textUnit.text = amount.unit
+            textUnit.text = amount.unit?.let { formatUnit(it) }
         }
 
         analytics.logEvent(
@@ -169,6 +170,19 @@ class OverviewFragment : Fragment(), MenuProvider {
         } else {
             String.format(Locale.getDefault(), "%.2f", value)
         }
+
+    private fun formatUnit(unit: AmountUnit): String {
+        val unitStringId = when (unit.kind) {
+            AmountUnit.Kind.CHF -> R.string.unit_chf
+            AmountUnit.Kind.Minutes -> R.string.unit_minutes
+            AmountUnit.Kind.Units -> R.string.unit_units
+            AmountUnit.Kind.GB -> R.string.unit_gb
+            AmountUnit.Kind.MB -> R.string.unit_mb
+            AmountUnit.Kind.Unlimited -> R.string.unit_unlimited
+            AmountUnit.Kind.Unknown -> return unit.source
+        }
+        return getString(unitStringId)
+    }
 
     private fun setProfile(result: List<Pair<String, String>>) {
         profile.removeAllViews()

@@ -90,7 +90,7 @@ class BalanceCheckTest {
     private fun credit(v: Double) = LabelledAmounts(
         kind = LabelledAmounts.Kind.Credit,
         description = "Mein verfügbarer Kredit",
-        labelledAmounts = listOf(LabelledAmount("verbleibend", Amount(v, "CHF")))
+        labelledAmounts = listOf(LabelledAmount("verbleibend", Amount(v, AmountUnit("CHF"))))
     )
 
     @Test
