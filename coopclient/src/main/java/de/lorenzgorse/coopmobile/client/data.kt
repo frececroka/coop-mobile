@@ -80,6 +80,30 @@ data class LabelledAmount(
 
 data class Amount(val value: Double, val unit: String?)
 
+data class ProfileItem(val kind: Kind, val description: String, val value: String) {
+    constructor(description: String, value: String)
+            : this(Kind.fromString[description] ?: Kind.Unknown, description, value)
+
+    enum class Kind {
+        Status,
+        CustomerId,
+        Owner,
+        PhoneNumber,
+        EmailAddress,
+        Unknown;
+
+        companion object {
+            val fromString = mapOf(
+                "Status" to Status,
+                "Kundennummer" to CustomerId,
+                "Inhaber" to Owner,
+                "Handynummer" to PhoneNumber,
+                "E-Mail Adresse" to EmailAddress,
+            )
+        }
+    }
+}
+
 data class Product(
     val name: String,
     val description: String,

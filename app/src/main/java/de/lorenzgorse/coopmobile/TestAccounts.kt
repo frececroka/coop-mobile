@@ -76,6 +76,16 @@ class TestModeCoopClient : CoopClient {
         )
     )
 
+    override suspend fun getProfileNoveau() = Either.Right(
+        listOf(
+            ProfileItem("Kundennummer", "12345678"),
+            ProfileItem("Status", "aktiv"),
+            ProfileItem("Inhaber", "Peter Lustig"),
+            ProfileItem("E-Mail Adresse", "peter@lustig.de"),
+            ProfileItem("Handynummer", "078 123 45 67"),
+        )
+    )
+
     override suspend fun getConsumption() = Either.Right(
         listOf(
             LabelledAmounts(

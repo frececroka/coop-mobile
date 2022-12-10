@@ -6,10 +6,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
-import de.lorenzgorse.coopmobile.client.CoopError
-import de.lorenzgorse.coopmobile.client.DecoratedCoopClient
-import de.lorenzgorse.coopmobile.client.LabelledAmount
-import de.lorenzgorse.coopmobile.client.LabelledAmounts
+import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
 class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
@@ -23,6 +20,27 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
                     "ProfileItem",
                     bundleOf("Description" to profileItem.first)
                 )
+            }
+        }
+        return profile
+    }
+
+    override suspend fun getProfileNoveau(): Either<CoopError, List<ProfileItem>> {
+        val profile = super.getProfileNoveau()
+        if (profile is Either.Right) {
+            Firebase.analytics.logEvent("ProfileItems", bundleOf("Length" to profile.value.size))
+            for (profileItem in profile.value) {
+                Firebase.analytics.logEvent(
+                    "ProfileItem",
+                    bundleOf(
+                        "Kind" to profileItem.kind.name,
+                        "Description" to profileItem.description,
+                    )
+                )
+                if (profileItem.kind == ProfileItem.Kind.Unknown) {
+                    val msg = "No mapped ProfileItem kind for description '${profileItem.description}'"
+                    Firebase.crashlytics.recordException(IllegalArgumentException(msg))
+                }
             }
         }
         return profile

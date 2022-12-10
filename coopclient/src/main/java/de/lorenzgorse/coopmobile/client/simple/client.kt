@@ -12,6 +12,7 @@ import java.net.URL
 
 interface CoopClient {
     suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>>
+    suspend fun getProfileNoveau(): Either<CoopError, List<ProfileItem>>
     suspend fun getConsumption(): Either<CoopError, List<LabelledAmounts>>
     suspend fun getConsumptionLog(): Either<CoopError, List<ConsumptionLogEntry>?>
     suspend fun getProducts(): Either<CoopError, List<Product>>
@@ -32,6 +33,14 @@ class StaticSessionCoopClient(
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
         translateExceptions { getHtml(config.overviewUrl()).safe { parser.parseProfile(it) } }
+
+    override suspend fun getProfileNoveau(): Either<CoopError, List<ProfileItem>> =
+        getProfile().map { profileItems ->
+            profileItems.map {
+                val (description, value) = it
+                ProfileItem(description, value)
+            }
+        }
 
     override suspend fun getConsumption(): Either<CoopError, List<LabelledAmounts>> =
         translateExceptions { getHtml(config.overviewUrl()).safe { parser.parseConsumption(it) } }

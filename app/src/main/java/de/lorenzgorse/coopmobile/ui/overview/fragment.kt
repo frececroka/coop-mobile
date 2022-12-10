@@ -9,8 +9,10 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import arrow.core.Either
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
+import de.lorenzgorse.coopmobile.client.ProfileItem
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
@@ -71,7 +73,10 @@ class OverviewFragment : Fragment(), MenuProvider {
         lifecycleScope.launch {
             viewModel.state.data().filterNotNull().collect { (consumption, profile) ->
                 setConsumption(consumption)
-                setProfile(profile)
+                when (profile) {
+                    is Either.Left -> setProfile(profile.value)
+                    is Either.Right -> setProfileNoveau(profile.value)
+                }
             }
         }
     }
@@ -168,11 +173,39 @@ class OverviewFragment : Fragment(), MenuProvider {
     private fun setProfile(result: List<Pair<String, String>>) {
         profile.removeAllViews()
         result.forEach {
-            val profileItem = layoutInflater.inflate(R.layout.profile_item, consumptions, false)
-            profileItem.findViewById<TextView>(R.id.txtLabel).text = it.first
-            profileItem.findViewById<TextView>(R.id.txtValue).text = it.second
-            profile.addView(profileItem)
+            addProfileItem(it.first, it.second)
         }
+    }
+
+    private fun setProfileNoveau(result: List<ProfileItem>) {
+        profile.removeAllViews()
+        result.forEach { profileItem ->
+            val description = getProfileItemDescription(profileItem)
+            addProfileItem(description, profileItem.value)
+        }
+    }
+
+    private fun getProfileItemDescription(profileItem: ProfileItem): String {
+        val descriptionStringId = when (profileItem.kind) {
+            ProfileItem.Kind.Status -> R.string.profile_item_status
+            ProfileItem.Kind.CustomerId -> R.string.profile_item_customer_id
+            ProfileItem.Kind.Owner -> R.string.profile_item_owner
+            ProfileItem.Kind.PhoneNumber -> R.string.profile_item_phone_number
+            ProfileItem.Kind.EmailAddress -> R.string.profile_item_email_address
+            ProfileItem.Kind.Unknown -> null
+        }
+        return if (descriptionStringId != null) {
+            getString(descriptionStringId)
+        } else {
+            profileItem.description
+        }
+    }
+
+    private fun addProfileItem(description: String, value: String) {
+        val profileItem = layoutInflater.inflate(R.layout.profile_item, consumptions, false)
+        profileItem.findViewById<TextView>(R.id.txtLabel).text = description
+        profileItem.findViewById<TextView>(R.id.txtValue).text = value
+        profile.addView(profileItem)
     }
 
     private fun openPlayStore() {

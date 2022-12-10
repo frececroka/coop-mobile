@@ -6,4 +6,10 @@
     <string name="labelled_amount_data_switzerland_and_europe">Données en Suisse, Europe de l’Ouest incl.</string>
     <string name="labelled_amount_calls_and_sms_switzerland">Unités mobiles en Suisse</string>
     <string name="labelled_amount_options_and_calls">Options et appels inclus</string>
+
+    <string name="profile_item_status">Statut</string>
+    <string name="profile_item_customer_id">Numéro de client</string>
+    <string name="profile_item_owner">Titulaire</string>
+    <string name="profile_item_phone_number">Numéro mobile</string>
+    <string name="profile_item_email_address">Adresse e-mail</string>
 </resources>
