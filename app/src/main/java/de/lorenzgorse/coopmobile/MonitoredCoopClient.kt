@@ -6,7 +6,10 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.perf.ktx.performance
-import de.lorenzgorse.coopmobile.client.*
+import de.lorenzgorse.coopmobile.client.CoopError
+import de.lorenzgorse.coopmobile.client.DecoratedCoopClient
+import de.lorenzgorse.coopmobile.client.LabelledAmount
+import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
 class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
@@ -39,6 +42,10 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
                     "Description" to consumptionBlock.description,
                 )
             )
+            if (consumptionBlock.kind == LabelledAmounts.Kind.Unknown) {
+                val msg = "No mapped LabelledAmounts kind for description '${consumptionBlock.description}'"
+                Firebase.crashlytics.recordException(IllegalArgumentException(msg))
+            }
             logConsumptions(consumptionBlock.labelledAmounts)
         }
     }
