@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="labelled_amount_credit">Il mio credito disponibile</string>
+    <string name="labelled_amount_data_switzerland">Dati mobili in Svizzera</string>
+    <string name="labelled_amount_data_europe">Dati mobili nell\'Europa occidentale</string>
+    <string name="labelled_amount_data_switzerland_and_europe">Dati mobili in Svizzera, UE/Europa Occidentale inclusi</string>
+    <string name="labelled_amount_calls_and_sms_switzerland">Unità mobili in Svizzera</string>
+    <string name="labelled_amount_options_and_calls">Opzioni e chiamate comprese</string>
+</resources>

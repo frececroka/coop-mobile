@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="labelled_amount_credit">Verfügbarer Kredit</string>
+    <string name="labelled_amount_data_switzerland">Mobile Daten in der Schweiz</string>
+    <string name="labelled_amount_data_europe">Mobile Daten in EU/Westeuropa</string>
+    <string name="labelled_amount_data_switzerland_and_europe">Mobile Daten in der Schweiz und EU/Westeuropa</string>
+    <string name="labelled_amount_calls_and_sms_switzerland">Anrufe und SMS in der Schweiz</string>
+    <string name="labelled_amount_options_and_calls">Optionen und inkludierte Anrufe</string>
+</resources>

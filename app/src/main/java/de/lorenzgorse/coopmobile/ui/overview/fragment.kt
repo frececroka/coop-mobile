@@ -119,7 +119,7 @@ class OverviewFragment : Fragment(), MenuProvider {
             labelledAmounts.labelledAmounts.firstOrNull() ?: return Optional.empty()
         val amount = labelledAmount.amount
 
-        textTitle.text = labelledAmounts.description
+        textTitle.text = getLabelledAmountsDescription(labelledAmounts)
 
         if (amount.value.isInfinite()) {
             textValue.text = getString(R.string.unlimited)
@@ -139,6 +139,23 @@ class OverviewFragment : Fragment(), MenuProvider {
         )
 
         return Optional.of(consumption)
+    }
+
+    private fun getLabelledAmountsDescription(labelledAmounts: LabelledAmounts): String {
+        val descriptionStringId = when (labelledAmounts.kind) {
+            LabelledAmounts.Kind.Credit -> R.string.labelled_amount_credit
+            LabelledAmounts.Kind.DataSwitzerland -> R.string.labelled_amount_data_switzerland
+            LabelledAmounts.Kind.DataEurope -> R.string.labelled_amount_data_europe
+            LabelledAmounts.Kind.DataSwitzerlandAndEurope -> R.string.labelled_amount_data_switzerland_and_europe
+            LabelledAmounts.Kind.CallsAndSmsSwitzerland -> R.string.labelled_amount_calls_and_sms_switzerland
+            LabelledAmounts.Kind.OptionsAndCalls -> R.string.labelled_amount_options_and_calls
+            LabelledAmounts.Kind.Unknown -> null
+        }
+        return if (descriptionStringId != null) {
+            getString(descriptionStringId)
+        } else {
+            labelledAmounts.description
+        }
     }
 
     private fun formatFiniteValue(value: Double) =
