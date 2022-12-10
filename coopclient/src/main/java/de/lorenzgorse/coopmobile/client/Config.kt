@@ -14,15 +14,20 @@ interface Config {
     fun correspondencesUrl(): String
 }
 
-class LocalizedConfig : Config {
-    private val country = determineCountry()
+class LocalizedConfig(
+    // The data country is the country code used to
+    // fetch pages where we don't care about the text.
+    private val dataCountry: String = determineCountry(),
+    // The user country is the country code used to fetch
+    // pages that have text that we show to the user.
+    private val userCountry: String = determineCountry(),
+) : Config {
     private val coopBase = "https://myaccount.coopmobile.ch"
     private val ecareBase = "$coopBase/eCare"
-    private val ecareLocalBase = "$ecareBase/$country"
 
     override fun coopBase() = coopBase
 
-    override fun loginUrl() = "$ecareLocalBase/users/sign_in"
+    override fun loginUrl() = "$ecareBase/$dataCountry/users/sign_in"
 
     override fun loginUrlRegex() = "${Regex.escape(ecareBase)}/([^/]+)/users/sign_in"
 
@@ -34,11 +39,13 @@ class LocalizedConfig : Config {
 
     override fun planRegex() = "${Regex.escape(ecareBase)}/([^/]+)/.+"
 
-    override fun overviewUrl() = ecareLocalBase
+    override fun overviewUrl() = "$ecareBase/$dataCountry"
 
-    override fun consumptionLogUrl() = "$coopBase/$country/ajax_load_cdr"
+    override fun consumptionLogUrl() = "$coopBase/$dataCountry/ajax_load_cdr"
 
-    override fun productsUrl() = "$ecareLocalBase/add_product"
+    // The products page has a lot of text that we don't want to translate. Use
+    // the user country to load this, so that the user can understand everything.
+    override fun productsUrl() = "$ecareBase/$userCountry/add_product"
 
-    override fun correspondencesUrl() = "$ecareLocalBase/my_correspondence"
+    override fun correspondencesUrl() = "$ecareBase/$dataCountry/my_correspondence"
 }

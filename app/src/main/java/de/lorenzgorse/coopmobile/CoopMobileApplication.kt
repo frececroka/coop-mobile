@@ -150,6 +150,13 @@ class MainCoopModule(private val app: Application) {
     fun testAccounts(): TestAccounts = TestAccounts(app)
 
     @Provides
-    fun config(): Config = RemoteConfig(LocalizedConfig())
+    fun config(): Config = RemoteConfig(
+        when (Firebase.remoteConfig.getBoolean("use_user_locale_for_coopclient_config")) {
+            // By default, use the German website.
+            false -> LocalizedConfig(dataCountry = "de")
+            // But allow us to use the user's locale instead if necessary.
+            true -> LocalizedConfig()
+        }
+    )
 
 }
