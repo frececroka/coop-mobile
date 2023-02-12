@@ -14,6 +14,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.installations.FirebaseInstallationsException
+import com.google.firebase.installations.FirebaseInstallationsException.Status.TOO_MANY_REQUESTS
+import com.google.firebase.installations.FirebaseInstallationsException.Status.UNAVAILABLE
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
@@ -65,11 +68,16 @@ class NavHost : AppCompatActivity(), MenuProvider {
     private suspend fun removeMenuItems() {
         try {
             waitForTask(Firebase.remoteConfig.fetchAndActivate())
-        } catch (_: IOException) {
-            // Ignore IOExceptions.
         } catch (e: Exception) {
-            // Send everything that's not an IOException to Crashlytics.
-            Firebase.crashlytics.recordException(e)
+            val reportException = when (val rootCause = e.rootCause()) {
+                is IOException -> false
+                is FirebaseInstallationsException ->
+                    rootCause.status !in setOf(UNAVAILABLE, TOO_MANY_REQUESTS)
+                else -> true
+            }
+            if (reportException) {
+                Firebase.crashlytics.recordException(e)
+            }
         }
 
         val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")

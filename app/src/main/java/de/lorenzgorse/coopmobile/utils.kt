@@ -38,6 +38,8 @@ fun Fragment.notify(msg: CharSequence) {
     view?.let { Snackbar.make(it, msg, 5000).show() }
 }
 
+fun Throwable.rootCause(): Throwable = cause?.rootCause() ?: this
+
 class ActivityResultQuery<I, O>(fragment: Fragment, contract: ActivityResultContract<I, O>) {
 
     private val mutex = Mutex()
