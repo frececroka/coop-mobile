@@ -12,7 +12,6 @@ import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
-import de.lorenzgorse.coopmobile.components.ThemeUtils
 import de.lorenzgorse.coopmobile.data.CoopViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -27,12 +26,11 @@ import kotlin.random.Random
 @FlowPreview
 @ExperimentalCoroutinesApi
 class ConsumptionData @Inject constructor(
-    app: Application,
+    private val app: Application,
     client: CoopClient,
     private val analytics: FirebaseAnalytics,
 ) : CoopViewModel(app) {
 
-    private val themeUtils: ThemeUtils = ThemeUtils(app)
     private val consumptionLogCache = ConsumptionLogCache(app)
 
     val range: MutableSharedFlow<TemporalAmount?> = MutableSharedFlow(replay = 1)
@@ -102,6 +100,7 @@ class ConsumptionData @Inject constructor(
 
         analytics.logEvent("ConsumptionLog", bundleOf("Length" to consumptionLog.size))
 
+        // TODO: this doesn't make any sense. We have to take units into account
         var currentData = currentMobileData.amount.value
         val chartData = consumptionLog
             .sortedBy { it.instant }
@@ -119,9 +118,9 @@ class ConsumptionData @Inject constructor(
         dataSet.setDrawFilled(true)
         dataSet.circleRadius = 2f
         dataSet.lineWidth = 3f
-        dataSet.setCircleColor(themeUtils.getColor(R.attr.colorAccent))
-        dataSet.color = themeUtils.getColor(R.attr.colorPrimary)
-        dataSet.fillColor = themeUtils.getColor(R.attr.colorPrimary)
+        dataSet.setCircleColor(app.getColor(R.color.colorAccent))
+        dataSet.color = app.getColor(R.color.colorPrimary)
+        dataSet.fillColor = app.getColor(R.color.colorPrimary)
         dataSet.fillAlpha = 30
 
         return LineData(dataSet)

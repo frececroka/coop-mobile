@@ -12,9 +12,9 @@ import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.databinding.FragmentDebugBinding
 import de.lorenzgorse.coopmobile.preferences.getCoopSharedPreferences
 import de.lorenzgorse.coopmobile.ui.onEach
-import kotlinx.android.synthetic.main.fragment_debug.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -22,6 +22,8 @@ import java.util.*
 
 
 class DebugFragment : Fragment() {
+
+    private lateinit var binding: FragmentDebugBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +34,9 @@ class DebugFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_debug, container, false)
+    ): View {
+        binding = FragmentDebugBinding.inflate(inflater)
+        return binding.root
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -47,7 +50,7 @@ class DebugFragment : Fragment() {
             addAppInfo("Firebase id", firebaseId)
         }
 
-        viewLifecycleOwner.onEach(btRefreshRemoteConfig.onClickFlow()) {
+        viewLifecycleOwner.onEach(binding.btRefreshRemoteConfig.onClickFlow()) {
             waitForTask(Firebase.remoteConfig.fetch(0))
             notify("RemoteConfig refreshed")
         }
@@ -70,15 +73,15 @@ class DebugFragment : Fragment() {
     }
 
     private fun addAppInfo(key: String, value: String) {
-        createEntryView(layGeneral, key, value)
+        createEntryView(binding.layGeneral, key, value)
     }
 
     private fun renderPreferences() {
-        laySharedPrefs.removeAllViews()
+        binding.laySharedPrefs.removeAllViews()
         val prefs = requireContext().getCoopSharedPreferences()
         for (entry in prefs.all) {
             val value = if (entry.key == "password") "**********" else entry.value.toString()
-            createEntryView(laySharedPrefs, entry.key, value) {
+            createEntryView(binding.laySharedPrefs, entry.key, value) {
                 prefs.edit().remove(entry.key).apply()
                 renderPreferences()
             }

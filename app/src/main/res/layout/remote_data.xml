@@ -40,7 +40,7 @@
                 android:layout_height="60dip"
                 android:layout_marginBottom="10dip"
                 android:src="@drawable/ic_offline_bolt"
-                app:tint="@color/colorOnBackground1" />
+                app:tint="@color/colorOnBackground" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_height="60dip"
                     android:layout_marginBottom="10dip"
                     android:src="@drawable/ic_system_update"
-                    app:tint="@color/colorOnBackground1" />
+                    app:tint="@color/colorOnBackground" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_height="60dip"
                 android:layout_marginBottom="10dip"
                 android:src="@drawable/ic_report"
-                app:tint="@color/colorOnBackground1" />
+                app:tint="@color/colorOnBackground" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                 android:layout_height="60dip"
                 android:layout_marginBottom="10dip"
                 android:src="@drawable/ic_report"
-                app:tint="@color/colorOnBackground1" />
+                app:tint="@color/colorOnBackground" />
 
             <TextView
                 android:id="@+id/rdErrorOtherMessage"

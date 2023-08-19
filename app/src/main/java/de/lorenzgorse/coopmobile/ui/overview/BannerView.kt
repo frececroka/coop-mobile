@@ -12,8 +12,8 @@ import de.lorenzgorse.coopmobile.CoopModule.firstInstallTimeProvider
 import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.components.Counter
 import de.lorenzgorse.coopmobile.components.Fuse
+import de.lorenzgorse.coopmobile.databinding.BannerBinding
 import de.lorenzgorse.coopmobile.openPlayStore
-import kotlinx.android.synthetic.main.banner.view.*
 
 
 class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -23,15 +23,17 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     private val dismissedFuse = Fuse(context, "rating_banner_dismissed")
     private val loadCount = Counter(context, "load_count")
 
+    private val binding: BannerBinding
+
     var activity: Activity? = null
 
     init {
-        inflate(context, R.layout.banner, this)
-        btOkay.setOnClickListener {
+        binding = BannerBinding.bind(inflate(context, R.layout.banner, this))
+        binding.btOkay.setOnClickListener {
             analytics.logEvent("RatingBanner_Interaction", bundleOf("Choice" to "Okay"))
             startReview()
         }
-        btNo.setOnClickListener {
+        binding.btNo.setOnClickListener {
             analytics.logEvent("RatingBanner_Interaction", bundleOf("Choice" to "No"))
             dismiss()
         }
@@ -46,8 +48,8 @@ class BannerView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     private fun startReview() {
-        layResponse.visibility = View.GONE
-        layProgress.visibility = View.VISIBLE
+        binding.layResponse.visibility = View.GONE
+        binding.layProgress.visibility = View.VISIBLE
         val activity = activity
         if (activity != null) {
             val reviewManager = ReviewManagerFactory.create(context)

@@ -16,9 +16,8 @@ import de.lorenzgorse.coopmobile.client.LabelledAmounts
 import de.lorenzgorse.coopmobile.client.ProfileItem
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.components.EncryptedDiagnostics
+import de.lorenzgorse.coopmobile.databinding.FragmentOverviewBinding
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import kotlinx.android.synthetic.main.fragment_overview.*
-import kotlinx.android.synthetic.main.remote_data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
@@ -44,6 +43,7 @@ class OverviewFragment : Fragment(), MenuProvider {
 
     private lateinit var remoteDataView: RemoteDataView
     private lateinit var combox: Combox
+    private lateinit var binding: FragmentOverviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +58,13 @@ class OverviewFragment : Fragment(), MenuProvider {
         savedInstanceState: Bundle?
     ): View {
         remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_overview)
+        binding = FragmentOverviewBinding.bind(remoteDataView.contentView)
         return remoteDataView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bannerRate.activity = requireActivity()
-        btGoToPlayStore.setOnClickListener { openPlayStore() }
+        binding.bannerRate.activity = requireActivity()
         remoteDataView.bindState(viewModel.state)
     }
 
@@ -105,18 +105,17 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun setConsumption(result: List<LabelledAmounts>) {
-        // TODO: why is this null for some users?
-        bannerRate?.onLoadSuccess()
+        binding.bannerRate.onLoadSuccess()
 
         analytics.logEvent("ConsumptionViewsCleared", null)
-        consumptions.removeAllViews()
+        binding.consumptions.removeAllViews()
         result.forEach {
-            createConsumptionView(it).ifPresent(consumptions::addView)
+            createConsumptionView(it).ifPresent(binding.consumptions::addView)
         }
     }
 
     private fun createConsumptionView(labelledAmounts: LabelledAmounts): Optional<View> {
-        val consumption = layoutInflater.inflate(R.layout.consumption, consumptions, false)
+        val consumption = layoutInflater.inflate(R.layout.consumption, binding.consumptions, false)
         val textTitle = consumption.findViewById<TextView>(R.id.textTitle)
         val textValue = consumption.findViewById<TextView>(R.id.textValue)
         val textUnit = consumption.findViewById<TextView>(R.id.textUnit)
@@ -185,14 +184,14 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun setProfile(result: List<Pair<String, String>>) {
-        profile.removeAllViews()
+        binding.profile.removeAllViews()
         result.forEach {
             addProfileItem(it.first, it.second)
         }
     }
 
     private fun setProfileNoveau(result: List<ProfileItem>) {
-        profile.removeAllViews()
+        binding.profile.removeAllViews()
         result.forEach { profileItem ->
             val description = getProfileItemDescription(profileItem)
             addProfileItem(description, profileItem.value)
@@ -216,10 +215,10 @@ class OverviewFragment : Fragment(), MenuProvider {
     }
 
     private fun addProfileItem(description: String, value: String) {
-        val profileItem = layoutInflater.inflate(R.layout.profile_item, consumptions, false)
+        val profileItem = layoutInflater.inflate(R.layout.profile_item, binding.consumptions, false)
         profileItem.findViewById<TextView>(R.id.txtLabel).text = description
         profileItem.findViewById<TextView>(R.id.txtValue).text = value
-        profile.addView(profileItem)
+        binding.profile.addView(profileItem)
     }
 
     private fun openPlayStore() {

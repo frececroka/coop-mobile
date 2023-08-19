@@ -21,8 +21,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
+import de.lorenzgorse.coopmobile.databinding.ActivityNavHostBinding
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
-import kotlinx.android.synthetic.main.activity_nav_host.*
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -35,13 +35,15 @@ class NavHost : AppCompatActivity(), MenuProvider {
     @Inject
     lateinit var credentialsStore: CredentialsStore
 
+    private lateinit var binding: ActivityNavHostBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         coopComponent().inject(this)
-        setContentView(R.layout.activity_nav_host)
-        setSupportActionBar(toolbar)
+        binding = ActivityNavHostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
         val topLevelDestinationIds = setOf(
@@ -52,7 +54,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
 
         lifecycleScope.launch { removeMenuItems() }
 
-        bottom_nav.setOnItemSelectedListener { item ->
+        binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.itOverview -> navController.navigate(R.id.action_overview)
                 R.id.itOptions -> navController.navigate(R.id.action_options)
@@ -82,12 +84,12 @@ class NavHost : AppCompatActivity(), MenuProvider {
 
         val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
         if (!enableCorrespondences) {
-            bottom_nav.menu.removeItem(R.id.itCorrespondences)
+            binding.bottomNav.menu.removeItem(R.id.itCorrespondences)
         }
 
         val enableOptions = Firebase.remoteConfig.getBoolean("enable_options")
         if (!enableOptions) {
-            bottom_nav.menu.removeItem(R.id.itOptions)
+            binding.bottomNav.menu.removeItem(R.id.itOptions)
         }
     }
 
@@ -98,7 +100,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
         bundle: Bundle?
     ) {
         val isLogin = destination.id == R.id.login
-        bottom_nav.visibility = if (isLogin) View.GONE else View.VISIBLE
+        binding.bottomNav.visibility = if (isLogin) View.GONE else View.VISIBLE
         if (isLogin) disableMenu() else enableMenu()
         when (destination.id) {
             R.id.overview -> {
@@ -114,7 +116,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
     }
 
     private fun setBottomNavItem(itemId: Int) {
-        bottom_nav.menu.findItem(itemId).isChecked = true
+        binding.bottomNav.menu.findItem(itemId).isChecked = true
     }
 
     override fun onSupportNavigateUp(): Boolean {

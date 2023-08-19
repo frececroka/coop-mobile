@@ -32,11 +32,11 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
             container: ViewGroup?,
             contentViewId: Int
         ): RemoteDataView {
-            val remoteDataView = inflater.inflate(R.layout.fragment_remote_data, container, false) as RemoteDataView
-            val contentView = remoteDataView.contentView
-            val dataView = inflater.inflate(contentViewId, contentView, false)
-            contentView.addView(dataView)
-            return remoteDataView
+            val view =
+                inflater.inflate(R.layout.fragment_remote_data, container, false) as RemoteDataView
+            view.contentView = inflater.inflate(contentViewId, view.contentViewContainer, false)
+            view.contentViewContainer.addView(view.contentView)
+            return view
         }
     }
 
@@ -48,7 +48,7 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
 
     private var bound = false
 
-    val contentView: LinearLayout
+    private val contentViewContainer: LinearLayout
     private val loadingView: LoadingView
     private val errorView: View
     private val errorNoNetworkView: View
@@ -58,10 +58,12 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
     private val errorOtherMessageView: TextView
     private val sendDiagnosticsButton: Button
 
+    lateinit var contentView: View
+
     init {
         inflate(context, R.layout.remote_data, this)
         context.coopComponent().inject(this)
-        contentView = findViewById(R.id.rdContent)
+        contentViewContainer = findViewById(R.id.rdContent)
         loadingView = findViewById(R.id.rdLoading)
         errorView = findViewById(R.id.rdError)
         errorNoNetworkView = findViewById(R.id.rdErrorNoNetwork)
@@ -82,7 +84,7 @@ class RemoteDataView(context: Context, attrs: AttributeSet) : LinearLayout(conte
         val lifecycleOwner = findViewTreeLifecycleOwner()!!
 
         val data = state.data()
-        lifecycleOwner.applyVisibility(data.map { it != null }, contentView)
+        lifecycleOwner.applyVisibility(data.map { it != null }, contentViewContainer)
 
         val loading = state.loadingState()
         lifecycleOwner.applyVisibility(loading, loadingView)

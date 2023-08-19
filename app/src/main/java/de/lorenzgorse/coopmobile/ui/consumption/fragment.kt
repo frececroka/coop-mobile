@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.formatter.ValueFormatter
 import de.lorenzgorse.coopmobile.*
-import de.lorenzgorse.coopmobile.components.ThemeUtils
+import de.lorenzgorse.coopmobile.databinding.FragmentConsumptionLogBinding
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
 import de.lorenzgorse.coopmobile.ui.applyVisibility
 import de.lorenzgorse.coopmobile.ui.onEach
-import kotlinx.android.synthetic.main.fragment_consumption_log.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -31,9 +30,9 @@ class ConsumptionFragment : Fragment() {
 
     @Inject lateinit var viewModel: ConsumptionData
     @Inject lateinit var consumptionLogCache: ConsumptionLogCache
-    @Inject lateinit var themeUtils: ThemeUtils
     @Inject lateinit var analytics: FirebaseAnalytics
 
+    private lateinit var binding: FragmentConsumptionLogBinding
     private lateinit var remoteDataView: RemoteDataView
 
     object Ranges {
@@ -61,6 +60,7 @@ class ConsumptionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_consumption_log)
+        binding = FragmentConsumptionLogBinding.bind(remoteDataView.contentView)
         return remoteDataView
     }
 
@@ -75,22 +75,22 @@ class ConsumptionFragment : Fragment() {
         prepareChart()
 
         viewLifecycleOwner.onEach(viewModel.state.data()) {
-            consumptionChart.data = it
-            consumptionChart.invalidate()
+            binding.consumptionChart.data = it
+            binding.consumptionChart.invalidate()
         }
 
         val hasDataFlow = viewModel.visibleConsumptionLog.data().filterNotNull()
             .map { it.size >= 2 }
-        viewLifecycleOwner.applyVisibility(hasDataFlow, consumptionChart)
-        viewLifecycleOwner.applyVisibility(hasDataFlow.map { !it }, noConsumptionChart)
+        viewLifecycleOwner.applyVisibility(hasDataFlow, binding.consumptionChart)
+        viewLifecycleOwner.applyVisibility(hasDataFlow.map { !it }, binding.noConsumptionChart)
 
         val rangeButtons = listOf(
-            Pair(bt1w, Ranges.range1w),
-            Pair(bt1m, Ranges.range1m),
-            Pair(bt3m, Ranges.range3m),
-            Pair(bt6m, Ranges.range6m),
-            Pair(bt1y, Ranges.range1y),
-            Pair(btmax, Ranges.rangemax),
+            Pair(binding.bt1w, Ranges.range1w),
+            Pair(binding.bt1m, Ranges.range1m),
+            Pair(binding.bt3m, Ranges.range3m),
+            Pair(binding.bt6m, Ranges.range6m),
+            Pair(binding.bt1y, Ranges.range1y),
+            Pair(binding.btmax, Ranges.rangemax),
         )
 
         // Forward button clicks to view model.
@@ -103,9 +103,9 @@ class ConsumptionFragment : Fragment() {
 
         // Forward view model updates to buttons.
         viewLifecycleOwner.onEach(viewModel.range) { range ->
-            rangeButtonsGroup.clearChecked()
+            binding.rangeButtonsGroup.clearChecked()
             val (button, _) = rangeButtons.find { range == it.second } ?: return@onEach
-            rangeButtonsGroup.check(button.id)
+            binding.rangeButtonsGroup.check(button.id)
         }
 
         // Enable buttons that are useful. If the oldest data point is 4 months
@@ -128,22 +128,22 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun prepareChart() {
-        consumptionChart.isDragEnabled = false
-        consumptionChart.isDoubleTapToZoomEnabled = false
-        consumptionChart.isScaleXEnabled = false
-        consumptionChart.isScaleYEnabled = false
-        consumptionChart.legend.isEnabled = false
-        consumptionChart.description.isEnabled = false
-        consumptionChart.axisRight.isEnabled = false
+        binding.consumptionChart.isDragEnabled = false
+        binding.consumptionChart.isDoubleTapToZoomEnabled = false
+        binding.consumptionChart.isScaleXEnabled = false
+        binding.consumptionChart.isScaleYEnabled = false
+        binding.consumptionChart.legend.isEnabled = false
+        binding.consumptionChart.description.isEnabled = false
+        binding.consumptionChart.axisRight.isEnabled = false
 
-        val xAxis = consumptionChart.xAxis
+        val xAxis = binding.consumptionChart.xAxis
         xAxis.labelRotationAngle = 90f
         xAxis.valueFormatter = NewDateValueFormatter()
-        xAxis.textColor = themeUtils.textColor()
+        xAxis.textColor = requireContext().getColor(R.color.colorOnBackground)
 
-        val yAxis = consumptionChart.axisLeft
+        val yAxis = binding.consumptionChart.axisLeft
         yAxis.axisMinimum = 0f
-        yAxis.textColor = themeUtils.textColor()
+        yAxis.textColor = requireContext().getColor(R.color.colorOnBackground)
     }
 
 }

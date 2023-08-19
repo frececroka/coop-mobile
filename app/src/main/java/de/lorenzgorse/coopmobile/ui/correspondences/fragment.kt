@@ -14,8 +14,8 @@ import de.lorenzgorse.coopmobile.R
 import de.lorenzgorse.coopmobile.client.Correspondence
 import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
+import de.lorenzgorse.coopmobile.databinding.FragmentCorrespondencesBinding
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import kotlinx.android.synthetic.main.fragment_correspondences.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
@@ -34,6 +34,7 @@ class CorrespondencesFragment : Fragment() {
     @Inject lateinit var viewModel: CorrespondencesData
 
     private lateinit var remoteDataView: RemoteDataView
+    private lateinit var binding: FragmentCorrespondencesBinding
     private lateinit var inflater: LayoutInflater
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +49,7 @@ class CorrespondencesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_correspondences)
+        binding = FragmentCorrespondencesBinding.bind(remoteDataView.contentView)
         return remoteDataView
     }
 
@@ -71,10 +73,10 @@ class CorrespondencesFragment : Fragment() {
             "CorrespondenceViews",
             bundleOf("Size" to data.size))
 
-        correspondences.removeAllViews()
+        binding.correspondences.removeAllViews()
         for (correspondence in data) {
             val productItemView = inflater.inflate(
-                R.layout.correspondence, correspondences, false)
+                R.layout.correspondence, binding.correspondences, false)
             val txtDate = productItemView.findViewById<TextView>(R.id.txtDate)
             val txtSubject = productItemView.findViewById<TextView>(R.id.txtSubject)
             val txtMessage = productItemView.findViewById<TextView>(R.id.txtMessage)
@@ -82,7 +84,7 @@ class CorrespondencesFragment : Fragment() {
             txtDate.text = dateFormat.format(correspondence.header.date)
             txtSubject.text = correspondence.header.subject
             txtMessage.text = correspondence.message
-            correspondences.addView(productItemView)
+            binding.correspondences.addView(productItemView)
         }
     }
 

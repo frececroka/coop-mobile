@@ -14,6 +14,7 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import java.lang.reflect.Type
 import java.time.Instant
+import java.time.LocalDate
 import java.util.*
 
 class CoopHtmlParserTest {
@@ -38,6 +39,7 @@ class CoopHtmlParserTest {
 
         private val gson = GsonBuilder()
             .registerTypeAdapter(Double::class.java, DoubleDeserializer())
+            .registerTypeAdapter(LocalDate::class.java, LocalDateDeserializer())
             .create()
 
         private val parser = CoopHtmlParser(LocalizedConfig())
@@ -127,5 +129,19 @@ private class DoubleDeserializer : JsonDeserializer<Double> {
     ) = when (val double = json.asDouble) {
         9999.0 -> Double.POSITIVE_INFINITY
         else -> double
+    }
+}
+
+private class LocalDateDeserializer : JsonDeserializer<LocalDate> {
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext,
+    ): LocalDate {
+        val jsonObject = json.asJsonObject
+        val year = jsonObject.get("year").asInt
+        val month = jsonObject.get("month").asInt
+        val day = jsonObject.get("day").asInt
+        return LocalDate.of(year, month, day)
     }
 }

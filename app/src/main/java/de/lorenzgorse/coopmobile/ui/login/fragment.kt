@@ -22,7 +22,7 @@ import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.client.simple.CoopException.HtmlChanged
 import de.lorenzgorse.coopmobile.client.simple.CoopLogin
-import kotlinx.android.synthetic.main.fragment_login.*
+import de.lorenzgorse.coopmobile.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -49,6 +49,8 @@ class LoginFragment : Fragment() {
     @Inject lateinit var testAccounts: TestAccounts
     @Inject lateinit var analytics: FirebaseAnalytics
 
+    private lateinit var binding: FragmentLoginBinding
+
     private val loginInProgress = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,19 +65,20 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    ): View {
+        binding = FragmentLoginBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        for (textView in listOf(txtPrivacyPolicy, txtLoginFailed)) {
+        for (textView in listOf(binding.txtPrivacyPolicy, binding.txtLoginFailed)) {
             textView.text = HtmlCompat.fromHtml(textView.text.toString(), FROM_HTML_MODE_COMPACT)
             textView.movementMethod = LinkMovementMethod.getInstance()
         }
 
-        txtPassword.setOnEditorActionListener { _, actionId, _ ->
+        binding.txtPassword.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
                     lifecycleScope.launch { attemptLoginGuard() }; true
@@ -84,7 +87,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        btLogin.setOnClickListener {
+        binding.btLogin.setOnClickListener {
             lifecycleScope.launch { attemptLoginGuard() }
         }
     }
@@ -113,39 +116,39 @@ class LoginFragment : Fragment() {
     private suspend fun attemptLogin() {
         analytics.logEvent("Login_Attempt", null)
 
-        cardError.visibility = View.GONE
-        txtNoNetwork.visibility = View.GONE
-        txtLoginFailed.visibility = View.GONE
+        binding.cardError.visibility = View.GONE
+        binding.txtNoNetwork.visibility = View.GONE
+        binding.txtLoginFailed.visibility = View.GONE
 
         val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(txtUsername.windowToken, 0)
-        imm.hideSoftInputFromWindow(txtPassword.windowToken, 0)
+        imm.hideSoftInputFromWindow(binding.txtUsername.windowToken, 0)
+        imm.hideSoftInputFromWindow(binding.txtPassword.windowToken, 0)
 
         // Reset errors.
-        txtUsername.error = null
-        txtPassword.error = null
+        binding.txtUsername.error = null
+        binding.txtPassword.error = null
 
         // Store values at the time of the LoginFragment attempt.
-        val username = txtUsername.text.toString()
-        val password = txtPassword.text.toString()
+        val username = binding.txtUsername.text.toString()
+        val password = binding.txtPassword.text.toString()
 
         var cancel: String? = null
         var focusView: View? = null
 
         if (TextUtils.isEmpty(password)) {
-            txtPassword.error = getString(R.string.error_field_required)
-            focusView = txtPassword
+            binding.txtPassword.error = getString(R.string.error_field_required)
+            focusView = binding.txtPassword
             cancel = "Login_PasswordEmpty"
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(username)) {
-            txtUsername.error = getString(R.string.error_field_required)
-            focusView = txtUsername
+            binding.txtUsername.error = getString(R.string.error_field_required)
+            focusView = binding.txtUsername
             cancel = "Login_UsernameEmpty"
         } else if (!isUsernameValid(username)) {
-            txtUsername.error = getString(R.string.error_invalid_username)
-            focusView = txtUsername
+            binding.txtUsername.error = getString(R.string.error_invalid_username)
+            focusView = binding.txtUsername
             cancel = "Login_UsernameInvalid"
         }
 
@@ -185,8 +188,8 @@ class LoginFragment : Fragment() {
         } catch (e: IOException) {
             log.error("No network connection available.", e)
             showProgress(false)
-            cardError.visibility = View.VISIBLE
-            txtNoNetwork.visibility = View.VISIBLE
+            binding.cardError.visibility = View.VISIBLE
+            binding.txtNoNetwork.visibility = View.VISIBLE
             return
         } catch (e: HtmlChanged) {
             log.error("HTML structure changed unexpectedly.", e)
@@ -203,8 +206,8 @@ class LoginFragment : Fragment() {
         } else {
             log.info("Did not receive any session ID.")
             showProgress(false)
-            cardError.visibility = View.VISIBLE
-            txtLoginFailed.visibility = View.VISIBLE
+            binding.cardError.visibility = View.VISIBLE
+            binding.txtLoginFailed.visibility = View.VISIBLE
         }
     }
 
@@ -216,10 +219,10 @@ class LoginFragment : Fragment() {
         username.matches(phoneRegex)
 
     private fun showProgress(show: Boolean) {
-        txtUsername.isEnabled = !show
-        txtPassword.isEnabled = !show
-        btLogin.isEnabled = !show
-        loginProgressIndicator.visibility = if (show) View.VISIBLE else View.INVISIBLE
+        binding.txtUsername.isEnabled = !show
+        binding.txtPassword.isEnabled = !show
+        binding.btLogin.isEnabled = !show
+        binding.loginProgressIndicator.visibility = if (show) View.VISIBLE else View.INVISIBLE
     }
 
 }

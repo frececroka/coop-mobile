@@ -20,11 +20,11 @@
 
     <style name="QuietButton">
         <item name="backgroundTint">@color/background1</item>
-        <item name="android:textColor">@color/colorOnBackground1</item>
+        <item name="android:textColor">@color/colorOnBackground</item>
     </style>
 
     <style name="QuietText">
-        <item name="android:textColor">@color/quietColorOnBackground1</item>
+        <item name="android:textColor">@color/quietColorOnBackground</item>
     </style>
 
     <style name="QuietText.Bold">

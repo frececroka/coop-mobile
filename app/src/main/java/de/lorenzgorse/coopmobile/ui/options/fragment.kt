@@ -17,8 +17,8 @@ import de.lorenzgorse.coopmobile.client.Product
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 import de.lorenzgorse.coopmobile.coopComponent
 import de.lorenzgorse.coopmobile.data
+import de.lorenzgorse.coopmobile.databinding.FragmentOptionsBinding
 import de.lorenzgorse.coopmobile.ui.RemoteDataView
-import kotlinx.android.synthetic.main.fragment_options.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.filterNotNull
@@ -39,6 +39,7 @@ class OptionsFragment : Fragment() {
     private lateinit var inflater: LayoutInflater
     private lateinit var remoteConfig: FirebaseRemoteConfig
     private lateinit var remoteDataView: RemoteDataView
+    private lateinit var binding: FragmentOptionsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,7 @@ class OptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         remoteDataView = RemoteDataView.inflate(inflater, container, R.layout.fragment_options)
+        binding = FragmentOptionsBinding.bind(remoteDataView.contentView)
         return remoteDataView
     }
 
@@ -72,16 +74,16 @@ class OptionsFragment : Fragment() {
     }
 
     private fun setProducts(result: List<Product>) {
-        linProducts.removeAllViews()
+        binding.linProducts.removeAllViews()
         for (product in result) {
             logOptionView(product)
-            val productItemView = inflater.inflate(R.layout.product_item, linProducts, false)
+            val productItemView = inflater.inflate(R.layout.product_item, binding.linProducts, false)
             productItemView.findViewById<TextView>(R.id.txtName).text = product.name
             productItemView.findViewById<TextView>(R.id.txtPrice).text = product.price
             productItemView.findViewById<TextView>(R.id.txtDescription).text = product.description
             productItemView.findViewById<Button>(R.id.btBuy).setOnClickListener {
                 lifecycleScope.launch { buyProduct(product) } }
-            linProducts.addView(productItemView)
+            binding.linProducts.addView(productItemView)
         }
     }
 

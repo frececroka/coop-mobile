@@ -11,6 +11,6 @@
     <color name="background2">#111</color>
     <color name="background3">#050505</color>
 
-    <color name="colorOnBackground1">#FFF</color>
-    <color name="quietColorOnBackground1">#777</color>
+    <color name="colorOnBackground">#FFF</color>
+    <color name="quietColorOnBackground">#777</color>
 </resources>
