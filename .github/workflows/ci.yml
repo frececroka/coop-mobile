@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "oracle"
+          java-version: "17"
       - run: mkdir coopclient/.config
       - run: echo "${{ secrets.COOP_MOBILE_USERNAME }}" > coopclient/.config/username
       - run: echo "${{ secrets.COOP_MOBILE_PASSWORD }}" > coopclient/.config/password
@@ -27,6 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v3
+      with:
+        distribution: "oracle"
+        java-version: "17"
     - name: Load Keystore
       run: |
         echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
