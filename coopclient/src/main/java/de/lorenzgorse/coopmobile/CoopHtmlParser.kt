@@ -14,7 +14,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
 
-class CoopHtmlParser(private val config: Config) {
+class CoopHtmlParser(
+    private val config: Config,
+    @Suppress("unused")
+    private val experiments: Experiments,
+) {
+
+    data class Experiments(
+        val unused: Boolean = false
+    )
 
     private val log = LoggerFactory.getLogger(javaClass)
 

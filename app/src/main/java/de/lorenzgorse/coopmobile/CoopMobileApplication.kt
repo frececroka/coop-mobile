@@ -93,12 +93,23 @@ class MainCoopModule(private val app: Application) {
     @Provides
     fun staticSessionCoopClient(
         config: Config,
+        parserExperiments: CoopHtmlParser.Experiments,
         httpClientFactory: HttpClientFromCookieJar,
     ): CoopClientFromSessionId = object : CoopClientFromSessionId {
         override fun create(sessionId: String): CoopClient =
             if (testAccounts().modeActive()) TestModeCoopClient()
-            else StaticSessionCoopClient(config, sessionId, httpClientFactory::create)
+            else StaticSessionCoopClient(
+                config,
+                parserExperiments,
+                sessionId,
+                httpClientFactory::create
+            )
     }
+
+    @Provides
+    fun parserExperiments() = CoopHtmlParser.Experiments(
+        unused = true
+    )
 
     // Function types like (String) -> CoopClient don't seem to work with Dagger
     interface CoopClientFromSessionId {

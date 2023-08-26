@@ -44,7 +44,7 @@ class CoopHtmlParserTest {
             .registerTypeAdapter(LocalDate::class.java, LocalDateDeserializer())
             .create()
 
-        private val parser = CoopHtmlParser(LocalizedConfig())
+        private val parser = CoopHtmlParser(LocalizedConfig(), CoopHtmlParser.Experiments())
 
         @Test
         fun testParseConsumption() {
@@ -90,7 +90,7 @@ class CoopHtmlParserTest {
 
     class ConsumptionLog {
 
-        private val parser = CoopHtmlParser(LocalizedConfig())
+        private val parser = CoopHtmlParser(LocalizedConfig(), CoopHtmlParser.Experiments())
 
         @Test
         fun test() {

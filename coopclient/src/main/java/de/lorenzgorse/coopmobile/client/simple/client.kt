@@ -23,13 +23,14 @@ interface CoopClient {
 
 class StaticSessionCoopClient(
     private val config: Config,
+    parserExperiments: CoopHtmlParser.Experiments,
     sessionId: String,
     clientFactory: HttpClientFactory
 ) : CoopClient {
 
     private val log = LoggerFactory.getLogger(javaClass)
     private val client = clientFactory(StaticCookieJar(sessionId))
-    private val parser = CoopHtmlParser(config)
+    private val parser = CoopHtmlParser(config, parserExperiments)
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
         translateExceptions { getHtml(config.overviewUrl()).safe { parser.parseProfile(it) } }
