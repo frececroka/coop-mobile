@@ -34,6 +34,9 @@ class CoopHtmlParser(private val config: Config) {
     fun parseConsumption(html: Document): List<LabelledAmounts> =
         html.select(".panel")
             .map {
+                // TODO: Also look at .panel__subtitle, because I suppose sometimes the
+                //  .panel__title is a generic "Optionen und inkludierte Anrufe", and the subtitle
+                //  actually clarifies this further.
                 val title = it.select(".panel__title").text()
                 val labelledAmounts = it.select(".contingent__data")
                     .map { parseLabelledAmount(it) }
