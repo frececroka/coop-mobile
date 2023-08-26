@@ -60,12 +60,29 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
                     "Description" to consumptionBlock.description,
                 )
             )
-            if (consumptionBlock.kind == LabelledAmounts.Kind.Unknown) {
-                val msg = "No mapped LabelledAmounts kind for description '${consumptionBlock.description}'"
-                Firebase.crashlytics.recordException(IllegalArgumentException(msg))
-            }
             logConsumptions(consumptionBlock.labelledAmounts)
+            val wellFormedError = isWellFormed(consumptionBlock)
+            if (wellFormedError != null) {
+                val message = "LabelledAmounts is not well formed:\n$consumptionBlock"
+                Firebase.crashlytics.recordException(IllegalArgumentException(message, wellFormedError))
+                // TODO: return HtmlChanged?
+            }
         }
+    }
+
+    private fun isWellFormed(labelledAmounts: LabelledAmounts): IllegalArgumentException? {
+        if (labelledAmounts.kind == LabelledAmounts.Kind.Unknown) {
+            return IllegalArgumentException("No mapped LabelledAmounts.Kind")
+        }
+        val labelledAmount = labelledAmounts.labelledAmounts.firstOrNull()
+            ?: return IllegalArgumentException("No LabelledAmounts")
+        if (labelledAmount.description != "verbleibend") {
+            return IllegalArgumentException("First LabelledAmount is not the remaining quota")
+        }
+        if (labelledAmount.amount.value.isFinite() && labelledAmount.amount.unit == null) {
+            return IllegalArgumentException("First LabelledAmount is finite but has no unit")
+        }
+        return null
     }
 
     private fun logConsumptions(consumptions: List<LabelledAmount>) {
