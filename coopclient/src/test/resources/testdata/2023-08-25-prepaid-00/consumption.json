@@ -1,0 +1,18 @@
+[
+  {
+    "kind": "Credit",
+    "description": "Mein verfügbarer Kredit",
+    "labelledAmounts": [
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 56.78,
+          "unit": {
+            "kind": "CHF",
+            "source": "CHF"
+          }
+        }
+      }
+    ]
+  }
+]

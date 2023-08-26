@@ -47,6 +47,8 @@ class CoopHtmlParser(private val config: Config) {
             ?: block.selectFirst(".contingent__data--remaining")?.text()!!
         log.info("title = $title")
 
+        val isCreditBalance = block.parent()?.id() == "credit_balance"
+
         val value = block.selectFirst(".contingent__data--value")!!.text()
 
         val valueParts = value.split(" ")
@@ -55,7 +57,8 @@ class CoopHtmlParser(private val config: Config) {
         val candidates = buildList {
             when (valueParts.size) {
                 1 -> {
-                    add(Pair(valueParts[0], null))
+                    val unit = if (isCreditBalance) "CHF" else null
+                    add(Pair(valueParts[0], unit))
                 }
                 2 -> {
                     add(Pair(valueParts[0], valueParts[1]))
