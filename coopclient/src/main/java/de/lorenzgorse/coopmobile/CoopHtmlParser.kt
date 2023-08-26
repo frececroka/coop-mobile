@@ -5,6 +5,7 @@ import de.lorenzgorse.coopmobile.client.simple.CoopException
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.TextNode
+import org.jsoup.select.Elements
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.time.LocalDate
@@ -21,7 +22,8 @@ class CoopHtmlParser(
 ) {
 
     data class Experiments(
-        val unused: Boolean = false
+        val enableOptionsAndCallsFix: Boolean = false,
+        val unused: Boolean = false,
     )
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -38,18 +40,35 @@ class CoopHtmlParser(
         return Pair(label, value)
     }
 
-    // Tries to simplify parseConsumption(), which may also help with supporting wireless users.
     fun parseConsumption(html: Document): List<LabelledAmounts> =
+        if (experiments.enableOptionsAndCallsFix) {
+            parseConsumptionNew(html)
+        } else {
+            parseConsumptionOld(html)
+        }
+
+    private fun parseConsumptionOld(html: Document): List<LabelledAmounts> =
         html.select(".panel")
             .map {
-                // TODO: Also look at .panel__subtitle, because I suppose sometimes the
-                //  .panel__title is a generic "Optionen und inkludierte Anrufe", and the subtitle
-                //  actually clarifies this further.
                 val title = it.select(".panel__title").text()
                 val subtitles = it.select(".panel__subtitle").map(Element::text)
                 val labelledAmounts = it.select(".contingent__data")
                     .map { parseLabelledAmount(it) }
                 LabelledAmounts(title, labelledAmounts, subtitles)
+            }
+            .filter { it.labelledAmounts.isNotEmpty() }
+
+    private fun parseConsumptionNew(html: Document): List<LabelledAmounts> =
+        html.select(".panel")
+            .flatMap { panel ->
+                val title = panel.select(".panel__title").exactlyOne().text()
+                panel.select(".contingent")
+                    .map { contingent ->
+                        val subtitle = contingent.select(".panel__subtitle").atMostOne()?.text()
+                        val labelledAmounts = contingent.select(".contingent__data")
+                            .map(::parseLabelledAmount)
+                        LabelledAmounts(subtitle ?: title, labelledAmounts, listOf())
+                    }
             }
             .filter { it.labelledAmounts.isNotEmpty() }
 
@@ -222,4 +241,16 @@ class CoopHtmlParser(
     fun getCorrespondenceMessage(html: Document): String =
         html.selectFirst(".panel__print__content")!!.text()
 
+}
+
+fun Elements.atMostOne(): Element? {
+    if (size > 1) {
+        throw IllegalArgumentException("Expected at most one element, but got $size")
+    }
+    return first()
+}
+
+fun Elements.exactlyOne(): Element {
+    return atMostOne()
+        ?: throw IllegalArgumentException("Expected exactly one element, but got $size")
 }

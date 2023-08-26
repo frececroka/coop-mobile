@@ -6,6 +6,13 @@
     <string name="labelled_amount_data_switzerland_and_europe">Mobile Data in Switzerland, the EU and Western Europe</string>
     <string name="labelled_amount_calls_and_sms_switzerland">Calls and SMS in Switzerland</string>
     <string name="labelled_amount_options_and_calls">Options and Included Calls</string>
+    <string name="labelled_amount_message_travel">Message Travel</string>
+    <string name="labelled_amount_voice_travel_europe">Voice Travel - EU and Western Europe</string>
+    <string name="labelled_amount_voice_travel_world1">Voice Travel - World 1</string>
+    <string name="labelled_amount_voice_travel_world2">Voice Travel - World 2</string>
+    <string name="labelled_amount_data_travel_europe">Data Travel - EU and Western Europe</string>
+    <string name="labelled_amount_data_travel_world1">Data Travel - World 1</string>
+    <string name="labelled_amount_data_travel_world2">Data Travel - World 2</string>
 
     <string name="unit_chf">CHF</string>
     <string name="unit_minutes">minutes</string>

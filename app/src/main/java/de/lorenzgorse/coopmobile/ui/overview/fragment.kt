@@ -154,6 +154,13 @@ class OverviewFragment : Fragment(), MenuProvider {
             LabelledAmounts.Kind.DataSwitzerlandAndEurope -> R.string.labelled_amount_data_switzerland_and_europe
             LabelledAmounts.Kind.CallsAndSmsSwitzerland -> R.string.labelled_amount_calls_and_sms_switzerland
             LabelledAmounts.Kind.OptionsAndCalls -> R.string.labelled_amount_options_and_calls
+            LabelledAmounts.Kind.MessageTravel -> R.string.labelled_amount_message_travel
+            LabelledAmounts.Kind.VoiceTravelEurope -> R.string.labelled_amount_voice_travel_europe
+            LabelledAmounts.Kind.VoiceTravelWorld1 -> R.string.labelled_amount_voice_travel_world1
+            LabelledAmounts.Kind.VoiceTravelWorld2 -> R.string.labelled_amount_voice_travel_world2
+            LabelledAmounts.Kind.DataTravelEurope -> R.string.labelled_amount_data_travel_europe
+            LabelledAmounts.Kind.DataTravelWorld1 -> R.string.labelled_amount_data_travel_world1
+            LabelledAmounts.Kind.DataTravelWorld2 -> R.string.labelled_amount_data_travel_world2
             LabelledAmounts.Kind.Unknown -> null
         }
         return if (descriptionStringId != null) {

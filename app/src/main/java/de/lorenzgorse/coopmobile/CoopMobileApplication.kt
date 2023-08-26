@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.provider.Settings
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import dagger.Component
 import dagger.Module
@@ -108,7 +109,7 @@ class MainCoopModule(private val app: Application) {
 
     @Provides
     fun parserExperiments() = CoopHtmlParser.Experiments(
-        unused = true
+        enableOptionsAndCallsFix = FirebaseRemoteConfig.getInstance().getBoolean("enable_parse_consumption_options_and_calls_fix")
     )
 
     // Function types like (String) -> CoopClient don't seem to work with Dagger
