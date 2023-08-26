@@ -2,6 +2,7 @@
   {
     "kind": "Credit",
     "description": "Mon crédit disponible",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "restant",
@@ -18,6 +19,7 @@
   {
     "kind": "DataSwitzerland",
     "description": "Données mobiles en Suisse",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "restant",

@@ -9,10 +9,12 @@ import java.time.LocalDate
 data class LabelledAmounts(
     val kind: Kind,
     val description: String,
-    val labelledAmounts: List<LabelledAmount>
+    val labelledAmounts: List<LabelledAmount>,
+    // TODO: remove this field after it's not useful anymore
+    val subtitles: List<String> = listOf(),
 ) {
-    constructor(description: String, labelledAmounts: List<LabelledAmount>)
-            : this(Kind.fromString(description), description, labelledAmounts)
+    constructor(description: String, labelledAmounts: List<LabelledAmount>, subtitles: List<String>)
+            : this(Kind.fromString(description), description, labelledAmounts, subtitles)
 
     enum class Kind {
         Unknown,

@@ -7,7 +7,7 @@
       {
         "description": "verbleibend",
         "amount": {
-          "value": 12.34,
+          "value": 45.67,
           "unit": {
             "kind": "CHF",
             "source": "CHF"
@@ -24,27 +24,10 @@
       {
         "description": "verbleibend",
         "amount": {
-          "value": 123.0,
+          "value": 6789.0,
           "unit": {
-            "kind": "MB",
-            "source": "MB"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "kind": "CallsAndSmsSwitzerland",
-    "description": "Mobil-Einheiten in der Schweiz",
-    "subtitles": [],
-    "labelledAmounts": [
-      {
-        "description": "verbleibend",
-        "amount": {
-          "value": 12.0,
-          "unit": {
-            "kind": "Units",
-            "source": "Einheiten"
+            "kind": "GB",
+            "source": "GB"
           }
         }
       }
@@ -53,12 +36,22 @@
   {
     "kind": "OptionsAndCalls",
     "description": "Optionen und inkludierte Anrufe",
-    "subtitles": ["Data Travel - EU/Westeuropa"],
+    "subtitles": ["Data Travel - EU/Westeuropa", "Data Travel - Welt 1"],
     "labelledAmounts": [
       {
         "description": "verbleibend",
         "amount": {
-          "value": 8.0,
+          "value": 123.0,
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
+        }
+      },
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 456.0,
           "unit": {
             "kind": "MB",
             "source": "MB"

@@ -35,6 +35,7 @@ class CoopHtmlParserTest {
                 "2022-05-02-wireless-00",
                 "2022-10-07-prepaid-00",
                 "2023-08-25-prepaid-00",
+                "2023-08-25-prepaid-01",
             )
         }
 

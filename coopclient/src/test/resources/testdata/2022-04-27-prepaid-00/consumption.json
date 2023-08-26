@@ -2,6 +2,7 @@
   {
     "kind": "Credit",
     "description": "Mein verfügbarer Kredit",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",
@@ -18,6 +19,7 @@
   {
     "kind": "DataSwitzerland",
     "description": "Mobile Daten in der Schweiz",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",

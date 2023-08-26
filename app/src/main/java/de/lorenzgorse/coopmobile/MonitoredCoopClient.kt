@@ -61,6 +61,12 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
                 )
             )
             logConsumptions(consumptionBlock.labelledAmounts)
+            for (subtitle in consumptionBlock.subtitles) {
+                Firebase.analytics.logEvent(
+                    "ConsumptionBlockSubtitle",
+                    bundleOf("Description" to subtitle)
+                )
+            }
             val wellFormedError = isWellFormed(consumptionBlock)
             if (wellFormedError != null) {
                 val message = "LabelledAmounts is not well formed:\n$consumptionBlock"

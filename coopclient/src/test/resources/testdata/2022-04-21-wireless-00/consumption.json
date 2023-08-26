@@ -2,6 +2,7 @@
   {
     "kind": "DataSwitzerland",
     "description": "Daten in der Schweiz",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",
@@ -32,8 +33,9 @@
     ]
   },
   {
-    "kind": "Unknown",
-    "description": "Daten weltweit",
+    "kind": "OptionsAndCalls",
+    "description": "Optionen und inkludierte Anrufe",
+    "subtitles": ["Data Travel - EU/Westeuropa"],
     "labelledAmounts": [
       {
         "description": "verbleibend",

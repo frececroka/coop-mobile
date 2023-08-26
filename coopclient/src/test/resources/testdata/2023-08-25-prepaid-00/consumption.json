@@ -2,6 +2,7 @@
   {
     "kind": "Credit",
     "description": "Mein verfügbarer Kredit",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",

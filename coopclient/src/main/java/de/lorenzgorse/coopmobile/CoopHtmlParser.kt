@@ -38,9 +38,10 @@ class CoopHtmlParser(private val config: Config) {
                 //  .panel__title is a generic "Optionen und inkludierte Anrufe", and the subtitle
                 //  actually clarifies this further.
                 val title = it.select(".panel__title").text()
+                val subtitles = it.select(".panel__subtitle").map(Element::text)
                 val labelledAmounts = it.select(".contingent__data")
                     .map { parseLabelledAmount(it) }
-                LabelledAmounts(title, labelledAmounts)
+                LabelledAmounts(title, labelledAmounts, subtitles)
             }
             .filter { it.labelledAmounts.isNotEmpty() }
 
