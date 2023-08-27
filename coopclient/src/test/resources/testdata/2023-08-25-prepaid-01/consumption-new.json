@@ -1,0 +1,70 @@
+[
+  {
+    "kind": "Credit",
+    "description": "Mein verfügbarer Kredit",
+    "subtitles": [],
+    "labelledAmounts": [
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 45.67,
+          "unit": {
+            "kind": "CHF",
+            "source": "CHF"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "kind": "DataSwitzerland",
+    "description": "Mobile Daten in der Schweiz",
+    "subtitles": [],
+    "labelledAmounts": [
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 6789.0,
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "kind": "DataTravelEurope",
+    "description": "Data Travel - EU/Westeuropa",
+    "subtitles": [],
+    "labelledAmounts": [
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 123.0,
+          "unit": {
+            "kind": "GB",
+            "source": "GB"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "kind": "DataTravelWorld1",
+    "description": "Data Travel - Welt 1",
+    "subtitles": [],
+    "labelledAmounts": [
+      {
+        "description": "verbleibend",
+        "amount": {
+          "value": 456.0,
+          "unit": {
+            "kind": "MB",
+            "source": "MB"
+          }
+        }
+      }
+    ]
+  }
+]

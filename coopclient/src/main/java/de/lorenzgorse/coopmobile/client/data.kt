@@ -23,6 +23,24 @@ data class LabelledAmounts(
         DataEurope,
         DataSwitzerlandAndEurope,
         CallsAndSmsSwitzerland,
+
+        // Options and included calls
+        // Use this query:
+        //     select
+        //       event_params.description,
+        //       count(*) as count
+        //     from `coop-mobile-df71e.analytics_200391596.processed_events`
+        //     where event_name = "ConsumptionBlockSubtitle" and date >= "20230825"
+        //     group by event_params.description;
+        MessageTravel,
+        VoiceTravelEurope,
+        VoiceTravelWorld1,
+        VoiceTravelWorld2,
+        DataTravelEurope,
+        DataTravelWorld1,
+        DataTravelWorld2,
+
+        // TODO: remove this option if it's not used anymore
         OptionsAndCalls;
 
         // Use this query to find these values:
@@ -61,6 +79,13 @@ data class LabelledAmounts(
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
                 ),
+                MessageTravel to listOf("Message Travel"),
+                VoiceTravelEurope to listOf("Voice Travel - EU/Westeuropa"),
+                VoiceTravelWorld1 to listOf("Voice Travel - Welt 1"),
+                VoiceTravelWorld2 to listOf("Voice Travel - Welt 2"),
+                DataTravelEurope to listOf("Data Travel - EU/Westeuropa"),
+                DataTravelWorld1 to listOf("Data Travel - Welt 1"),
+                DataTravelWorld2 to listOf("Data Travel - Welt 2"),
                 OptionsAndCalls to listOf(
                     "Optionen und inkludierte Anrufe",
                 ),
