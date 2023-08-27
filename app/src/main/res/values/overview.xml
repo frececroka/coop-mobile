@@ -2,8 +2,8 @@
 <resources>
     <string name="labelled_amount_credit">Available Credit</string>
     <string name="labelled_amount_data_switzerland">Mobile Data in Switzerland</string>
-    <string name="labelled_amount_data_europe">Mobile Data in Western Europe</string>
-    <string name="labelled_amount_data_switzerland_and_europe">Mobile Data in Switzerland and Western Europe</string>
+    <string name="labelled_amount_data_europe">Mobile Data in the EU and Western Europe</string>
+    <string name="labelled_amount_data_switzerland_and_europe">Mobile Data in Switzerland, the EU and Western Europe</string>
     <string name="labelled_amount_calls_and_sms_switzerland">Calls and SMS in Switzerland</string>
     <string name="labelled_amount_options_and_calls">Options and Included Calls</string>
 
