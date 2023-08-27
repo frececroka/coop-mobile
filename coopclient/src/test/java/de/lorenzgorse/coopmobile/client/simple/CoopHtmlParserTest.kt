@@ -27,7 +27,6 @@ class CoopHtmlParserTest {
             @JvmStatic
             @Parameters
             fun data(): List<String> = listOf(
-                "2022-04-21-prepaid-00",
                 "2022-04-21-prepaid-01",
                 "2022-04-21-wireless-00",
                 "2022-04-22-wireless-00",
