@@ -27,48 +27,42 @@ data class LabelledAmounts(
 
         // Use this query to find these values:
         //     select
+        //       event_params.kind,
         //       event_params.description,
         //       count(*) as count,
         //       min(event_time) as first_seen,
         //       max(event_time) as last_seen,
+        //       min(app_info.version) as first_app_version,
+        //       max(app_info.version) as last_app_version,
         //     from `coop-mobile-df71e.analytics_200391596.processed_events`
-        //     where event_name = "ConsumptionBlock"
-        //     group by event_params.description
+        //     where
+        //       event_name = "ConsumptionBlock"
+        //       and app_info.version >= "2.0000101"
+        //       and date >= "20230601"
+        //     group by
+        //       event_params.kind,
+        //       event_params.description
         //     order by count desc;
         companion object {
             private val toString: Map<Kind, List<String>> = mapOf(
                 Credit to listOf(
                     "Mein verfügbarer Kredit",
-                    "Il mio credito disponibile",
-                    "Mon crédit disponible",
                 ),
                 DataSwitzerland to listOf(
                     "Mobile Daten in der Schweiz",
-                    "Dati mobili in Svizzera",
-                    "Données mobiles en Suisse",
                     "Daten in der Schweiz",
-                    "Dati in Svizzera",
-                    "Données en Suisse",
                 ),
                 DataEurope to listOf(
                     "Daten in EU/Westeuropa",
-                    "Dati mobili nell'UE/Europa occidentale",
-                    "TODO: fr",
                 ),
                 DataSwitzerlandAndEurope to listOf(
                     "Daten in der Schweiz inkl. EU/Westeuropa",
-                    "Dati in Svizzera, UE/Europa Occidentale inclusi",
-                    "Données en Suisse, UE et Europe de l`Ouest incl.",
                 ),
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
-                    "Unità mobili in Svizzera",
-                    "Unités mobiles en Suisse",
                 ),
                 OptionsAndCalls to listOf(
                     "Optionen und inkludierte Anrufe",
-                    "Opzioni e chiamate comprese",
-                    "Options et appels inclus",
                 ),
             )
 
