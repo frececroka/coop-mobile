@@ -5,9 +5,12 @@ import androidx.core.os.bundleOf
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
+import de.lorenzgorse.coopmobile.client.Amount
+import de.lorenzgorse.coopmobile.client.AmountUnit
 import de.lorenzgorse.coopmobile.client.ConsumptionLogEntry
 import de.lorenzgorse.coopmobile.client.CoopError
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
@@ -100,8 +103,13 @@ class ConsumptionData @Inject constructor(
 
         analytics.logEvent("ConsumptionLog", bundleOf("Length" to consumptionLog.size))
 
-        // TODO: this doesn't make any sense. We have to take units into account
-        var currentData = currentMobileData.amount.value
+        var currentData = try {
+            amountToMb(currentMobileData.amount)
+        } catch (e: IllegalArgumentException) {
+            Firebase.crashlytics.recordException(e)
+            return null
+        }
+
         val chartData = consumptionLog
             .sortedBy { it.instant }
             .reversed()
@@ -124,6 +132,18 @@ class ConsumptionData @Inject constructor(
         dataSet.fillAlpha = 30
 
         return LineData(dataSet)
+    }
+
+    private fun amountToMb(amount: Amount): Double {
+        val unit = amount.unit ?: throw IllegalArgumentException("Missing unit: $amount")
+        return when (unit.kind) {
+            AmountUnit.Kind.MB -> amount.value
+            AmountUnit.Kind.GB -> {
+                // TODO: should this be 1024 or 1000?
+                amount.value * 1024
+            }
+            else -> throw IllegalArgumentException("Unsupported unit: $amount")
+        }
     }
 
     private fun fakeData(): List<ConsumptionLogEntry> {
