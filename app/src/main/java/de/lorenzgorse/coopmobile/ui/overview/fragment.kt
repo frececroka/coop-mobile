@@ -221,8 +221,4 @@ class OverviewFragment : Fragment(), MenuProvider {
         binding.profile.addView(profileItem)
     }
 
-    private fun openPlayStore() {
-        requireContext().openPlayStore()
-    }
-
 }
