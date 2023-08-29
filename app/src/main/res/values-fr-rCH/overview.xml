@@ -5,6 +5,8 @@
     <string name="labelled_amount_data_europe">Données mobiles en Europe de l’Ouest</string>
     <string name="labelled_amount_data_switzerland_and_europe">Données en Suisse, Europe de l’Ouest incl.</string>
     <string name="labelled_amount_calls_and_sms_switzerland">Unités mobiles en Suisse</string>
+    <string name="labelled_amount_calls_turkey_western_balkans">Appels vers la Turquie et les Balkans occidentaux</string>
+    <string name="labelled_amount_calls_international">Appels internationaux</string>
     <string name="labelled_amount_options_and_calls">Options et appels inclus</string>
     <string name="labelled_amount_message_travel">Message Travel</string>
     <string name="labelled_amount_voice_travel_europe">Voice Travel - UE/Royaume-Uni</string>

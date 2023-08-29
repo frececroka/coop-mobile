@@ -153,6 +153,8 @@ class OverviewFragment : Fragment(), MenuProvider {
             LabelledAmounts.Kind.DataEurope -> R.string.labelled_amount_data_europe
             LabelledAmounts.Kind.DataSwitzerlandAndEurope -> R.string.labelled_amount_data_switzerland_and_europe
             LabelledAmounts.Kind.CallsAndSmsSwitzerland -> R.string.labelled_amount_calls_and_sms_switzerland
+            LabelledAmounts.Kind.CallsTurkeyWesternBalkans -> R.string.labelled_amount_calls_turkey_western_balkans
+            LabelledAmounts.Kind.CallsInternational -> R.string.labelled_amount_calls_international
             LabelledAmounts.Kind.OptionsAndCalls -> R.string.labelled_amount_options_and_calls
             LabelledAmounts.Kind.MessageTravel -> R.string.labelled_amount_message_travel
             LabelledAmounts.Kind.VoiceTravelEurope -> R.string.labelled_amount_voice_travel_europe

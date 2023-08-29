@@ -23,6 +23,8 @@ data class LabelledAmounts(
         DataEurope,
         DataSwitzerlandAndEurope,
         CallsAndSmsSwitzerland,
+        CallsTurkeyWesternBalkans,
+        CallsInternational,
 
         // Options and included calls
         // Use this query:
@@ -79,11 +81,21 @@ data class LabelledAmounts(
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
                 ),
+                CallsTurkeyWesternBalkans to listOf(
+                    "100 Min. für Anrufe aus der Schweiz in die Türkei und den Westbalkan"
+                ),
+                CallsInternational to listOf("International Calls"),
                 MessageTravel to listOf("Message Travel"),
-                VoiceTravelEurope to listOf("Voice Travel - EU/Westeuropa"),
+                VoiceTravelEurope to listOf(
+                    "Voice Travel - EU/Westeuropa",
+                    "Voice Travel - EU/UK"
+                ),
                 VoiceTravelWorld1 to listOf("Voice Travel - Welt 1"),
                 VoiceTravelWorld2 to listOf("Voice Travel - Welt 2"),
-                DataTravelEurope to listOf("Data Travel - EU/Westeuropa"),
+                DataTravelEurope to listOf(
+                    "Data Travel - EU/Westeuropa",
+                    "Data Travel - EU/UK"
+                ),
                 DataTravelWorld1 to listOf("Data Travel - Welt 1"),
                 DataTravelWorld2 to listOf("Data Travel - Welt 2"),
                 OptionsAndCalls to listOf(
