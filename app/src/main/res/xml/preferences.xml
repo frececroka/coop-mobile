@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- TODO: only show if plan is prepaid -->
     <SwitchPreferenceCompat
         android:key="check_balance"
         android:summary="@string/summary_periodically_check_balance"
