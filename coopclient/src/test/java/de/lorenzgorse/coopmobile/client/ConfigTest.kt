@@ -8,7 +8,7 @@ class ConfigTest {
 
     @Test
     fun testValues() {
-        val config = LocalizedConfig(dataCountry = "de", userCountry = "it")
+        val config = LocalizedConfig(userCountry = "it")
 
         val expectations = listOf(
             Pair(

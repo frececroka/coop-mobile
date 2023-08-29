@@ -15,13 +15,12 @@ interface Config {
 }
 
 class LocalizedConfig(
-    // The data country is the country code used to
-    // fetch pages where we don't care about the text.
-    private val dataCountry: String = determineCountry(),
     // The user country is the country code used to fetch
     // pages that have text that we show to the user.
     private val userCountry: String = determineCountry(),
 ) : Config {
+    private val dataCountry = "de"
+
     private val coopBase = "https://myaccount.coopmobile.ch"
     private val ecareBase = "$coopBase/eCare"
 
