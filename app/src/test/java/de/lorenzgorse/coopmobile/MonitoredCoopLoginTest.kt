@@ -13,7 +13,6 @@ import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
-import java.io.File
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicReference
 
@@ -67,22 +66,6 @@ class MonitoredCoopLoginTest {
         firebaseAnalytics.matchEvents(
             loginEvent("Manual", "Success", true)
         )
-    }
-
-    @Test
-    fun testMigratesOnbLoginEvent(): Unit = runBlocking {
-        File(context.filesDir, "Onb_Login_Success").writeText(System.currentTimeMillis().toString())
-
-        setup(successfulLogin)
-
-        monitoredCoopLogin.login("username", "password", CoopLogin.Origin.Manual)
-
-        firebaseAnalytics.matchEvents(
-            migrationEvent(),
-            loginEvent("Manual", "Success", false)
-        )
-
-        assertThat(File(context.filesDir, "Onb_Login_Success").exists(), equalTo(false))
     }
 
     @Test
@@ -182,14 +165,6 @@ class MonitoredCoopLoginTest {
                 "Origin" to origin,
                 "Status" to status,
                 "NewUser" to newUser,
-            )
-        )
-
-    private fun migrationEvent() =
-        FakeFirebaseAnalytics.Invocation(
-            "Migration",
-            mapOf(
-                "Feature" to "Onb_Login_Success",
             )
         )
 
