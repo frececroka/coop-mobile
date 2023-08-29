@@ -13,10 +13,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.installations.FirebaseInstallationsException
-import com.google.firebase.installations.FirebaseInstallationsException.Status.TOO_MANY_REQUESTS
-import com.google.firebase.installations.FirebaseInstallationsException.Status.UNAVAILABLE
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import de.lorenzgorse.coopmobile.*
@@ -24,7 +20,6 @@ import de.lorenzgorse.coopmobile.client.refreshing.CredentialsStore
 import de.lorenzgorse.coopmobile.databinding.ActivityNavHostBinding
 import de.lorenzgorse.coopmobile.ui.debug.DebugMode
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 class NavHost : AppCompatActivity(), MenuProvider {
@@ -71,15 +66,7 @@ class NavHost : AppCompatActivity(), MenuProvider {
         try {
             waitForTask(Firebase.remoteConfig.fetchAndActivate())
         } catch (e: Exception) {
-            val reportException = when (val rootCause = e.rootCause()) {
-                is IOException -> false
-                is FirebaseInstallationsException ->
-                    rootCause.status !in setOf(UNAVAILABLE, TOO_MANY_REQUESTS)
-                else -> true
-            }
-            if (reportException) {
-                Firebase.crashlytics.recordException(e)
-            }
+            // Ignore
         }
 
         val enableCorrespondences = Firebase.remoteConfig.getBoolean("enable_correspondences")
