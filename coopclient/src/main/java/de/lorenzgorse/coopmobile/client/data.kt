@@ -77,6 +77,7 @@ data class LabelledAmounts(
                 ),
                 DataSwitzerlandAndEurope to listOf(
                     "Daten in der Schweiz inkl. EU/Westeuropa",
+                    "Daten in der Schweiz inkl. EU/UK",
                 ),
                 CallsAndSmsSwitzerland to listOf(
                     "Mobil-Einheiten in der Schweiz",
