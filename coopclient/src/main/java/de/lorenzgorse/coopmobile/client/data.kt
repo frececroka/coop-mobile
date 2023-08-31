@@ -74,6 +74,7 @@ data class LabelledAmounts(
                 ),
                 DataEurope to listOf(
                     "Daten in EU/Westeuropa",
+                    "Daten in EU/UK",
                 ),
                 DataSwitzerlandAndEurope to listOf(
                     "Daten in der Schweiz inkl. EU/Westeuropa",
