@@ -70,8 +70,10 @@ class StaticSessionCoopClient(
                 builder.build()
             }
             val response = client.post(URL(URL(config.coopBase()), buySpec.url), body)
-            log.info("Buy request completed with status code: ${response.code}")
-            response.isRedirect || response.isSuccessful
+            log.info("Buy request completed with " +
+                    "status code ${response.code} and " +
+                    "URL ${response.request.url}")
+            response.request.url.toString().endsWith("/my_consumption")
         }
 
     override suspend fun getCorrespondences(): Either<CoopError, List<CorrespondenceHeader>> =

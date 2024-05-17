@@ -4,6 +4,7 @@ import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopException
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
 import org.slf4j.LoggerFactory
@@ -143,26 +144,13 @@ class CoopHtmlParser(
     private fun parseProductBlock(productBlock: Element): Product {
         val content = productBlock.selectFirst(".modal-body")!!
 
-        var name = ""
-        var price = ""
-        val descriptions = arrayListOf<String>()
+        val nameElement = content.selectFirst(".modal__content__info")!!.also { it.remove() }
+        val priceElement = nameElement.selectFirst(".modal__content__price")!!.also { it.remove() }
 
-        for (child in content.childNodes()) {
-            when (child) {
-                is TextNode -> descriptions.add(child.text())
-                is Element ->
-                    when {
-                        child.hasClass("modal__content__info") ->
-                            name = child.text()
-                        child.hasClass("modal__content__price") ->
-                            price = child.text()
-                        else ->
-                            descriptions.add(child.text())
-                    }
-            }
-        }
+        val name = nameElement.text()
+        val price = priceElement.text()
 
-        val description = descriptions
+        val description = allTextNodes(content)
             .map { it.trim() }
             .filter { it.isNotBlank() }
             .joinToString("\n\n") {
@@ -173,12 +161,27 @@ class CoopHtmlParser(
                 }
             }
 
-        val form = productBlock.selectFirst("form")!!
+        val form = productBlock.root().selectFirst(".js-add-option-form")!!
         val url = form.attr("action")
-        val parameters = form.select("input").associate { Pair(it.attr("name"), it.attr("value")) }
+        val authenticityToken = form.selectFirst("input[name=authenticity_token]")!!.attr("value")
+        val optionId = productBlock.selectFirst(".modal-footer .js-add-option")!!.dataset()["option-id"]!!
+        val parameters = mapOf(
+            "authenticity_token" to authenticityToken,
+            "option_id" to optionId,
+            // If this is true, the option price will be paid with the registered payment
+            // method instead of the prepaid balance. For prepaid accounts, we want to use the
+            // prepaid balance, so we set it to false. But for non-prepaid accounts, this might
+            // have to be true?
+            "paid_with_saved_cc" to "false",
+        )
         val buySpec = ProductBuySpec(url, parameters)
 
         return Product(name, description, price, buySpec)
+    }
+
+    private fun allTextNodes(n: Node): List<String> = when (n)  {
+        is TextNode -> listOf(n.text())
+        else -> n.childNodes().flatMap { allTextNodes(it) }
     }
 
     fun parseCorrespondences(html: Document): List<CorrespondenceHeader> =
