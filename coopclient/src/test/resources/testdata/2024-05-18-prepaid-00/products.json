@@ -1,0 +1,236 @@
+[
+  {
+    "name": "15 RAPPEN Paket - 100 Einheiten",
+    "description": "Option mit 100 Einheiten, die flexibel für schweizweite Telefonie und SMS gebraucht werden können. Als 1 Einheit gilt dabei jede angebrochene Telefonie-Minute sowie jedes versendete SMS.",
+    "price": "15.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7255",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "SURF Paket - 250 MB",
+    "description": "Option für 250 MB Datenguthaben in der Schweiz.",
+    "price": "4.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7248",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "SURF Paket - 750 MB",
+    "description": "Option für 750 MB Datenguthaben in der Schweiz.",
+    "price": "9.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7250",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "SURF Paket - 1500 MB",
+    "description": "Option für 1500 MB Datenguthaben in der Schweiz.",
+    "price": "14.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7249",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 250 MB - EU/UK",
+    "description": "Attraktive Option, welche 250 MB mobile Daten für das Ausland der Zone «EU/UK» beinhaltet.\n\nIn der Zone «EU/UK» befinden sich die folgenden Länder:\n\nAndorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer, Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey, Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern.",
+    "price": "10.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7251",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 250 MB - Welt 1",
+    "description": "Attraktive Option, welche 250 MB mobile Daten für das Ausland der Zone «Welt 1» beinhaltet.\n\nIn der Zone «Welt 1» befinden sich die folgenden Länder:\n\nÄgypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan, Australien, Bahrain, Bosnien \u0026 Herzegowina, Brasilien, Chile, China, Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar, Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien, Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland.",
+    "price": "15.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7252",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 500 MB - EU/UK",
+    "description": "Attraktive Option, welche 500 MB mobile Daten für das Ausland der Zone «EU/UK» beinhaltet.\n\nIn der Zone «EU/UK» befinden sich die folgenden Länder:\n\nAndorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer, Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey, Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern.",
+    "price": "15.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7271",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 1 GB - EU/UK",
+    "description": "Attraktive Option, welche 1 GB mobile Daten für das Ausland der Zone «EU/UK» beinhaltet.\n\nIn der Zone «EU/UK» befinden sich die folgenden Länder:\n\nAndorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer, Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey, Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern.",
+    "price": "20.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7274",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 500 MB - Welt 1",
+    "description": "Attraktive Option, welche 500 MB mobile Daten für das Ausland der Zone «Welt 1» beinhaltet.\n\nIn der Zone «Welt 1» befinden sich die folgenden Länder:\n\nÄgypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan, Australien, Bahrain, Bosnien \u0026 Herzegowina, Brasilien, Chile, China, Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar, Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien, Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland.",
+    "price": "25.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7272",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 250 MB - Welt 2",
+    "description": "Attraktive Option, welche 250 MB mobile Daten für das Ausland der Zone «Welt 2» beinhaltet.\n\nIn der Zone «Welt 2» befinden sich die folgenden Länder:\n\nAnguilla, Antigua \u0026 Barbuda, Aruba, Bahamas, Bangladesch, Barbados, Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts \u0026 Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent \u0026 die Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad \u0026 Tobago, Tunesien, Turks \u0026 Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam.",
+    "price": "35.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7253",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 1 GB - Welt 1",
+    "description": "Attraktive Option, welche 1 GB mobile Daten für das Ausland der Zone «Welt 1» beinhaltet.\n\nIn der Zone «Welt 1» befinden sich die folgenden Länder:\n\nÄgypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan, Australien, Bahrain, Bosnien \u0026 Herzegowina, Brasilien, Chile, China, Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar, Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien, Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland.",
+    "price": "35.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7275",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 500 MB - Welt 2",
+    "description": "Attraktive Option, welche 500 MB mobile Daten für das Ausland der Zone «Welt 2» beinhaltet.\n\nIn der Zone «Welt 2» befinden sich die folgenden Länder:\n\nAnguilla, Antigua \u0026 Barbuda, Aruba, Bahamas, Bangladesch, Barbados, Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts \u0026 Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent \u0026 die Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad \u0026 Tobago, Tunesien, Turks \u0026 Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam.",
+    "price": "55.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7273",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 1 GB - Welt 2",
+    "description": "Attraktive Option, welche 1 GB mobile Daten für das Ausland der Zone «Welt 2» beinhaltet.\n\nIn der Zone «Welt 2» befinden sich die folgenden Länder:\n\nAnguilla, Antigua \u0026 Barbuda, Aruba, Bahamas, Bangladesch, Barbados, Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts \u0026 Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent \u0026 die Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad \u0026 Tobago, Tunesien, Turks \u0026 Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam.",
+    "price": "69.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7276",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Data Travel 250 MB - Rest der Welt",
+    "description": "Attraktive Option, welche 250 MB mobile Daten für das Ausland der Zone «Rest der Welt» beinhaltet.\n\nIn der Zone «Rest der Welt» befinden sich die folgenden Länder:\n\nAfghanistan, Angola, Äquatorialguinea, Äthiopien, Bhutan, Burkina Faso, Gambia, Irak, Jemen, Libanon, Madagaskar, Malawi, Mauretanien, Niger, Simbabwe, Togo, Tschad, Zentralafrikanische Republik.",
+    "price": "95.–",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7254",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Message Travel",
+    "description": "Mit dieser Option versenden Sie vom Ausland aus weltweit 100 SMS weltweit. Die Option gilt für 12 Monate. Haben Sie alle Inklusivnachrichten verbraucht, gilt wieder der Standardtarif.\n\nDie Option gilt weltweit.",
+    "price": "9.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7701",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Voice Travel - EU/UK",
+    "description": "Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den folgenden Ländern aus. Die Option gilt für 12 Monate. Sind die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.\n\nDie Option können Sie in den folgenden Ländern nutzen:\n\nAndorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer, Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey, Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Liechtenstein, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Schweiz, Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern.",
+    "price": "16.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7604",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Voice Travel - Welt 1",
+    "description": "Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den folgenden Ländern aus. Die Option gilt für 12 Monate. Sind die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.\n\nDie Option können Sie in den folgenden Ländern nutzen:\n\nÄgypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan, Australien, Bahrain, Bosnien \u0026 Herzegowina, Brasilien, Chile, China, Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar, Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien, Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland.",
+    "price": "32.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7605",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  },
+  {
+    "name": "Voice Travel - Welt 2",
+    "description": "Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den folgenden Ländern aus. Die Option gilt für 12 Monate. Sind die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.\n\nDie Option können Sie in den folgenden Ländern nutzen:\n\nAnguilla, Antigua \u0026 Barbuda, Aruba, Bahamas, Bangladesch, Barbados, Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts \u0026 Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent \u0026 die Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad \u0026 Tobago, Tunesien, Turks \u0026 Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam.",
+    "price": "54.90",
+    "buySpec": {
+      "url": "/buy_option?locale\u003dde\u0026user_type\u003dprepaid",
+      "parameters": {
+        "authenticity_token": "FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA\u003d\u003d",
+        "option_id": "7606",
+        "paid_with_saved_cc": "false"
+      }
+    }
+  }
+]

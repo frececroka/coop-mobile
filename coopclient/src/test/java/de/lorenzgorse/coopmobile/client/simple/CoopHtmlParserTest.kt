@@ -35,6 +35,7 @@ class CoopHtmlParserTest {
                 "2022-10-07-prepaid-00",
                 "2023-08-25-prepaid-00",
                 "2023-08-25-prepaid-01",
+                "2024-05-18-prepaid-00",
             )
         }
 
@@ -59,6 +60,8 @@ class CoopHtmlParserTest {
                 assertThat(newParser.parseConsumption(input), equalTo(it)) }
             getCorrespondences().ifPresent{
                 assertThat(parser.parseCorrespondences(input), equalTo(it)) }
+            getProducts().ifPresent {
+                assertThat(parser.parseProducts(input), equalTo(it)) }
         }
 
         private fun getInput(): Document {
@@ -82,6 +85,11 @@ class CoopHtmlParserTest {
             val type =
                 TypeToken.getParameterized(List::class.java, CorrespondenceHeader::class.java).type
             return getJson("correspondences", type)
+        }
+
+        private fun getProducts(): Optional<List<Product>> {
+            val type = TypeToken.getParameterized(List::class.java, Product::class.java).type
+            return getJson("products", type)
         }
 
         private fun <T> getJson(kind: String, type: Type): Optional<T> =

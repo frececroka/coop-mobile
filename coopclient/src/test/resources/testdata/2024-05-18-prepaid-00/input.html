@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang='de'>
+<head>
+  <script>
+        function targetPageParams() {
+          return {
+            'at_property': '80cc6feb-57de-ba5a-2c77-5e3703ed83e9'
+          };
+        }
+
+  </script>
+  <title>
+    Optionen verwalten
+  </title>
+  <meta name="csrf-param" content="authenticity_token"/>
+  <meta name="csrf-token"
+        content="9kMRe5DsZ40qBhURodi84FAxHtEaWbI5XRi4GYYSp2g49W6g5dZ26Fi+AGIowAk8KUhK9OgVNrU5NEZqrCl+og=="/>
+  <meta content='True' name='HandheldFriendly'>
+  <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+  <meta content='NOINDEX, NOFOLLOW' name='ROBOTS'>
+  <meta content='on' http-equiv='cleartype'>
+  <meta content='telephone=no' name='format-detection'>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'
+        name='viewport'>
+  <link rel="shortcut icon" type="image/x-icon"
+        href="/assets/pepper/favicon/favicon-837479b8f4fc6cb3edd208ae8c9b82569ae69d132c5e206b8b5a22268327769c.ico"/>
+  <link rel="icon" type="image/png"
+        href="/assets/pepper/favicon/favicon-16x16-a7848bfeb860b63ade600407cf2ca12ecf26548ee57188e921104a11b931950f.png"
+        sizes="16x16"/>
+  <link rel="icon" type="image/png"
+        href="/assets/pepper/favicon/favicon-32x32-86a69e59ab38465760b92141499e4f981a1a5f0a68694163290711133708c6eb.png"
+        sizes="32x32"/>
+  <link rel="icon" type="image/png"
+        href="/assets/pepper/favicon/favicon-96x96-162326f12a56c529097b89cf2924f1625fc5fc2e58851bfda349ad2196ba2d46.png"
+        sizes="96x96"/>
+  <link rel="apple-touch-icon" type="image/png"
+        href="/assets/pepper/favicon/apple-icon-357e249808bf6f707d9b5fe284f5af95facdefd752df0d477fcb40f3e327a593.png"/>
+  <link rel="apple-touch-icon" type="image/png"
+        href="/assets/pepper/favicon/apple-icon-152x152-6d216c9ca3dc8e3e823a9df8e685292335e7afb42c5781099b403479bcf2e4a6.png"
+        sizes="152x152"/>
+  <link rel="apple-touch-icon" type="image/png"
+        href="/assets/pepper/favicon/apple-icon-180x180-30d5a5008739597ab4022f7ab67998e6d032c0465f46d772588cd7f7da6eeb9e.png"
+        sizes="180x180"/>
+  <link rel="manifest"
+        href="/assets/pepper/favicon/manifest-ac0d41041ed7130f8d7ce7cce95462aa8adadebe4d52897342d7dc3a823396f6.json"/>
+  <meta name='theme-color' content='#e95c0d'>
+  <meta name='apple-mobile-web-app-capable' content='yes'>
+  <meta name='msapplication-TileColor' content='#e95c0d'>
+  <meta name='msapplication-TileImage'
+        content='/assets/pepper/favicon/ms-icon-150x150-303d37f8ffa23832804e5866fa494920416db80cd392341b673787d84969c1d4.png'>
+  <link rel="stylesheet" media="all"
+        href="/assets/css/pepper-b855b4b57e67fc1269faf56f94cfceddd2d25678f732e0808845227a2049cbdd.css"/>
+  <script src="/assets/application-5c3abe9bbbc64cdf4e12e3ce14c4bc147f9c6832506d66eec2f9d54c511fbe0f.js"></script>
+  <script src="https://pay.datatrans.com/upp/payment/js/datatrans-2.0.0.min.js"></script>
+  <script src="/assets/add_product/index-7e5019404cc368aa3e254957199421eb4f31e6d55348cfc4eab616b0ef48c743.js"></script>
+  <script>
+      (function ($) {
+          $.extend($.validator, {
+              messages:{
+                  required:"Dies ist ein Pflichtfeld",
+                  remote:"Bitte Pflichtfelder ausfüllen.",
+                  email:"Bitte eine gültige E-Mail Adresse eingeben.",
+                  url:"Bitte eine gültige URL eingeben.",
+                  date:"Bitte ein gültiges Datum eingeben.",
+                  dateISO:"Bitte ein gültiges Datum eingeben (ISO).",
+                  number:"Bitte eine gültige Nummer eingeben.",
+                  digits:"Bitte ausschliesslich Zahlen eingeben.",
+                  creditcard:"Bitte eine gültige Kreditkarten Nummer eingeben.",
+                  equalTo:"Bitte Wert erneut eingeben.",
+                  accept:"Bitte korrekten Wert eingeben.",
+                  maxlength:$.validator.format("Bitte nicht mehr als {0} Zeichen eingeben."),
+                  minlength:$.validator.format("Bitte nicht weniger als {0} Zeichen eingeben."),
+                  rangelength:$.validator.format("Ihre Eingabe muss zwischen (0) und (1) Zeichen enthalten."),
+                  range:$.validator.format("Bitte Wert zwischen {0} und {1} eingeben."),
+                  max:$.validator.format("Bitte kleineren Wert eintragen als"),
+                  min:$.validator.format("Bitte grösseren Wert eintragen als"),
+                  phone:"Bitte eine korrekte Nummer eintragen (z.B. 078 123 45 67).",
+                  prefix_phone:"Bitte gültige Ländervorwahl eingeben. Zum Beispiel +41.",
+                  client_phone:"Bitte gültige Telefonnummer eingeben.",
+                  mobilePhone:"Bitte eine korrekte Mobile-Nummer eingeben.",
+                  fieldConfirm:"Die Werte müssen übereinstimmend sein.",
+                  alphanumeric: "Ungültige Zeichen. Bitten verwenden Sie ausschliesslich alphanumerische Zeichen (Ziffern von 0 bis 9, Buchstaben von a-z bzw. von A-Z).",
+                  swisszip:"Bitte korrekte Postleitzahl eingeben.",
+                  requiredPaymentMethod:"Bitte Zahlungsmethode auswählen.",
+                  notPlaceholder:"Dies ist ein Pflichtfeld",
+                  dsl_provider:"",
+                  refererinput:"(Input fehlt)",
+                  success:"Änderungen vorgenommen",
+                  dateinfuture:"Bitte wählen Sie ein gültiges Datum",
+                  checkbox_agreement:"Pflichtfeld",
+                  zipcode: "Die Postleitzahl muss 4 Zahlen enthalten.",
+                  select_cell:"Wählen Sie eine Option aus.",
+                  password_length:"Ihr Passwort muss aus mindestens 8 Zeichen bestehen.",
+                  error:"Es ist ein Fehler aufgetreten.",
+                  comment_length: "Die maximale Zeichenzahl wurde überschritten. Bitte reduzieren Sie die Länge der Nachricht.",
+                  mac_address: "The MAC address you entered is not valid.",
+                  ip_last_digit:"Internal client IP must be in the range from 192.168.0.1 to 192.168.0.253",
+                  port_external:"External port value must be in the range from 2 to 65535",
+                  port_internal:"Internal port value must be in the range from 2 to 65535",
+                  port_exception:"Sorry, the port number 7547 cannot be used for external port (even within a range).",
+                  port_end_range:"External port end range value must be higher than external port value",
+                  protocol:"Protocol must be either TCP or UDP",
+                  string: "Ungültiges Zeichen",
+                  iban: "Ungültige oder unvollständige Nummer.",
+                  password_rule:"Das Passwort, das Sie gewählt haben, ist nicht zulässig. Ihr Passwort muss aus mindestens 8 Zeichen bestehen, sowie einen Grossbuchstaben, einen Kleinbuchstaben und eine Ziffer enthalten.",
+                  noDecimal: "Bitte geben Sie einen ganzen Betrag zwischen 10.– und 150.– ein",
+                  msisdn:"Bitte eine korrekte Mobile-Nummer eingeben.",
+                  strict14_length: "Der Code ist nicht gültig",
+                  reload_low:"Bitte geben Sie einen ganzen Betrag zwischen 10.– und 150.– ein",
+                  reload_at_date: "Bitte geben Sie einen ganzen Betrag zwischen 10.– und 150.– ein",
+                  day_of_month: "Bitte geben Sie einen Tag zwischen 1 und 28 ein",
+                  reload_max: "Bitte geben Sie einen ganzen Betrag zwischen CHF 10.- und CHF 500.- ein",
+                  email_or_msisdn: "Geben Sie eine Telefonnummer oder eine gültige E-Mail Adresse ein.",
+                  check_email: "Unzulässige E-Mail Adresse",
+                  unsubmitted_captcha: "Das Captcha wurde nicht korrekt erfasst.",
+                  long_phone_number:"Bitte eine korrekte Mobile-Nummer eingeben."
+              }
+          });
+      })(jQuery);
+
+  </script>
+  <!-- Google Tag Manager -->
+  <script>
+//<![CDATA[
+window.dataLayer = [{"pageLanguage":"de","pageURL":"https://myaccount.coopmobile.ch/eCare/prepaid/de/add_product","pagePath":"/eCare/prepaid/de/add_product","pageReferrer":"https://myaccount.coopmobile.ch/eCare/prepaid/de/my_ban","pageTitle":"Optionen verwalten","pageType":"ecare","platform":"ecare wireless","customerGender":"m","customerAge":"28","customerZipCode":"8038","attachedProductId":"4050","attachedProductName":"Mobile Prepaid"}];
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+          {'gtm.start': new Date().getTime(),event:'gtm.js'});
+          var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl+'';f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-5Q33BVM');
+//]]>
+
+  </script><!-- End Google Tag Manager -->
+</head>
+<body class='ecare'>
+
+<div aria-hidden='true' class='modal fade modal--spinner js-spinner' role='dialog' tabindex='-1'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-body'>
+        <div class='spinner'>
+          <div class='rect1'></div>
+          <div class='rect2'></div>
+          <div class='rect3'></div>
+          <div class='rect4'></div>
+          <div class='rect5'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav id='menu'>
+  <div class='menu menu--desktop' id='menu_desktop'>
+    <div class='menu__section'>
+      <a class='menu__section__logo' href='/eCare/prepaid/de'>
+        <img src='/assets/pepper/svg/logo-abbb2c064caf512fb65bee553ef234e485a3697afc895b363a41b36aa160ac86.svg'>
+      </a>
+      <ul class='menu__section__list'>
+        <li class='js-home  menu__section__item'><a href="/eCare/prepaid/de" target="_self">
+
+          <span>Mein Konto</span>
+        </a></li>
+      </ul>
+    </div>
+    <div class='menu__section'>
+      <div class='menu__section__title'>
+<span>
+Meine Daten
+</span>
+      </div>
+      <ul class='menu__section__list'>
+        <li class='js-my_data-my_profile  menu__section__item'><a
+                href="/eCare/prepaid/de/my_profile" target="_self">
+
+          <span>Mein Profil</span>
+        </a></li>
+        <li class='js-my_data-my_correspondence  menu__section__item'><a
+                href="/eCare/prepaid/de/my_correspondence" target="_self">
+
+          <span>Meine Nachrichten</span>
+        </a></li>
+      </ul>
+    </div>
+    <div class='menu__section'>
+      <div class='menu__section__title'>
+<span>
+Mein Prepaid
+</span>
+      </div>
+      <ul class='menu__section__list'>
+        <li class='js-my_prepaid-my_topup  menu__section__item'><a href="/eCare/prepaid/de/my_topup"
+                                                                   target="_self">
+
+          <span>Aufladen</span>
+        </a></li>
+        <li class='js-my_prepaid-my_consumption  menu__section__item'><a
+                href="/eCare/prepaid/de/my_consumption" target="_self">
+
+          <span>Mein Verbrauch</span>
+        </a></li>
+        <li class='js-my_prepaid-add_product active menu__section__item'><a
+                href="/eCare/prepaid/de/add_product" target="_self">
+
+          <span>Optionen verwalten</span>
+        </a></li>
+        <li class='js-my_prepaid-my_requests  menu__section__item'><a
+                href="/eCare/prepaid/de/my_requests" target="_self">
+
+          <span>Meine SIM</span>
+        </a></li>
+        <li class='js-my_prepaid-my_ban  menu__section__item'><a href="/eCare/prepaid/de/my_ban"
+                                                                 target="_self">
+
+          <span>Dienste verwalten</span>
+        </a></li>
+      </ul>
+    </div>
+    <div class='menu__section'>
+      <div class='menu__section__title'>
+<span>
+Meine Services
+</span>
+      </div>
+      <ul class='menu__section__list'>
+        <li class='js-my_services-contact  menu__section__item'><a
+                href="https://www.coopmobile.ch/de/kontakt" target="_blank">
+
+          <span>Kontakt</span>
+        </a></li>
+        <li class='js-my_services-logout  menu__section__item'><a
+                href="/eCare/de/users/sign_out?user_type=prepaid" target="_self">
+
+          <span>Abmelden</span>
+        </a></li>
+      </ul>
+    </div>
+    <div class='menu__language-selector'>
+      <a class='active' href='/eCare/prepaid/de/add_product'>DE</a>
+      <a class='' href='/eCare/prepaid/fr/add_product'>FR</a>
+      <a class='' href='/eCare/prepaid/it/add_product'>IT</a>
+    </div>
+  </div>
+
+  <div class='dark-overlay js-dark-overlay js-toggle-menu'></div>
+  <div class='menu menu--mobile'>
+    <div class='menu__control js-toggle-menu'>
+<span class='menu__control--open js-menu-open' id='menuLine'>
+<i class='fa fa-bars'></i>
+</span>
+      <span class='menu__control--close js-menu-close' id='closeMenu'>
+<i class='fa fa-times'></i>
+</span>
+    </div>
+    <div class='menu__section nav-container js-menu-container'>
+      <a class='menu__section__logo' href='/eCare/prepaid/de'>
+        <img src='/assets/pepper/svg/logo-abbb2c064caf512fb65bee553ef234e485a3697afc895b363a41b36aa160ac86.svg'>
+      </a>
+      <ul class='menu__section__list'>
+        <li class='js-home  menu__section__item'><a href="/eCare/prepaid/de" target="_self">
+
+          <span>Mein Konto</span>
+        </a></li>
+        <li class='js-my_data-my_profile menu__section__item '><a
+                href="/eCare/prepaid/de/my_profile" target="_self">
+
+          <span>Mein Profil</span>
+        </a></li>
+        <li class='js-my_data-my_correspondence menu__section__item '><a
+                href="/eCare/prepaid/de/my_correspondence" target="_self">
+
+          <span>Meine Nachrichten</span>
+        </a></li>
+        <li class='js-my_prepaid-my_topup menu__section__item '><a href="/eCare/prepaid/de/my_topup"
+                                                                   target="_self">
+
+          <span>Aufladen</span>
+        </a></li>
+        <li class='js-my_prepaid-my_consumption menu__section__item '><a
+                href="/eCare/prepaid/de/my_consumption" target="_self">
+
+          <span>Mein Verbrauch</span>
+        </a></li>
+        <li class='js-my_prepaid-add_product menu__section__item active'><a
+                href="/eCare/prepaid/de/add_product" target="_self">
+
+          <span>Optionen verwalten</span>
+        </a></li>
+        <li class='js-my_prepaid-my_requests menu__section__item '><a
+                href="/eCare/prepaid/de/my_requests" target="_self">
+
+          <span>Meine SIM</span>
+        </a></li>
+        <li class='js-my_prepaid-my_ban menu__section__item '><a href="/eCare/prepaid/de/my_ban"
+                                                                 target="_self">
+
+          <span>Dienste verwalten</span>
+        </a></li>
+        <li class='js-my_services-contact menu__section__item '><a
+                href="https://www.coopmobile.ch/de/kontakt" target="_blank">
+
+          <span>Kontakt</span>
+        </a></li>
+        <li class='js-my_services-change menu__section__item inactive'><a href="javascript:void(0)"
+                                                                          target="_self"
+                                                                          class='menu__section__item--deactivated'>
+
+          <span>Konto wechseln</span>
+        </a></li>
+        <li class='js-my_services-logout menu__section__item '><a
+                href="/eCare/de/users/sign_out?user_type=prepaid" target="_self">
+
+          <span>Abmelden</span>
+        </a></li>
+      </ul>
+      <div class='menu__language-selector mb-5'>
+        <a class='active' href='/eCare/prepaid/de/add_product'>DE</a>
+        <a class='' href='/eCare/prepaid/fr/add_product'>FR</a>
+        <a class='' href='/eCare/prepaid/it/add_product'>IT</a>
+      </div>
+    </div>
+  </div>
+
+</nav>
+<div class='container-fluid'>
+  <div class='row'>
+    <div class='account'>
+      <div class='account-management' id='account-management'>
+        <div class='account-overlay' id='js_account_action_overlay'></div>
+        <div class='account-management__toggle' id='switchAccount'>
+<span>
+L. Gorse
+</span>
+          <a class='btn btn--primary' href='javascript:void(0);'>
+            <i class='fa fa-user'></i>
+          </a>
+        </div>
+        <div class='account-management__info' id='js_account_action' style='display:none'>
+          <a class='btn btn--disabled track_change-account_link_prepaid'>
+            Konto wechseln
+          </a>
+          <a class='btn btn--cancel' href='/eCare/de/users/sign_out?user_type=prepaid'>
+            Abmelden
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div aria-hidden='true' aria-labelledby='delete-label'
+         class='modal fade js-modal js-sms-token-modal' data-backdrop='static' role='dialog'
+         tabindex='-1'>
+      <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h2 class='modal-title' id='modal-edit-email-success'>
+              SMS versendet
+            </h2>
+            <div class='modal__top__close js-close'></div>
+          </div>
+          <div class='modal-body'>
+            <p class='js-confirmation-sms'>
+              Bitte geben Sie den Code ein, den Sie soeben per SMS erhalten haben
+            </p>
+            <form action="/eCare/prepaid/de/my_topup" accept-charset="UTF-8" method="post"><input
+                    type="hidden" name="authenticity_token"
+                    value="vFnWCJtWjnqJSJAgSm+ZClGSKq5OhHQEh/nAms2uE/KnXcSDGdTPpswvBqw27FW4BleVdtXhb2nNtI7pqsaIGA=="/><input
+                    type="hidden" name="authenticity_token" id="authenticity_token"
+                    value="OrVUfPFSOPqBVQqFhvJBWQlevO52030B+m7mnfqvTmb0AyunhGgpn/PtH/YP6vSFcCfoy4Sf+Y2eQhju0JSXrA=="/>
+              <label for='sms-code'>
+                PIN-Code
+              </label>
+              <input id='sms-code' maxlength='4' name='cockpit_user[password]'
+                     placeholder='Ex. 1234' type='tel'>
+            </form>
+            <p class='mt-3'>
+              <a class='resend' href='#'
+                 onclick='resend_sms_code(&#39;774828921&#39;,&#39;/cockpit/de/resend_sms_code?user_type=prepaid&#39;,callbackResend)'>
+                Sie haben keine SMS mit dem Code erhalten? Klicken Sie hier um einen neuen Code
+                anzufordern.
+              </a>
+            </p>
+          </div>
+          <div class='modal-footer'>
+            <a class='btn btn--cancel js-close' href='javascript:void(0);'>
+              Abbrechen
+            </a>
+            <a class='btn btn--primary btn--disabled js-sms-submit'>
+              Bestätige den SMS-Code
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+  $(document).ready(function () {
+      let $modal =  $('.js-sms-token-modal'),
+          $submitBtn = $('.js-sms-submit'),
+          $smsCodeInputStep2 = $modal.find('#sms-code');
+
+      $smsCodeInputStep2.on('input',function(e){
+          $(this).val().length === 4 ? $submitBtn.removeClass('btn--disabled') : $submitBtn.addClass('btn--disabled');
+      });
+      $submitBtn.on('click', function(){
+          let token = $smsCodeInputStep2.val();
+          $.ajax({
+                 type: 'POST',
+                 url: '/' + getLocale() + '/ajax_validate_sms_token',
+                 data: { 'sms_token': token },
+                 dataType: 'json',
+                 success: function(response) {
+                     if (response.success) {
+                         toggleToastr('success', "Code erfolgreich bestätigt");
+                         $modal.trigger('smsTokenVerified',  [true]);
+                         $modal.modal('hide');
+                     }else{
+                         toggleToastr('error', response.error_message || "Es ist ein Fehler aufgetreten");
+                         $modal.trigger('smsTokenVerified',  [false]);
+                     }},
+                 error: function(response) {
+                     toggleToastr('error', response.error);
+                 }
+          });
+      });
+  });
+  var callbackResend = function(isSuccess,message){
+      if(!message){
+          message = 'No resend SMS message defined';
+      }
+      var confirmationElement = $('.js-confirmation-sms');
+      confirmationElement.hide();
+      confirmationElement.html(message);
+      if(isSuccess){
+          confirmationElement.removeClass('error');
+      }else{
+          confirmationElement.addClass('error');
+      }
+      confirmationElement.fadeIn(200);
+  };
+
+    </script>
+
+    <input id='locale' type='hidden' value='de-pepper'>
+    <div class='content' id='content'>
+      <div class='content__header col-12'>
+        <a class='content__header__logo' href='/eCare/de'>
+          <img src='/assets/pepper/svg/logo-abbb2c064caf512fb65bee553ef234e485a3697afc895b363a41b36aa160ac86.svg'>
+        </a>
+        <h1>
+          Optionen verwalten
+        </h1>
+        <h2>
+
+        </h2>
+      </div>
+      <section id='add_product_index'>
+        <div class='row'>
+          <div class='col-12 col-md-8 col-lg-12 col-xl-8'>
+
+
+            <div class='panel'>
+              <h2 class='panel__title'>
+                Land wählen
+              </h2>
+              <div class='panel__content'>
+                <h4>
+                  Vordefinierte Länder
+                </h4>
+              </div>
+              <div class='btn-list'>
+                <a href='javascript:void(0);' class="btn btn--secondary js-preset-country"
+                   countryName="Schweiz" countryID="6218">Schweiz</a>
+                <a href='javascript:void(0);' class="btn btn--secondary js-preset-country"
+                   countryName="Deutschland" countryID="7315">Deutschland</a>
+                <a href='javascript:void(0);' class="btn btn--secondary js-preset-country"
+                   countryName="Frankreich" countryID="1846">Frankreich</a>
+                <a href='javascript:void(0);' class="btn btn--secondary js-preset-country"
+                   countryName="Italien" countryID="3066">Italien</a>
+                <a href='javascript:void(0);' class="btn btn--secondary js-preset-country"
+                   countryName="Österreich" countryID="282">Österreich</a>
+              </div>
+              <div class='panel__content mt-3'>
+                <h4>
+                  Name des Bestimmungslandes
+                </h4>
+                <input class='js-country' name='country_name' type='text'>
+              </div>
+            </div>
+            <div class='panel js-option-list' style='display: none;'>
+              <h2 class='panel__title justify-content-start'>
+                Ihre Optionen
+                :
+                <span class='js-country-name'></span>
+              </h2>
+              <div class='panel__content saas' id='add_products_content'>
+                <form action='/buy_option?locale=de&amp;user_type=prepaid'
+                      class='js-add-option-form' method='POST'>
+                  <input type="hidden" name="authenticity_token" id="authenticity_token"
+                         value="FeM4B9AxsYbMTh2mh02CmTHcEfdiCOj0PvmWCku2jerbVUfcpQug4772CNUOVTdFSKVF0pBEbHha1Wh5YY1UIA=="/>
+                  <input type="hidden" name="option_id" id="option_id"/>
+                  <input type="hidden" name="paid_with_saved_cc" id="paid_with_saved_cc"/>
+                </form>
+                <div class='list-options'>
+                  <p class='js-option js-option-filter js-option-empty'>
+                    Für dieses Land gibt es keine Option.
+                  </p>
+                  <div class='list-options__item js-option js-option-filter js-option-7255'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          15 RAPPEN Paket - 100 Einheiten
+                          <div>
+<span class=''>
+ 15.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7255'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7255'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7255'
+                         style='display: none;'>
+                      <p>Option mit 100 Einheiten, die flexibel f&uuml;r schweizweite Telefonie und
+                        SMS gebraucht werden k&ouml;nnen. Als 1 Einheit gilt dabei jede angebrochene
+                        Telefonie-Minute sowie jedes versendete SMS.</p>
+                      <p class='js-option-destinations' style='display: none;'>
+
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7255-label'
+                       class='modal fade js-modal add_product js-shop_option_7255' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7255-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            15 RAPPEN Paket - 100 Einheiten
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 15.–</span>
+</span>
+                          </h4>
+                          <p>Option mit 100 Einheiten, die flexibel f&uuml;r schweizweite Telefonie
+                            und SMS gebraucht werden k&ouml;nnen. Als 1 Einheit gilt dabei jede
+                            angebrochene Telefonie-Minute sowie jedes versendete SMS.</p>
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7255">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7248'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          SURF Paket - 250 MB
+                          <div>
+<span class=''>
+ 4.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7248'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7248'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7248'
+                         style='display: none;'>
+                      Option für 250 MB Datenguthaben in der Schweiz
+                      <p class='js-option-destinations' style='display: none;'>
+                        Liechtenstein, Schweiz
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7248-label'
+                       class='modal fade js-modal add_product js-shop_option_7248' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7248-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            SURF Paket - 250 MB
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 4.90</span>
+</span>
+                          </h4>
+                          Option für 250 MB Datenguthaben in der Schweiz
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7248">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7250'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          SURF Paket - 750 MB
+                          <div>
+<span class=''>
+ 9.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7250'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7250'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7250'
+                         style='display: none;'>
+                      Option für 750 MB Datenguthaben in der Schweiz
+                      <p class='js-option-destinations' style='display: none;'>
+                        Liechtenstein, Schweiz
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7250-label'
+                       class='modal fade js-modal add_product js-shop_option_7250' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7250-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            SURF Paket - 750 MB
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 9.90</span>
+</span>
+                          </h4>
+                          Option für 750 MB Datenguthaben in der Schweiz
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7250">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7249'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          SURF Paket - 1500 MB
+                          <div>
+<span class=''>
+ 14.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7249'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7249'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7249'
+                         style='display: none;'>
+                      Option für 1500 MB Datenguthaben in der Schweiz
+                      <p class='js-option-destinations' style='display: none;'>
+                        Liechtenstein, Schweiz
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7249-label'
+                       class='modal fade js-modal add_product js-shop_option_7249' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7249-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            SURF Paket - 1500 MB
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 14.90</span>
+</span>
+                          </h4>
+                          Option für 1500 MB Datenguthaben in der Schweiz
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7249">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7251'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 250 MB - EU/UK
+                          <div>
+<span class=''>
+ 10.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7251'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7251'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7251'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;EU/UK&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                        Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                        Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                        Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                        Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                        Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7251-label'
+                       class='modal fade js-modal add_product js-shop_option_7251' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7251-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 250 MB - EU/UK
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 10.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;EU/UK&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                          Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                          Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                          Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                          Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                          Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7251">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7252'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 250 MB - Welt 1
+                          <div>
+<span class=''>
+ 15.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7252'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7252'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7252'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 1&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                        Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                        Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                        Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                        Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                        Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                        Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St.
+                        Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei,
+                        Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7252-label'
+                       class='modal fade js-modal add_product js-shop_option_7252' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7252-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 250 MB - Welt 1
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 15.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 1&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                          Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                          Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                          Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                          Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                          Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                          Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka,
+                          St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand,
+                          Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7252">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7271'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 500 MB - EU/UK
+                          <div>
+<span class=''>
+ 15.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7271'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7271'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7271'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;EU/UK&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                        Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                        Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                        Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                        Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                        Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7271-label'
+                       class='modal fade js-modal add_product js-shop_option_7271' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7271-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 500 MB - EU/UK
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 15.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;EU/UK&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                          Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                          Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                          Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                          Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                          Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7271">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7274'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 1 GB - EU/UK
+                          <div>
+<span class=''>
+ 20.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7274'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7274'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7274'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;EU/UK&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                        Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                        Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                        Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                        Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                        Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7274-label'
+                       class='modal fade js-modal add_product js-shop_option_7274' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7274-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 1 GB - EU/UK
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 20.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;EU/UK&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;EU/UK&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                          Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                          Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland, Litauen,
+                          Luxemburg, Malta, Monaco, Niederlande, Norwegen, Österreich, Polen,
+                          Portugal, Rumänien, San Marino, Schweden, Slowakei, Slowenien, Spanien,
+                          Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7274">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7272'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 500 MB - Welt 1
+                          <div>
+<span class=''>
+ 25.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7272'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7272'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7272'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 1&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                        Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                        Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                        Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                        Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                        Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                        Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St.
+                        Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei,
+                        Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7272-label'
+                       class='modal fade js-modal add_product js-shop_option_7272' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7272-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 500 MB - Welt 1
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 25.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 1&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                          Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                          Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                          Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                          Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                          Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                          Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka,
+                          St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand,
+                          Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7272">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7253'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 250 MB - Welt 2
+                          <div>
+<span class=''>
+ 35.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7253'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7253'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7253'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 2&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                        Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                        Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                        Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada,
+                        Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti,
+                        Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap
+                        Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba,
+                        Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat,
+                        Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen,
+                        Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay,
+                        Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy
+                        (FR), St. Eustatius (NL), St. Kitts &amp; Nevis, St. Lucia, St. Maarten
+                        (NL), St. Martin (FR), St. Vincent &amp; die Grenadinen, Sudan, Suriname,
+                        Tadschikistan, Tansania, Tonga, Trinidad &amp; Tobago, Tunesien, Turks &amp;
+                        Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7253-label'
+                       class='modal fade js-modal add_product js-shop_option_7253' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7253-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 250 MB - Welt 2
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 35.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 2&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                          Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                          Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                          Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun,
+                          Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana,
+                          Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha,
+                          Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo
+                          (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte,
+                          Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua,
+                          Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama,
+                          Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal,
+                          Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts &amp;
+                          Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent &amp; die
+                          Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad
+                          &amp; Tobago, Tunesien, Turks &amp; Caicos, Uganda, Usbekistan, Vanuatu,
+                          Venezuela, Vietnam
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7253">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7275'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 1 GB - Welt 1
+                          <div>
+<span class=''>
+ 35.–
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7275'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7275'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7275'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 1&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                        Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                        Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                        Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                        Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                        Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                        Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St.
+                        Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei,
+                        Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7275-label'
+                       class='modal fade js-modal add_product js-shop_option_7275' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7275-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 1 GB - Welt 1
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 35.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 1&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 1&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                          Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                          Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                          Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                          Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                          Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                          Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka,
+                          St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand,
+                          Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7275">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7273 list-options__item--disabled'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 500 MB - Welt 2
+                          <div>
+<span class=''>
+ 55.–
+</span>
+                          </div>
+                          <div class='text--sm mt-2'>
+                            Bitte <a href="/eCare/wireless/de/my_ban">erhöhen Sie Ihre
+                            Roaming-Kostenlimite</a>, um diese Option kaufen zu können.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7273'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 2&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                        Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                        Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                        Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada,
+                        Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti,
+                        Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap
+                        Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba,
+                        Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat,
+                        Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen,
+                        Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay,
+                        Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy
+                        (FR), St. Eustatius (NL), St. Kitts &amp; Nevis, St. Lucia, St. Maarten
+                        (NL), St. Martin (FR), St. Vincent &amp; die Grenadinen, Sudan, Suriname,
+                        Tadschikistan, Tansania, Tonga, Trinidad &amp; Tobago, Tunesien, Turks &amp;
+                        Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7273-label'
+                       class='modal fade js-modal add_product js-shop_option_7273' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7273-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 500 MB - Welt 2
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 55.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 500 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 2&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                          Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                          Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                          Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun,
+                          Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana,
+                          Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha,
+                          Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo
+                          (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte,
+                          Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua,
+                          Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama,
+                          Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal,
+                          Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts &amp;
+                          Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent &amp; die
+                          Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad
+                          &amp; Tobago, Tunesien, Turks &amp; Caicos, Uganda, Usbekistan, Vanuatu,
+                          Venezuela, Vietnam
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7273">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7276 list-options__item--disabled'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 1 GB - Welt 2
+                          <div>
+<span class=''>
+ 69.–
+</span>
+                          </div>
+                          <div class='text--sm mt-2'>
+                            Bitte <a href="/eCare/wireless/de/my_ban">erhöhen Sie Ihre
+                            Roaming-Kostenlimite</a>, um diese Option kaufen zu können.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7276'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Welt 2&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden
+                        L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                        Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                        Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                        Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada,
+                        Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti,
+                        Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap
+                        Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba,
+                        Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat,
+                        Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen,
+                        Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay,
+                        Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy
+                        (FR), St. Eustatius (NL), St. Kitts &amp; Nevis, St. Lucia, St. Maarten
+                        (NL), St. Martin (FR), St. Vincent &amp; die Grenadinen, Sudan, Suriname,
+                        Tadschikistan, Tansania, Tonga, Trinidad &amp; Tobago, Tunesien, Turks &amp;
+                        Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7276-label'
+                       class='modal fade js-modal add_product js-shop_option_7276' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7276-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 1 GB - Welt 2
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 69.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 1 GB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Welt 2&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Welt 2&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                          Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                          Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                          Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun,
+                          Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana,
+                          Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha,
+                          Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo
+                          (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte,
+                          Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua,
+                          Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama,
+                          Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal,
+                          Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts &amp;
+                          Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent &amp; die
+                          Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad
+                          &amp; Tobago, Tunesien, Turks &amp; Caicos, Uganda, Usbekistan, Vanuatu,
+                          Venezuela, Vietnam
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7276">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7254 list-options__item--disabled'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Data Travel 250 MB - Rest der Welt
+                          <div>
+<span class=''>
+ 95.–
+</span>
+                          </div>
+                          <div class='text--sm mt-2'>
+                            Bitte <a href="/eCare/wireless/de/my_ban">erhöhen Sie Ihre
+                            Roaming-Kostenlimite</a>, um diese Option kaufen zu können.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7254'
+                         style='display: none;'>
+                      <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der Zone
+                        &laquo;Rest der Welt&raquo; beinhaltet.</p>
+                      <p>In der Zone &laquo;Rest der Welt&raquo; befinden sich die folgenden L&auml;nder:</p>
+                      <p class='js-option-destinations' style=''>
+                        Afghanistan, Angola, Äquatorialguinea, Äthiopien, Bhutan, Burkina Faso,
+                        Gambia, Irak, Jemen, Libanon, Madagaskar, Malawi, Mauretanien, Niger,
+                        Simbabwe, Togo, Tschad, Zentralafrikanische Republik
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7254-label'
+                       class='modal fade js-modal add_product js-shop_option_7254' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7254-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Data Travel 250 MB - Rest der Welt
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 95.–</span>
+</span>
+                          </h4>
+                          <p>Attraktive Option, welche 250 MB mobile Daten f&uuml;r das Ausland der
+                            Zone &laquo;Rest der Welt&raquo; beinhaltet.</p>
+                          <p>In der Zone &laquo;Rest der Welt&raquo; befinden sich die folgenden L&auml;nder:</p>
+                          Afghanistan, Angola, Äquatorialguinea, Äthiopien, Bhutan, Burkina Faso,
+                          Gambia, Irak, Jemen, Libanon, Madagaskar, Malawi, Mauretanien, Niger,
+                          Simbabwe, Togo, Tschad, Zentralafrikanische Republik
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7254">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7701'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Message Travel
+                          <div>
+<span class=''>
+ 9.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7701'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7701'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7701'
+                         style='display: none;'>
+                      <p>Mit dieser Option versenden Sie vom Ausland aus weltweit 100 SMS weltweit.
+                        Die Option gilt f&uuml;r 12 Monate. Haben Sie alle Inklusivnachrichten
+                        verbraucht, gilt wieder der Standardtarif.<br><br>Die Option gilt weltweit.
+                      </p>
+                      <p class='js-option-destinations' style='display: none;'>
+                        Afghanistan, Ägypten, Alaska, Albanien, Algerien, Am. Jungferninseln,
+                        Andorra, Angola, Anguilla, Antigua &amp; Barbuda, Äquatorialguinea,
+                        Argentinien, Armenien, Aruba, Aserbaidschan, Äthiopien, Australien, Bahamas,
+                        Bahrain, Bangladesch, Barbados, Belgien, Belize, Benin, Bermudas, Bhutan,
+                        Bolivien, Bonaire, Bosnien &amp; Herzegowina, Botswana, Brasilien, Britische
+                        Jungferninseln, Brunei, Bulgarien, Burkina Faso, Burundi, Chile, China,
+                        Cookinseln, Costa Rica, Curaçao, Dänemark, Deutschland, Dominica,
+                        Dominikanische Republik, Dschibuti, Ecuador, El Salvador, Elfenbeinküste,
+                        Estland, Falklandinseln, Färöer, Fidschi, Finnland, Frankreich,
+                        Französisch-Guayana, Französisch-Polynesien, Gabun, Gambia, Georgien, Ghana,
+                        Gibraltar, Grenada, Griechenland, Grönland, Grossbritannien, Guadeloupe,
+                        Guam, Guatemala, Guernsey, Guinea, Guinea-Bissau, Guyana, Haiti, Hawaii,
+                        Honduras, Hong Kong, Indien, Indonesien, Irak, Iran, Irland, Island, Isle of
+                        Man, Israel, Italien, Jamaika, Japan, Jemen, Jersey, Jordanien,
+                        Kaimaninseln, Kambodscha, Kamerun, Kanada, Kap Verde, Kasachstan, Katar,
+                        Kenia, Kirgisistan, Kolumbien, Komoren, Kongo (Brazzaville), Kongo
+                        (Kinshasa), Kosovo, Kroatien, Kuba, Kuwait, Laos, Lesotho, Lettland,
+                        Libanon, Liberia, Libyen, Liechtenstein, Litauen, Luxemburg, Macao,
+                        Madagaskar, Malawi, Malaysia, Malediven, Mali, Malta, Marokko, Martinique,
+                        Mauretanien, Mauritius, Mayotte, Mexiko, Moldawien, Monaco, Mongolei,
+                        Monserrat, Montenegro, Mosambik, Myanmar (Burma), Namibia, Nauru, Nepal,
+                        Neukaledonien, Neuseeland, Nicaragua, Niederlande, Niederländische Antillen,
+                        Niger, Nigeria, Nordmazedonien, Norwegen, Oman, Österreich, Osttimor,
+                        Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay, Peru, Philippinen,
+                        Polen, Portugal, Puerto Rico, Réunion, Ruanda, Rumänien, Russland, Saba,
+                        Sambia, Samoa, San Marino, São Tomé &amp; Príncipe, Saudi-Arabien, Schweden,
+                        Schweiz, Senegal, Serbien, Seychellen, Sierra Leone, Simbabwe, Singapur,
+                        Slowakei, Slowenien, Spanien, Sri Lanka, St. Barthélemy (FR), St. Croix, St.
+                        Eustatius (NL), St. John, St. Kitts &amp; Nevis, St. Lucia, St. Maarten
+                        (NL), St. Martin (FR), St. Pierre und Miquelon, St. Thomas, St. Vincent
+                        &amp; die Grenadinen, Südafrika, Sudan, Südkorea, Suriname, Syrien,
+                        Tadschikistan, Taiwan, Tansania, Thailand, Togo, Tonga, Trinidad &amp;
+                        Tobago, Tschad, Tschechien, Tunesien, Türkei, Turkmenistan, Turks &amp;
+                        Caicos, Uganda, Ukraine, Ungarn, Uruguay, USA, Usbekistan, Vanuatu, Vatikan,
+                        Venezuela, Vereinigte Arabische Emirate, Vietnam, Weissrussland,
+                        Zentralafrikanische Republik, Zypern
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7701-label'
+                       class='modal fade js-modal add_product js-shop_option_7701' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7701-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Message Travel
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 9.90</span>
+</span>
+                          </h4>
+                          <p>Mit dieser Option versenden Sie vom Ausland aus weltweit 100 SMS
+                            weltweit. Die Option gilt f&uuml;r 12 Monate. Haben Sie alle
+                            Inklusivnachrichten verbraucht, gilt wieder der Standardtarif.<br><br>Die
+                            Option gilt weltweit.</p>
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7701">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7604'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Voice Travel - EU/UK
+                          <div>
+<span class=''>
+ 16.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7604'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7604'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7604'
+                         style='display: none;'>
+                      <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den
+                        folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind die 60
+                        Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die Option k&ouml;nnen
+                        Sie in den folgenden L&auml;ndern nutzen:</p>
+                      <p class='js-option-destinations' style=''>
+                        Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                        Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                        Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland,
+                        Liechtenstein, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen,
+                        Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Schweiz,
+                        Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7604-label'
+                       class='modal fade js-modal add_product js-shop_option_7604' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7604-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Voice Travel - EU/UK
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 16.90</span>
+</span>
+                          </h4>
+                          <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von
+                            den folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind
+                            die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die
+                            Option k&ouml;nnen Sie in den folgenden L&auml;ndern nutzen:</p>
+                          Andorra, Belgien, Bulgarien, Dänemark, Deutschland, Estland, Färöer,
+                          Finnland, Frankreich, Gibraltar, Griechenland, Grossbritannien, Guernsey,
+                          Irland, Island, Isle of Man, Italien, Jersey, Kroatien, Lettland,
+                          Liechtenstein, Litauen, Luxemburg, Malta, Monaco, Niederlande, Norwegen,
+                          Österreich, Polen, Portugal, Rumänien, San Marino, Schweden, Schweiz,
+                          Slowakei, Slowenien, Spanien, Tschechien, Ukraine, Ungarn, Vatikan, Zypern
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7604">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7605'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Voice Travel - Welt 1
+                          <div>
+<span class=''>
+ 32.90
+</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='list-options__action js-action'>
+                        <a class='btn btn--primary' data-target='.js-shop_option_7605'
+                           data-toggle='modal'
+                           href='/eCare/prepaid/de/add_product#shop_option_7605'>
+                          Hinzufügen
+                        </a>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7605'
+                         style='display: none;'>
+                      <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den
+                        folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind die 60
+                        Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die Option k&ouml;nnen
+                        Sie in den folgenden L&auml;ndern nutzen:</p>
+                      <p class='js-option-destinations' style=''>
+                        Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                        Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                        Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                        Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                        Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                        Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                        Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka, St.
+                        Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand, Türkei,
+                        Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7605-label'
+                       class='modal fade js-modal add_product js-shop_option_7605' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7605-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Voice Travel - Welt 1
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 32.90</span>
+</span>
+                          </h4>
+                          <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von
+                            den folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind
+                            die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die
+                            Option k&ouml;nnen Sie in den folgenden L&auml;ndern nutzen:</p>
+                          Ägypten, Alaska, Albanien, Algerien, Argentinien, Armenien, Aserbaidschan,
+                          Australien, Bahrain, Bosnien &amp; Herzegowina, Brasilien, Chile, China,
+                          Ecuador, Fidschi, Französisch-Polynesien, Georgien, Ghana, Hawaii, Hong
+                          Kong, Indien, Indonesien, Israel, Japan, Kanada, Kasachstan, Katar,
+                          Kolumbien, Kosovo, Kuwait, Macao, Malaysia, Marokko, Mexiko, Moldawien,
+                          Montenegro, Nauru, Neuseeland, Nordmazedonien, Peru, Philippinen, Puerto
+                          Rico, Russland, Saudi-Arabien, Serbien, Seychellen, Singapur, Sri Lanka,
+                          St. Croix, St. John, St. Thomas, Südafrika, Südkorea, Taiwan, Thailand,
+                          Türkei, Uruguay, USA, Vereinigte Arabische Emirate, Weissrussland
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7605">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='list-options__item js-option js-option-filter js-option-7606 list-options__item--disabled'>
+                    <div class='list-options__preview'>
+                      <div class='list-options__title'>
+                        <i class='fa fa-chevron-right'></i>
+                        <div class='list-options__name'>
+                          Voice Travel - Welt 2
+                          <div>
+<span class=''>
+ 54.90
+</span>
+                          </div>
+                          <div class='text--sm mt-2'>
+                            Bitte <a href="/eCare/wireless/de/my_ban">erhöhen Sie Ihre
+                            Roaming-Kostenlimite</a>, um diese Option kaufen zu können.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class='list-options__info js-info js-info-shop_option_7606'
+                         style='display: none;'>
+                      <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von den
+                        folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind die 60
+                        Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die Option k&ouml;nnen
+                        Sie in den folgenden L&auml;ndern nutzen:</p>
+                      <p class='js-option-destinations' style=''>
+                        Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                        Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                        Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                        Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun, Grenada,
+                        Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti,
+                        Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha, Kamerun, Kap
+                        Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo (Kinshasa), Kuba,
+                        Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte, Mongolei, Monserrat,
+                        Mosambik, Myanmar (Burma), Nepal, Nicaragua, Niederländische Antillen,
+                        Nigeria, Oman, Pakistan, Palästina, Panama, Papua-Neuguinea, Paraguay,
+                        Réunion, Ruanda, Saba, Sambia, Samoa, Senegal, Sierra Leone, St. Barthélemy
+                        (FR), St. Eustatius (NL), St. Kitts &amp; Nevis, St. Lucia, St. Maarten
+                        (NL), St. Martin (FR), St. Vincent &amp; die Grenadinen, Sudan, Suriname,
+                        Tadschikistan, Tansania, Tonga, Trinidad &amp; Tobago, Tunesien, Turks &amp;
+                        Caicos, Uganda, Usbekistan, Vanuatu, Venezuela, Vietnam
+                      </p>
+                    </div>
+                  </div>
+                  <div aria-hidden='true' aria-labelledby='shop_option_7606-label'
+                       class='modal fade js-modal add_product js-shop_option_7606' role='dialog'
+                       tabindex='-1'>
+                    <div class='modal-dialog' role='document'>
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h2 class='modal-title' id='shop_option_7606-label'>
+                            Option hinzufügen
+                          </h2>
+                          <div class='modal__top__close js-close'></div>
+                        </div>
+                        <div class='modal-body'>
+                          <h4 class='modal__content__info'>
+                            Voice Travel - Welt 2
+                            <span class='modal__content__price'>
+<span class='product__item__price product__item__price--option'> 54.90</span>
+</span>
+                          </h4>
+                          <p>Mit dieser Option telefonieren Sie 60 Minuten lang innerhalb und von
+                            den folgenden L&auml;ndern aus. Die Option gilt f&uuml;r 12 Monate. Sind
+                            die 60 Minuten aufgebraucht, gilt wieder der Standardtarif.<br><br>Die
+                            Option k&ouml;nnen Sie in den folgenden L&auml;ndern nutzen:</p>
+                          Anguilla, Antigua &amp; Barbuda, Aruba, Bahamas, Bangladesch, Barbados,
+                          Belize, Benin, Bermudas, Bolivien, Bonaire, Botswana, Britische
+                          Jungferninseln, Brunei, Costa Rica, Curaçao, Dominica, Dominikanische
+                          Republik, El Salvador, Elfenbeinküste, Französisch-Guayana, Gabun,
+                          Grenada, Grönland, Guadeloupe, Guatemala, Guinea, Guinea-Bissau, Guyana,
+                          Haiti, Honduras, Iran, Jamaika, Jordanien, Kaimaninseln, Kambodscha,
+                          Kamerun, Kap Verde, Kenia, Kirgisistan, Kongo (Brazzaville), Kongo
+                          (Kinshasa), Kuba, Laos, Lesotho, Mali, Martinique, Mauritius, Mayotte,
+                          Mongolei, Monserrat, Mosambik, Myanmar (Burma), Nepal, Nicaragua,
+                          Niederländische Antillen, Nigeria, Oman, Pakistan, Palästina, Panama,
+                          Papua-Neuguinea, Paraguay, Réunion, Ruanda, Saba, Sambia, Samoa, Senegal,
+                          Sierra Leone, St. Barthélemy (FR), St. Eustatius (NL), St. Kitts &amp;
+                          Nevis, St. Lucia, St. Maarten (NL), St. Martin (FR), St. Vincent &amp; die
+                          Grenadinen, Sudan, Suriname, Tadschikistan, Tansania, Tonga, Trinidad
+                          &amp; Tobago, Tunesien, Turks &amp; Caicos, Uganda, Usbekistan, Vanuatu,
+                          Venezuela, Vietnam
+                        </div>
+                        <div class='modal-footer'>
+                          <a href='javascript:void(0)' class="btn btn--cancel js-close"
+                             aria-label="Close" data-dismiss="modal">Abbrechen</a>
+                          <a href='javascript:void(0)' class="btn btn--primary js-add-option"
+                             data-option-id="7606">Jetzt bestätigen</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div aria-hidden='true' aria-labelledby='payment-choice-label'
+                 class='modal fade js-modal js-payment-choice' role='dialog' tabindex='-1'>
+              <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                  <div class='modal-header'>
+                    <h2 class='modal-title' id='payment-choice-label'>
+                      Jetzt bezahlen
+                    </h2>
+                    <div class='modal__top__close js-close'></div>
+                  </div>
+                  <div class='modal-body'>
+                    <p>
+                      Möchtest du dein registriertes Zahlungsmittel nutzen, um die Zahlung
+                      vorzunehmen?
+                    </p>
+                  </div>
+                  <div class='modal-footer'>
+                    <a href='javascript:void(0)' class="btn btn--cancel js-add-option-via-balance">Nein,
+                      mein Guthaben benutzen</a>
+                    <a href='javascript:void(0)' class="btn btn--primary js-add-option-via-cc">Ja,
+                      zahlen</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+  var countryField = $('.js-country');
+  $(document).ready(function(){
+      if('true' === 'false') {
+          window.dataLayer = window.dataLayer || [];
+          dataLayer.push({
+              event: "",
+              renewalOptionName: ""
+          });
+      }
+
+      $('.js-option').on('click', function(e){
+          var allOptions = $('.js-option');
+          if(e.target.tagName.toLowerCase() === 'a' || $(e.target).closest('.js-modal').length) return;
+          allOptions.find('.js-info').slideUp();
+          allOptions.find('.fa-chevron-right').css('transform', 'rotate(0)');
+          if($(this).find('.js-info:visible').length){
+              return false;
+          } else {
+              $(this).find('.js-info').slideDown();
+              $(this).find('.fa-chevron-right').css('transform', 'rotate(90deg)');
+          }
+      });
+      var $form = $('.js-add-option-form');
+      $('.js-add-option').on("click", function(){
+          var option_id = $(this).data('option-id');
+          if(option_id){
+              $form.find('[name=option_id]').val(option_id);
+              if("true" === 'true'){
+                  show_modal('.js-payment-choice');
+              } else {
+                  $form.trigger( "submit" );
+                  show_spinner();
+              }
+          }
+      });
+      $('.js-add-option-via-balance, .js-add-option-via-cc').on("click", function(){
+          $form.find('[name=paid_with_saved_cc]').val($(this).hasClass('js-add-option-via-cc'));
+          $form.trigger( "submit" );
+          show_spinner();
+      });
+      $('.js-preset-country').on('click', function(){
+          var countryName = $(this).attr('countryName');
+          countryField.val(countryName).trigger('change');
+      });
+
+      countryField.on('change', function(){
+          populateOptions()
+      });
+      var countryList = [{"id":"38","name":"Afghanistan"},{"id":"1527","name":"Ägypten"},{"id":"6573","name":"Alaska"},{"id":"62","name":"Albanien"},{"id":"78","name":"Algerien"},{"id":"6658","name":"Am. Jungferninseln"},{"id":"159","name":"Andorra"},{"id":"169","name":"Angola"},{"id":"171","name":"Anguilla"},{"id":"187","name":"Antigua \u0026 Barbuda"},{"id":"1657","name":"Äquatorialguinea"},{"id":"200","name":"Argentinien"},{"id":"203","name":"Armenien"},{"id":"219","name":"Aruba"},{"id":"293","name":"Aserbaidschan"},{"id":"1727","name":"Äthiopien"},{"id":"273","name":"Australien"},{"id":"487","name":"Bahamas"},{"id":"488","name":"Bahrain"},{"id":"512","name":"Bangladesch"},{"id":"516","name":"Barbados"},{"id":"599","name":"Belgien"},{"id":"603","name":"Belize"},{"id":"611","name":"Benin"},{"id":"653","name":"Bermudas"},{"id":"686","name":"Bhutan"},{"id":"811","name":"Bolivien"},{"id":"7368","name":"Bonaire"},{"id":"854","name":"Bosnien \u0026 Herzegowina"},{"id":"861","name":"Botswana"},{"id":"898","name":"Brasilien"},{"id":"6657","name":"Britische Jungferninseln"},{"id":"970","name":"Brunei"},{"id":"1005","name":"Bulgarien"},{"id":"1059","name":"Burkina Faso"},{"id":"1066","name":"Burundi"},{"id":"1127","name":"Chile"},{"id":"1131","name":"China"},{"id":"1186","name":"Cookinseln"},{"id":"1190","name":"Costa Rica"},{"id":"7369","name":"Curaçao"},{"id":"1293","name":"Dänemark"},{"id":"7315","name":"Deutschland"},{"id":"1382","name":"Dominica"},{"id":"1385","name":"Dominikanische Republik"},{"id":"1368","name":"Dschibuti"},{"id":"1493","name":"Ecuador"},{"id":"1578","name":"El Salvador"},{"id":"3075","name":"Elfenbeinküste"},{"id":"1672","name":"Eritrea"},{"id":"1716","name":"Estland"},{"id":"1765","name":"Falklandinseln"},{"id":"1769","name":"Färöer"},{"id":"1799","name":"Fidschi"},{"id":"1800","name":"Finnland"},{"id":"1846","name":"Frankreich"},{"id":"1903","name":"Französisch-Guayana"},{"id":"1905","name":"Französisch-Polynesien"},{"id":"1987","name":"Gabun"},{"id":"1998","name":"Gambia"},{"id":"2081","name":"Georgien"},{"id":"2124","name":"Ghana"},{"id":"2127","name":"Gibraltar"},{"id":"2281","name":"Grenada"},{"id":"2261","name":"Griechenland"},{"id":"2268","name":"Grönland"},{"id":"6536","name":"Grossbritannien"},{"id":"2409","name":"Guadeloupe"},{"id":"2411","name":"Guam"},{"id":"2412","name":"Guatemala"},{"id":"7362","name":"Guernsey"},{"id":"2419","name":"Guinea"},{"id":"2423","name":"Guinea-Bissau"},{"id":"2453","name":"Guyana"},{"id":"2485","name":"Haiti"},{"id":"6574","name":"Hawaii"},{"id":"2882","name":"Honduras"},{"id":"2884","name":"Hong Kong"},{"id":"2996","name":"Indien"},{"id":"3010","name":"Indonesien"},{"id":"3038","name":"Irak"},{"id":"3035","name":"Iran"},{"id":"3041","name":"Irland"},{"id":"2961","name":"Island"},{"id":"7363","name":"Isle of Man"},{"id":"3056","name":"Israel"},{"id":"3066","name":"Italien"},{"id":"3086","name":"Jamaika"},{"id":"3094","name":"Japan"},{"id":"7258","name":"Jemen"},{"id":"7361","name":"Jersey"},{"id":"3129","name":"Jordanien"},{"id":"1117","name":"Kaimaninseln"},{"id":"1096","name":"Kambodscha"},{"id":"1099","name":"Kamerun"},{"id":"1102","name":"Kanada"},{"id":"1103","name":"Kap Verde"},{"id":"3220","name":"Kasachstan"},{"id":"5107","name":"Katar"},{"id":"3249","name":"Kenia"},{"id":"3519","name":"Kirgisistan"},{"id":"3311","name":"Kiribati"},{"id":"1163","name":"Kolumbien"},{"id":"1180","name":"Komoren"},{"id":"1181","name":"Kongo (Brazzaville)"},{"id":"1182","name":"Kongo (Kinshasa)"},{"id":"7359","name":"Kosovo"},{"id":"1205","name":"Kroatien"},{"id":"1213","name":"Kuba"},{"id":"3516","name":"Kuwait"},{"id":"3600","name":"Laos"},{"id":"3710","name":"Lesotho"},{"id":"3606","name":"Lettland"},{"id":"3647","name":"Libanon"},{"id":"3725","name":"Liberia"},{"id":"3726","name":"Libyen"},{"id":"3757","name":"Liechtenstein"},{"id":"3801","name":"Litauen"},{"id":"3915","name":"Luxemburg"},{"id":"3921","name":"Macao"},{"id":"3924","name":"Madagaskar"},{"id":"3940","name":"Malawi"},{"id":"3941","name":"Malaysia"},{"id":"3947","name":"Malediven"},{"id":"3949","name":"Mali"},{"id":"3958","name":"Malta"},{"id":"4255","name":"Marokko"},{"id":"4027","name":"Marshallinseln"},{"id":"4031","name":"Martinique"},{"id":"4045","name":"Mauretanien"},{"id":"4046","name":"Mauritius"},{"id":"7371","name":"Mayotte"},{"id":"4147","name":"Mexiko"},{"id":"4156","name":"Mikronesien"},{"id":"4208","name":"Moldawien"},{"id":"4219","name":"Monaco"},{"id":"4226","name":"Mongolei"},{"id":"4238","name":"Monserrat"},{"id":"4236","name":"Montenegro"},{"id":"4269","name":"Mosambik"},{"id":"4340","name":"Myanmar (Burma)"},{"id":"4351","name":"Namibia"},{"id":"4369","name":"Nauru"},{"id":"4394","name":"Nepal"},{"id":"4564","name":"Neukaledonien"},{"id":"4565","name":"Neuseeland"},{"id":"4567","name":"Nicaragua"},{"id":"4403","name":"Niederlande"},{"id":"4405","name":"Niederländische Antillen"},{"id":"4606","name":"Niger"},{"id":"4607","name":"Nigeria"},{"id":"4647","name":"Nord Marianen"},{"id":"3427","name":"Nordkorea"},{"id":"3922","name":"Nordmazedonien"},{"id":"4653","name":"Norwegen"},{"id":"4802","name":"Oman"},{"id":"282","name":"Österreich"},{"id":"1469","name":"Osttimor"},{"id":"4886","name":"Pakistan"},{"id":"4893","name":"Palästina"},{"id":"4892","name":"Palau"},{"id":"4896","name":"Panama"},{"id":"4904","name":"Papua-Neuguinea"},{"id":"4905","name":"Paraguay"},{"id":"4951","name":"Peru"},{"id":"4988","name":"Philippinen"},{"id":"5030","name":"Polen"},{"id":"5049","name":"Portugal"},{"id":"5099","name":"Puerto Rico"},{"id":"5253","name":"Réunion"},{"id":"5452","name":"Ruanda"},{"id":"5342","name":"Rumänien"},{"id":"5446","name":"Russland"},{"id":"7372","name":"Saba"},{"id":"7262","name":"Sambia"},{"id":"5492","name":"Samoa"},{"id":"5494","name":"San Marino"},{"id":"5518","name":"São Tomé \u0026 Príncipe"},{"id":"5535","name":"Saudi-Arabien"},{"id":"6209","name":"Schweden"},{"id":"6218","name":"Schweiz"},{"id":"5838","name":"Senegal"},{"id":"5846","name":"Serbien"},{"id":"5855","name":"Seychellen"},{"id":"5879","name":"Sierra Leone"},{"id":"7314","name":"Simbabwe"},{"id":"5897","name":"Singapur"},{"id":"5911","name":"Slowakei"},{"id":"5915","name":"Slowenien"},{"id":"5935","name":"Solomon, Inseln"},{"id":"5941","name":"Somalia"},{"id":"5965","name":"Spanien"},{"id":"6000","name":"Sri Lanka"},{"id":"7373","name":"St. Barthélemy (FR)"},{"id":"7365","name":"St. Croix"},{"id":"7374","name":"St. Eustatius (NL)"},{"id":"7366","name":"St. John"},{"id":"5473","name":"St. Kitts \u0026 Nevis"},{"id":"5474","name":"St. Lucia"},{"id":"7375","name":"St. Maarten (NL)"},{"id":"7376","name":"St. Martin (FR)"},{"id":"6012","name":"St. Pierre und Miquelon"},{"id":"7367","name":"St. Thomas"},{"id":"6013","name":"St. Vincent \u0026 die Grenadinen"},{"id":"5961","name":"Südafrika"},{"id":"6164","name":"Sudan"},{"id":"3428","name":"Südkorea"},{"id":"7364","name":"Südsudan"},{"id":"6200","name":"Suriname"},{"id":"6208","name":"Swasiland"},{"id":"6230","name":"Syrien"},{"id":"6241","name":"Tadschikistan"},{"id":"6238","name":"Taiwan"},{"id":"6260","name":"Tansania"},{"id":"6336","name":"Thailand"},{"id":"6382","name":"Togo"},{"id":"6385","name":"Tonga"},{"id":"6437","name":"Trinidad \u0026 Tobago"},{"id":"1122","name":"Tschad"},{"id":"1227","name":"Tschechien"},{"id":"6454","name":"Tunesien"},{"id":"6461","name":"Türkei"},{"id":"6474","name":"Turkmenistan"},{"id":"6475","name":"Turks \u0026 Caicos"},{"id":"6513","name":"Uganda"},{"id":"6521","name":"Ukraine"},{"id":"2945","name":"Ungarn"},{"id":"6570","name":"Uruguay"},{"id":"6572","name":"USA"},{"id":"6585","name":"Usbekistan"},{"id":"6590","name":"Vanuatu"},{"id":"7360","name":"Vatikan"},{"id":"6614","name":"Venezuela"},{"id":"6534","name":"Vereinigte Arabische Emirate"},{"id":"6638","name":"Vietnam"},{"id":"6774","name":"Wallis Futuna"},{"id":"595","name":"Weissrussland"},{"id":"1121","name":"Zentralafrikanische Republik"},{"id":"1223","name":"Zypern"}];
+      countryField.autocomplete(autocompleteOptions(countryList));
+      if('false' !== 'true') $('.js-preset-country:first').trigger('click');
+  });
+  function populateOptions(){
+      $('.js-option-list').slideUp(400, function(){
+          var countryName = countryField.val();
+          $('.js-country-name').text(countryName);
+
+          var optionsToDisplay = $('.js-option-filter').hide().filter(function( index ) {
+              var destinationsText = $( this ).find('.js-option-destinations').text().trim();
+              return destinationsText.includes(countryName) || destinationsText.length === 0;
+          }).show();
+
+          if(optionsToDisplay.length === 0){
+              $('.js-option-empty').show();
+          }
+          $('.js-option-list').slideDown();
+      });
+  }
+  function openAutocompleteCallback(event, ui){
+    // The ui object is empty but included for consistency with other events.
+    var $this = $(this);
+    var $thisAutocomplete = $this.autocomplete('instance');
+    var menuItems = $thisAutocomplete.menu.bindings.find('.ui-menu-item:visible');
+    if(menuItems.length === 1){
+      // only allow once the auto-click before every value appliance,
+      // because second time will mean the user want to modify the already applied value
+      // so we show him all values with auto applying them
+      menuItems.trigger( "click" );
+    }
+  }
+
+  function selectAutocompleteCallback(event, ui){
+    // ui.item is the selectedItem
+    event.preventDefault();
+    countryField.val(ui.item.label).blur().trigger('change');
+  }
+  function autocompleteOptions(countryList){
+    return {
+      source: $.map(countryList, function(country){return {label: country['name'], value: country['id']}}),
+      delay: 300,
+      minLength: 2,
+      open: openAutocompleteCallback,
+      select: selectAutocompleteCallback
+    };
+  }
+
+            </script>
+
+          </div>
+          <div class='col-12 col-md-4 col-lg-12 col-xl-4'>
+            <div id='right_block_1' class='register_card_block'>
+              <div class='panel panel--secondary'>
+                <h2 class='panel__title'>
+                  Meine Zahlungsart
+                </h2>
+                <div class='panel__content'>
+                  <ul class='panel__list'>
+                    <li class="panel__list__label">Typ<a
+                            class='panel__list__label--link js-modify-information'
+                            onclick="edit_card()" href='javascript:void(0)'>Ändern</a><a
+                            class='panel__list__label--link js-modify-information'
+                            onclick="delete_card()" href='javascript:void(0)'>Löschen</a></li>
+                    <li class='panel__list__item'>
+                      <img class='credit-card'
+                           src='/assets/common/svg/twint-63df9704f0bdef3128a425251ecba57eaa7613325ab0604149de019a96c98ffa.svg'>
+                    </li>
+                  </ul>
+                </div>
+                <div class='panel__bottom d-none'>
+                  <form class='js-credit-card_save d-none'>
+                    <a class='btn btn--primary' id='addButton'>
+                      <i class='fa fa-lock'></i>
+                      Hinzufügen
+                    </a>
+                  </form>
+                </div>
+              </div>
+              <script>
+  let error_saving_payment_path = '/eCare/prepaid/de/my_topup/error?payment_operation=saving_method';
+  function add_card(){
+      $.ajax("/datatrans/init_payment_method_registration?locale=de&user_type=prepaid", {
+          method: 'GET',
+          success: function(response, _textStatus, _jqXHR){
+              if(!response.success){
+                  window.location.href = error_saving_payment_path;
+                  return false;
+              }
+              Datatrans.startPayment({
+                  'transactionId': response.transaction_id,
+                  'closed': function() {
+                      $(".error").hide();
+                      hide_spinner();
+                  }
+              });
+          },
+          error: function(_jqXHR, _textStatus, _errorThrown){
+              window.location.href = error_saving_payment_path;
+              return false;
+          }
+      });
+  }
+
+              </script>
+              <script>
+  let error_removing_payment_path = '/eCare/prepaid/de/my_topup/error?payment_operation=removing_method';
+  function delete_card() {
+      show_spinner();
+      $.ajax("/datatrans/card?locale=de&user_type=prepaid", {
+          method: 'delete',
+          success: function (response, _textStatus, _jqXHR) {
+              if (response.success) {
+                  window.location.href = "/eCare/prepaid/de/my_topup?payment_operation=removing_method";
+              }
+              else {
+                  window.location.href = error_removing_payment_path;
+              }
+              return false;
+          },
+          error: function (_jqXHR, _textStatus, _errorThrown) {
+              window.location.href = error_removing_payment_path;
+              return false;
+          }
+      });
+  }
+  function edit_card() {
+      add_card();
+  }
+
+              </script>
+            </div>
+
+            <div id='right_block_3' class='panel panel--faq' id='faq'><h2 class='panel__title'>
+              Hilfe
+            </h2>
+              <div class='panel__content panel__content--faq' id='faq_content'>
+                <ul>
+                  <li><a href="https://www.coopmobile.ch/de/hilfe?open=faq-100024" target="_blank">Informationen
+                    rund um Premium Services/Mehrwertdienste</a></li>
+                </ul>
+                <script>
+  $(document).ready(function() {
+      $('#faq_content').find('a').each(function(_index) {
+          var href = $(this).attr('href'),
+              faq_link_matches = href.match(/^https.+faq-([0-9]+)/);
+          if(faq_link_matches !== null){
+              $(this).addClass('track_faq_link_' + faq_link_matches[1]);
+          }
+      });
+  });
+
+                </script>
+              </div>
+              <div class='panel__bottom panel__bottom--separated'>
+                <a href='https://www.coopmobile.ch/de/hilfe' target='_blank'>
+                  Alle häufig gestellte Fragen
+                </a>
+              </div>
+            </div>
+            <div id='right_block_4' class='panel panel--quicklinks' id='quicklinks'><h2
+                    class='panel__title'>
+              Quicklinks
+            </h2>
+              <div class='panel__content panel__content--quicklinks' id='quick_links_content'>
+                <ul>
+                  <li><a href="/eCare/prepaid/de/my_ban"
+                         class="track_quicklink_link_manage-my-services">Dienste verwalten</a></li>
+                  <li><a href="https://www.coopmobile.ch/de/prepaid/tarife-prepaid" target="_blank"
+                         class="track_quicklink_link_check-roaming-costs">Auslandstarife und
+                    Roaming</a></li>
+                  <li><a href="/eCare/prepaid/de/my_topup"
+                         class="track_quicklink_link_make-a-topup">Aufladen</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<section class='container-fluid'>
+  <div class='footer row justify-content-center align-content-center' id='footer'>
+    <div class='col-auto'>
+      <a href='https://www.coopmobile.ch/de/kontakt' target='_blank'>
+        Kontakt
+      </a>
+    </div>
+    <div class='col-auto'>
+      <a href='https://www.coopmobile.ch/de/rechtliche-informationen' target='_blank'>
+        Rechtliche Hinweise
+      </a>
+    </div>
+    <div class='col-auto'>
+      <a href='https://www.coopmobile.ch/de' target='_blank'>
+        <i class='fa fa-copyright'></i>
+        Coop Mobile
+      </a>
+    </div>
+  </div>
+  <iframe id='download_pdf' name='download_pdf' src='' style='display:none;'
+          type='application/pdf'></iframe>
+  <iframe id='download_pdf_portability' name='download_pdf_portability' src='' style='display:none;'
+          type='application/pdf'></iframe>
+</section>
+<script>
+  var MTUserId='76433e26-a20c-4a13-81ca-735982090f0f';
+  (function() {
+  var mtTracking = document.createElement('script');
+      mtTracking.type='text/javascript';
+      mtTracking.async='true';
+      mtTracking.src="/assets/mtiFontTrackingCode-504959a6ecc7fdefad7899ec5d268e4ccc4ea469c29dc8b9d6088a378b624fbc.js";
+      (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(mtTracking);
+  })();
+
+</script>
+</body>
+</html>
+<script>
+  $(document).ready(function () {
+      params = window.location.search
+      if (params !== "") {
+          params = params.split('?')[1].split('#')[0].split('&');
+          for (const [key, value] of Object.entries(params)) {
+              if (value === "login=true") {
+                  window.dataLayer = window.dataLayer || [];
+                  window.dataLayer.push({
+                      event: 'authenticateSuccessfully'
+                  });
+              }
+          }
+      }
+  });
+
+</script>
