@@ -5,11 +5,8 @@ import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
 abstract class DecoratedCoopClient : CoopClient {
 
-    override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> =
+    override suspend fun getProfile(): Either<CoopError, List<ProfileItem>> =
         decorator({ it.getProfile() }, "getProfile")
-
-    override suspend fun getProfileNoveau(): Either<CoopError, List<ProfileItem>> =
-        decorator({ it.getProfileNoveau() }, "getProfile")
 
     override suspend fun getConsumption(): Either<CoopError, List<LabelledAmounts>> =
         decorator({ it.getConsumption() }, "getConsumption")

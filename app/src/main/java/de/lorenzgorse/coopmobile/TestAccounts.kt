@@ -70,14 +70,6 @@ class TestModeCoopClient : CoopClient {
 
     override suspend fun getProfile() = Either.Right(
         listOf(
-            Pair("Name", "Peter Lustig"),
-            Pair("Kundennummer", "12345678"),
-            Pair("Status", "aktiv"),
-        )
-    )
-
-    override suspend fun getProfileNoveau() = Either.Right(
-        listOf(
             ProfileItem("Kundennummer", "12345678"),
             ProfileItem("Status", "aktiv"),
             ProfileItem("Inhaber", "Peter Lustig"),

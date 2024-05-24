@@ -9,7 +9,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import arrow.core.Either
 import de.lorenzgorse.coopmobile.*
 import de.lorenzgorse.coopmobile.client.AmountUnit
 import de.lorenzgorse.coopmobile.client.LabelledAmounts
@@ -74,10 +73,7 @@ class OverviewFragment : Fragment(), MenuProvider {
         lifecycleScope.launch {
             viewModel.state.data().filterNotNull().collect { (consumption, profile) ->
                 setConsumption(consumption)
-                when (profile) {
-                    is Either.Left -> setProfile(profile.value)
-                    is Either.Right -> setProfileNoveau(profile.value)
-                }
+                setProfile(profile)
             }
         }
     }
@@ -192,14 +188,7 @@ class OverviewFragment : Fragment(), MenuProvider {
         return getString(unitStringId)
     }
 
-    private fun setProfile(result: List<Pair<String, String>>) {
-        binding.profile.removeAllViews()
-        result.forEach {
-            addProfileItem(it.first, it.second)
-        }
-    }
-
-    private fun setProfileNoveau(result: List<ProfileItem>) {
+    private fun setProfile(result: List<ProfileItem>) {
         binding.profile.removeAllViews()
         result.forEach { profileItem ->
             val description = getProfileItemDescription(profileItem)

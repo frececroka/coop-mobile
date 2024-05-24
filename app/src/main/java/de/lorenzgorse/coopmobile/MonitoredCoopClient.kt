@@ -15,22 +15,8 @@ class MonitoredCoopClient(
     private val meter: Meter,
 ) : DecoratedCoopClient() {
 
-    override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> {
+    override suspend fun getProfile(): Either<CoopError, List<ProfileItem>> {
         val profile = super.getProfile()
-        if (profile is Either.Right) {
-            Firebase.analytics.logEvent("ProfileItems", bundleOf("Length" to profile.value.size))
-            for (profileItem in profile.value) {
-                Firebase.analytics.logEvent(
-                    "ProfileItem",
-                    bundleOf("Description" to profileItem.first)
-                )
-            }
-        }
-        return profile
-    }
-
-    override suspend fun getProfileNoveau(): Either<CoopError, List<ProfileItem>> {
-        val profile = super.getProfileNoveau()
         if (profile is Either.Right) {
             Firebase.analytics.logEvent("ProfileItems", bundleOf("Length" to profile.value.size))
             for (profileItem in profile.value) {
