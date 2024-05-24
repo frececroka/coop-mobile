@@ -159,10 +159,8 @@ class LoginFragment : Fragment() {
             return
         }
 
-        val loginCleanPhoneNumber =
-            Firebase.remoteConfig.getValue("login_clean_phone_number").asBoolean()
         val cleanedUsername =
-            if (isPhoneNumber(username) && loginCleanPhoneNumber) {
+            if (isPhoneNumber(username)) {
                 username.replace(Regex("\\s"), "")
             } else {
                 username
@@ -174,6 +172,7 @@ class LoginFragment : Fragment() {
             testAccounts.deactivate()
         }
 
+        // TODO: this is hideous
         // Recreate dependencies, since the CoopLogin implementation
         // depends on the (variable) test account mode
         app().recreateComponent()
