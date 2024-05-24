@@ -23,7 +23,6 @@ class CoopHtmlParser(
 ) {
 
     data class Experiments(
-        val enableOptionsAndCallsFix: Boolean = false,
         val unused: Boolean = false,
     )
 
@@ -42,24 +41,6 @@ class CoopHtmlParser(
     }
 
     fun parseConsumption(html: Document): List<LabelledAmounts> =
-        if (experiments.enableOptionsAndCallsFix) {
-            parseConsumptionNew(html)
-        } else {
-            parseConsumptionOld(html)
-        }
-
-    private fun parseConsumptionOld(html: Document): List<LabelledAmounts> =
-        html.select(".panel")
-            .map {
-                val title = it.select(".panel__title").text()
-                val subtitles = it.select(".panel__subtitle").map(Element::text)
-                val labelledAmounts = it.select(".contingent__data")
-                    .map { parseLabelledAmount(it) }
-                LabelledAmounts(title, labelledAmounts, subtitles)
-            }
-            .filter { it.labelledAmounts.isNotEmpty() }
-
-    private fun parseConsumptionNew(html: Document): List<LabelledAmounts> =
         html.select(".panel")
             .flatMap { panel ->
                 val title = panel.select(".panel__title").exactlyOne().text()

@@ -118,9 +118,7 @@ class MainCoopModule(private val app: Application) {
     }
 
     @Provides
-    fun parserExperiments() = CoopHtmlParser.Experiments(
-        enableOptionsAndCallsFix = FirebaseRemoteConfig.getInstance().getBoolean("enable_parse_consumption_options_and_calls_fix")
-    )
+    fun parserExperiments() = CoopHtmlParser.Experiments()
 
     // Function types like (String) -> CoopClient don't seem to work with Dagger
     interface CoopClientFromSessionId {
