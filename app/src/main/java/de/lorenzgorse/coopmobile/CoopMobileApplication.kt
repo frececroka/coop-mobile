@@ -3,6 +3,7 @@ package de.lorenzgorse.coopmobile
 import android.app.Application
 import android.content.Context
 import android.provider.Settings
+import bifrost.Meter
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -30,6 +31,7 @@ import de.lorenzgorse.coopmobile.ui.preferences.PreferencesFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import okhttp3.CookieJar
+import kotlin.concurrent.thread
 
 @Suppress("unused")
 open class CoopMobileApplication : Application() {
@@ -51,6 +53,12 @@ open class CoopMobileApplication : Application() {
         super.onCreate()
         UserProperties(this).restore()
         Firebase.remoteConfig.fetchAndActivate()
+        Firebase.remoteConfig.ensureInitialized().addOnSuccessListener {
+            if (Firebase.remoteConfig.getBoolean("enable_bifrost")) {
+                component.meter().enqueuePeriodicUpload()
+                thread { component.meter().uploadLoop() }
+            }
+        }
     }
 
 }
@@ -68,6 +76,8 @@ interface CoopComponent {
     fun inject(fragment: PreferencesFragment)
     fun inject(remoteDataView: RemoteDataView)
     fun inject(balanceCheckWorker: BalanceCheckWorker)
+
+    fun meter(): Meter
 }
 
 @Module
@@ -80,8 +90,8 @@ class MainCoopModule(private val app: Application) {
     fun context(): Context = app
 
     @Provides
-    fun client(clientFactory: CoopClientFactory): CoopClient =
-        MonitoredCoopClient(RefreshingSessionCoopClient(clientFactory))
+    fun client(clientFactory: CoopClientFactory, meter: Meter): CoopClient =
+        MonitoredCoopClient(RefreshingSessionCoopClient(clientFactory), meter)
 
     @Provides
     fun coopClientFactory(

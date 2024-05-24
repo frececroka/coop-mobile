@@ -2,6 +2,7 @@ package de.lorenzgorse.coopmobile
 
 import androidx.core.os.bundleOf
 import arrow.core.Either
+import bifrost.Meter
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
@@ -9,7 +10,10 @@ import com.google.firebase.perf.ktx.performance
 import de.lorenzgorse.coopmobile.client.*
 import de.lorenzgorse.coopmobile.client.simple.CoopClient
 
-class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient() {
+class MonitoredCoopClient(
+    private val client: CoopClient,
+    private val meter: Meter,
+) : DecoratedCoopClient() {
 
     override suspend fun getProfile(): Either<CoopError, List<Pair<String, String>>> {
         val profile = super.getProfile()
@@ -52,6 +56,7 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         }
 
     private fun logConsumptionBlocks(consumptionBlocks: List<LabelledAmounts>) {
+        meter.increment("coopmobile_coopclient_consumptionblocks_length", mapOf("length" to consumptionBlocks.size.toString()))
         for (consumptionBlock in consumptionBlocks) {
             Firebase.analytics.logEvent(
                 "ConsumptionBlock",
@@ -151,6 +156,13 @@ class MonitoredCoopClient(private val client: CoopClient) : DecoratedCoopClient(
         Firebase.analytics.logEvent(
             "LoadData", bundleOf(
                 "Method" to method,
+                "Status" to statusStr,
+            )
+        )
+        meter.increment(
+            "coopmobile_coopclient_loaddata",
+            mapOf(
+                "Method" to (method ?: "unknown"),
                 "Status" to statusStr,
             )
         )
