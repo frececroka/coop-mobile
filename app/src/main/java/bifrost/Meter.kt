@@ -20,6 +20,7 @@ import de.lorenzgorse.coopmobile.MainCoopModule
 import de.lorenzgorse.coopmobile.app
 import org.slf4j.LoggerFactory
 import java.time.Duration
+import java.time.Instant
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -68,7 +69,7 @@ class Meter @Inject constructor(private val context: Context) {
 
         override suspend fun doWork(): Result {
             log.info("running 10h worker")
-            component.meter().upload()
+            component.meter().upload(false)
             return Result.success()
         }
     }
@@ -88,9 +89,15 @@ class Meter @Inject constructor(private val context: Context) {
     }
 
     fun uploadLoop() {
+        var lastUpload = Instant.MIN
         while (true) {
             try {
-                if (isUnmetered()) upload()
+                if (isUnmetered()) {
+                    val timeSinceLastUpload = Duration.between(lastUpload, Instant.now())
+                    val lowLatency = timeSinceLastUpload < Duration.ofMinutes(5)
+                    upload(lowLatency)
+                    lastUpload = Instant.now()
+                }
             } catch (e: InterruptedException) {
                 throw e
             } catch (e: Exception) {
@@ -101,7 +108,7 @@ class Meter @Inject constructor(private val context: Context) {
         }
     }
 
-    fun upload() {
+    fun upload(lowLatency: Boolean) {
         val androidId =
             "android_advertising_id/" + AdvertisingIdClient.getAdvertisingIdInfo(context).id
         db.runInTransaction {
@@ -111,6 +118,10 @@ class Meter @Inject constructor(private val context: Context) {
                     Metric
                         .newBuilder(Metric.parseFrom(metric.spec))
                         .setValue(metric.value)
+                        .addLabels(Label.newBuilder()
+                            .setKey("bifrost_latency")
+                            .setValue(if (lowLatency) "low" else "high")
+                        )
                         .build()
                 }
             if (metrics.isEmpty()) {
