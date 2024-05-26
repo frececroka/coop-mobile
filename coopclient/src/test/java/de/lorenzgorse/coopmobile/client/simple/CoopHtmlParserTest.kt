@@ -47,17 +47,9 @@ class CoopHtmlParserTest {
         @Test
         fun testParseConsumption() {
             val parser = CoopHtmlParser(LocalizedConfig(), CoopHtmlParser.Experiments())
-            val newParser = CoopHtmlParser(
-                LocalizedConfig(),
-                CoopHtmlParser.Experiments(
-                    enableOptionsAndCallsFix = true
-                )
-            )
             val input = getInput()
             getConsumption().ifPresent{
                 assertThat(parser.parseConsumption(input), equalTo(it)) }
-            getConsumptionNew().ifPresent{
-                assertThat(newParser.parseConsumption(input), equalTo(it)) }
             getCorrespondences().ifPresent{
                 assertThat(parser.parseCorrespondences(input), equalTo(it)) }
             getProducts().ifPresent {
@@ -73,12 +65,6 @@ class CoopHtmlParserTest {
             val type =
                 TypeToken.getParameterized(List::class.java, LabelledAmounts::class.java).type
             return getJson("consumption", type)
-        }
-
-        private fun getConsumptionNew(): Optional<List<LabelledAmounts>> {
-            val type =
-                TypeToken.getParameterized(List::class.java, LabelledAmounts::class.java).type
-            return getJson("consumption-new", type)
         }
 
         private fun getCorrespondences(): Optional<List<CorrespondenceHeader>> {

@@ -34,9 +34,9 @@
     ]
   },
   {
-    "kind": "OptionsAndCalls",
-    "description": "Optionen und inkludierte Anrufe",
-    "subtitles": ["Data Travel - EU/Westeuropa", "Data Travel - Welt 1"],
+    "kind": "DataTravelEurope",
+    "description": "Data Travel - EU/Westeuropa",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",
@@ -47,7 +47,14 @@
             "source": "GB"
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "kind": "DataTravelWorld1",
+    "description": "Data Travel - Welt 1",
+    "subtitles": [],
+    "labelledAmounts": [
       {
         "description": "verbleibend",
         "amount": {

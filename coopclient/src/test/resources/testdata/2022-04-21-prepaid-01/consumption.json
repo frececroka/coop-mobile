@@ -51,9 +51,9 @@
     ]
   },
   {
-    "kind": "OptionsAndCalls",
-    "description": "Optionen und inkludierte Anrufe",
-    "subtitles": ["Data Travel - EU/Westeuropa"],
+    "kind": "DataTravelEurope",
+    "description": "Data Travel - EU/Westeuropa",
+    "subtitles": [],
     "labelledAmounts": [
       {
         "description": "verbleibend",
