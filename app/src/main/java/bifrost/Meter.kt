@@ -65,8 +65,10 @@ class Meter @Inject constructor(
                 addLabels(Label.newBuilder().setKey(it.key).setValue(it.value))
             }
         }.build()
-        metricDao.create(metricKey, metric.toByteArray())
-        metricDao.increment(metricKey, 1)
+        db.runInTransaction {
+            metricDao.create(metricKey, metric.toByteArray())
+            metricDao.increment(metricKey, 1)
+        }
     }
 
     class Worker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {

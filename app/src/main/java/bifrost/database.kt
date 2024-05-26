@@ -34,7 +34,7 @@ interface MetricDao {
     @Query("Select * From metric")
     fun dump(): List<MetricD>
 
-    @Query("Update metric Set value = 0")
+    @Query("Delete From metric")
     fun reset()
 }
 
