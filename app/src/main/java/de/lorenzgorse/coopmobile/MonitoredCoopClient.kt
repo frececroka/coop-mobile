@@ -152,6 +152,14 @@ class MonitoredCoopClient(
                 "Status" to statusStr,
             )
         )
+        meter.incrementBy(
+            result.toString().length.toLong(),
+            "coopmobile_coopclient_loaddata_bytes",
+            mapOf(
+                "Method" to (method ?: "unknown"),
+                "Status" to statusStr,
+            )
+        )
 
         return result
     }

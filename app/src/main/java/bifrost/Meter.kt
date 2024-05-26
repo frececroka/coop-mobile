@@ -51,10 +51,14 @@ class Meter @Inject constructor(
     private val executor = Executors.newSingleThreadExecutor()
 
     fun increment(name: String, fields: Map<String, String>) {
-        executor.submit { incrementSync(name, fields) }
+        incrementBy(1, name, fields)
     }
 
-    private fun incrementSync(name: String, fields: Map<String, String>) {
+    fun incrementBy(delta: Long, name: String, fields: Map<String, String>) {
+        executor.submit { incrementBySync(delta, name, fields) }
+    }
+
+    private fun incrementBySync(delta: Long, name: String, fields: Map<String, String>) {
         val allFields = fields + globalFields()
         val rawMetricKey =
             listOf(name, allFields.entries.sortedBy { it.key }.map { listOf(it.key, it.value) })
@@ -67,7 +71,7 @@ class Meter @Inject constructor(
         }.build()
         db.runInTransaction {
             metricDao.create(metricKey, metric.toByteArray())
-            metricDao.increment(metricKey, 1)
+            metricDao.increment(metricKey, delta)
         }
     }
 
