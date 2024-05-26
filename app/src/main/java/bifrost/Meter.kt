@@ -3,6 +3,7 @@ package bifrost
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -31,6 +32,7 @@ class Meter @Inject constructor(private val context: Context) {
 
     private val workManager = WorkManager.getInstance(context)
     private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
+    private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val db = Room
         .databaseBuilder(context, BifrostDatabase::class.java, "bifrost")
@@ -109,6 +111,11 @@ class Meter @Inject constructor(private val context: Context) {
     }
 
     fun upload(lowLatency: Boolean) {
+        if (!preferences.getBoolean("enable_bifrost", true)) {
+            metricDao.reset()
+            return
+        }
+
         val androidId =
             "android_advertising_id/" + AdvertisingIdClient.getAdvertisingIdInfo(context).id
         db.runInTransaction {

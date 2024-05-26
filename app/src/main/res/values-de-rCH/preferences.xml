@@ -6,6 +6,9 @@
     <string name="title_check_balance_threshold">Schwellenwert für Benachrichtigungen</string>
     <string name="summary_check_balance_threshold">Du erhälst eine Benachrichtigung, falls dein Guthaben unter diesen Wert fällt.</string>
 
+    <string name="title_enable_bifrost">Sende anonyme Statistiken</string>
+    <string name="summary_enable_bifrost">Anonyme Statistiken werden benutzt, um eingeschränkte Funktionalität zu entdecken und um Nutzungsmuster zu verstehen. Es werden keine sensitiven oder persönlichen Daten übermittelt.</string>
+
     <string name="title_app_info">Informationen über die App</string>
     <string name="summary_app_info">Version %1$s</string>
 </resources>
