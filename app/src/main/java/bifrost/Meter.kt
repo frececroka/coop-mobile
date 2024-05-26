@@ -16,8 +16,10 @@ import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import de.lorenzgorse.coopmobile.BuildConfig
 import de.lorenzgorse.coopmobile.DaggerCoopComponent
 import de.lorenzgorse.coopmobile.MainCoopModule
+import de.lorenzgorse.coopmobile.UserProperties
 import de.lorenzgorse.coopmobile.app
 import org.slf4j.LoggerFactory
 import java.time.Duration
@@ -26,7 +28,10 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 // TODO: add global fields from UserProperties
-class Meter @Inject constructor(private val context: Context) {
+class Meter @Inject constructor(
+    private val context: Context,
+    private val userProperties: UserProperties,
+) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -50,12 +55,13 @@ class Meter @Inject constructor(private val context: Context) {
     }
 
     private fun incrementSync(name: String, fields: Map<String, String>) {
+        val allFields = fields + globalFields()
         val rawMetricKey =
-            listOf(name, fields.entries.sortedBy { it.key }.map { listOf(it.key, it.value) })
+            listOf(name, allFields.entries.sortedBy { it.key }.map { listOf(it.key, it.value) })
         val metricKey = Gson().toJson(rawMetricKey)
         val metric = Metric.newBuilder().apply {
             setName(name)
-            fields.entries.forEach {
+            allFields.entries.forEach {
                 addLabels(Label.newBuilder().setKey(it.key).setValue(it.value))
             }
         }.build()
@@ -159,4 +165,9 @@ class Meter @Inject constructor(private val context: Context) {
             ?: return true
         return networkCapabilities.hasCapability(NET_CAPABILITY_NOT_METERED)
     }
+
+    private fun globalFields(): Map<String, String> = mapOf(
+        "app_version_code" to BuildConfig.VERSION_CODE.toString(),
+        "coop_plan" to (userProperties.data().plan ?: ""),
+    )
 }
