@@ -37,6 +37,8 @@ jobs:
       run: |
         echo "${{ secrets.KEYSTORE }}" | base64 -d > app/keystore.jks
         echo "${{ secrets.KEYSTORE_PROPS }}" > app/keystore.properties
+    - name: Load Bifrost client key
+      run: echo "coop_mobile_client_key=${{ secrets.BIFROST_CLIENT_KEY }}" > app/src/main/assets/bifrost.properties
     - name: Build
       run: "./gradlew bundleRelease && chmod a+r app/build/outputs/bundle/release/app-release.aab"
     - name: Create GitHub Release

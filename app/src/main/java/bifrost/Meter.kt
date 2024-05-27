@@ -24,6 +24,7 @@ import de.lorenzgorse.coopmobile.app
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.Instant
+import java.util.Properties
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -34,6 +35,9 @@ class Meter @Inject constructor(
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
+
+    private val bifrostProperties =
+        Properties().also { it.load(context.assets.open("bifrost.properties")) }
 
     private val workManager = WorkManager.getInstance(context)
     private val connectivityManager = context.getSystemService(ConnectivityManager::class.java)
@@ -130,6 +134,7 @@ class Meter @Inject constructor(
 
         val androidId =
             "android_advertising_id/" + AdvertisingIdClient.getAdvertisingIdInfo(context).id
+        val clientKey = bifrostProperties.getProperty("coop_mobile_client_key")
         db.runInTransaction {
             val metrics = metricDao.dump()
                 .filter { it.value > 0 }
@@ -149,6 +154,7 @@ class Meter @Inject constructor(
             metricDao.reset()
             val request = SendMetricsRequest.newBuilder()
                 .setClientId(androidId)
+                .addClientKeys(clientKey)
                 .addAllMetrics(metrics)
                 .build()
             sendMetricRequestDao.add(request.toByteArray())
